@@ -12,7 +12,7 @@
       ],
       "assets": {
         "host01": [
-          {"file": "prometheus.yaml", "target": "/assests"}
+          {"file": "prometheus.yaml", "target": "/education", "chmod": "+w"}
         ]
       },
       "finish": {
