@@ -68,14 +68,14 @@ Prometheus is a monitoring and alerting toolkit that is designed for reliability
             # scheme defaults to 'http'.
 
             static_configs:
-            - targets: ["localhost:9100"]
+            - targets: ["0.0.0.0:9100"]
 
     ```
 
     We will copy this file to the /etc/prometheus directory and restart the prometheus service.
 
     ```
-    sudo cp ~/configs/prometheus.yml /etc/prometheus/prometheus.yml && sudo systemctl restart prometheus
+    sudo cp /assets/prometheus.yml /etc/prometheus/prometheus.yml && sudo systemctl restart prometheus
     ```{{exec}}
 
 Lets finaly check if Prometheus is running by visiting the following URL in your browser: [http://localhost:9090]({{TRAFFIC_HOST1_9090}}). If you see a page with a graph, then Prometheus is running correctly.
