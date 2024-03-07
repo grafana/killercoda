@@ -75,8 +75,7 @@ Prometheus is a monitoring and alerting toolkit that is designed for reliability
     We will copy this file to the /etc/prometheus directory and restart the prometheus service.
 
     ```
-    sudo cp prometheus.yml /etc/prometheus/prometheus.yml &&
-    sudo systemctl restart prometheus
+    sudo cp prometheus.yml /etc/prometheus/prometheus.yml && sudo systemctl restart prometheus
     ```{{exec}}
 
-Lets finaly check if Prometheus is running by visiting the following URL in your browser: [http://localhost:9090/graph]({{TRAFFIC_HOST1_9090/graph}}). If you see a page with a graph, then Prometheus is running correctly.
+Lets finaly check if Prometheus is running by visiting the following URL in your browser: [http://localhost:9090]({{TRAFFIC_HOST1_9090}}). If you see a page with a graph, then Prometheus is running correctly.
