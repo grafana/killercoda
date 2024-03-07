@@ -36,3 +36,42 @@ Prometheus is a monitoring and alerting toolkit that is designed for reliability
     ```
     sudo useradd -rs /bin/false prometheus && sudo mkdir /etc/prometheus /var/lib/prometheus && sudo cp prometheus.yml /etc/prometheus/prometheus.yml && sudo cp -r consoles/ console_libraries/ /etc/prometheus/ && sudo chown -R prometheus:prometheus /etc/prometheus /var/lib/prometheus && echo -e "[Unit]\nDescription=Prometheus\nAfter=network.target\n\n[Service]\nUser=prometheus\nGroup=prometheus\nType=simple\nExecStart=/usr/local/bin/prometheus --config.file=/etc/prometheus/prometheus.yml --storage.tsdb.path=/var/lib/prometheus --web.console.templates=/etc/prometheus/consoles --web.console.libraries=/etc/prometheus/console_libraries\n\n[Install]\nWantedBy=multi-user.target" | sudo tee /etc/systemd/system/prometheus.service > /dev/null && sudo systemctl daemon-reload && sudo systemctl start prometheus && sudo systemctl status prometheus
     ```{{exec}}
+
+4. Lets finally add the Node Exporter as a target to Prometheus. Here is what the prometheus.yml file should look like:
+    ```
+        # my global config
+        global:
+        scrape_interval: 5s # Set the scrape interval to every 5 seconds. Default is every 1 minute.
+        evaluation_interval: 15s # Evaluate rules every 15 seconds. The default is every 1 minute.
+        # scrape_timeout is set to the global default (10s).
+
+        # Alertmanager configuration
+        alerting:
+        alertmanagers:
+            - static_configs:
+                - targets:
+                # - alertmanager:9093
+
+        # Load rules once and periodically evaluate them according to the global 'evaluation_interval'.
+        rule_files:
+        # - "first_rules.yml"
+        # - "second_rules.yml"
+
+        # A scrape configuration containing exactly one endpoint to scrape:
+        # Here it's Prometheus itself.
+        scrape_configs:
+        # The job name is added as a label `job=<job_name>` to any timeseries scraped from this config.
+        - job_name: "prometheus"
+
+            # metrics_path defaults to '/metrics'
+            # scheme defaults to 'http'.
+
+            static_configs:
+            - targets: ["localhost:9090"]
+    ```{{file}}
+
+    We will copy this file to the /etc/prometheus directory and restart the prometheus service.
+    ```
+    sudo cp prometheus.yml /etc/prometheus/prometheus.yml &&
+    sudo systemctl restart prometheus
+    ```{{exec}}

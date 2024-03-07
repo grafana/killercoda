@@ -10,6 +10,11 @@
           "text": "step1.md"
         }
       ],
+      "assets": {
+        "host01": [
+          {"file": "prometheus.yaml", "target": "~/"}
+        ]
+      },
       "finish": {
         "text": "finished.md"
       }
