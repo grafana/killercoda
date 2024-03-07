@@ -1,4 +1,4 @@
-<img src="../assets/grafana_logo.png" style=" height: 150px">
+<img src="../assets/grafana_logo.png" style=" height: 100px">
 
 # Welcome to the Grafana Basics Course
 
