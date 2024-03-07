@@ -3,8 +3,7 @@
     "description": "In this demo learn how to install and configure Grafana",
     "details": {
       "intro": {
-        "text": "intro.md",
-        "foreground": "setup.sh"
+        "text": "intro.md"
       },
       "steps": [
         {
