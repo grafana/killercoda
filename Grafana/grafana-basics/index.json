@@ -12,7 +12,7 @@
       ],
       "assets": {
         "host01": [
-          {"file": "prometheus.yaml", "target": "~/"}
+          {"file": "prometheus.yaml", "target": "~/configs/prometheus.yaml"}
         ]
       },
       "finish": {
