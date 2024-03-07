@@ -19,7 +19,7 @@ Node Exporter is a Prometheus exporter for hardware and OS metrics exposed by *n
     sudo useradd -rs /bin/false node_exporter && echo -e "[Unit]\nDescription=Node Exporter\nAfter=network.target\n\n[Service]\nUser=node_exporter\nGroup=node_exporter\nType=simple\nExecStart=/usr/local/bin/node_exporter\n\n[Install]\nWantedBy=multi-user.target" | sudo tee /etc/systemd/system/node_exporter.service > /dev/null && sudo systemctl daemon-reload && sudo systemctl start node_exporter && sudo systemctl status node_exporter
     ```{{exec}}
 
-Lets finaly check if Node Exporter is running by visiting the following URL in your browser: [http://localhost:9100/metrics]({{TRAFFIC_HOST1_9100/metrics}}). If you see a page with a bunch of metrics, then Node Exporter is running correctly.
+Lets finaly check if Node Exporter is running by visiting the following URL in your browser: [http://localhost:9100]({{TRAFFIC_HOST1_9100}}). If you see a page with a bunch of metrics, then Node Exporter is running correctly.
 
 ## Prometheus
 Prometheus is a monitoring and alerting toolkit that is designed for reliability, scalability, and maintainability. It is a powerful tool for collecting and querying metrics and is a great way to store the metrics collected by Node Exporter. Lets install Prometheus on our virtual enviroment:
