@@ -10,15 +10,16 @@
           "text": "step1.md"
         }
       ],
-      "assets": {
-        "host01": [
-          {"file": "prometheus.yaml", "target": "/education", "chmod": "+w"}
-        ]
-      },
       "finish": {
         "text": "finished.md"
+      },
+      "assets": {
+        "host01": [
+          {"file": "prometheus.yaml", "target": "/my/location", "chmod": "+w"}
+        ]
       }
-    },
+    }
+      ,
     "backend": {
       "imageid": "ubuntu"
     }
