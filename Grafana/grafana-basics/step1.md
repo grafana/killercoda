@@ -1,6 +1,8 @@
 # Step 1: Collecting Metrics
 Before we can start visualizing our data, we need to collect some metrics. The easiest todo this is by collecting our virtiual enviroments system metrics. To do this we will use Node Exporter and Prometheus. Lets break down each of these components and we can install them within our virtual enviroment.
 
+**Note:** When asked to go to a specific port, click on the link provided in the terminal. This will redict you to the correct url for this training instance.
+
 ## Node Exporter
 Node Exporter is a Prometheus exporter for hardware and OS metrics exposed by *nix kernels, written in Go with pluggable metric collectors. It allows for the collection of hardware and OS metrics and is a great way to collect system metrics for your virtual enviroment. Lets install Node Exporter on our virtual enviroment:
 
