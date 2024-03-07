@@ -19,7 +19,7 @@ Node Exporter is a Prometheus exporter for hardware and OS metrics exposed by *n
     sudo useradd -rs /bin/false node_exporter && echo -e "[Unit]\nDescription=Node Exporter\nAfter=network.target\n\n[Service]\nUser=node_exporter\nGroup=node_exporter\nType=simple\nExecStart=/usr/local/bin/node_exporter\n\n[Install]\nWantedBy=multi-user.target" | sudo tee /etc/systemd/system/node_exporter.service > /dev/null && sudo systemctl daemon-reload && sudo systemctl start node_exporter && sudo systemctl status node_exporter
     ```{{exec}}
 
-Lets finaly check if Node Exporter is running by visiting the following URL in your browser: [http://localhost:9090/metrics]({{TRAFFIC_HOST1_9090/metrics}}). If you see a page with a bunch of metrics, then Node Exporter is running correctly.
+Lets finaly check if Node Exporter is running by visiting the following URL in your browser: [http://localhost:9100/metrics]({{TRAFFIC_HOST1_9100/metrics}}). If you see a page with a bunch of metrics, then Node Exporter is running correctly.
 
 ## Prometheus
 Prometheus is a monitoring and alerting toolkit that is designed for reliability, scalability, and maintainability. It is a powerful tool for collecting and querying metrics and is a great way to store the metrics collected by Node Exporter. Lets install Prometheus on our virtual enviroment:
@@ -43,8 +43,8 @@ Prometheus is a monitoring and alerting toolkit that is designed for reliability
     ```
         # my global config
         global:
-        scrape_interval: 5s # Set the scrape interval to every 5 seconds. Default is every 1 minute.
-        evaluation_interval: 15s # Evaluate rules every 15 seconds. The default is every 1 minute.
+        scrape_interval: 5s # Set the scrape interval to every 15 seconds. Default is every 1 minute.
+        evaluation_interval: 5s # Evaluate rules every 15 seconds. The default is every 1 minute.
         # scrape_timeout is set to the global default (10s).
 
         # Alertmanager configuration
@@ -60,19 +60,20 @@ Prometheus is a monitoring and alerting toolkit that is designed for reliability
         # - "second_rules.yml"
 
         # A scrape configuration containing exactly one endpoint to scrape:
-        # Here it's Prometheus itself.
         scrape_configs:
         # The job name is added as a label `job=<job_name>` to any timeseries scraped from this config.
-        - job_name: "prometheus"
+        - job_name: "Node Exporter"
 
             # metrics_path defaults to '/metrics'
             # scheme defaults to 'http'.
 
             static_configs:
-            - targets: ["localhost:9090"]
-    ```{{file}}
+            - targets: ["localhost:9100"]
+
+    ```
 
     We will copy this file to the /etc/prometheus directory and restart the prometheus service.
+
     ```
     sudo cp prometheus.yml /etc/prometheus/prometheus.yml &&
     sudo systemctl restart prometheus
