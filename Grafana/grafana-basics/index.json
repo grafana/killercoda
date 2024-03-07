@@ -8,6 +8,9 @@
       "steps": [
         {
           "text": "step1.md"
+        },
+        {
+          "text": "step2.md"
         }
       ],
       "finish": {
