@@ -7,17 +7,18 @@ In this step, we will create a basic dashboard in Grafana to visualize the metri
    - **Username:** admin
    - **Password:** admin
 **Note:** If you are already logged in, you can skip this step.
-3. Once logged in, open the left hand side menu, then click on **Create -> Dashboard**.
-4. Click on the **Add new panel** button to add a new panel to the dashboard.
-5. Click on the **Graph** visualization to create a new graph panel.
-6. In the **Query** section, set the following fields:
+3. Once logged in, open the left hand side menu, then click on **Dashboards**. Next select the button ** + Create Dashboard**. 
+4. Click on the **Add visualization** button to add a new panel to the dashboard.
+5. Select **Prometheus** from the list of data sources.
+6. Select the **Time Series** visualization from the right handside panel.
+7. In the **Query** section, set the following fields:
    - **Data Source:** `Prometheus`
-7. In the **Metrics** section, set the following fields:
+8. In the **Metrics** section, set the following fields:
    - **Query:** `100 - (avg by (instance) (irate(node_cpu_seconds_total{mode="idle"}[5m])) * 100)`
    - **Legend:** `CPU Usage`
    - **Unit:** `percent(0-100)`
    - **Min:** `0`
    - **Max:** `100`
-8. Click on the **Apply** button to apply the changes to the graph panel.
-9. Click on the **Save dashboard** button to save the new dashboard.
-10. Enter a name for the dashboard and click on the **Save** button.
+9. Click on the **Apply** button to apply the changes to the graph panel.
+10. Click on the **Save dashboard** button to save the new dashboard.
+11. Enter a name for the dashboard and click on the **Save** button.
