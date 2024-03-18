@@ -8,6 +8,8 @@ In this step, we will create a basic dashboard in Grafana to visualize the metri
    - **Password:** admin
 **Note:** If you are already logged in, you can skip this step.
 3. Once logged in, open the left hand side menu, then click on **Dashboards**. Next select the button ** + Create Dashboard**. 
+
+## Creating a Graph Panel
 4. Click on the **Add visualization** button to add a new panel to the dashboard.
 5. Select **Prometheus** from the list of data sources.
 6. Select the **Time Series** visualization from the right handside panel.
@@ -19,6 +21,6 @@ In this step, we will create a basic dashboard in Grafana to visualize the metri
    - **Unit:** `percent(0-100)`
    - **Min:** `0`
    - **Max:** `100`
-9. Click on the **Apply** button to apply the changes to the graph panel.
+9.  Click on the **Apply** button to apply the changes to the graph panel.
 10. Click on the **Save dashboard** button to save the new dashboard.
 11. Enter a name for the dashboard and click on the **Save** button.
