@@ -19,18 +19,24 @@ In this step, we will create a basic dashboard in Grafana to visualize the metri
    - **Data Source:** `Prometheus`
 5. In the **Query** tab, toggle from **Builder** to **Code** and enter the following promQL query:
    - **Query:** `100 - (avg by (instance) (irate(node_cpu_seconds_total{mode="idle"}[5m])) * 100)`
+
+![Query](../assets/query.png)
   
 *This query calculates the average CPU utilization (not in idle mode) for each instance over the past 5 minutes. It subtracts the average percentage of time each CPU instance has been idle (as measured over 5-minute intervals) from 100%, effectively giving the average active CPU usage.*
 
-6. Click on the **Run** button to execute the query and visualize the results.
-8. Lets add some additional configuration to our time series graph:
+1. Click on the **Run** button to execute the query and visualize the results.
+2. Lets add some additional configuration to our time series graph:
    - **Title:** `CPU Usage`
    - **Unit:** `percent(0-100)`
    - **Min:** `0`
    - **Max:** `100`
+
+![Search](../assets/search.png)
 
 *Top Tip: these are all configured via the configuration panel on the right handside. You can make use of the search bar within this panel to access the above fields quickly*
 
 1.  Click on the **Apply** button to apply the changes to the graph panel.
 2.  Click on the **Save dashboard** button to save the new dashboard.
 3.  Enter a name for the dashboard and click on the **Save** button.
+
+![Final Result](../assets/graph.png)
