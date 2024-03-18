@@ -1,4 +1,4 @@
-<img src="../assets/grafana_logo.png" style=" height: 150px">
+<img src="../assets/grafana_logo.png" style=" height: 100px">
 
 
 # Tutiorial: Grafana Basics Complete
@@ -9,3 +9,6 @@ Now that you have completed the Grafana Basics course, you can explore more adva
 - [Grafana Plugins](https://grafana.com/grafana/plugins)
 - [Grafana Dashboards](https://grafana.com/docs/grafana/latest/dashboards)
 - [Grafana API](https://grafana.com/docs/grafana/latest/http_api)
+
+
+<img src="../assets/grot-4.png" style=" height: 50px">
