@@ -15,4 +15,4 @@ docker-compose up -d || { echo "Failed to start docker containers"; exit 1; }
 
 # Update and install required packages
 echo "Updating and installing required packages..."
-sudo apt-get update && sudo apt-get install -y figlet; clear; echo -e "\e[32m$(figlet -f standard 'GRAFANA')\e[0m"; echo -e "\e[33m$(figlet -f standard 'FUNDERMENTALS')\e[0m"
+sudo apt-get update && sudo apt-get install -y figlet; clear; echo -e "\e[32m$(figlet -f standard 'Grafana')\e[0m"; echo -e "\e[33m$(figlet -f standard 'Fundermentals')\e[0m"
