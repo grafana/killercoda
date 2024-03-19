@@ -1,20 +1,22 @@
-<img src="../assets/grafana_logo.png" style=" height: 100px">
 
+![Grafana Logo](../assets/grafana_logo.png){: height="80px"}
 
-# Welcome to the Grafana fundamentals Training Enviroment (Completed)
+# Grafana Fundamentals (Completed)
 
-In this training enviroment you will learn the fundamentals of Grafana, a powerful open-source platform for visualizing and analyzing data. Whether you are a developer, system administrator, or data analyst, this course will provide you with the knowledge and skills to effectively use Grafana for monitoring and visualization.
+Welcome!
 
-You can find the course content here: [Grafana Fundamentals](https://grafana.com/tutorials/grafana-fundamentals/)
+In this training environment, you will learn the fundamentals of Grafana, a powerful open-source platform for visualizing and analyzing data. Whether you are a developer, system administrator, or data analyst, this course will provide you with the knowledge and skills to effectively use Grafana for monitoring and visualization.
 
-**Note:** *This is a completed enviroment, where all the steps have been completed for you. If you would like to complete the steps yourself, please go to the [Grafana Fundamentals](https://killercoda.com/grafana-labs/course/full-stack/tutorial-enviroment) course.*
+You can find the course content here: [Grafana Fundamentals](https://grafana.com/tutorials/grafana-fundamentals/).
 
-## House Keeping
+**Note:** *This is a completed environment, where all the steps have been completed for you. If you would like to complete the steps yourself, please go to the [Grafana Fundamentals](https://killercoda.com/grafana-labs/course/full-stack/tutorial-environment) course.*
 
-This enviroment runs an install script on startup automatically. Your training enviroment is ready to go once the script has completed and you see the following message:
+## Housekeeping
 
-```
+This environment runs an install script on startup automatically. Your training environment is ready to go once the script has completed and you see the following message:
+
+```plaintext
 GRAFANA FUNDAMENTALS
 ```
 
-Continue to the next step to step to find the tutorial enviroment navigation URLs.
+Continue to the next step to find the tutorial environment navigation URLs.

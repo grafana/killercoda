@@ -1,20 +1,22 @@
-<img src="../assets/grafana_logo.png" style=" height: 100px">
 
+![Grafana Logo](../assets/grafana_logo.png){: height="80px"}
 
-# Welcome to the Grafana fundamentals Training Enviroment 
+# Grafana Fundamentals
 
-In this training enviroment you will learn the fundamentals of Grafana, a powerful open-source platform for visualizing and analyzing data. Whether you are a developer, system administrator, or data analyst, this course will provide you with the knowledge and skills to effectively use Grafana for monitoring and visualization.
+Welcome!
 
-You can find the course content here: [Grafana Fundamentals](https://grafana.com/tutorials/grafana-fundamentals/)
+In this training environment, you will learn the fundamentals of Grafana, a powerful open-source platform for visualizing and analyzing data. Whether you are a developer, system administrator, or data analyst, this course will provide you with the knowledge and skills to effectively use Grafana for monitoring and visualization.
 
-**Note:** *In this enviroment, we provide you with only the initial setup of the tutorial enviroment. You can then follow the steps in the Grafana fundamentals to complete the tutorial. If you would like a completed version of the tutorial, please go to the [Grafana Fundamentals (Completed)](https://katacoda.com/full-stack/courses/tutorial-enviroment-completed) course.*
+You can find the course content here: [Grafana Fundamentals](https://grafana.com/tutorials/grafana-fundamentals/).
 
-## House Keeping
+**Note:** *In this environment, we provide you with only the initial setup of the tutorial environment. You can then follow the steps in the Grafana Fundamentals to complete the tutorial. If you would like a completed version of the tutorial, please visit the [Grafana Fundamentals (Completed)](https://katacoda.com/full-stack/courses/tutorial-environment-completed) course.*
 
-This enviroment runs an install script on startup automatically. Your training enviroment is ready to go once the script has completed and you see the following message:
+## Housekeeping
 
-```
+This environment runs an install script on startup automatically. Your training environment is ready to go once the script has completed and you see the following message:
+
+```plaintext
 GRAFANA FUNDAMENTALS
 ```
 
-Continue to the next step to step to find the tutorial enviroment navigation URLs.
+Continue to the next step to find the tutorial environment navigation URLs.
