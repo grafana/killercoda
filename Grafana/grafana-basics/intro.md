@@ -1,5 +1,6 @@
 <img src="../assets/grafana_logo.png" style=" height: 100px">
 
+
 # Welcome to the Grafana Basics Course
 
 In this course, you will learn the fundamentals of Grafana, a powerful open-source platform for visualizing and analyzing data. Whether you are a developer, system administrator, or data analyst, this course will provide you with the knowledge and skills to effectively use Grafana for monitoring and visualization.
