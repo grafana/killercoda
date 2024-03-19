@@ -10,4 +10,4 @@ Now that you have completed the Grafana Basics course, you can explore more adva
 - [Grafana Dashboards](https://grafana.com/docs/grafana/latest/dashboards)
 - [Grafana API](https://grafana.com/docs/grafana/latest/http_api)
 
-<img src="../assets/grot-4.png" style="height: 80px">
+<img src="../assets/grot-4.png" style="height: 100px">

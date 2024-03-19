@@ -1,6 +1,6 @@
 {
     "title": "Grafana Fundamentals",
-    "description": "In this tutorial, you’ll learn how to use Grafana to set up a monitoring solution for your application. This training enviroment is completed.",
+    "description": "In this tutorial, you’ll learn how to use Grafana to set up a monitoring solution for your application.",
     "details": {
       "intro": {
         "text": "intro.md",

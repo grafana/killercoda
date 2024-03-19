@@ -1,5 +1,5 @@
 
-![Grafana Logo](../assets/grafana_logo.png){: height="80px"}
+<img src="../assets/grafana_logo.png" style="height: 80px">
 
 # Grafana Fundamentals (Completed)
 
