@@ -1,5 +1,6 @@
 {
     "items": [
-    { "path": "tutorial-enviroment-completed", "title": "Tutorial Enviroment Completed"}
+    { "path": "tutorial-enviroment", "title": "Tutorial Enviroment"},
+    { "path": "tutorial-enviroment-completed", "title": "Tutorial Enviroment (Completed)"}
     ]
 }

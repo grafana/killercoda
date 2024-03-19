@@ -8,7 +8,7 @@ if [ ! -d "tutorial-environment" ]; then
 fi
 
 # Enter the directory and switch to the required branch
-cd tutorial-environment && git checkout killercoda || { echo "Failed to checkout branch"; exit 1; }
+cd tutorial-environment || { echo "Failed to checkout branch"; exit 1; }
 
 echo "Building training instance...."
 docker-compose up -d || { echo "Failed to start docker containers"; exit 1; }

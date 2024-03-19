@@ -1,13 +1,13 @@
 <img src="../assets/grafana_logo.png" style=" height: 100px">
 
 
-# Welcome to the Grafana fundamentals Training Enviroment (Completed)
+# Welcome to the Grafana fundamentals Training Enviroment 
 
 In this training enviroment you will learn the fundamentals of Grafana, a powerful open-source platform for visualizing and analyzing data. Whether you are a developer, system administrator, or data analyst, this course will provide you with the knowledge and skills to effectively use Grafana for monitoring and visualization.
 
 You can find the course content here: [Grafana Fundamentals](https://grafana.com/tutorials/grafana-fundamentals/)
 
-**Note:** *This is a completed enviroment, where all the steps have been completed for you. If you would like to complete the steps yourself, please go to the [Grafana Fundamentals](https://killercoda.com/grafana-labs/course/full-stack/tutorial-enviroment) course.*
+**Note:** *In this enviroment, we provide you with only the initial setup of the tutorial enviroment. You can then follow the steps in the Grafana fundamentals to complete the tutorial. If you would like a completed version of the tutorial, please go to the [Grafana Fundamentals (Completed)](https://katacoda.com/full-stack/courses/tutorial-enviroment-completed) course.*
 
 ## House Keeping
 
