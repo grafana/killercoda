@@ -13,4 +13,4 @@ This is the URL for the Grafana UI. From here, you can access the dashboards and
 
 Grafana News: **[http://localhost:8081]({{TRAFFIC_HOST1_8081}})**
 
-This URL will direct you to the simulator for this tutorial. This simulator lets you post links and vote for the ones you like. This is important for generating traffic and errors to populate our Grafana dashboards.
+This URL will direct you to the sample application for this tutorial. This simulator lets you post links and vote for the ones you like. This is important for generating traffic and errors to populate our Grafana dashboards.
