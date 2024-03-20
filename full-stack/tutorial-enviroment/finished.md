@@ -11,3 +11,6 @@ Now that you have completed the Grafana Basics course, you can explore more adva
 - [Grafana API](https://grafana.com/docs/grafana/latest/http_api)
 
 <img src="../assets/grot-4.png" style="height: 80px">
+
+## Reporting Issues
+If you encounter any issues with the environment, please report them to the [GitHub repository](https://github.com/grafana/killercoda)

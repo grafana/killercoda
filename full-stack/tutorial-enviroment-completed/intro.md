@@ -20,3 +20,6 @@ GRAFANA FUNDAMENTALS
 ```
 
 Continue to the next step to find the tutorial environment navigation URLs.
+
+## Reporting Issues
+If you encounter any issues with the environment, please report them to the [GitHub repository](https://github.com/grafana/killercoda)
