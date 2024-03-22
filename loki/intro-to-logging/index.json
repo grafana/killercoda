@@ -1,0 +1,21 @@
+{
+    "title": "Intro to Logging",
+    "description": "This sandbox will teach you how to locate logs on an a Linux server.",
+    "details": {
+      "intro": {
+        "text": "intro.md"
+      },
+      "steps": [
+        {
+          "text": "step1.md"
+        }
+      ],
+      "finish": {
+        "text": "finished.md"
+      }
+    }
+      ,
+    "backend": {
+      "imageid": "ubuntu"
+    }
+  }
