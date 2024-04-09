@@ -7,7 +7,7 @@ This course is part of an **Intro to Grafana Loki** series. In this course, you 
 
 ## The Video
 
-[![Intro to logging](https://img.youtube.com/vi/TLnH7efQNd0/0.jpg)](https://www.youtube.com/watch?v=TLnH7efQNd0)
+[![Intro to logging](placeholder)](placeholder)
 
 
 ## Sandbox Overview

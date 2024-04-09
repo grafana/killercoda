@@ -1,0 +1,21 @@
+{
+    "title": "Structure of Logs",
+    "description": "This sandbox will teach you how to open an interpret an applications logs.",
+    "details": {
+      "intro": {
+        "text": "intro.md"
+      },
+      "steps": [
+        {
+          "text": "step1.md"
+        }
+      ],
+      "finish": {
+        "text": "finished.md"
+      }
+    }
+      ,
+    "backend": {
+      "imageid": "ubuntu"
+    }
+  }
