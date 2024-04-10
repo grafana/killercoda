@@ -1,4 +1,4 @@
-<img src="../assets/loki-logo.png" style=" height: 90px">
+<p><img src="../assets/loki-logo.png" style=" height: 90px"></p>
 
 # Intro to Logging
 
@@ -8,6 +8,6 @@ You have completed the **Intro to Logging** task. This course is part of an **In
 
 Head back to the video to continue with Intro to logging.
 
-[![Intro to logging](placeholder)](placeholder)
+[![Intro to logging](https://img.youtube.com/vi/TLnH7efQNd0/0.jpg)](https://www.youtube.com/watch?v=TLnH7efQNd0)
 
 <img src="../assets/grot-4.png" style=" height: 80px">

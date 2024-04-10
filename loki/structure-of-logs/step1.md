@@ -1,25 +1,25 @@
-# Step 1: Common Log locations
+# Running the demo
 
-The first step in locating logs is to know where to look. In this lesson, we will cover the most common log locations on a Linux server. 
+## Step 1: Check out the application
 
-## /var/log
+In this demo, we will be working with a simple application that generates logs. We have created a small messaging board application similar to Hacker News or Reddit. The idea is users can post messages and upvote posts they like.
 
-The `/var/log` directory is the most common location for log files on a Linux server. This directory contains log files for various system services, including the kernel, system, and application logs.
+To access the application click this link to Grafana News: **[http://localhost:8081]({{TRAFFIC_HOST1_8081}})**
 
-Lets take a look at the contents of the `/var/log` directory:
+## Step 2: Generate some logs
 
-```
-ls /var/log
-```{{exec}}
+Start to interact with the application by posting messages and upvoting posts. This will generate logs that we can explore in the next steps. 
 
-## /var/log/syslog
+**Top Tip:** *Try to post a message without a URL.*
 
-The `/var/log/syslog` file contains messages from the Linux kernel and system services. This file is a good place to start when troubleshooting system issues.
+## Step 3: Explore the logs
 
-Lets take a look at the contents of the `/var/log/syslog` file:
+Our application generates logs in a specific format (a hybrid between plain text and structured since it utilises key-value pairs). The log is located in the `logs` directory of the application.
 
-```
-cat /var/log/syslog
+To print the logs, run the following command:
+
+```bash
+cat loki-tutorial-enviroment/logs/tns-app.log
 ```{{exec}}
 
 

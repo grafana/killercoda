@@ -1,4 +1,4 @@
-<img src="../assets/loki-logo.png" style=" height: 90px">
+<p><img src="../assets/loki-logo.png" style=" height: 90px"></p>
 
 
 # Welcome to Intro to Logging
