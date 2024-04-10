@@ -1,5 +1,6 @@
 {
     "items": [
-    { "path": "intro-to-logging", "title": "Intro to logging"}
+    { "path": "intro-to-logging", "title": "Intro to logging"},
+    { "path": "structure-of-logs", "title": "Structure of logs"}
     ]
 }
