@@ -3,7 +3,8 @@
     "description": "This sandbox will teach you how to open an interpret an applications logs.",
     "details": {
       "intro": {
-        "text": "intro.md"
+        "text": "intro.md",
+        "foreground": "setup.sh"
       },
       "steps": [
         {
