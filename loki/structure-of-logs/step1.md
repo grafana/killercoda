@@ -19,7 +19,7 @@ Our application generates logs in a specific format (a hybrid between plain text
 To print the logs, run the following command:
 
 ```bash
-cat loki-tutorial-enviroment/logs/tns-app.log
+cat ./logs/tns-app.log
 ```{{exec}}
 
 
