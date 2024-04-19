@@ -74,9 +74,9 @@ To see all the log lines that flog has generated, enter the LogQL query:
 
 ```bash
 
-\{container="evaluate-loki-flog-1"\}|= ``
+{container="evaluate-loki-flog-1"}|= ``
 
-```{{copy}}
+```
 
 The flog app generates log lines for simulated HTTP requests.
 
