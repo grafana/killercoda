@@ -28,7 +28,7 @@ Once you have collected logs, you will want to view them.  You can view your log
 
         ```bash
 
-        {container="evaluate-loki-flog-1"}
+        {container="evaluate-loki_flog_1"}
 
         ```{{copy}}
 
@@ -38,7 +38,7 @@ Once you have collected logs, you will want to view them.  You can view your log
 
         ```bash
 
-        {container="evaluate-loki-grafana-1"}
+        {container="evaluate-loki_grafana_1"}
 
         ```{{copy}}
 
@@ -46,7 +46,7 @@ Once you have collected logs, you will want to view them.  You can view your log
 
         ```bash
 
-        {container="evaluate-loki-flog-1"} |= `status`
+        {container="evaluate-loki_flog_1"} |= "status"
 
         ```{{copy}}
 
@@ -54,7 +54,7 @@ Once you have collected logs, you will want to view them.  You can view your log
 
         ```bash
 
-        {container="evaluate-loki-flog-1"} | json | status=`404`
+        {container="evaluate-loki_flog_1"} | json | status="404"
 
         ```{{copy}}
 
@@ -62,7 +62,7 @@ Once you have collected logs, you will want to view them.  You can view your log
 
         ```bash
 
-        sum by(container) (rate({container="evaluate-loki-flog-1"} | json | status=`404` [$__auto])) 
+        sum by(container) (rate({container="evaluate-loki_flog_1"} | json | status="404" [$__auto])) 
 
         ```{{copy}}
 
@@ -84,7 +84,7 @@ To see all the log lines that flog has generated, enter the LogQL query:
 
 ```bash
 
-{container="evaluate-loki-flog-1"}|= ``
+{container="evaluate-loki_flog_1"}|= ""
 
 ```{{copy}}
 
@@ -94,7 +94,7 @@ To see all `GET` log lines, enter the LogQL query:
 
 ```bash
 
-{container="evaluate-loki-flog-1"} |= "GET"
+{container="evaluate-loki_flog_1"} |= "GET"
 
 ```{{copy}}
 
@@ -102,7 +102,7 @@ To see all `POST` methods, enter the LogQL query:
 
 ```bash
 
-{container="evaluate-loki-flog-1"} |= "POST"
+{container="evaluate-loki_flog_1"} |= "POST"
 
 ```{{copy}}
 
@@ -110,7 +110,7 @@ To see every log line with a 401 status (unauthorized error), enter the LogQL qu
 
 ```bash
 
-{container="evaluate-loki-flog-1"} | json | status="401"
+{container="evaluate-loki_flog_1"} | json | status="401"
 
 ```{{copy}}
 
@@ -118,7 +118,7 @@ To see every log line that does not contain the value 401:
 
 ```bash
 
-{container="evaluate-loki-flog-1"} != "401"
+{container="evaluate-loki_flog_1"} != "401"
 
 ```{{copy}}
 
