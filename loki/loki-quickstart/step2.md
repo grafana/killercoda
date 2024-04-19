@@ -73,7 +73,9 @@ Here are some more sample queries that you can run using the Flog sample data.
 To see all the log lines that flog has generated, enter the LogQL query:
 
 ```bash
+
 {container="evaluate-loki-flog-1"}|= ``
+
 ```{{copy}}
 
 The flog app generates log lines for simulated HTTP requests.
@@ -81,25 +83,33 @@ The flog app generates log lines for simulated HTTP requests.
 To see all `GET` log lines, enter the LogQL query:
 
 ```bash
+
 {container="evaluate-loki-flog-1"} |= "GET"
+
 ```{{copy}}
 
 To see all `POST` methods, enter the LogQL query:
 
 ```bash
+
 {container="evaluate-loki-flog-1"} |= "POST"
+
 ```{{copy}}
 
 To see every log line with a 401 status (unauthorized error), enter the LogQL query:
 
 ```bash
+
 {container="evaluate-loki-flog-1"} | json | status="401"
+
 ```{{copy}}
 
 To see every log line that does not contain the value 401:
 
 ```bash
+
 {container="evaluate-loki-flog-1"} != "401"
+
 ```{{copy}}
 
 For more examples, refer to the [query documentation](https://grafana.com/docs/loki/latest/query/query_examples/).
