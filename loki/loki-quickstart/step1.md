@@ -39,11 +39,18 @@
     ✔ Container evaluate-loki-promtail-1  Started      1.4s 
     ```
 
-4. To check the status of the containers, run the following command:
+4. (Optional) To check the status of the containers, run the following command:
 
     ```bash
     docker ps -a 
     ```{{execute}}
+
+All containers should be showing the following:
+
+```bash
+  CREATED         STATUS                       
+   5 seconds ago   Up 3 seconds    
+```
 
 
 
