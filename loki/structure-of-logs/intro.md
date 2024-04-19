@@ -1,4 +1,4 @@
-<p><img src="../assets/loki-logo.png" style=" height: 90px"></p>
+<p><img src="../../assets/loki-ile.png" style=" height: 90px"></p>
 
 
 # Welcome to the Structure of Logs demo
