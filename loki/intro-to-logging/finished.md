@@ -1,4 +1,4 @@
-<p><img src="../assets/loki-logo.png" style=" height: 90px"></p>
+![Loki Quickstart](../../assets/loki-ile.png)
 
 # Intro to Logging
 
@@ -10,4 +10,4 @@ Head back to the video to continue with Intro to logging.
 
 [![Intro to logging](https://img.youtube.com/vi/TLnH7efQNd0/0.jpg)](https://www.youtube.com/watch?v=TLnH7efQNd0)
 
-<img src="../assets/grot-4.png" style=" height: 80px">
+![Loki Quickstart](../../assets/loki-ile.png)

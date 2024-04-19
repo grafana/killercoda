@@ -1,4 +1,4 @@
-<p><img src="../../assets/loki-ile.png" style=" height: 90px"></p>
+![Loki Quickstart](../../assets/loki-ile.png)
 
 
 # Welcome to the Structure of Logs demo

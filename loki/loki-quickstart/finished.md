@@ -1,4 +1,4 @@
-<p><img src="../assets/loki-logo.png" style=" height: 90px"></p>
+![Loki Quickstart](../../assets/loki-ile.png)
 
 # Summary
 
@@ -19,4 +19,4 @@ The project includes detailed explanations of each component and annotated confi
 If you are interested in learning more about Loki, you can follow the Zero to Hero: Loki series. The series here:
 [![Intro to logging](https://img.youtube.com/vi/TLnH7efQNd0/0.jpg)](https://www.youtube.com/watch?v=TLnH7efQNd0)
 
-<p><img src="../assets/grot-4.png" style=" height: 80px"></p>
+![Loki Quickstart](../../assets/loki-ile.png)
