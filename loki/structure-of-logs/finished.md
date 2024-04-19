@@ -8,6 +8,6 @@ You have completed the **Structure of logs* demo. This course is part of an **In
 
 Head back to the video to continue with Structure of Logging.
 
-[![Intro to logging](placeholder)](placeholder)
+[![Structure of Logs](https://img.youtube.com/vi/8_JyqEqaHiw/0.jpg))](https://www.youtube.com/watch?v=8_JyqEqaHiw)
 
 <img src="../assets/grot-4.png" style=" height: 80px">
