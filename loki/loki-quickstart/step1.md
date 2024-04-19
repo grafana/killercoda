@@ -23,7 +23,7 @@
     With `evaluate-loki` as the current working directory, start the demo environment using `docker compose`:
 
     ```bash
-    docker compose up -d
+    docker-compose up -d
     ```{{execute}}
 
     You should see something similar to the following:
@@ -40,8 +40,8 @@
     ```
 
 4. (Optional) Verify that the Loki cluster is up and running.
-    - The read component returns `ready` when you point a web browser at [http://localhost:3101/ready]({{TRAFFIC_HOST1_3101}}). The message `Query Frontend not ready: not ready: number of schedulers this worker is connected to is 0` will show prior to the read component being ready.
-    - The write component returns `ready` when you point a web browser at [http://localhost:3102/ready]({{TRAFFIC_HOST1_3102}}). The message `Ingester not ready: waiting for 15s after being ready` will show prior to the write component being ready.
+    - The read component returns `ready` when you point a web browser at [http://localhost:3101/ready]({{TRAFFIC_HOST1_3101/ready]}}). The message `Query Frontend not ready: not ready: number of schedulers this worker is connected to is 0` will show prior to the read component being ready.
+    - The write component returns `ready` when you point a web browser at [http://localhost:3102/ready]({{TRAFFIC_HOST1_3102/ready]}}). The message `Ingester not ready: waiting for 15s after being ready` will show prior to the write component being ready.
 
 
 
