@@ -27,9 +27,7 @@ Once you have collected logs, you will want to view them.  You can view your log
     1. View all the log lines which have the container label "flog":
 
         ```bash
-
         {container="evaluate-loki_flog_1"}
-
         ```{{copy}}
 
         In Loki, this is called a log stream. Loki uses [labels](https://grafana.com/docs/loki/latest/get-started/labels/) as metadata to describe log streams.  Loki queries always start with a label selector.  In the query above, the label selector is `container`.
@@ -37,33 +35,25 @@ Once you have collected logs, you will want to view them.  You can view your log
     2. To view all the log lines which have the container label "grafana":
 
         ```bash
-
         {container="evaluate-loki_grafana_1"}
-
         ```{{copy}}
 
     3. Find all the log lines in the container=flog stream that contain the string "status":
 
         ```bash
-
         {container="evaluate-loki_flog_1"} |= "status"
-
         ```{{copy}}
 
     4. Find all the log lines in the container=flog stream where the JSON field "status" is "404":
 
         ```bash
-
         {container="evaluate-loki_flog_1"} | json | status="404"
-
         ```{{copy}}
 
     5. Calculate the number of logs per second where the JSON field "status" is "404":
 
         ```bash
-
         sum by(container) (rate({container="evaluate-loki_flog_1"} | json | status="404" [$__auto])) 
-
         ```{{copy}}
 
     The final query above is a metric query which returns a time series. This will trigger Grafana to draw a graph of the results.  You can change the type of graph for a different view of the data.  Click **Bars** to view a bar graph of the data.
@@ -83,9 +73,7 @@ Here are some more sample queries that you can run using the Flog sample data.
 To see all the log lines that flog has generated, enter the LogQL query:
 
 ```bash
-
 {container="evaluate-loki_flog_1"}|= ""
-
 ```{{copy}}
 
 The flog app generates log lines for simulated HTTP requests.
@@ -93,33 +81,25 @@ The flog app generates log lines for simulated HTTP requests.
 To see all `GET` log lines, enter the LogQL query:
 
 ```bash
-
 {container="evaluate-loki_flog_1"} |= "GET"
-
 ```{{copy}}
 
 To see all `POST` methods, enter the LogQL query:
 
 ```bash
-
 {container="evaluate-loki_flog_1"} |= "POST"
-
 ```{{copy}}
 
 To see every log line with a 401 status (unauthorized error), enter the LogQL query:
 
 ```bash
-
 {container="evaluate-loki_flog_1"} | json | status="401"
-
 ```{{copy}}
 
 To see every log line that does not contain the value 401:
 
 ```bash
-
 {container="evaluate-loki_flog_1"} != "401"
-
 ```{{copy}}
 
 For more examples, refer to the [query documentation](https://grafana.com/docs/loki/latest/query/query_examples/).
