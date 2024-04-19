@@ -1,0 +1,24 @@
+{
+    "title": "Loki Quickstart Demo",
+    "description": "This sandbox provides an online enviroment for testing the Loki quickstart demo.",
+    "details": {
+      "intro": {
+        "text": "intro.md"
+      },
+      "steps": [
+        {
+          "text": "step1.md"
+        },
+        {
+          "text": "step2.md"
+        }
+      ],
+      "finish": {
+        "text": "finished.md"
+      }
+    }
+      ,
+    "backend": {
+      "imageid": "ubuntu"
+    }
+  }
