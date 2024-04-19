@@ -72,9 +72,9 @@ Here are some more sample queries that you can run using the Flog sample data.
 
 To see all the log lines that flog has generated, enter the LogQL query:
 
-```
+```bash
 
-{container="evaluate-loki-flog-1"}|= ``
+\{container="evaluate-loki-flog-1"\}|= ``
 
 ```{{copy}}
 
