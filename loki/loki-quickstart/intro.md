@@ -1,4 +1,4 @@
-<p><img src="../assets/loki-logo.png" style=" height: 90px"></p>
+![Loki Quickstart](../../assets/loki-ile.png)
 
 
 # Quickstart to run Loki locally
