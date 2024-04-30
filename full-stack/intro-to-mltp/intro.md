@@ -43,7 +43,7 @@ The demos from this series were based on the application and code in this reposi
 This environment runs an install script on startup automatically. Your training environment is ready to go once you see:
 
 ```bash
-
+INTRO TO MLTP
 ```
 
 Continue to the next step to find the tutorial environment navigation URLs.
