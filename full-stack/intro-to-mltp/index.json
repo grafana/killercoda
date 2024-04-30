@@ -1,0 +1,22 @@
+{
+    "title": "Introduction to Metrics, Logs, Traces and Profiles in Grafana",
+    "description": "This demo provides an introduction to the concepts of Metrics, Logs, Traces and Profiles in Grafana.",
+    "details": {
+      "intro": {
+        "text": "intro.md",
+        "foreground": "setup.sh"
+      },
+      "steps": [
+        {
+          "text": "step1.md"
+        }
+      ],
+      "finish": {
+        "text": "finished.md"
+      }
+    }
+      ,
+    "backend": {
+      "imageid": "ubuntu-4GB"
+    }
+  }

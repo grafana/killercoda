@@ -10,11 +10,11 @@
     cd evaluate-loki
     ```{{execute}}
 
-2. Download `loki-config.yaml`, `promtail-local-config.yaml`, and `docker-compose.yaml`:
+2. Download `loki-config.yaml`, `alloy-local-config.yaml`, and `docker-compose.yaml`:
 
     ```bash
     wget https://raw.githubusercontent.com/grafana/loki/main/examples/getting-started/loki-config.yaml -O loki-config.yaml
-    wget https://raw.githubusercontent.com/grafana/loki/main/examples/getting-started/promtail-local-config.yaml -O promtail-local-config.yaml
+    wget https://raw.githubusercontent.com/grafana/loki/main/examples/getting-started/alloy-local-config.yaml -O alloy-local-config.yaml
     wget https://raw.githubusercontent.com/grafana/loki/main/examples/getting-started/docker-compose.yaml -O docker-compose.yaml
     ```{{execute}}
 
@@ -32,11 +32,12 @@
     ✔ Network evaluate-loki_loki          Created      0.1s 
     ✔ Container evaluate-loki-minio-1     Started      0.6s 
     ✔ Container evaluate-loki-flog-1      Started      0.6s 
+    ✔ Container evaluate-loki-backend-1   Started      0.8s 
     ✔ Container evaluate-loki-write-1     Started      0.8s 
     ✔ Container evaluate-loki-read-1      Started      0.8s 
     ✔ Container evaluate-loki-gateway-1   Started      1.1s 
     ✔ Container evaluate-loki-grafana-1   Started      1.4s 
-    ✔ Container evaluate-loki-promtail-1  Started      1.4s 
+    ✔ Container evaluate-loki-alloy-1     Started      1.4s
     ```
 
 4. (Optional) To check the status of the containers, run the following command:
@@ -52,5 +53,6 @@ All containers should be showing the following:
    5 seconds ago   Up 3 seconds    
 ```
 
-
+5. (Optional) Verify that Grafana Alloy is running.
+    - Grafana Alloy's UI can be accessed at [http://localhost:12345]({{TRAFFIC_HOST1_12345}}).  
 

@@ -1,6 +1,7 @@
 {
     "items": [
     { "path": "tutorial-enviroment", "title": "Tutorial Enviroment"},
-    { "path": "tutorial-enviroment-completed", "title": "Tutorial Enviroment (Completed)"}
+    { "path": "tutorial-enviroment-completed", "title": "Tutorial Enviroment (Completed)"},
+    { "path": "intro-to-mltp", "title": "Introduction To MLTP Architecture Diagram"}
     ]
 }
