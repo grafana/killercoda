@@ -54,8 +54,8 @@ All containers should be showing the following:
 ```
 
 5. (Optional) Verify that the Loki cluster is up and running.
-    - The read component returns `ready` when you point a web browser at [{{TRAFFIC_HOST1_3101}}/ready](http://localhost:3101/ready). The message `Query Frontend not ready: not ready: number of schedulers this worker is connected to is 0` will show prior to the read component being ready.
-    - The write component returns `ready` when you point a web browser at [{{TRAFFIC_HOST1_3102}}/ready](http://localhost:3102/ready). The message `Ingester not ready: waiting for 15s after being ready` will show prior to the write component being ready.
+    - The read component returns `ready` when you point a web browser at [http://localhost:3101/ready]({{TRAFFIC_HOST1_3101}}/ready). The message `Query Frontend not ready: not ready: number of schedulers this worker is connected to is 0` will show prior to the read component being ready.
+    - The write component returns `ready` when you point a web browser at [http://localhost:3102/ready]({{TRAFFIC_HOST1_3102}}/ready). The message `Ingester not ready: waiting for 15s after being ready` will show prior to the write component being ready.
 
 6. (Optional) Verify that Grafana Alloy is running.
     - Grafana Alloy's UI can be accessed at [http://localhost:12345]({{TRAFFIC_HOST1_12345}}).  
