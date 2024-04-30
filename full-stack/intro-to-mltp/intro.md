@@ -37,10 +37,10 @@ The demos from this series were based on the application and code in this reposi
 
 ## Housekeeping
 
-This environment runs an install script on startup automatically. Your training environment is ready to go once the script has completed and you see the following message:
+This environment runs an install script on startup automatically. Your training environment is ready to go once you see:
 
-```plaintext
-GRAFANA FUNDAMENTALS
+```bash
+
 ```
 
 Continue to the next step to find the tutorial environment navigation URLs.
