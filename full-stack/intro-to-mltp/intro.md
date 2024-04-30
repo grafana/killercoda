@@ -2,6 +2,7 @@
 ![Loki Quickstart](../../assets/full-stack-ile.png)
 
 # Introduction to Metrics, Logs, Traces and Profiles in Grafana
+ ***Note:** This is sandbox enviroment for the [Intro to MLTP project](https://github.com/grafana/intro-to-mltp/blob/main/README.md). Please make sure to consult the full README.*
 
 ![Introduction To MLTP Architecture Diagram](../assets/mltp.png)
 
