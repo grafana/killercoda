@@ -8,7 +8,7 @@ if [ ! -d "tutorial-environment" ]; then
 fi
 
 # Enter the directory and switch to the required branch
-cd intro-to-mltp || { echo "Moving directory"; exit 1; }
+cd intro-to-mltp && git checkout killercoda || { echo "Moving directory"; exit 1; }
 
 echo "Building training instance...."
-docker-compose up -d
+docker-compose -f docker-compose-no-beyla.yml up -d
