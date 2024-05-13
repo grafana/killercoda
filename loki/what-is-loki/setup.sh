@@ -4,7 +4,7 @@ echo "RUNNING SETUP SCRIPT"
 
 # Clone the tutorial environment repository if it doesn't already exist
 if [ ! -d "loki-fundamentals" ]; then
-    git https://github.com/grafana/loki-fundamentals.git || { echo "Failed to clone repository"; exit 1; }
+    git clone https://github.com/grafana/loki-fundamentals.git || { echo "Failed to clone repository"; exit 1; }
 fi
 
 # Enter the directory and switch to the required branch
