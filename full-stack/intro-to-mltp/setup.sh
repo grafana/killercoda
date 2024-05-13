@@ -3,7 +3,7 @@
 echo "RUNNING SETUP SCRIPT"
 
 # Clone the tutorial environment repository if it doesn't already exist
-if [ ! -d "tutorial-environment" ]; then
+if [ ! -d "intro-to-mltp" ]; then
     git clone https://github.com/grafana/intro-to-mltp.git || { echo "Failed to clone repository"; exit 1; }
 fi
 

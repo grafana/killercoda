@@ -10,4 +10,3 @@ Head back to the video to continue with Intro to logging.
 
 [![Intro to logging](https://img.youtube.com/vi/TLnH7efQNd0/0.jpg)](https://www.youtube.com/watch?v=TLnH7efQNd0)
 
-![Loki Quickstart](../../assets/loki-ile.png)
