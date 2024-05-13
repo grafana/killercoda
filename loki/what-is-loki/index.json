@@ -1,9 +1,10 @@
 {
-    "title": "Loki Quickstart Demo",
-    "description": "This sandbox provides an online enviroment for testing the Loki quickstart demo.",
+    "title": "What is Loki?",
+    "description": "A sandbox enviroment to introduce Loki to new users. This sandbox will guide you through the basics of Loki and how to use it.",
     "details": {
       "intro": {
-        "text": "intro.md"
+        "text": "intro.md",
+        "foreground": "setup.sh"
       },
       "steps": [
         {
