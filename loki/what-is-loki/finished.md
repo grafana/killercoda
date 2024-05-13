@@ -2,7 +2,7 @@
 
 # What is Loki?
 
-You have completed the **What is loki* demo. This course is part of an **Intro to Grafana Loki** series. In this course, you learned the basics of Grafana Loki and how it can be used to store and query logs.
+You have completed the **What is loki** demo. This course is part of an **Intro to Grafana Loki** series. In this course, you learned the basics of Grafana Loki and how it can be used to store and query logs.
 
 ## What's Next?
 
