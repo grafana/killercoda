@@ -1,22 +1,37 @@
 
-# Step 1: Generating some logs
+# Step 1: Demo environment setup
 
-In this step, we will generate some logs using the Carnivorous Greenhouse application. This application generates logs when you create an account, login, and collect metrics from a series of hungry plants. The logs are sent to Loki. 
+The first thing we are going to do manually is spin up our Docker environment. This environment will be used to demonstrate how to ingest logs into Loki using the new Grafana Labs Alloy collector.
 
-To access the application, click this link to Carnivorous Greenhouse: **[http://localhost:5005]({{TRAFFIC_HOST1_5005}})**
+## Docker Compose
 
-## Generate some logs
+We will be using Docker Compose to spin up our environment. Run the following command to start the environment:
 
-1. Create an account by clicking the **Sign Up** button.
-2. Create a user by entering a username and password.
-3. Log in by clicking the **Login** button.
-4. Create your first plant by:
-   * Adding a name
-   * Selecting a plant type
-   * Clicking the **Add Plant** button.
+```bash
+docker-compose up -d
+```{{exec}}
+This will build the Docker images and start the containers. Once the containers are up and running. To check the status of the containers, run the following command:
 
-### Optional: Generate errors
+```bash
+docker ps
+```{{exec}}
 
-The plants do a good job eating all the bugs, but sometimes they get a little too hungry and cause errors. To generate an error, toggle the **Toggle Error mode**. This will cause a variety of errors to occure such as; sign up errors, login errors, and plant creation errors. These errors can be investigated in the logs.
+Which should output something similar to:
+
+```plaintext
+CONTAINER ID   IMAGE                                 ...   STATUS         
+392f00a18cf4   grafana/alloy:latest                  ...   Up 34 seconds 
+60f6abe649a5   loki-fundamentals_carnivorous-garden  ...   Up 36 seconds  
+c4a9ca220b0f   grafana/loki:main-e9b6ce9             ...   Up 36 seconds   
+a32e179a44af   grafana/grafana:11.0.0                ...   Up 35 seconds 
+```
+
+## Access our applications
+
+There are three application UI's that we will be using in this demo: Grafana, Alloy, and Carnivorous Greenhouse. Lets check if they are up and running:
+* Grafana: [http://localhost:3000]({{TRAFFIC_HOST1_3000}})
+* Alloy: [http://localhost:12345]({{TRAFFIC_HOST1_12345}})
+* Carnivorous Greenhouse: [http://localhost:5005]({{TRAFFIC_HOST1_5005}})
+
 
 

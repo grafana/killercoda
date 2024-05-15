@@ -1,13 +1,13 @@
 ![Loki Quickstart](../../assets/loki-ile.png)
 
 
-# "What is Loki" Sandbox Enviroment
+# "Intro to Ingesting" Sandbox Enviroment
 
 [![What is Loki](https://img.youtube.com/vi/1uk8LtQqsZQ/0.jpg)](https://www.youtube.com/watch?v=1uk8LtQqsZQ)
 
 ## Sandbox Overview
 
-This online sandbox is part of the How to get started with Loki video. In this sandbox, you will learn how to use Grafana Loki in monolithic store and query your logs. Here is a run through of the architecture:
+This online sandbox is part of the How to get started with Loki video. In this sandbox, you will learn how to ingest logs into Loki using the new Grafana Labs Alloy collector.
 
 * **Loki**: Loki is a horizontally-scalable, highly-available, multi-tenant log aggregation system inspired by Prometheus. It is designed to be very cost-effective and easy to operate. It does not index the contents of the logs, but rather a set of labels for each log stream.
 
@@ -22,7 +22,7 @@ This online sandbox is part of the How to get started with Loki video. In this s
 This environment runs an install script on startup automatically. Your training environment is ready to go once the script has completed and you see the following message:
 
 ```plaintext
-WHAT IS LOKI?
+Intro to Ingesting
 ```
 
 Continue to the next step to find the tutorial environment navigation URLs.
