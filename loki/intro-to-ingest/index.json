@@ -1,0 +1,25 @@
+{
+    "title": "Intro to Ingesting",
+    "description": "A sandbox enviroment to introduce users to the basics of ingesting data into Loki using Grafana Alloy",
+    "details": {
+      "intro": {
+        "text": "intro.md",
+        "foreground": "setup.sh"
+      },
+      "steps": [
+        {
+          "text": "step1.md"
+        },
+        {
+          "text": "step2.md"
+        }
+      ],
+      "finish": {
+        "text": "finished.md"
+      }
+    }
+      ,
+    "backend": {
+      "imageid": "ubuntu"
+    }
+  }

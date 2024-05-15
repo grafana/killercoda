@@ -3,6 +3,7 @@
     { "path": "intro-to-logging", "title": "Intro to logging"},
     { "path": "structure-of-logs", "title": "Structure of logs"},
     { "path": "loki-quickstart", "title": "Loki Quickstart Demo"},
-    { "path": "what-is-loki", "title": "What is Loki?"}
+    { "path": "what-is-loki", "title": "What is Loki?"},
+    { "path": "intro-to-ingest", "title": "Intro to Ingesting"}
     ]
 }
