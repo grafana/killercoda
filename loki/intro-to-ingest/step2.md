@@ -1,18 +1,30 @@
 
-# Step 2: Investigating the logs
+# Step 2: Building out the Grafana Alloy config
 
-In the previous step, we generated logs using the Carnivorous Greenhouse application. In this step, we will investigate the logs that were generated. These logs where tailed by Alloy and sent to Loki. Let's explore the logs.
+We are going to start by building out the Grafana Alloy config. This config will be used to collect logs from our Carnivorous Greenhouse application. We will build this out step by step, due to the flexibility of Alloy and Loki, we can iterate through this process as we go and see the changes in real-time.
 
-## Explore the logs
+## Directory Discovery
 
-To start exploring the logs, we will use the Grafana Explore Logs view. This is a new queriless way to explore logs in Grafana.
+The first thing we need to do is to discover the directories that contain the logs we want to collect. We can do this by using the `local.file_match`.
 
-1. To access this view, follow this link: **[http://localhost:3000/a/grafana-lokiexplore-app/explore]({{TRAFFIC_HOST1_3000}}/a/grafana-lokiexplore-app/explore)** 
+```json
+local.file_match "applogs" {
+    path_targets = [{"__path__" = "/tmp/app-logs/app.log"}]
+    sync_period = "5s"
+}
+```
+Lets add this to our `alloy.yaml` file.
 
-2. From there experiment with the different options available to you. Drill down into the logs and see what you can find.
+```bash
+echo 'local.file_match "applogs" {
+    path_targets = [{"__path__" = "/tmp/app-logs/app.log"}]
+    sync_period = "5s"
+}' >> ./alloy.yaml
+```
+We can now reload Alloy with this config.
 
+```bash
+curl -X POST http://localhost:12345/-/reload
+```
 
-### Open In Explore
-
-You all also have the option to open your current log view in Explore. This will allow you to continue your investigation in the Explore view. To do this, click the **Open in Explore** button.
 
