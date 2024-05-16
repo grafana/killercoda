@@ -19,12 +19,15 @@ Lets add this to our `alloy.yaml` file.
 echo 'local.file_match "applogs" {
     path_targets = [{"__path__" = "/tmp/app-logs/app.log"}]
     sync_period = "5s"
-}' >> ./alloy.yaml
-```
+}' >> ./alloy-config.alloy
+```{{exec}}
 We can now reload Alloy with this config.
 
 ```bash
 curl -X POST http://localhost:12345/-/reload
-```
+```{{exec}}
+
+After reloading Alloy, we can see the new component in the Alloy UI:
+[http://localhost:12345]({{TRAFFIC_HOST1_12345}})
 
 
