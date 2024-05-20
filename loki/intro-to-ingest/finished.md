@@ -1,11 +1,11 @@
 ![Loki Quickstart](../../assets/loki-ile.png)
 
-# What is Loki?
+# Introduction to Ingesting Logs with Loki (Alloy)
 
-You have completed the **What is loki** demo. This course is part of an **Intro to Grafana Loki** series. In this course, you learned the basics of Grafana Loki and how it can be used to store and query logs.
+You have successfully completed the Introduction to Ingesting Logs with Loki (Alloy) scenario.
 
 ## What's Next?
 
-Head back to the video to continue with What is Loki.
+Head back to the video to continue with Introduction to Ingesting Logs with Loki.
 
 [![What is Loki](https://img.youtube.com/vi/1uk8LtQqsZQ/0.jpg)](https://www.youtube.com/watch?v=1uk8LtQqsZQ)
