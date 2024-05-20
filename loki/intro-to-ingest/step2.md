@@ -21,6 +21,7 @@ echo 'local.file_match "applogs" {
     sync_period = "5s"
 }' >> ./alloy-config.alloy
 ```{{exec}}
+
 We can now reload Alloy with this config.
 
 ```bash
@@ -29,5 +30,68 @@ curl -X POST http://localhost:12345/-/reload
 
 After reloading Alloy, we can see the new component in the Alloy UI:
 [http://localhost:12345]({{TRAFFIC_HOST1_12345}})
+
+## Writing to Loki
+
+Next we we are going to establish a connection to Loki and write the logs to it. We can do this by using the `loki_push` component.
+
+```json
+loki.write "local_loki" {
+    endpoint {
+        url = "http://loki:3100/loki/api/v1/push"
+    }
+}
+```
+```bash
+echo 'loki.write "local_loki" {
+    endpoint {
+        url = "http://loki:3100/loki/api/v1/push"
+    }
+}' >> ./alloy-config.alloy
+```{{exec}}
+
+Reload Alloy with this config change:
+
+```bash
+curl -X POST http://localhost:12345/-/reload
+```{{exec}}
+
+After reloading Alloy, we can see the new component in the Alloy UI:
+[http://localhost:12345]({{TRAFFIC_HOST1_12345}})
+
+
+## Scraping the logs
+
+Now that we have established a connection to Loki, we can start scraping the logs. We can do this by using the `loki.source.file` component.
+
+```json
+loki.source.file "local_files" {
+    targets    = local.file_match.applogs.targets
+    forward_to = [loki.write.local_loki.receiver]
+}
+```
+
+Lets add this to our config:
+```bash
+echo 'loki.source.file "local_files" {
+    targets    = local.file_match.applogs.targets
+    forward_to = [loki.write.local_loki.receiver]
+}' >> ./alloy-config.alloy
+```{{exec}}
+
+Reload Alloy with this config change:
+
+```bash
+curl -X POST http://localhost:12345/-/reload
+```{{exec}}
+
+After reloading Alloy, we can see the new component in the Alloy UI:
+[http://localhost:12345]({{TRAFFIC_HOST1_12345}})
+
+## Viewing in Grafana
+
+Now that we have the logs being scraped and sent to Loki, we can view them in Grafana. We can do this by going to the Explore section in Grafana and querying the logs:
+[http://localhost:3000/explore]({{GRAFANA_HOST1_3000}}/explore)
+
 
 
