@@ -42,6 +42,7 @@ loki.write "local_loki" {
     }
 }
 ```
+Lets add this to our config:
 ```bash
 echo 'loki.write "local_loki" {
     endpoint {
@@ -91,7 +92,7 @@ After reloading Alloy, we can see the new component in the Alloy UI:
 ## Viewing in Grafana
 
 Now that we have the logs being scraped and sent to Loki, we can view them in Grafana. We can do this by going to the Explore section in Grafana and querying the logs:
-[http://localhost:3000/explore]({{GRAFANA_HOST1_3000}}/explore)
+[http://localhost:3000/explore]({{TRAFFIC_HOST1_3000}}/explore)
 
 
 
