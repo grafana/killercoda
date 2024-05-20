@@ -95,8 +95,10 @@ sed -i -e '/loki.source.file "local_files" {/,/}/{s/loki\.write\.local_loki\.rec
 Reload Alloy with this config change:
 
 ```bash
-curl -X POST http://localhost:12345/-/reload
+docker restart loki-fundamentals_alloy_1
 ```{{exec}}
+
+**Note:** We are restarting the Alloy container to apply the changes. This due to the fact that docker does not recognize changes to the config file after sed has been run.
 
 After reloading Alloy, we can see the new component in the Alloy UI:
 [http://localhost:12345]({{TRAFFIC_HOST1_12345}})
