@@ -89,7 +89,7 @@ loki.process "add_new_label" {
 Lets make these changes to our config:
 
 ```bash
-sed -i '/loki.source.file "local_files" {/,/}/{s/loki\.write\.local_loki\.receiver/loki.process.add_new_label.receiver/}' alloy-config.alloy
+sed -i -e '/loki.source.file "local_files" {/,/}/{s/loki\.write\.local_loki\.receiver/loki.process.add_new_label.receiver/}' ./alloy-config.alloy
 ```{{exec}}
 
 Reload Alloy with this config change:
