@@ -89,6 +89,11 @@ curl -X POST http://localhost:12345/-/reload
 After reloading Alloy, we can see the new component in the Alloy UI:
 [http://localhost:12345]({{TRAFFIC_HOST1_12345}})
 
+## Generating logs
+
+Make sure to generate some logs using the Carnivorous Greenhouse application. You can do this by going to the Carnivorous Greenhouse UI:
+[http://localhost:5005]({{TRAFFIC_HOST1_5005}})
+
 ## Viewing in Grafana
 
 Now that we have the logs being scraped and sent to Loki, we can view them in Grafana. We can do this by going to the Explore section in Grafana and querying the logs:
