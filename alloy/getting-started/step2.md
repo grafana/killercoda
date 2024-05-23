@@ -7,9 +7,9 @@ Lets create a new `config.alloy` file and add the following:
 1. Create a new `config.alloy` file in the root of the project.
    ```bash
     touch config.alloy
-    ```
+    ```{{exec}}
 
-2. Add the following to the `config.alloy` file (this needs to be explained to the user):
+2. Add the following to the `config.alloy` file. To do this open Vscode and select the `config.alloy` file (this needs to be explained to the user):
 ```json
 prometheus.exporter.self "integrations_alloy" { }
 
@@ -74,9 +74,14 @@ prometheus.relabel "integrations_alloy" {
 7. Now lets send these metrics to Prometheus:
 ```json
 prometheus.remote_write "metrics_service" {
-  endpoint {
-    url = "http://localhost:9090/api/v1/pushs"
-  }
+    endpoint {
+        url = "http://localhost:9090/api/v1/write"
+
+        basic_auth {
+            username = "admin"
+            password = "admin"
+        }
+    }
 }
 ```{{copy}}
 
@@ -93,3 +98,6 @@ prometheus.remote_write "metrics_service" {
 
 10. After reloading Alloy, we can see the new component in the Alloy UI:
    [http://localhost:12345]({{TRAFFIC_HOST1_12345}})
+
+11. Finaly lets check Grafana to see if the metrics are being scraped.
+   [http://localhost:3000]({{TRAFFIC_HOST1_3000}})

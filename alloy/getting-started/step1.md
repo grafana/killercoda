@@ -44,7 +44,7 @@ To install Grafana Alloy on Linux, run the following commands in a terminal wind
 4. Lastly we need to add a optional flag to `/etc/default/alloy` to run the Alloy UI.
 
    ```bash
-  sed -i 's/CUSTOM_ARGS=""/CUSTOM_ARGS="--server.http.listen-addr=0.0.0.0:12345"/' /etc/alloy/config.alloy
+   sed -i -e 's/CUSTOM_ARGS=""/CUSTOM_ARGS="--server.http.listen-addr=0.0.0.0:12345"/' /etc/default/alloy
    ```{{exec}}
 
 5. Start the Grafana Alloy service.
