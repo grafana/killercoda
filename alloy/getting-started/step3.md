@@ -29,17 +29,20 @@ loki.source.file "log_scrape" {
 }
 ```{{copy}}
 
-3. Save the file.
+2. Lets copy the `config.alloy` file to the Alloy config directory.
+   ```bash
+   sudo cp config.alloy /etc/alloy/config.alloy
+   ```{{exec}}
 
 
-4. Reload Alloy with this config change:
+3. Reload Alloy with this config change:
 
     ```bash
     curl -X POST http://localhost:12345/-/reload
     ```{{exec}}
 
-5. After reloading Alloy, we can see the new component in the Alloy UI:
+4. After reloading Alloy, we can see the new component in the Alloy UI:
    [http://localhost:12345]({{TRAFFIC_HOST1_12345}})
 
-6. Finaly lets check Grafana to see if the logs are being scraped.
+5. Finaly lets check Grafana to see if the logs are being scraped.
    [http://localhost:3000]({{TRAFFIC_HOST1_3000}})
