@@ -46,17 +46,17 @@ discovery.relabel "integrations_alloy" {
     curl -X POST http://localhost:12345/-/reload
     ```{{exec}}
 
-5. After reloading Alloy, we can see the new component in the Alloy UI:
+6. After reloading Alloy, we can see the new component in the Alloy UI:
    [http://localhost:12345]({{TRAFFIC_HOST1_12345}})
 
 
-6. Lets scrape some metrics ....
+7. Lets scrape some metrics ....
 ```json
 prometheus.scrape "integrations_alloy" {
   targets    = discovery.relabel.integrations_alloy.output
   forward_to = [prometheus.relabel.integrations_alloy.receiver]  
 
-  scrape_interval = "5s"
+  scrape_interval = "10s"
 }
 
 prometheus.relabel "integrations_alloy" {
@@ -71,7 +71,7 @@ prometheus.relabel "integrations_alloy" {
 ```{{copy}}
 
 
-7. Now lets send these metrics to Prometheus:
+8. Now lets send these metrics to Prometheus:
 ```json
 prometheus.remote_write "metrics_service" {
     endpoint {
@@ -85,19 +85,19 @@ prometheus.remote_write "metrics_service" {
 }
 ```{{copy}}
 
-8. Lets copy the `config.alloy` file to the Alloy config directory.
+9. Lets copy the `config.alloy` file to the Alloy config directory.
    ```bash
    sudo cp config.alloy /etc/alloy/config.alloy
    ```{{exec}}
 
-9. Reload Alloy with this config change:
+10. Reload Alloy with this config change:
 
     ```bash
     curl -X POST http://localhost:12345/-/reload
     ```{{exec}}
 
-10. After reloading Alloy, we can see the new component in the Alloy UI:
+11. After reloading Alloy, we can see the new component in the Alloy UI:
    [http://localhost:12345]({{TRAFFIC_HOST1_12345}})
 
-11. Finaly lets check Grafana to see if the metrics are being scraped.
+12. Finaly lets check Grafana to see if the metrics are being scraped.
    [http://localhost:3000]({{TRAFFIC_HOST1_3000}})
