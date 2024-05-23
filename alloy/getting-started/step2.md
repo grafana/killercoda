@@ -9,14 +9,14 @@ Lets create a new `config.alloy` file and add the following:
     touch config.alloy
     ```{{exec}}
 
-2. Add the following to the `config.alloy` file. To do this open Vscode and select the `config.alloy` file (this needs to be explained to the user):
+2. Add the following to the `config.alloy` file. To do this, click on "Editor" at the top of the console screen on the right hand side. This will open VScode, allowing you to select the `config.alloy` file, and paste in these contents:
 ```json
 prometheus.exporter.unix "local_system" { }
 
 // Configure a prometheus.scrape component to collect unix metrics.
 prometheus.scrape "scrape_metrics" {
   targets    = prometheus.exporter.unix.local_system.targets
-  forward_to = [prometheus.remote_write.metrics_service.receiver]
+  forward_to = [prometheus.remote_write.metrics_service.receiver],
   scrape_interval = "10s"
 }
 
@@ -46,6 +46,8 @@ prometheus.remote_write "metrics_service" {
     curl -X POST http://localhost:12345/-/reload
     ```{{exec}}
 
+Note that you could also use `systemctl` to reload the Alloy service if you wanted, but this is more convenient,
+we can hot-reload configurations without restarting Alloy!
 
 6. After reloading Alloy, we can see the new component in the Alloy UI:
    [http://localhost:12345]({{TRAFFIC_HOST1_12345}})
