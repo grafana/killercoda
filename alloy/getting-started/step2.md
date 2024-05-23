@@ -16,7 +16,8 @@ prometheus.exporter.unix "local_system" { }
 // Configure a prometheus.scrape component to collect unix metrics.
 prometheus.scrape "scrape_metrics" {
   targets    = prometheus.exporter.unix.local_system.targets
-  forward_to = [prometheus.remote_write.metrics_service.receiver]
+  forward_to = [prometheus.remote_write.metrics_service.receiver],
+  scrape_interval = "10s"
 }
 
 prometheus.remote_write "metrics_service" {
