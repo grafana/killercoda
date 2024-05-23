@@ -27,7 +27,7 @@ To install Grafana Alloy on Linux, run the following commands in a terminal wind
    sudo mkdir -p /etc/apt/keyrings/ && wget -q -O - https://apt.grafana.com/gpg.key | gpg --dearmor | sudo tee /etc/apt/keyrings/grafana.gpg > /dev/null &&
    echo "deb [signed-by=/etc/apt/keyrings/grafana.gpg] https://apt.grafana.com stable main" | sudo tee /etc/apt/sources.list.d/grafana.list
    ```{{exec}}
-   
+
 2. Update the repositories.
 
    ```bash
@@ -40,11 +40,23 @@ To install Grafana Alloy on Linux, run the following commands in a terminal wind
    sudo apt-get install alloy
    ```{{exec}}
 
-4. Start the Grafana Alloy service.
+
+4. Lastly we need to add a optional flag to `/etc/default/alloy` to run the Alloy UI.
+
+   ```bash
+  sed -i 's/CUSTOM_ARGS=""/CUSTOM_ARGS="--server.http.listen-addr=0.0.0.0:12345"/' /etc/alloy/config.alloy
+   ```{{exec}}
+
+5. Start the Grafana Alloy service.
 
    ```bash
    sudo systemctl start alloy
    ```{{exec}}
 
-4. After starting the Alloy service, should now be able to access Alloy UI:
+6. After starting the Alloy service, we can see the the Alloy UI:
    [http://localhost:12345]({{TRAFFIC_HOST1_12345}})
+
+
+
+
+
