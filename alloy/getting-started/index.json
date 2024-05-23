@@ -1,0 +1,29 @@
+{
+    "title": "Grafana Basics",
+    "description": "In this demo learn how to install and configure Grafana",
+    "details": {
+      "intro": {
+        "text": "intro.md"
+      },
+      "steps": [
+        {
+          "text": "step1.md"
+        },
+        {
+          "text": "step2.md"
+        }
+      ],
+      "finish": {
+        "text": "finished.md"
+      },
+      "assets": {
+        "host01": [
+          {"file": "*", "target": "/setup"}
+        ]
+      }
+    }
+      ,
+    "backend": {
+      "imageid": "ubuntu"
+    }
+  }
