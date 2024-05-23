@@ -1,8 +1,6 @@
 # Step 2: Scraping System Logs
 
-We are going to start by building out the Grafana Alloy config. To start we going to collect metrics from our local machine. 
-
-Lets create a new `config.alloy` file and add the following:
+Next we are going to start scraping our system logs:
 
 
 1. Add the following to the `config.alloy` file. To do this open Vscode and select the `config.alloy` file (this needs to be explained to the user):
