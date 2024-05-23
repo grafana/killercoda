@@ -7,7 +7,7 @@ You can install Grafana Alloy as a systemd service on Linux.
 Some Debian-based cloud Virtual Machines don't have GPG installed by default.
 To install GPG in your Linux Virtual Machine, run the following command in a terminal window.
 
-```shell
+```bash
 sudo apt install gpg
 ```{{exec}}
 
@@ -26,9 +26,8 @@ To install Grafana Alloy on Linux, run the following commands in a terminal wind
    ```bash
    sudo mkdir -p /etc/apt/keyrings/ && wget -q -O - https://apt.grafana.com/gpg.key | gpg --dearmor | sudo tee /etc/apt/keyrings/grafana.gpg > /dev/null &&
    echo "deb [signed-by=/etc/apt/keyrings/grafana.gpg] https://apt.grafana.com stable main" | sudo tee /etc/apt/sources.list.d/grafana.list
-
-  ```{{exec}}
-
+   ```{{exec}}
+   
 2. Update the repositories.
 
    ```bash
