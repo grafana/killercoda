@@ -1,0 +1,36 @@
+{
+    "title": "Frontend Observability",
+    "description": "In this demo you'll learn how to instrument a React application with Grafana Frontend Observability in Grafana Cloud.",
+    "details": {
+      "intro": {
+        "text": "intro.md",
+        "foreground": "setup.sh"
+      },
+      "steps": [
+        {
+          "text": "step1.md"
+        },
+        {
+          "text": "step2.md"
+        },
+        {
+          "text": "step3.md"
+        },
+        {
+          "text": "step4.md"
+        }
+      ],
+      "finish": {
+        "text": "finished.md"
+      },
+      "assets": {
+        "host01": [
+          {"file": "*", "target": "/education"}
+        ]
+      }
+    }
+      ,
+    "backend": {
+      "imageid": "ubuntu"
+    }
+  }
