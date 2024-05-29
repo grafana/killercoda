@@ -13,7 +13,7 @@ local.file_match "applogs" {
     sync_period = "5s"
 }
 ```
-Lets add this to our `alloy.yaml` file.
+Lets add this to our `alloy-config.alloy` file.
 
 ```bash
 echo 'local.file_match "applogs" {

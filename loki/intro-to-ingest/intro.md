@@ -3,7 +3,7 @@
 
 # "Intro to Ingesting" Sandbox Enviroment
 
-[![What is Loki](https://img.youtube.com/vi/1uk8LtQqsZQ/0.jpg)](https://www.youtube.com/watch?v=1uk8LtQqsZQ)
+[![What is Loki](https://img.youtube.com/vi/xtEppndO7F8/0.jpg)](https://www.youtube.com/watch?v=xtEppndO7F8)
 
 ## Sandbox Overview
 
