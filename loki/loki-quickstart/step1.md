@@ -18,12 +18,6 @@
     wget https://raw.githubusercontent.com/grafana/loki/main/examples/getting-started/docker-compose.yaml -O docker-compose.yaml
     ```{{execute}}
 
-**HotFix:** Due to a bug in `1.1.0` of Grafana Alloy we are going to change the image version to `alloy-dev:latest` in the `docker-compose.yaml` file. We will remove this step once Alloy `1.2.0` is released.
-
-```bash
-sed -i 's/alloy:latest/alloy-dev:latest/g' docker-compose.yaml
-```{{execute}}
-
 3. Deploy the sample Docker image.
 
     With `evaluate-loki` as the current working directory, start the demo environment using `docker compose`:
