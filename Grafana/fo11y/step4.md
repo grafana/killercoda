@@ -14,13 +14,13 @@ To do this, open up `src/components/Search.js` using `nano`:
 
 ```bash
 nano frontend/src/components/Search.js
-```
+```{{execute}}
 
 Import the `faro` object:
 
 ```javascript
 import { faro } from '@grafana/faro-react';
-```
+```{{copy}}
 
 Then add the following just after the `setGames(response.data)` line:
 
@@ -33,7 +33,7 @@ faro.api.pushLog([`Search result for ${searchTerm} found ${response.data.length}
 		userId: userUUID
 	}
 });
-```
+```{{copy}}
 
 This custom log entry will help you monitor how users interact with the search feature and track the effectiveness of your search functionality.
 
@@ -55,25 +55,25 @@ Open up the `src/components/GameCard.js` file in `nano`:
 
 ```bash
 nano frontend/src/components/GameCard.js
-```
+```{{execute}}
 
 Import the `faro` object:
 
 ```javascript
 import { faro } from '@grafana/faro-react';
-```
+```{{copy}}
 
 After `setIsFavorited(false);`:
 
 ```javascript
 faro.api.pushEvent('unfavorited', { user_id: userUUID, game_id: `${game.id}` }, 'favorites');
-```
+```{{copy}}
 
 After `setIsFavorited(true);`:
 
 ```javascript
 faro.api.pushEvent('favorited', { user_id: userUUID, game_id: `${game.id}` }, 'favorites');
-```
+```{{copy}}
 
 ## Sending Custom Errors
 
@@ -85,11 +85,11 @@ Open up `src/components/Search.js` again in `nano` and add the line inside the `
 
 ```bash
 nano frontend/src/components/Search.js
-```
+```{{execute}}
 
 ```javascript
 faro.api.pushError(error);
-```
+```{{copy}}
 
 ## Restart the application
 
@@ -98,7 +98,7 @@ To test out these changes, restart the application via Docker:
 ```bash
 docker-compose down
 docker-compose up --build -d
-```
+```{{execute}}
 
 Open your application again by visiting [localhost:3000]({{TRAFFIC_HOST1_3000}}) and generate some logs and events by performing searches as well as favoriting/unfavoriting games.
 

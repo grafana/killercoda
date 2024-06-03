@@ -8,7 +8,7 @@ Start by cloning the repository from GitHub to get the necessary project files. 
 
 ```bash
 git clone https://github.com/tomglenn/fo11y-demo.git
-```
+```{{execute}}
 
 This command clones the `fo11y-demo` repository into a folder named `fo11y-demo` on the machine.
 
@@ -20,7 +20,7 @@ Run the following command to update the `.env` file:
 
 ```bash
 echo "REACT_APP_BACKEND_URL={{TRAFFIC_HOST1_1337}}" > fo11y-demo/frontend/.env
-```
+```{{execute}}
 
 ## Step 3: Starting the Frontend and Backend
 
@@ -31,7 +31,7 @@ Change into the `fo11y-demo` folder and then run `docker-compose`:
 ```bash
 cd fo11y-demo
 docker-compose up --build -d
-```
+```{{execute}}
 
 *Note: This step may take quite a while, so feel free to grab yourself your favourite drink and relax.* 😎
 

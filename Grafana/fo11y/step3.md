@@ -14,7 +14,7 @@ Next, install the `faro-react` and `faro-web-tracing` packages from NPM.
 
 ```bash
 npm i -S @grafana/faro-react @grafana/faro-web-tracing
-```
+```{{execute}}
 
 ## Step 2: Adding the Instrumentation Code
 
@@ -24,7 +24,7 @@ Open the `index.js` file in a text editor such as `nano`.
 
 ```bash
 nano src/index.js
-```
+```{{execute}}
 
 At the top of the file, add the following imports:
 
@@ -32,7 +32,7 @@ At the top of the file, add the following imports:
 import { createRoutesFromChildren, matchRoutes, Routes, useLocation, useNavigationType } from 'react-router-dom';
 import { getWebInstrumentations, initializeFaro, ReactIntegration, ReactRouterVersion } from '@grafana/faro-react';
 import { TracingInstrumentation } from '@grafana/faro-web-tracing';
-```
+```{{copy}}
 
 Next, directly after the import statements and *before* the React root element is created, add the Faro initialization code. Be sure to enter **your** `<COLLECTOR_URL>` from the **Web SDK Configuration** section in your Grafana Frontend Observability app.
 
@@ -61,7 +61,7 @@ var faro = initializeFaro({
     })
   ],
 });
-```
+```{{copy}}
 
 Now save the file and exit `nano` (*You can do this by pressing CTRL+X on your keyboard, hitting Y and then Enter to save the changes*).
 
@@ -69,13 +69,13 @@ Next, open the `src/App.js` file in `nano`.
 
 ```bash
 nano src/App.js
-```
+```{{execute}}
 
 With the `App.js` file open, import the `FaroRoutes` component from `@grafana/faro-react`.
 
 ```javascript
 import { FaroRoutes } from '@grafana/faro-react';
-```
+```{{copy}}
 
 Next, remove *just* the `Routes` import from the `react-router-dom` import statement as we won't be using this component now.
 
@@ -88,7 +88,7 @@ Now, replace the existing `Routes` component with the `FaroRoutes` component. Yo
     <Route path="/search" element={<Search />} />
     <Route path="/about" element={<About />} />
 </FaroRoutes>
-```
+```{{copy}}
 
 Your React application is now instrumented with Grafana Faro.
 
@@ -98,7 +98,7 @@ Re-run the application by navigating back to the root `fo11y-demo` directory and
 cd ..
 docker-compose down
 docker-compose up --build -d
-```
+```{{execute}}
 
 Now, open the frontend at [http://locahost:3000]({{TRAFFIC_HOST1_3000}}) and click around the application to generate some data.
 
