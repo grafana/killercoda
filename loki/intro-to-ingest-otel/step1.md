@@ -8,8 +8,8 @@ For this demo, we will be using a simple Python application called Carnivorous G
 First we will create our Python virtual environment. We will use the following command to create our virtual environment:
 
 ```bash
-python3 -m venv ./venv
-source ./venv/bin/activate
+python3 -m venv .venv
+source ./.venv/bin/activate
 ```{{execute}}
 
 The carniverous greenhouse application relies on a few Python packages. We will install these packages using the following command:

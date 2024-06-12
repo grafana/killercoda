@@ -1,103 +1,76 @@
 
-# Step 2: Building out the Grafana Alloy config
+# Step 2: Orchesrating our app with OpenTelemetry
 
-We are going to start by building out the Grafana Alloy config. This config will be used to collect logs from our Carnivorous Greenhouse application. We will build this out step by step, due to the flexibility of Alloy and Loki, we can iterate through this process as we go and see the changes in real-time.
+In this step, we will be orchestrating our application with OpenTelemetry. We will do this in two parts:
+1. Including the dependencies in our application
+2. Initializing the OpenTelemetry logger and exporting logs to the OpenTelemetry Collector
 
-## Directory Discovery
+**Note:** We will be making use of the vscode editor to make changes to our application. You can access the editor by clicking on the Editor tab.
 
-The first thing we need to do is to discover the directories that contain the logs we want to collect. We can do this by using the `local.file_match`.
+## Including the dependencies in our application
 
-```json
-local.file_match "applogs" {
-    path_targets = [{"__path__" = "/tmp/app-logs/app.log"}]
-    sync_period = "5s"
-}
-```
-Lets add this to our `alloy-config.alloy` file.
+The first step is to include the dependencies in our application. We will be using the OpenTelemetry API, SDK and the OTLP exporter. We will also be using the OpenTelemetry SDK logs module to set the global logger provider.
 
-```bash
-echo 'local.file_match "applogs" {
-    path_targets = [{"__path__" = "/tmp/app-logs/app.log"}]
-    sync_period = "5s"
-}' >> ./alloy-config.alloy
-```{{exec}}
+```python
+# Import the function to set the global logger provider from the OpenTelemetry logs module.
+from opentelemetry._logs import set_logger_provider
 
-We can now reload Alloy with this config.
+# Import the OTLPLogExporter class from the OpenTelemetry gRPC log exporter module.
+from opentelemetry.exporter.otlp.proto.grpc._log_exporter import (
+    OTLPLogExporter,
+)
 
-```bash
-curl -X POST http://localhost:12345/-/reload
-```{{exec}}
+# Import the LoggerProvider and LoggingHandler classes from the OpenTelemetry SDK logs module.
+from opentelemetry.sdk._logs import LoggerProvider, LoggingHandler
 
-After reloading Alloy, we can see the new component in the Alloy UI:
-[http://localhost:12345]({{TRAFFIC_HOST1_12345}})
+# Import the BatchLogRecordProcessor class from the OpenTelemetry SDK logs export module.
+from opentelemetry.sdk._logs.export import BatchLogRecordProcessor
 
-## Writing to Loki
+# Import the Resource class from the OpenTelemetry SDK resources module.
+from opentelemetry.sdk.resources import Resource
+```{{copy}}
 
-Next we we are going to establish a connection to Loki and write the logs to it. We can do this by using the `loki_push` component.
+Make sure to copy the above code snippet to the `app.py` file in the vscode editor. Under the section called `#### otel dependencies ####`, you can paste the code snippet.
 
-```json
-loki.write "local_loki" {
-    endpoint {
-        url = "http://loki:3100/loki/api/v1/push"
-    }
-}
-```
-Lets add this to our config:
-```bash
-echo 'loki.write "local_loki" {
-    endpoint {
-        url = "http://loki:3100/loki/api/v1/push"
-    }
-}' >> ./alloy-config.alloy
-```{{exec}}
+## Initializing the OpenTelemetry logger and exporting logs to the OpenTelemetry Collector
 
-Reload Alloy with this config change:
+The next step is to initialize the OpenTelemetry logger and export logs to the OpenTelemetry Collector. We will be using the OTLP exporter to export logs to the OpenTelemetry Collector. We will also be setting the global logger provider to the OpenTelemetry SDK logger provider.
 
-```bash
-curl -X POST http://localhost:12345/-/reload
-```{{exec}}
+```python
+# Create an instance of LoggerProvider with a Resource object that includes
+# service name and instance ID, identifying the source of the logs.
+logger_provider = LoggerProvider(
+    resource=Resource.create(
+        {
+            "service.name": "greenhouse-app",
+            "service.instance.id": "instance-1",
+        }
+    ),
+)
 
-After reloading Alloy, we can see the new component in the Alloy UI:
-[http://localhost:12345]({{TRAFFIC_HOST1_12345}})
+# Set the created LoggerProvider as the global logger provider.
+set_logger_provider(logger_provider)
+
+# Create an instance of OTLPLogExporter with insecure connection.
+exporter = OTLPLogExporter(insecure=True)
+
+# Add a BatchLogRecordProcessor to the logger provider with the exporter.
+logger_provider.add_log_record_processor(BatchLogRecordProcessor(exporter))
+
+# Create a LoggingHandler with the specified logger provider and log level set to NOTSET.
+handler = LoggingHandler(level=logging.NOTSET, logger_provider=logger_provider)
+
+# Attach OTLP handler to the root logger.
+logging.getLogger().addHandler(handler)
+```{{copy}}
+
+Make sure to copy the above code snippet to the `app.py` file in the vscode editor. Under the section called `## Otel logger initialization ##`, you can paste the code snippet.
 
 
-## Scraping the logs
+## Stuck?
 
-Now that we have established a connection to Loki, we can start scraping the logs. We can do this by using the `loki.source.file` component.
-
-```json
-loki.source.file "local_files" {
-    targets    = local.file_match.applogs.targets
-    forward_to = [loki.write.local_loki.receiver]
-}
-```
-
-Lets add this to our config:
-```bash
-echo 'loki.source.file "local_files" {
-    targets    = local.file_match.applogs.targets
-    forward_to = [loki.write.local_loki.receiver]
-}' >> ./alloy-config.alloy
-```{{exec}}
-
-Reload Alloy with this config change:
+If you are stuck, we have provided the completed `app.py` file in the `completed` directory. You can copy the file to the `~/carnivorous-greenhouse` directory by running the following command:
 
 ```bash
-curl -X POST http://localhost:12345/-/reload
-```{{exec}}
-
-After reloading Alloy, we can see the new component in the Alloy UI:
-[http://localhost:12345]({{TRAFFIC_HOST1_12345}})
-
-## Generating logs
-
-Make sure to generate some logs using the Carnivorous Greenhouse application. You can do this by going to the Carnivorous Greenhouse UI:
-[http://localhost:5005]({{TRAFFIC_HOST1_5005}})
-
-## Viewing in Grafana
-
-Now that we have the logs being scraped and sent to Loki, we can view them in Grafana. We can do this by going to the Explore section in Grafana and querying the logs:
-[http://localhost:3000/explore]({{TRAFFIC_HOST1_3000}}/explore)
-
-
-
+cp ./completed/app.py ./app.py
+```{{execute}}
