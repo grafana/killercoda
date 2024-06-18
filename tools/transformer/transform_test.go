@@ -131,8 +131,12 @@ func TestLinkTransformer_Transform(t *testing.T) {
 	md.Parser().AddOptions(parser.WithASTTransformers(util.Prioritized(&LinkTransformer{}, 0)))
 	md.SetRenderer(renderer.NewRenderer(renderer.WithNodeRenderers(util.Prioritized(markdown.NewRenderer(), 1000))))
 
-	src := []byte(`If you want to experiment with Loki, you can run Loki locally using the Docker Compose file that ships with Loki.
+	src := []byte(`You can view your logs using the command line interface, [LogCLI](/docs/loki/latest/query/logcli/), but the easiest way to view your logs is with Grafana.
+
+If you want to experiment with Loki, you can run Loki locally using the Docker Compose file that ships with Loki.
 It runs Loki in a [monolithic deployment](https://grafana.com/docs/loki/<LOKI_VERSION>/get-started/deployment-modes/#monolithic-mode) mode and includes a sample application to generate logs.
+
+- You can access the Grafana Alloy UI at [http://localhost:12345](http://localhost:12345).
 `)
 
 	root := md.Parser().Parse(text.NewReader(src))
@@ -140,8 +144,12 @@ It runs Loki in a [monolithic deployment](https://grafana.com/docs/loki/<LOKI_VE
 
 	w.Flush()
 
-	want := `If you want to experiment with Loki, you can run Loki locally using the Docker Compose file that ships with Loki.
+	want := `You can view your logs using the command line interface, [LogCLI](https://grafana.com/docs/loki/latest/query/logcli/), but the easiest way to view your logs is with Grafana.
+
+If you want to experiment with Loki, you can run Loki locally using the Docker Compose file that ships with Loki.
 It runs Loki in a [monolithic deployment](https://grafana.com/docs/loki/latest/get-started/deployment-modes/#monolithic-mode) mode and includes a sample application to generate logs.
+
+- You can access the Grafana Alloy UI at [http://localhost:12345]({{TRAFFIC_HOST1_12345}}).
 `
 
 	assert.Equal(t, want, b.String())

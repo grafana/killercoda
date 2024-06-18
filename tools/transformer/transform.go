@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"net/url"
 	"os"
 	"regexp"
 	"strings"
@@ -225,7 +226,23 @@ func (t *LinkTransformer) Transform(root *ast.Document, reader text.Reader, pc p
 		}
 
 		if link, ok := node.(*ast.Link); ok {
-			link.Destination = []byte(versionSubstitutionRegexp.ReplaceAll(link.Destination, []byte("latest")))
+			link.Destination = versionSubstitutionRegexp.ReplaceAll(link.Destination, []byte("latest"))
+
+			u, err := url.Parse(string(link.Destination))
+			if err != nil {
+				return ast.WalkStop, fmt.Errorf("failed to parse URL: %w", err)
+			}
+
+			if u.Host == "" && u.Scheme == "" {
+				u.Scheme = "https"
+				u.Host = "grafana.com"
+			}
+
+			if u.Hostname() == "localhost" {
+				link.Destination = []byte("{{TRAFFIC_HOST1_" + u.Port() + "}}")
+			} else {
+				link.Destination = []byte(u.String())
+			}
 		}
 
 		return ast.WalkContinue, nil
