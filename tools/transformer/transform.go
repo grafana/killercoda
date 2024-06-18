@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"os"
+	"regexp"
 	"strings"
 
 	"github.com/yuin/goldmark/ast"
@@ -10,13 +11,22 @@ import (
 	"github.com/yuin/goldmark/text"
 )
 
-var errNoEndMarker = fmt.Errorf("no matching end marker found for start marker")
+var (
+	errNoEndMarker            = fmt.Errorf("no matching end marker found for start marker")
+	versionSubstitutionRegexp = regexp.MustCompile(`<.+VERSION>`)
+)
 
 const (
+	copyStartMarker   = "<!-- Killercoda copy START -->"
+	copyEndMarker     = "<!-- Killercoda copy END -->"
+	execStartMarker   = "<!-- Killercoda exec START -->"
+	execEndMarker     = "<!-- Killercoda exec END -->"
 	ignoreStartMarker = "<!-- Killercoda ignore START -->"
 	ignoreEndMarker   = "<!-- Killercoda ignore END -->"
 	introStartMarker  = "<!-- Killercoda intro.md START -->"
 	introEndMarker    = "<!-- Killercoda intro.md END -->"
+	stepStartMarker   = "<!-- Killercoda step1.md START -->"
+	stepEndMarker     = "<!-- Killercoda step1.md END -->"
 )
 
 func isMarker(node ast.Node, source []byte, marker string) bool {
@@ -33,10 +43,98 @@ func isMarker(node ast.Node, source []byte, marker string) bool {
 	return false
 }
 
+type CopyTransformer struct{}
+
+// Transform implements the parser.ASTTransformer interface and adds copy metadata to any fenced code blocks within between the copy start and end markers.
+func (t *CopyTransformer) Transform(node *ast.Document, reader text.Reader, _ parser.Context) {
+	source := reader.Source()
+
+	err := ast.Walk(node, func(node ast.Node, entering bool) (ast.WalkStatus, error) {
+		if !entering {
+			return ast.WalkContinue, nil
+		}
+
+		if isMarker(node, source, copyStartMarker) {
+			toRemove := []ast.Node{
+				node,
+			}
+
+			for sibling := node.NextSibling(); ; sibling = sibling.NextSibling() {
+				if sibling == nil {
+					return ast.WalkStop, fmt.Errorf("%w: %s", errNoEndMarker, ignoreStartMarker)
+				}
+
+				if fenced, ok := sibling.(*ast.FencedCodeBlock); ok {
+					fenced.SetAttributeString("data-killercoda-copy", "true")
+				}
+
+				if isMarker(sibling, source, copyEndMarker) {
+					toRemove = append(toRemove, sibling)
+
+					break
+				}
+			}
+
+			for _, node := range toRemove {
+				node.Parent().RemoveChild(node.Parent(), node)
+			}
+		}
+
+		return ast.WalkContinue, nil
+	})
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error transforming AST: %v\n", err)
+	}
+}
+
+type ExecTransformer struct{}
+
+// Transform implements the parser.ASTTransformer interface and adds exec metadata to any fenced code blocks within between the exec start and end markers.
+func (t *ExecTransformer) Transform(node *ast.Document, reader text.Reader, _ parser.Context) {
+	source := reader.Source()
+
+	err := ast.Walk(node, func(node ast.Node, entering bool) (ast.WalkStatus, error) {
+		if !entering {
+			return ast.WalkContinue, nil
+		}
+
+		if isMarker(node, source, execStartMarker) {
+			toRemove := []ast.Node{
+				node,
+			}
+
+			for sibling := node.NextSibling(); ; sibling = sibling.NextSibling() {
+				if sibling == nil {
+					return ast.WalkStop, fmt.Errorf("%w: %s", errNoEndMarker, ignoreStartMarker)
+				}
+
+				if fenced, ok := sibling.(*ast.FencedCodeBlock); ok {
+					fenced.SetAttributeString("data-killercoda-exec", "true")
+				}
+
+				if isMarker(sibling, source, execEndMarker) {
+					toRemove = append(toRemove, sibling)
+
+					break
+				}
+			}
+
+			for _, node := range toRemove {
+				node.Parent().RemoveChild(node.Parent(), node)
+			}
+		}
+
+		return ast.WalkContinue, nil
+	})
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error transforming AST: %v\n", err)
+	}
+}
+
 type IgnoreTransformer struct{}
 
 // Transform implements the parser.ASTTransformer interface and removes all nodes between the ignore start and end markers.
-func (t *IgnoreTransformer) Transform(node *ast.Document, reader text.Reader, pc parser.Context) {
+func (t *IgnoreTransformer) Transform(node *ast.Document, reader text.Reader, _ parser.Context) {
 	source := reader.Source()
 
 	err := ast.Walk(node, func(node ast.Node, entering bool) (ast.WalkStatus, error) {
@@ -45,21 +143,20 @@ func (t *IgnoreTransformer) Transform(node *ast.Document, reader text.Reader, pc
 		}
 
 		if isMarker(node, source, ignoreStartMarker) {
-			var end bool
 			toRemove := []ast.Node{
 				node,
 			}
 
-			for sibling := node.NextSibling(); !end; sibling = sibling.NextSibling() {
+			for sibling := node.NextSibling(); ; sibling = sibling.NextSibling() {
 				if sibling == nil {
 					return ast.WalkStop, fmt.Errorf("%w: %s", errNoEndMarker, ignoreStartMarker)
 				}
 
-				if isMarker(sibling, source, ignoreEndMarker) {
-					end = true
-				}
-
 				toRemove = append(toRemove, sibling)
+
+				if isMarker(sibling, source, ignoreEndMarker) {
+					break
+				}
 			}
 
 			for _, node := range toRemove {
@@ -95,6 +192,70 @@ func (t *IntroTransformer) Transform(root *ast.Document, reader text.Reader, pc 
 				}
 
 				if isMarker(sibling, source, introEndMarker) {
+					break
+				}
+
+				toKeep = append(toKeep, sibling)
+			}
+
+			root.RemoveChildren(root)
+
+			for _, node := range toKeep {
+				root.AppendChild(root, node)
+				node.SetParent(root)
+			}
+
+			return ast.WalkStop, nil
+		}
+
+		return ast.WalkContinue, nil
+	})
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error transforming AST: %v\n", err)
+	}
+}
+
+type LinkTransformer struct{}
+
+// Transform implements the parser.ASTTransformer interface and replaces version substitution syntax (<SOMETHING_VERSION>) with 'latest' in links.
+func (t *LinkTransformer) Transform(root *ast.Document, reader text.Reader, pc parser.Context) {
+	err := ast.Walk(root, func(node ast.Node, entering bool) (ast.WalkStatus, error) {
+		if !entering {
+			return ast.WalkContinue, nil
+		}
+
+		if link, ok := node.(*ast.Link); ok {
+			link.Destination = []byte(versionSubstitutionRegexp.ReplaceAll(link.Destination, []byte("latest")))
+		}
+
+		return ast.WalkContinue, nil
+	})
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error transforming AST: %v\n", err)
+	}
+}
+
+type StepTransformer struct{}
+
+// Transform implements the parser.ASTTransformer interface and keeps only the sibling nodes within the step start and end markers.
+// It removes all other nodes resulting in a document that only contains the content between the markers.
+// It removes the markers themselves.
+func (t *StepTransformer) Transform(root *ast.Document, reader text.Reader, _ parser.Context) {
+	source := reader.Source()
+
+	err := ast.Walk(root, func(node ast.Node, entering bool) (ast.WalkStatus, error) {
+		if !entering {
+			return ast.WalkContinue, nil
+		}
+
+		if isMarker(node, source, stepStartMarker) {
+			var toKeep []ast.Node
+			for sibling := node.NextSibling(); ; sibling = sibling.NextSibling() {
+				if sibling == nil {
+					return ast.WalkStop, fmt.Errorf("%w: %s", errNoEndMarker, stepStartMarker)
+				}
+
+				if isMarker(sibling, source, stepEndMarker) {
 					break
 				}
 

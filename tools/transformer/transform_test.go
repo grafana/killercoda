@@ -15,6 +15,41 @@ import (
 	"github.com/yuin/goldmark/util"
 )
 
+func TestExecTransformer_Transform(t *testing.T) {
+	b := &bytes.Buffer{}
+	w := bufio.NewWriter(b)
+	md := goldmark.NewMarkdown()
+	md.Parser().AddOptions(parser.WithASTTransformers(util.Prioritized(&ExecTransformer{}, 0)))
+	md.SetRenderer(renderer.NewRenderer(renderer.WithNodeRenderers(util.Prioritized(markdown.NewRenderer(markdown.WithKillercodaActions()), 1000))))
+
+	src := []byte("1. Create a directory called `evaluate-loki` for the demo environment.\n" +
+		"   Make `evaluate-loki` your current working directory:\n" +
+		"\n" +
+		"   <!-- Killercoda exec START -->\n" +
+		"\n" +
+		"   ```bash\n" +
+		"   mkdir evaluate-loki\n" +
+		"   cd evaluate-loki\n" +
+		"   ```\n" +
+		"\n" +
+		"   <!-- Killercoda exec END -->\n")
+
+	root := md.Parser().Parse(text.NewReader(src))
+	require.NoError(t, md.Renderer().Render(w, src, root))
+
+	w.Flush()
+
+	want := "1. Create a directory called `evaluate-loki` for the demo environment.\n" +
+		"   Make `evaluate-loki` your current working directory:\n" +
+		"\n" +
+		"   ```bash\n" +
+		"   mkdir evaluate-loki\n" +
+		"   cd evaluate-loki\n" +
+		"   ```{{exec}}\n"
+
+	assert.Equal(t, want, b.String())
+}
+
 func TestIgnoreTransformer_Transform(t *testing.T) {
 	b := &bytes.Buffer{}
 	w := bufio.NewWriter(b)
@@ -84,6 +119,29 @@ The Docker Compose configuration instantiates the following components, each in 
 - **Grafana Alloy** which scrapes the log lines from flog, and pushes them to Loki through the gateway.
 
 - **Grafana** which provides visualization of the log lines captured within Loki.
+`
+
+	assert.Equal(t, want, b.String())
+}
+
+func TestLinkTransformer_Transform(t *testing.T) {
+	b := &bytes.Buffer{}
+	w := bufio.NewWriter(b)
+	md := goldmark.NewMarkdown()
+	md.Parser().AddOptions(parser.WithASTTransformers(util.Prioritized(&LinkTransformer{}, 0)))
+	md.SetRenderer(renderer.NewRenderer(renderer.WithNodeRenderers(util.Prioritized(markdown.NewRenderer(), 1000))))
+
+	src := []byte(`If you want to experiment with Loki, you can run Loki locally using the Docker Compose file that ships with Loki.
+It runs Loki in a [monolithic deployment](https://grafana.com/docs/loki/<LOKI_VERSION>/get-started/deployment-modes/#monolithic-mode) mode and includes a sample application to generate logs.
+`)
+
+	root := md.Parser().Parse(text.NewReader(src))
+	require.NoError(t, md.Renderer().Render(w, src, root))
+
+	w.Flush()
+
+	want := `If you want to experiment with Loki, you can run Loki locally using the Docker Compose file that ships with Loki.
+It runs Loki in a [monolithic deployment](https://grafana.com/docs/loki/latest/get-started/deployment-modes/#monolithic-mode) mode and includes a sample application to generate logs.
 `
 
 	assert.Equal(t, want, b.String())

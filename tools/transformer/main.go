@@ -20,24 +20,45 @@ const (
 	finishFile = "finished.md"
 	indexFile  = "index.json"
 	introFile  = "intro.md"
-
-	copyStartMarker    = "<!-- Killercoda copy START -->"
-	copyEndMarker      = "<!-- Killercoda copy END -->"
-	executeStartMarker = "<!-- Killercoda execute START -->"
-	executeEndMarker   = "<!-- Killercoda execute END -->"
 )
 
-func writeIntro(data []byte) {
+func writeIntro(data []byte, renderer renderer.Renderer) {
 	md := goldmark.NewMarkdown()
 	md.Parser().AddOptions(parser.WithASTTransformers(
-		util.Prioritized(&IgnoreTransformer{}, 0),
-		util.Prioritized(&IntroTransformer{}, 1),
+		util.Prioritized(&IntroTransformer{}, 0),
+		util.Prioritized(&IgnoreTransformer{}, 1),
+		util.Prioritized(&LinkTransformer{}, 2),
+		util.Prioritized(&CopyTransformer{}, 3),
+		util.Prioritized(&ExecTransformer{}, 3),
 	))
-	md.SetRenderer(renderer.NewRenderer(renderer.WithNodeRenderers(util.Prioritized(markdown.NewRenderer(), 1000))))
+	md.SetRenderer(renderer)
 
 	root := md.Parser().Parse(text.NewReader(data))
 
 	outFile := filepath.Join(dstPath, "intro.md")
+
+	out, err := os.Create(outFile)
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Couldn't create output file: %v\n", err)
+	}
+
+	md.Renderer().Render(out, data, root)
+}
+
+func writeStepOne(data []byte, renderer renderer.Renderer) {
+	md := goldmark.NewMarkdown()
+	md.Parser().AddOptions(parser.WithASTTransformers(
+		util.Prioritized(&StepTransformer{}, 0),
+		util.Prioritized(&IgnoreTransformer{}, 1),
+		util.Prioritized(&LinkTransformer{}, 2),
+		util.Prioritized(&CopyTransformer{}, 3),
+		util.Prioritized(&ExecTransformer{}, 3),
+	))
+	md.SetRenderer(renderer)
+
+	root := md.Parser().Parse(text.NewReader(data))
+
+	outFile := filepath.Join(dstPath, "step1.md")
 
 	out, err := os.Create(outFile)
 	if err != nil {
@@ -55,5 +76,13 @@ func main() {
 		os.Exit(1)
 	}
 
-	writeIntro(data)
+	renderer := renderer.NewRenderer(
+		renderer.WithNodeRenderers(
+			util.Prioritized(
+				markdown.NewRenderer(
+					markdown.WithKillercodaActions(),
+				), 1000)))
+
+	writeIntro(data, renderer)
+	writeStepOne(data, renderer)
 }

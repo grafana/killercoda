@@ -1,8 +1,4 @@
-
-
 ## Install Loki and collecting sample logs
-
-
 
 **To install Loki locally, follow these steps:**
 
@@ -12,7 +8,7 @@
    ```bash
    mkdir evaluate-loki
    cd evaluate-loki
-   ```{{execute}}
+   ```{{exec}}
 
 1. Download `loki-config.yaml`, `alloy-local-config.yaml`, and `docker-compose.yaml`:
 
@@ -20,7 +16,7 @@
    wget https://raw.githubusercontent.com/grafana/loki/main/examples/getting-started/loki-config.yaml -O loki-config.yaml
    wget https://raw.githubusercontent.com/grafana/loki/main/examples/getting-started/alloy-local-config.yaml -O alloy-local-config.yaml
    wget https://raw.githubusercontent.com/grafana/loki/main/examples/getting-started/docker-compose.yaml -O docker-compose.yaml
-   ```{{execute}}
+   ```{{exec}}
 
 1. Deploy the sample Docker image.
 
@@ -28,8 +24,7 @@
 
    ```bash
    docker compose up -d
-   ```{{execute}}
-
+   ```{{exec}}
    You should see something similar to the following:
 
    ```bash
@@ -48,9 +43,10 @@
 
    - The read component returns `ready` when you browse to [http://localhost:3101/ready](http://localhost:3101/ready).
      The message `Query Frontend not ready: not ready: number of schedulers this worker is connected to is 0` shows until the read component is ready.
+
    - The write component returns `ready` when you browse to [http://localhost:3102/ready](http://localhost:3102/ready).
      The message `Ingester not ready: waiting for 15s after being ready` shows until the write component is ready.
 
 1. (Optional) Verify that Grafana Alloy is running.
-   - You can access the Grafana Alloy UI at [http://localhost:12345](http://localhost:12345).
 
+   - You can access the Grafana Alloy UI at [http://localhost:12345](http://localhost:12345).

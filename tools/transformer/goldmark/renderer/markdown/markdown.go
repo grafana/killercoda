@@ -61,27 +61,22 @@ func (r *Renderer) writeLines(w util.BufWriter, source []byte, n ast.Node) {
 }
 
 type Config struct {
-	Attributes bool
-	Unsafe     bool
-	Writer     Writer
+	KillercodaActions bool
 }
 
 // NewConfig returns a new Config with defaults.
 func NewConfig() Config {
 	return Config{
-		Attributes: false,
-		Unsafe:     false,
-		Writer:     DefaultWriter,
+		KillercodaActions: false,
 	}
 }
 
 // SetOption implements renderer.NodeRenderer.SetOption.
 func (c *Config) SetOption(name renderer.OptionName, value interface{}) {
 	switch name {
-	case optTextWriter:
-		c.Writer = value.(Writer)
-	case optUnsafe:
-		c.Unsafe = value.(bool)
+	case optKillercodaActions:
+		c.KillercodaActions = value.(bool)
+
 	}
 }
 
@@ -90,55 +85,33 @@ type Option interface {
 	SetMarkdownOption(c *Config)
 }
 
+const optKillercodaActions renderer.OptionName = "KillercodaActions"
+
+type withKillercodaActions struct {
+}
+
+func (o *withKillercodaActions) SetConfig(c *renderer.Config) {
+	c.Options[optKillercodaActions] = true
+}
+
+func (o *withKillercodaActions) SetMarkdownOption(c *Config) {
+	c.KillercodaActions = true
+}
+
+// WithKillercodaActions decides whether to render Killercoda actions for fenced code blocks.
+// Actions include {{exec}} and {{copy}}.
+func WithKillercodaActions() interface {
+	renderer.Option
+	Option
+} {
+	return &withKillercodaActions{}
+}
+
 type Renderer struct {
 	Config
 
 	indent          int
 	lastWrittenByte byte
-}
-
-// TextWriter is the option name for WithWriter.
-const optTextWriter renderer.OptionName = "Writer"
-
-type withWriter struct {
-	value Writer
-}
-
-func (o *withWriter) SetConfig(c *renderer.Config) {
-	c.Options[optTextWriter] = o.value
-}
-
-func (o *withWriter) SetMarkdownOption(c *Config) {
-	c.Writer = o.value
-}
-
-// WithWriter sets the renderer's output writer.
-func WithWriter(writer Writer) interface {
-	renderer.Option
-	Option
-} {
-	return &withWriter{writer}
-}
-
-// Unsafe is the option name for WithUnsafe.
-const optUnsafe renderer.OptionName = "Unsafe"
-
-type withUnsafe struct{}
-
-func (o *withUnsafe) SetConfig(c *renderer.Config) {
-	c.Options[optUnsafe] = true
-}
-
-func (o *withUnsafe) SetMarkdownOption(c *Config) {
-	c.Unsafe = true
-}
-
-// WithUnsafe renders dangerous content like raw HTML and links as it is.
-func WithUnsafe() interface {
-	renderer.Option
-	Option
-} {
-	return &withUnsafe{}
 }
 
 // NewRenderer configures a new Goldmark renderer for Markdown.

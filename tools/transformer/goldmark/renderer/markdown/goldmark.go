@@ -209,65 +209,6 @@ var ImageAttributeFilter = GlobalAttributeFilter.Extend(
 	[]byte("width"),
 )
 
-func (r *Renderer) renderImage(w util.BufWriter, source []byte, node ast.Node, entering bool) (ast.WalkStatus, error) {
-	if !entering {
-		return ast.WalkContinue, nil
-	}
-	n := node.(*ast.Image)
-	_, _ = w.WriteString("<img src=\"")
-	if r.Unsafe || !IsDangerousURL(n.Destination) {
-		_, _ = w.Write(util.EscapeHTML(util.URLEscape(n.Destination, true)))
-	}
-	_, _ = w.WriteString(`" alt="`)
-	_, _ = w.Write(nodeToHTMLText(n, source))
-	_ = w.WriteByte('"')
-	if n.Title != nil {
-		_, _ = w.WriteString(` title="`)
-		r.Writer.Write(w, n.Title)
-		_ = w.WriteByte('"')
-	}
-	if n.Attributes() != nil {
-		RenderAttributes(w, n, ImageAttributeFilter)
-	}
-	_, _ = w.WriteString(">")
-	return ast.WalkSkipChildren, nil
-}
-
-func (r *Renderer) renderRawHTML(
-	w util.BufWriter, source []byte, node ast.Node, entering bool) (ast.WalkStatus, error) {
-	if !entering {
-		return ast.WalkSkipChildren, nil
-	}
-	if r.Unsafe {
-		n := node.(*ast.RawHTML)
-		l := n.Segments.Len()
-		for i := 0; i < l; i++ {
-			segment := n.Segments.At(i)
-			_, _ = w.Write(segment.Value(source))
-		}
-		return ast.WalkSkipChildren, nil
-	}
-	_, _ = w.WriteString("<!-- raw HTML omitted -->")
-	return ast.WalkSkipChildren, nil
-}
-
-func (r *Renderer) renderString(w util.BufWriter, source []byte, node ast.Node, entering bool) (ast.WalkStatus, error) {
-	if !entering {
-		return ast.WalkContinue, nil
-	}
-	n := node.(*ast.String)
-	if n.IsCode() {
-		_, _ = w.Write(n.Value)
-	} else {
-		if n.IsRaw() {
-			r.Writer.RawWrite(w, n.Value)
-		} else {
-			r.Writer.Write(w, n.Value)
-		}
-	}
-	return ast.WalkContinue, nil
-}
-
 var dataPrefix = []byte("data-")
 
 // RenderAttributes renders given node's attributes.
