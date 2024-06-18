@@ -19,6 +19,13 @@ linters-settings:
           - github.com/yuin/goldmark/renderer/html
           - github.com/yuin/goldmark/text
           - mvdan.cc/xurls/v2
+  ireturn:
+    allow:
+      - anon
+      - error
+      - empty
+      - stdlib
+      - NodeRenderer
   tagliatelle:
     case:
       rules:
@@ -35,3 +42,5 @@ linters-settings:
     - j
     # Common name for test cases.
     - tc
+    # Common name for io.Writer.
+    - w

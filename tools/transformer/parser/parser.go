@@ -5,7 +5,6 @@ import (
 	meta "github.com/yuin/goldmark-meta"
 	"github.com/yuin/goldmark/extension"
 	"github.com/yuin/goldmark/parser"
-	goldmarkHTML "github.com/yuin/goldmark/renderer/html"
 	"mvdan.cc/xurls/v2"
 )
 
@@ -34,11 +33,6 @@ func New() parser.Parser {
 		),
 		goldmark.WithParserOptions(
 			parser.WithAutoHeadingID(),
-		),
-		goldmark.WithRendererOptions(
-			goldmarkHTML.WithHardWraps(),
-			goldmarkHTML.WithUnsafe(),
-			goldmarkHTML.WithXHTML(),
 		),
 	).Parser()
 }
