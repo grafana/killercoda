@@ -114,6 +114,10 @@ func (r *Renderer) renderListItem(w util.BufWriter, _ []byte, node ast.Node, ent
 		r.indent += indent
 	} else {
 		r.indent -= indent
+
+		if node.NextSibling() != nil {
+			r.Write(w, '\n')
+		}
 	}
 
 	return ast.WalkContinue, nil

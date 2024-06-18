@@ -29,7 +29,8 @@ func isNewline(writee any) bool {
 
 // TODO: replace with implementation of renderer.Writer interface.
 func (r *Renderer) Write(w util.BufWriter, writee any) {
-	fmt.Printf("Writing %q with indent %d, previously wrote %q\n", writee, r.indent, r.lastWrittenByte)
+	// fmt.Printf("Writing %q with indent %d, previously wrote %q\n", writee, r.indent, r.lastWrittenByte)
+
 	if r.lastWrittenByte == '\n' && !isNewline(writee) {
 		_, _ = w.WriteString(strings.Repeat(" ", r.indent))
 	}
