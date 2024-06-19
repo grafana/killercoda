@@ -289,7 +289,7 @@ func TestLinkTransformer_Transform(t *testing.T) {
 If you want to experiment with Loki, you can run Loki locally using the Docker Compose file that ships with Loki.
 It runs Loki in a [monolithic deployment](https://grafana.com/docs/loki/<LOKI_VERSION>/get-started/deployment-modes/#monolithic-mode) mode and includes a sample application to generate logs.
 
-- You can access the Grafana Alloy UI at [http://localhost:12345](http://localhost:12345).
+- You can access the Grafana Alloy UI at [http://localhost:12345/ready](http://localhost:12345/ready).
 `)
 
 	root := md.Parser().Parse(text.NewReader(src))
@@ -302,7 +302,7 @@ It runs Loki in a [monolithic deployment](https://grafana.com/docs/loki/<LOKI_VE
 If you want to experiment with Loki, you can run Loki locally using the Docker Compose file that ships with Loki.
 It runs Loki in a [monolithic deployment](https://grafana.com/docs/loki/latest/get-started/deployment-modes/#monolithic-mode) mode and includes a sample application to generate logs.
 
-- You can access the Grafana Alloy UI at [http://localhost:12345]({{TRAFFIC_HOST1_12345}}).
+- You can access the Grafana Alloy UI at [http://localhost:12345/ready]({{TRAFFIC_HOST1_12345}}/ready).
 `
 
 	assert.Equal(t, want, b.String())

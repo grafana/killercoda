@@ -352,7 +352,11 @@ func (t *LinkTransformer) Transform(root *ast.Document, _ text.Reader, _ parser.
 			}
 
 			if u.Hostname() == "localhost" {
-				node.Destination = []byte("{{TRAFFIC_HOST1_" + u.Port() + "}}")
+				destination := "{{TRAFFIC_HOST1_" + u.Port() + "}}"
+				if u.Path != "" {
+					destination += u.Path
+				}
+				node.Destination = []byte(destination)
 			} else {
 				node.Destination = []byte(u.String())
 			}
