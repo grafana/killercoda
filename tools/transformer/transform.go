@@ -334,6 +334,28 @@ func (t *IncludeTransformer) Transform(node *ast.Document, reader text.Reader, _
 	}
 }
 
+type InlineActionTransformer struct {
+	Kind string
+}
+
+// Transform implements the parser.ASTTransformer interface and adds inlineAction metadata to any fenced code blocks within between the start and end markers.
+func (t *InlineActionTransformer) Transform(node *ast.Document, _ text.Reader, _ parser.Context) {
+	err := ast.Walk(node, func(node ast.Node, entering bool) (ast.WalkStatus, error) {
+		if entering {
+			return ast.WalkContinue, nil
+		}
+
+		if node, ok := node.(*ast.CodeSpan); ok {
+			node.SetAttributeString("data-killercoda-copy", "true")
+		}
+
+		return ast.WalkContinue, nil
+	})
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error transforming AST: %v\n", err)
+	}
+}
+
 type IntroTransformer struct{}
 
 // Transform implements the parser.ASTTransformer interface and keeps only the sibling nodes within the intro start and end markers.

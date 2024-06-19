@@ -54,6 +54,11 @@ func (r *Renderer) renderCodeSpan(w util.BufWriter, source []byte, node ast.Node
 	}
 
 	r.write(w, '`')
+	if r.Config.KillercodaActions {
+		if _, ok := node.AttributeString("data-killercoda-copy"); ok {
+			r.write(w, "{{copy}}")
+		}
+	}
 
 	return ast.WalkContinue, nil
 }
