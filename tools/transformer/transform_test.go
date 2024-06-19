@@ -232,6 +232,33 @@ This quickstart assumes you are running Linux.
 	assert.Equal(t, want, b.String())
 }
 
+func TestIncludeTransformer_Transform(t *testing.T) {
+	t.Parallel()
+
+	b := &bytes.Buffer{}
+	w := bufio.NewWriter(b)
+	md := goldmark.NewMarkdown()
+	md.Parser().AddOptions(parser.WithASTTransformers(util.Prioritized(&IncludeTransformer{}, 0)))
+	md.SetRenderer(renderer.NewRenderer(renderer.WithNodeRenderers(util.Prioritized(markdown.NewRenderer(), 1000))))
+
+	src := []byte("<!-- Killercoda include START -->\n" +
+		"<!-- ```bash -->\n" +
+		"<!-- docker-compose up -d -->\n" +
+		"<!-- ```{{exec}} -->\n" +
+		"<!-- Killercoda include END -->\n")
+
+	root := md.Parser().Parse(text.NewReader(src))
+	require.NoError(t, md.Renderer().Render(w, src, root))
+
+	w.Flush()
+
+	want := "```bash\n" +
+		"docker-compose up -d\n" +
+		"```{{exec}}\n\n"
+
+	assert.Equal(t, want, b.String())
+}
+
 func TestIntroTransformer_Transform(t *testing.T) {
 	t.Parallel()
 

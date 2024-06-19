@@ -19,14 +19,16 @@ var (
 )
 
 const (
-	copyStartMarker   = "<!-- Killercoda copy START -->"
-	copyEndMarker     = "<!-- Killercoda copy END -->"
-	execStartMarker   = "<!-- Killercoda exec START -->"
-	execEndMarker     = "<!-- Killercoda exec END -->"
-	ignoreStartMarker = "<!-- Killercoda ignore START -->"
-	ignoreEndMarker   = "<!-- Killercoda ignore END -->"
-	introStartMarker  = "<!-- Killercoda intro.md START -->"
-	introEndMarker    = "<!-- Killercoda intro.md END -->"
+	copyStartMarker    = "<!-- Killercoda copy START -->"
+	copyEndMarker      = "<!-- Killercoda copy END -->"
+	execStartMarker    = "<!-- Killercoda exec START -->"
+	execEndMarker      = "<!-- Killercoda exec END -->"
+	ignoreStartMarker  = "<!-- Killercoda ignore START -->"
+	ignoreEndMarker    = "<!-- Killercoda ignore END -->"
+	includeStartMarker = "<!-- Killercoda include START -->"
+	includeEndMarker   = "<!-- Killercoda include END -->"
+	introStartMarker   = "<!-- Killercoda intro.md START -->"
+	introEndMarker     = "<!-- Killercoda intro.md END -->"
 )
 
 func isMarker(node ast.Node, source []byte, marker string) bool {
@@ -276,30 +278,53 @@ func (t *IncludeTransformer) Transform(node *ast.Document, reader text.Reader, _
 	source := reader.Source()
 
 	err := ast.Walk(node, func(node ast.Node, entering bool) (ast.WalkStatus, error) {
-		if !entering {
-			return ast.WalkContinue, nil
+		var (
+			inMarker     bool
+			toRemove     []ast.Node
+			replacements = make(map[ast.Node]ast.Node)
+		)
+
+		replacement := ast.NewParagraph()
+		for child := node.FirstChild(); child != nil; child = child.NextSibling() {
+			if isMarker(child, source, includeStartMarker) {
+				inMarker = true
+				toRemove = append(toRemove, child)
+
+				continue
+			}
+
+			if isMarker(child, source, includeEndMarker) {
+				inMarker = false
+
+				replacements[child] = replacement
+				replacement = ast.NewParagraph()
+
+				continue
+			}
+
+			if inMarker {
+				if comment, ok := child.(*ast.HTMLBlock); ok {
+					text := rawText(comment, source)
+					text = strings.TrimSpace(text)
+					text = strings.TrimPrefix(text, "<!--")
+					text = strings.TrimSuffix(text, "-->")
+					text = strings.TrimSpace(text)
+
+					str := ast.NewString([]byte(text + "\n"))
+					str.SetRaw(true)
+
+					replacement.AppendChild(replacement, str)
+					toRemove = append(toRemove, child)
+				}
+			}
 		}
 
-		if isMarker(node, source, includeStartMarker) {
-			toRemove := []ast.Node{
-				node,
-			}
+		for _, child := range toRemove {
+			node.RemoveChild(node, child)
+		}
 
-			for sibling := node.NextSibling(); ; sibling = sibling.NextSibling() {
-				if sibling == nil {
-					return ast.WalkStop, fmt.Errorf("%w: %s", errNoEndMarker, includeStartMarker)
-				}
-
-				toRemove = append(toRemove, sibling)
-
-				if isMarker(sibling, source, includeEndMarker) {
-					break
-				}
-			}
-
-			for _, node := range toRemove {
-				node.Parent().RemoveChild(node.Parent(), node)
-			}
+		for child, replacement := range replacements {
+			node.ReplaceChild(node, child, replacement)
 		}
 
 		return ast.WalkContinue, nil
