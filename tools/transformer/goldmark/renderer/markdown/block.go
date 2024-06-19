@@ -4,39 +4,71 @@ import (
 	"strings"
 
 	"github.com/yuin/goldmark/ast"
+	rendererHTML "github.com/yuin/goldmark/renderer/html"
 	"github.com/yuin/goldmark/util"
 )
+
+func (r *Renderer) renderBlockquote(w util.BufWriter, source []byte, n ast.Node, entering bool) (ast.WalkStatus, error) {
+	panic("TODO: implement")
+	if entering {
+		if n.Attributes() != nil {
+			_, _ = w.WriteString("<blockquote")
+			rendererHTML.RenderAttributes(w, n, rendererHTML.BlockquoteAttributeFilter)
+			_ = w.WriteByte('>')
+		} else {
+			_, _ = w.WriteString("<blockquote>\n")
+		}
+	} else {
+		_, _ = w.WriteString("</blockquote>\n")
+	}
+	return ast.WalkContinue, nil
+}
+
+func (r *Renderer) renderCodeBlock(w util.BufWriter, source []byte, n ast.Node, entering bool) (ast.WalkStatus, error) {
+	panic("TODO: implement")
+	if entering {
+		_, _ = w.WriteString("<pre><code>")
+		r.writeLines(w, source, n)
+	} else {
+		_, _ = w.WriteString("</code></pre>\n")
+	}
+	return ast.WalkContinue, nil
+}
+
+func (r *Renderer) renderDocument(_ util.BufWriter, _ []byte, _ ast.Node, _ bool) (ast.WalkStatus, error) {
+	return ast.WalkContinue, nil
+}
 
 func (r *Renderer) renderFencedCodeBlock(w util.BufWriter, source []byte, node ast.Node, entering bool) (ast.WalkStatus, error) {
 	n := node.(*ast.FencedCodeBlock)
 
 	if entering {
-		r.Write(w, "```")
+		r.write(w, "```")
 
 		language := n.Language(source)
 		if language != nil {
-			r.Write(w, language)
+			r.write(w, language)
 		}
 
-		r.Write(w, '\n')
+		r.write(w, '\n')
 		r.writeLines(w, source, n)
 	} else {
-		r.Write(w, "```")
+		r.write(w, "```")
 
 		if r.Config.KillercodaActions {
 			if _, ok := n.AttributeString("data-killercoda-exec"); ok {
-				r.Write(w, "{{exec}}")
+				r.write(w, "{{exec}}")
 			}
 
 			if _, ok := n.AttributeString("data-killercoda-copy"); ok {
-				r.Write(w, "{{copy}}")
+				r.write(w, "{{copy}}")
 			}
 		}
 
-		r.Write(w, '\n')
+		r.write(w, '\n')
 
 		if node.NextSibling() != nil {
-			r.Write(w, '\n')
+			r.write(w, '\n')
 		}
 	}
 
@@ -47,13 +79,13 @@ func (r *Renderer) renderHeading(w util.BufWriter, _ []byte, node ast.Node, ente
 	n := node.(*ast.Heading)
 
 	if entering {
-		r.Write(w, strings.Repeat("#", n.Level))
-		r.Write(w, ' ')
+		r.write(w, strings.Repeat("#", n.Level))
+		r.write(w, ' ')
 	} else {
-		r.Write(w, '\n')
+		r.write(w, '\n')
 
 		if node.NextSibling() != nil {
-			r.Write(w, '\n')
+			r.write(w, '\n')
 		}
 	}
 
@@ -64,14 +96,14 @@ func (r *Renderer) renderHTMLBlock(w util.BufWriter, source []byte, node ast.Nod
 	n := node.(*ast.HTMLBlock)
 
 	if entering {
-		r.Write(w, "<!-- raw HTML omitted -->\n")
+		r.write(w, "<!-- raw HTML omitted -->\n")
 	} else {
 		if n.HasClosure() {
-			r.Write(w, "<!-- raw HTML omitted -->\n")
+			r.write(w, "<!-- raw HTML omitted -->\n")
 		}
 
 		if n.NextSibling() != nil {
-			r.Write(w, '\n')
+			r.write(w, '\n')
 		}
 	}
 
@@ -81,7 +113,7 @@ func (r *Renderer) renderHTMLBlock(w util.BufWriter, source []byte, node ast.Nod
 func (r *Renderer) renderList(w util.BufWriter, _ []byte, node ast.Node, entering bool) (ast.WalkStatus, error) {
 	if !entering {
 		if node.NextSibling() != nil {
-			r.Write(w, '\n')
+			r.write(w, '\n')
 		}
 	}
 
@@ -97,13 +129,13 @@ func (r *Renderer) renderListItem(w util.BufWriter, _ []byte, node ast.Node, ent
 	}
 
 	if entering {
-		r.Write(w, marker)
+		r.write(w, marker)
 		r.indent += indent
 	} else {
 		r.indent -= indent
 
 		if node.NextSibling() != nil {
-			r.Write(w, '\n')
+			r.write(w, '\n')
 		}
 	}
 
@@ -112,10 +144,10 @@ func (r *Renderer) renderListItem(w util.BufWriter, _ []byte, node ast.Node, ent
 
 func (r *Renderer) renderParagraph(w util.BufWriter, _ []byte, node ast.Node, entering bool) (ast.WalkStatus, error) {
 	if !entering {
-		r.Write(w, '\n')
+		r.write(w, '\n')
 
 		if node.NextSibling() != nil {
-			r.Write(w, '\n')
+			r.write(w, '\n')
 		}
 	}
 
@@ -124,8 +156,21 @@ func (r *Renderer) renderParagraph(w util.BufWriter, _ []byte, node ast.Node, en
 
 func (r *Renderer) renderTextBlock(w util.BufWriter, _ []byte, n ast.Node, entering bool) (ast.WalkStatus, error) {
 	if !entering {
-		r.Write(w, '\n')
+		r.write(w, '\n')
 	}
 
+	return ast.WalkContinue, nil
+}
+
+func (r *Renderer) renderThematicBreak(w util.BufWriter, source []byte, n ast.Node, entering bool) (ast.WalkStatus, error) {
+	panic("TODO: implement")
+	if !entering {
+		return ast.WalkContinue, nil
+	}
+	_, _ = w.WriteString("<hr")
+	if n.Attributes() != nil {
+		rendererHTML.RenderAttributes(w, n, rendererHTML.ThematicAttributeFilter)
+	}
+	_, _ = w.WriteString(">\n")
 	return ast.WalkContinue, nil
 }

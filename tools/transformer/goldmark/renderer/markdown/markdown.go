@@ -1,6 +1,4 @@
 // Package renderer implements Goldmark renderer that outputs Markdown.
-// This package borrows code from https://github.com/yuin/goldmark/blob/v1.7.2/renderer/html/html.go
-// All borrowed code is in goldmark.go.
 package markdown
 
 import (
@@ -27,8 +25,36 @@ func isNewline(writee any) bool {
 	}
 }
 
+// RegisterFuncs implements NodeRenderer.RegisterFuncs .
+func (r *Renderer) RegisterFuncs(reg renderer.NodeRendererFuncRegisterer) {
+	// blocks
+
+	reg.Register(ast.KindDocument, r.renderDocument)
+	reg.Register(ast.KindHeading, r.renderHeading)
+	reg.Register(ast.KindBlockquote, r.renderBlockquote)
+	reg.Register(ast.KindCodeBlock, r.renderCodeBlock)
+	reg.Register(ast.KindFencedCodeBlock, r.renderFencedCodeBlock)
+	reg.Register(ast.KindHTMLBlock, r.renderHTMLBlock)
+	reg.Register(ast.KindList, r.renderList)
+	reg.Register(ast.KindListItem, r.renderListItem)
+	reg.Register(ast.KindParagraph, r.renderParagraph)
+	reg.Register(ast.KindTextBlock, r.renderTextBlock)
+	reg.Register(ast.KindThematicBreak, r.renderThematicBreak)
+
+	// inlines
+
+	reg.Register(ast.KindAutoLink, r.renderAutoLink)
+	reg.Register(ast.KindCodeSpan, r.renderCodeSpan)
+	reg.Register(ast.KindEmphasis, r.renderEmphasis)
+	reg.Register(ast.KindImage, r.renderImage)
+	reg.Register(ast.KindLink, r.renderLink)
+	reg.Register(ast.KindRawHTML, r.renderRawHTML)
+	reg.Register(ast.KindText, r.renderText)
+	reg.Register(ast.KindString, r.renderString)
+}
+
 // TODO: replace with implementation of renderer.Writer interface.
-func (r *Renderer) Write(w util.BufWriter, writee any) {
+func (r *Renderer) write(w util.BufWriter, writee any) {
 	// fmt.Printf("Writing %q with indent %d, previously wrote %q\n", writee, r.indent, r.lastWrittenByte)
 
 	if r.lastWrittenByte == '\n' && !isNewline(writee) {
@@ -63,7 +89,7 @@ func (r *Renderer) Write(w util.BufWriter, writee any) {
 func (r *Renderer) writeLines(w util.BufWriter, source []byte, n ast.Node) {
 	for i := 0; i < n.Lines().Len(); i++ {
 		line := n.Lines().At(i)
-		r.Write(w, line.Value(source))
+		r.write(w, line.Value(source))
 	}
 }
 

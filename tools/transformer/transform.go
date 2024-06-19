@@ -121,6 +121,32 @@ func (t *ActionTransformer) Transform(node *ast.Document, reader text.Reader, _ 
 	}
 }
 
+type AdmonitionTransformer struct{}
+
+// Transform implements the parser.ASTTransformer interface and replaces all admonition shortcodes with blockquotes.
+func (t *AdmonitionTransformer) Transform(node *ast.Document, reader text.Reader, _ parser.Context) {
+	source := reader.Source()
+
+	err := ast.Walk(node, func(node ast.Node, entering bool) (ast.WalkStatus, error) {
+		if !entering {
+			return ast.WalkContinue, nil
+		}
+
+		if paragraph, ok := node.(*ast.Paragraph); ok {
+			raw := strings.TrimSpace(rawText(paragraph, source))
+
+			if strings.HasPrefix(raw, "{{<") && strings.HasSuffix(raw, ">}}") && strings.Contains(raw, "admonition") {
+				panic("TODO: implement")
+			}
+		}
+
+		return ast.WalkContinue, nil
+	})
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error transforming AST: %v\n", err)
+	}
+}
+
 type FigureTransformer struct{}
 
 // Transform implements the parser.ASTTransformer interface and replaces all figure shortcodes with image elements.

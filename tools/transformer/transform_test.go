@@ -70,6 +70,63 @@ func TestActionTransformer_Transform(t *testing.T) {
 	})
 }
 
+func TestAdmonitionTransformer_Transform(t *testing.T) {
+	t.Parallel()
+
+	t.Run("with {{< syntax in a single paragraph", func(t *testing.T) {
+		t.Parallel()
+
+		b := &bytes.Buffer{}
+		w := bufio.NewWriter(b)
+		md := goldmark.NewMarkdown()
+		md.Parser().AddOptions(parser.WithASTTransformers(util.Prioritized(&AdmonitionTransformer{}, 0)))
+		md.SetRenderer(renderer.NewRenderer(renderer.WithNodeRenderers(util.Prioritized(markdown.NewRenderer(), 1000))))
+
+		src := []byte(`{{< admonition type="note" >}}
+This is a note.
+{{< /admonition >}}
+`)
+
+		root := md.Parser().Parse(text.NewReader(src))
+		require.NoError(t, md.Renderer().Render(w, src, root))
+
+		w.Flush()
+
+		want := `> **Note:**
+> This is a note.
+`
+
+		assert.Equal(t, want, b.String())
+	})
+	t.Run("with {{< syntax over multiple paragraphs", func(t *testing.T) {
+		t.Parallel()
+
+		b := &bytes.Buffer{}
+		w := bufio.NewWriter(b)
+		md := goldmark.NewMarkdown()
+		md.Parser().AddOptions(parser.WithASTTransformers(util.Prioritized(&AdmonitionTransformer{}, 0)))
+		md.SetRenderer(renderer.NewRenderer(renderer.WithNodeRenderers(util.Prioritized(markdown.NewRenderer(), 1000))))
+
+		src := []byte(`{{< admonition type="note" >}}
+
+This is a note.
+
+{{< /admonition >}}
+`)
+
+		root := md.Parser().Parse(text.NewReader(src))
+		require.NoError(t, md.Renderer().Render(w, src, root))
+
+		w.Flush()
+
+		want := `> **Note:**
+> This is a note.
+`
+
+		assert.Equal(t, want, b.String())
+	})
+}
+
 func TestFigureTransformer_Transform(t *testing.T) {
 	t.Parallel()
 
