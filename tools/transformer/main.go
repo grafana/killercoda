@@ -17,14 +17,11 @@ import (
 const (
 	srcPath = "/Users/jdb/ext/grafana/loki/docs/sources/get-started/quick-start.md"
 	dstPath = "/Users/jdb/ext/grafana/killercoda/loki/loki-quickstart"
-
-	finishFile = "finished.md"
-	indexFile  = "index.json"
-	introFile  = "intro.md"
 )
 
 func writeIntro(data []byte, renderer renderer.Renderer) {
 	md := goldmark.NewMarkdown()
+	//nolint:gomnd // These priority values are relative to each other and are not magic.
 	md.Parser().AddOptions(parser.WithASTTransformers(
 		util.Prioritized(&IntroTransformer{}, 0),
 		util.Prioritized(&IgnoreTransformer{}, 1),
@@ -45,11 +42,14 @@ func writeIntro(data []byte, renderer renderer.Renderer) {
 		fmt.Fprintf(os.Stderr, "Couldn't create output file: %v\n", err)
 	}
 
-	md.Renderer().Render(out, data, root)
+	if err := md.Renderer().Render(out, data, root); err != nil {
+		fmt.Fprintf(os.Stderr, "Couldn't render output file: %v\n", err)
+	}
 }
 
 func writeStep(n int, data []byte, renderer renderer.Renderer) {
 	md := goldmark.NewMarkdown()
+	//nolint:gomnd // These priority values are relative to each other and are not magic.
 	md.Parser().AddOptions(parser.WithASTTransformers(
 		util.Prioritized(&StepTransformer{Step: n}, 0),
 		util.Prioritized(&IgnoreTransformer{}, 1),
@@ -67,10 +67,12 @@ func writeStep(n int, data []byte, renderer renderer.Renderer) {
 
 	out, err := os.Create(outFile)
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "Couldn't create output file: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Couldn't create step file: %v\n", err)
 	}
 
-	md.Renderer().Render(out, data, root)
+	if err := md.Renderer().Render(out, data, root); err != nil {
+		fmt.Fprintf(os.Stderr, "Couldn't render step file: %v\n", err)
+	}
 }
 
 func main() {
@@ -81,6 +83,7 @@ func main() {
 		os.Exit(1)
 	}
 
+	//nolint:gomnd // These priority values are relative to each other and are not magic.
 	renderer := renderer.NewRenderer(
 		renderer.WithNodeRenderers(
 			util.Prioritized(

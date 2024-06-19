@@ -65,6 +65,7 @@ func (t *ActionTransformer) Transform(node *ast.Document, reader text.Reader, _ 
 		startMarker string
 		endMarker   string
 	)
+
 	switch t.Kind {
 	case "copy":
 		startMarker = copyStartMarker
@@ -84,34 +85,26 @@ func (t *ActionTransformer) Transform(node *ast.Document, reader text.Reader, _ 
 			toRemove []ast.Node
 		)
 
-		if isMarker(node, source, startMarker) {
-			inMarker = true
-		}
-
-		for sibling := node.NextSibling(); sibling != nil; sibling = sibling.NextSibling() {
-			if sibling == nil {
-				return ast.WalkStop, fmt.Errorf("%w: %s", errNoEndMarker, startMarker)
+		for child := node.FirstChild(); child != nil; child = child.NextSibling() {
+			if isMarker(child, source, startMarker) {
+				inMarker = true
+				toRemove = append(toRemove, child)
 			}
 
 			if inMarker {
-				if fenced, ok := sibling.(*ast.FencedCodeBlock); ok {
+				if fenced, ok := child.(*ast.FencedCodeBlock); ok {
 					fenced.SetAttributeString("data-killercoda-"+t.Kind, "true")
 				}
 			}
 
-			if isMarker(sibling, source, endMarker) {
+			if isMarker(child, source, endMarker) {
 				inMarker = false
-				toRemove = append(toRemove, sibling)
-			}
-
-			if isMarker(sibling, source, startMarker) {
-				inMarker = true
-				toRemove = append(toRemove, sibling)
+				toRemove = append(toRemove, child)
 			}
 		}
 
-		for _, node := range toRemove {
-			node.Parent().RemoveChild(node.Parent(), node)
+		for _, child := range toRemove {
+			node.RemoveChild(node, child)
 		}
 
 		return ast.WalkContinue, nil
@@ -147,6 +140,34 @@ func (t *AdmonitionTransformer) Transform(node *ast.Document, reader text.Reader
 	}
 }
 
+func isFigureShortcode(s string) bool {
+	return strings.HasPrefix(s, "{{<") && strings.HasSuffix(s, ">}}") && strings.Contains(s, "figure")
+}
+
+func imageFromFigure(args map[string]string) *ast.Paragraph {
+	var altText string
+
+	if caption, ok := args["caption"]; ok {
+		altText = caption
+	}
+
+	if alt, ok := args["alt"]; ok {
+		altText = alt
+	}
+
+	text := ast.NewString([]byte(altText))
+	text.SetRaw(true)
+
+	link := ast.NewLink()
+	link.Destination = []byte(args["src"])
+	link.AppendChild(link, text)
+
+	paragraph := ast.NewParagraph()
+	paragraph.AppendChild(paragraph, ast.NewImage(link))
+
+	return paragraph
+}
+
 type FigureTransformer struct{}
 
 // Transform implements the parser.ASTTransformer interface and replaces all figure shortcodes with image elements.
@@ -161,31 +182,15 @@ func (t *FigureTransformer) Transform(node *ast.Document, reader text.Reader, _ 
 		if paragraph, ok := node.(*ast.Paragraph); ok {
 			raw := strings.TrimSpace(rawText(paragraph, source))
 
-			if strings.HasPrefix(raw, "{{<") && strings.HasSuffix(raw, ">}}") && strings.Contains(raw, "figure") {
+			if isFigureShortcode(raw) {
 				args := make(map[string]string)
 				for _, match := range kvPairRegexp.FindAllStringSubmatch(raw, -1) {
 					args[match[1]] = match[2]
 				}
 
-				var altText string
-				if caption, ok := args["caption"]; ok {
-					altText = caption
-				}
-				if alt, ok := args["alt"]; ok {
-					altText = alt
-				}
+				replacement := imageFromFigure(args)
 
-				text := ast.NewString([]byte(altText))
-				text.SetRaw(true)
-
-				link := ast.NewLink()
-				link.Destination = []byte(args["src"])
-				link.AppendChild(link, text)
-
-				paragraph := ast.NewParagraph()
-				paragraph.AppendChild(paragraph, ast.NewImage(link))
-
-				node.Parent().ReplaceChild(node.Parent(), node, paragraph)
+				node.Parent().ReplaceChild(node.Parent(), node, replacement)
 			}
 		}
 
@@ -272,7 +277,7 @@ type IntroTransformer struct{}
 // Transform implements the parser.ASTTransformer interface and keeps only the sibling nodes within the intro start and end markers.
 // It removes all other nodes resulting in a document that only contains the content between the markers.
 // It removes the markers themselves.
-func (t *IntroTransformer) Transform(root *ast.Document, reader text.Reader, pc parser.Context) {
+func (t *IntroTransformer) Transform(root *ast.Document, reader text.Reader, _ parser.Context) {
 	source := reader.Source()
 
 	err := ast.Walk(root, func(node ast.Node, entering bool) (ast.WalkStatus, error) {
