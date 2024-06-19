@@ -42,10 +42,10 @@
 
 1. (Optional) Verify that the Loki cluster is up and running.
 
-   - The read component returns `ready` when you browse to [http://localhost:3101/ready]({{TRAFFIC_HOST1_3101}}).
+   - The read component returns `ready` when you browse to [http://localhost:3101/ready]({{TRAFFIC_HOST1_3101}}/ready).
      The message `Query Frontend not ready: not ready: number of schedulers this worker is connected to is 0` shows until the read component is ready.
 
-   - The write component returns `ready` when you browse to [http://localhost:3102/ready]({{TRAFFIC_HOST1_3102}}).
+   - The write component returns `ready` when you browse to [http://localhost:3102/ready]({{TRAFFIC_HOST1_3102}}/ready).
      The message `Ingester not ready: waiting for 15s after being ready` shows until the write component is ready.
 
 1. (Optional) Verify that Grafana Alloy is running.
