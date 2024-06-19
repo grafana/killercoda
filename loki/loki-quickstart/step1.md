@@ -24,7 +24,7 @@
 
    ```bash
    docker-compose up -d
-   ```
+   ```{{exec}}
 
 
    You should see something similar to the following:
