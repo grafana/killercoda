@@ -41,8 +41,8 @@ You can view your logs using the command line interface, [LogCLI](https://grafan
 
    1. View all the log lines which have the container label `evaluate-loki-flog-1`:
 
-      ```
-      {container="evaluate-loki-flog-1"}
+      ```bash
+         {container="evaluate-loki-flog-1"}
       ```{{copy}}
       
       In Loki, this is a log stream.
@@ -55,13 +55,13 @@ You can view your logs using the command line interface, [LogCLI](https://grafan
    1. To view all the log lines which have the container label `evaluate-loki-grafana-1`:
 
       ```bash
-      {container="evaluate-loki-grafana-1"}
+         {container="evaluate-loki-grafana-1"}
       ```{{copy}}
 
    1. Find all the log lines in the `{container="evaluate-loki-flog-1}` stream that contain the string `status`:
 
       ```bash
-      {container="evaluate-loki-flog-1"} |= "status"
+         {container="evaluate-loki-flog-1"} |= "status"
       ```{{copy}}
 
    1. Find all the log lines in the `{container="evaluate-loki-flog-1}` stream where the JSON field `status` has the value `404`:
