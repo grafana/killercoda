@@ -15,39 +15,61 @@ import (
 	"github.com/yuin/goldmark/util"
 )
 
-func TestExecTransformer_Transform(t *testing.T) {
-	b := &bytes.Buffer{}
-	w := bufio.NewWriter(b)
-	md := goldmark.NewMarkdown()
-	md.Parser().AddOptions(parser.WithASTTransformers(util.Prioritized(&ExecTransformer{}, 0)))
-	md.SetRenderer(renderer.NewRenderer(renderer.WithNodeRenderers(util.Prioritized(markdown.NewRenderer(markdown.WithKillercodaActions()), 1000))))
+func TestActionTransformer_Transform(t *testing.T) {
+	t.Parallel()
 
-	src := []byte("1. Create a directory called `evaluate-loki` for the demo environment.\n" +
-		"   Make `evaluate-loki` your current working directory:\n" +
-		"\n" +
-		"   <!-- Killercoda exec START -->\n" +
-		"\n" +
-		"   ```bash\n" +
-		"   mkdir evaluate-loki\n" +
-		"   cd evaluate-loki\n" +
-		"   ```\n" +
-		"\n" +
-		"   <!-- Killercoda exec END -->\n")
+	t.Run("copy", func(t *testing.T) {
+		t.Parallel()
 
-	root := md.Parser().Parse(text.NewReader(src))
-	require.NoError(t, md.Renderer().Render(w, src, root))
+		b := &bytes.Buffer{}
+		w := bufio.NewWriter(b)
+		md := goldmark.NewMarkdown()
+		md.Parser().AddOptions(parser.WithASTTransformers(util.Prioritized(&ActionTransformer{
+			Kind: "copy",
+		}, 0)))
+		md.SetRenderer(renderer.NewRenderer(renderer.WithNodeRenderers(util.Prioritized(markdown.NewRenderer(markdown.WithKillercodaActions()), 1000))))
 
-	w.Flush()
+		src := []byte("1. Create a directory called `evaluate-loki` for the demo environment.\n" +
+			"   Make `evaluate-loki` your current working directory:\n" +
+			"\n" +
+			"   <!-- Killercoda copy START -->\n" +
+			"\n" +
+			"   ```bash\n" +
+			"   mkdir evaluate-loki\n" +
+			"   cd evaluate-loki\n" +
+			"   ```\n" +
+			"\n" +
+			"   <!-- Killercoda copy END -->\n" +
+			"\n" +
+			"   <!-- Killercoda copy START -->\n" +
+			"\n" +
+			"   ```bash\n" +
+			"   mkdir evaluate-loki\n" +
+			"   cd evaluate-loki\n" +
+			"   ```\n" +
+			"\n" +
+			"   <!-- Killercoda copy END -->\n")
 
-	want := "1. Create a directory called `evaluate-loki` for the demo environment.\n" +
-		"   Make `evaluate-loki` your current working directory:\n" +
-		"\n" +
-		"   ```bash\n" +
-		"   mkdir evaluate-loki\n" +
-		"   cd evaluate-loki\n" +
-		"   ```{{exec}}\n"
+		root := md.Parser().Parse(text.NewReader(src))
+		require.NoError(t, md.Renderer().Render(w, src, root))
 
-	assert.Equal(t, want, b.String())
+		w.Flush()
+
+		want := "1. Create a directory called `evaluate-loki` for the demo environment.\n" +
+			"   Make `evaluate-loki` your current working directory:\n" +
+			"\n" +
+			"   ```bash\n" +
+			"   mkdir evaluate-loki\n" +
+			"   cd evaluate-loki\n" +
+			"   ```{{copy}}\n" +
+			"\n" +
+			"   ```bash\n" +
+			"   mkdir evaluate-loki\n" +
+			"   cd evaluate-loki\n" +
+			"   ```{{copy}}\n"
+
+		assert.Equal(t, want, b.String())
+	})
 }
 
 func TestIgnoreTransformer_Transform(t *testing.T) {

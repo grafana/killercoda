@@ -34,6 +34,10 @@ func (r *Renderer) renderFencedCodeBlock(w util.BufWriter, source []byte, node a
 		}
 
 		r.Write(w, '\n')
+
+		if node.NextSibling() != nil {
+			r.Write(w, '\n')
+		}
 	}
 
 	return ast.WalkContinue, nil

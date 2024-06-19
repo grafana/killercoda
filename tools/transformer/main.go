@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"os"
 	"path/filepath"
+	"regexp"
 
 	"github.com/grafana/killercoda/tools/transformer/goldmark"
 	"github.com/grafana/killercoda/tools/transformer/goldmark/renderer/markdown"
@@ -28,8 +29,8 @@ func writeIntro(data []byte, renderer renderer.Renderer) {
 		util.Prioritized(&IntroTransformer{}, 0),
 		util.Prioritized(&IgnoreTransformer{}, 1),
 		util.Prioritized(&LinkTransformer{}, 2),
-		util.Prioritized(&CopyTransformer{}, 3),
-		util.Prioritized(&ExecTransformer{}, 3),
+		util.Prioritized(&ActionTransformer{Kind: "copy"}, 3),
+		util.Prioritized(&ActionTransformer{Kind: "exec"}, 3),
 	))
 	md.SetRenderer(renderer)
 
@@ -45,20 +46,22 @@ func writeIntro(data []byte, renderer renderer.Renderer) {
 	md.Renderer().Render(out, data, root)
 }
 
-func writeStepOne(data []byte, renderer renderer.Renderer) {
+func writeStep(n int, data []byte, renderer renderer.Renderer) {
 	md := goldmark.NewMarkdown()
 	md.Parser().AddOptions(parser.WithASTTransformers(
-		util.Prioritized(&StepTransformer{}, 0),
+		util.Prioritized(&StepTransformer{
+			Step: n,
+		}, 0),
 		util.Prioritized(&IgnoreTransformer{}, 1),
 		util.Prioritized(&LinkTransformer{}, 2),
-		util.Prioritized(&CopyTransformer{}, 3),
-		util.Prioritized(&ExecTransformer{}, 3),
+		util.Prioritized(&ActionTransformer{Kind: "copy"}, 3),
+		util.Prioritized(&ActionTransformer{Kind: "exec"}, 3),
 	))
 	md.SetRenderer(renderer)
 
 	root := md.Parser().Parse(text.NewReader(data))
 
-	outFile := filepath.Join(dstPath, "step1.md")
+	outFile := filepath.Join(dstPath, fmt.Sprintf("step%d.md", n))
 
 	out, err := os.Create(outFile)
 	if err != nil {
@@ -84,5 +87,10 @@ func main() {
 				), 1000)))
 
 	writeIntro(data, renderer)
-	writeStepOne(data, renderer)
+
+	for i := 1; i <= 5; i++ {
+		if regexp.MustCompile(fmt.Sprintf(`<!-- Killercoda step%d.md START -->`, i)).Match(data) {
+			writeStep(i, data, renderer)
+		}
+	}
 }
