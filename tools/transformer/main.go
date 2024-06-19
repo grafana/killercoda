@@ -28,9 +28,10 @@ func writeIntro(data []byte, renderer renderer.Renderer) {
 	md.Parser().AddOptions(parser.WithASTTransformers(
 		util.Prioritized(&IntroTransformer{}, 0),
 		util.Prioritized(&IgnoreTransformer{}, 1),
-		util.Prioritized(&LinkTransformer{}, 2),
+		util.Prioritized(&FigureTransformer{}, 2),
 		util.Prioritized(&ActionTransformer{Kind: "copy"}, 3),
 		util.Prioritized(&ActionTransformer{Kind: "exec"}, 3),
+		util.Prioritized(&LinkTransformer{}, 4),
 	))
 	md.SetRenderer(renderer)
 
@@ -53,9 +54,10 @@ func writeStep(n int, data []byte, renderer renderer.Renderer) {
 			Step: n,
 		}, 0),
 		util.Prioritized(&IgnoreTransformer{}, 1),
-		util.Prioritized(&LinkTransformer{}, 2),
+		util.Prioritized(&FigureTransformer{}, 2),
 		util.Prioritized(&ActionTransformer{Kind: "copy"}, 3),
 		util.Prioritized(&ActionTransformer{Kind: "exec"}, 3),
+		util.Prioritized(&LinkTransformer{}, 4),
 	))
 	md.SetRenderer(renderer)
 

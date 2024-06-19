@@ -11,7 +11,7 @@ You can view your logs using the command line interface, [LogCLI](https://grafan
 
    The Grafana instance in this demonstration has a Loki [data source](https://grafana.com/docs/grafana/latest/datasources/loki/) already configured.
 
-   {{< figure src="/media/docs/loki/grafana-query-builder-v2.png" caption=“Grafana Explore” alt=“Grafana Explore”>}}
+   ![Grafana Explore](https://grafana.com/media/docs/loki/grafana-query-builder-v2.png)
 
 1. From the Grafana main menu, click the **Explore** icon (1) to open the Explore tab.
 

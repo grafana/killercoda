@@ -15,6 +15,7 @@ import (
 var (
 	errNoEndMarker            = fmt.Errorf("no matching end marker found for start marker")
 	versionSubstitutionRegexp = regexp.MustCompile(`<.+VERSION>`)
+	kvPairRegexp              = regexp.MustCompile(`([a-zA-Z_]+)=(?:"(.*?[^\\])"|([^ ].+?))`)
 )
 
 const (
@@ -30,16 +31,26 @@ const (
 
 func isMarker(node ast.Node, source []byte, marker string) bool {
 	if node, ok := node.(*ast.HTMLBlock); ok {
-		l := node.Lines().Len()
-		for i := 0; i < l; i++ {
-			line := node.Lines().At(i)
-			if strings.TrimSpace(string(line.Value(source))) == marker {
-				return true
-			}
+		raw := rawText(node, source)
+		if strings.TrimSpace(raw) == marker {
+			return true
 		}
 	}
 
 	return false
+}
+
+func rawText(node ast.Node, source []byte) string {
+	builder := &strings.Builder{}
+
+	if node.Type() == ast.TypeBlock {
+		for i := 0; i < node.Lines().Len(); i++ {
+			line := node.Lines().At(i)
+			builder.Write(line.Value(source))
+		}
+	}
+
+	return builder.String()
 }
 
 type ActionTransformer struct {
@@ -101,6 +112,55 @@ func (t *ActionTransformer) Transform(node *ast.Document, reader text.Reader, _ 
 
 		for _, node := range toRemove {
 			node.Parent().RemoveChild(node.Parent(), node)
+		}
+
+		return ast.WalkContinue, nil
+	})
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error transforming AST: %v\n", err)
+	}
+}
+
+type FigureTransformer struct{}
+
+// Transform implements the parser.ASTTransformer interface and replaces all figure shortcodes with image elements.
+func (t *FigureTransformer) Transform(node *ast.Document, reader text.Reader, _ parser.Context) {
+	source := reader.Source()
+
+	err := ast.Walk(node, func(node ast.Node, entering bool) (ast.WalkStatus, error) {
+		if !entering {
+			return ast.WalkContinue, nil
+		}
+
+		if paragraph, ok := node.(*ast.Paragraph); ok {
+			raw := strings.TrimSpace(rawText(paragraph, source))
+
+			if strings.HasPrefix(raw, "{{<") && strings.HasSuffix(raw, ">}}") && strings.Contains(raw, "figure") {
+				args := make(map[string]string)
+				for _, match := range kvPairRegexp.FindAllStringSubmatch(raw, -1) {
+					args[match[1]] = match[2]
+				}
+
+				var altText string
+				if caption, ok := args["caption"]; ok {
+					altText = caption
+				}
+				if alt, ok := args["alt"]; ok {
+					altText = alt
+				}
+
+				text := ast.NewString([]byte(altText))
+				text.SetRaw(true)
+
+				link := ast.NewLink()
+				link.Destination = []byte(args["src"])
+				link.AppendChild(link, text)
+
+				paragraph := ast.NewParagraph()
+				paragraph.AppendChild(paragraph, ast.NewImage(link))
+
+				node.Parent().ReplaceChild(node.Parent(), node, paragraph)
+			}
 		}
 
 		return ast.WalkContinue, nil
@@ -197,16 +257,29 @@ func (t *IntroTransformer) Transform(root *ast.Document, reader text.Reader, pc 
 type LinkTransformer struct{}
 
 // Transform implements the parser.ASTTransformer interface and replaces version substitution syntax (<SOMETHING_VERSION>) with 'latest' in links.
-func (t *LinkTransformer) Transform(root *ast.Document, reader text.Reader, pc parser.Context) {
+func (t *LinkTransformer) Transform(root *ast.Document, _ text.Reader, _ parser.Context) {
 	err := ast.Walk(root, func(node ast.Node, entering bool) (ast.WalkStatus, error) {
 		if !entering {
 			return ast.WalkContinue, nil
 		}
 
-		if link, ok := node.(*ast.Link); ok {
-			link.Destination = versionSubstitutionRegexp.ReplaceAll(link.Destination, []byte("latest"))
+		switch node := node.(type) {
+		case *ast.Image:
+			u, err := url.Parse(string(node.Destination))
+			if err != nil {
+				return ast.WalkStop, fmt.Errorf("failed to parse URL: %w", err)
+			}
 
-			u, err := url.Parse(string(link.Destination))
+			if u.Host == "" && u.Scheme == "" {
+				u.Scheme = "https"
+				u.Host = "grafana.com"
+			}
+
+			node.Destination = []byte(u.String())
+		case *ast.Link:
+			node.Destination = versionSubstitutionRegexp.ReplaceAll(node.Destination, []byte("latest"))
+
+			u, err := url.Parse(string(node.Destination))
 			if err != nil {
 				return ast.WalkStop, fmt.Errorf("failed to parse URL: %w", err)
 			}
@@ -217,9 +290,9 @@ func (t *LinkTransformer) Transform(root *ast.Document, reader text.Reader, pc p
 			}
 
 			if u.Hostname() == "localhost" {
-				link.Destination = []byte("{{TRAFFIC_HOST1_" + u.Port() + "}}")
+				node.Destination = []byte("{{TRAFFIC_HOST1_" + u.Port() + "}}")
 			} else {
-				link.Destination = []byte(u.String())
+				node.Destination = []byte(u.String())
 			}
 		}
 

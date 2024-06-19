@@ -21,4 +21,4 @@ The Docker Compose configuration instantiates the following components, each in 
 
 - **Grafana** which provides visualization of the log lines captured within Loki.
 
-{{< figure max-width=“75%” src="/media/docs/loki/get-started-flog-v3.png" caption=“Getting started sample application” alt=“Getting started sample application”>}}
+![Getting started sample application](https://grafana.com/media/docs/loki/get-started-flog-v3.png)

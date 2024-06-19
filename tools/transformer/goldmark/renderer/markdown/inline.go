@@ -50,28 +50,23 @@ func (r *Renderer) renderEmphasis(w util.BufWriter, source []byte, node ast.Node
 }
 
 func (r *Renderer) renderImage(w util.BufWriter, source []byte, node ast.Node, entering bool) (ast.WalkStatus, error) {
-	panic("TODO: implement")
-	if !entering {
-		return ast.WalkContinue, nil
+	if entering {
+		r.Write(w, "![")
+	} else {
+		n := node.(*ast.Image)
+
+		r.Write(w, "](")
+		r.Write(w, n.Destination)
+
+		if n.Title != nil {
+			r.Write(w, " \"")
+			r.Write(w, n.Title)
+			r.Write(w, "\"")
+		}
+		r.Write(w, ')')
 	}
-	n := node.(*ast.Image)
-	_, _ = w.WriteString("<img src=\"")
-	if !IsDangerousURL(n.Destination) {
-		_, _ = w.Write(util.EscapeHTML(util.URLEscape(n.Destination, true)))
-	}
-	_, _ = w.WriteString(`" alt="`)
-	_, _ = w.Write(nodeToHTMLText(n, source))
-	_ = w.WriteByte('"')
-	if n.Title != nil {
-		_, _ = w.WriteString(` title="`)
-		r.Write(w, n.Title)
-		_ = w.WriteByte('"')
-	}
-	if n.Attributes() != nil {
-		RenderAttributes(w, n, ImageAttributeFilter)
-	}
-	_, _ = w.WriteString(">")
-	return ast.WalkSkipChildren, nil
+
+	return ast.WalkContinue, nil
 }
 
 func (r *Renderer) renderLink(w util.BufWriter, _ []byte, node ast.Node, entering bool) (ast.WalkStatus, error) {

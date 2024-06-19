@@ -43,9 +43,16 @@ func (r *Renderer) Write(w util.BufWriter, writee any) {
 		_ = w.WriteByte(byte(writee))
 		r.lastWrittenByte = byte(writee)
 	case string:
+		if len(writee) == 0 {
+			return
+		}
+
 		_, _ = w.WriteString(writee)
 		r.lastWrittenByte = writee[len(writee)-1]
 	case []uint8:
+		if len(writee) == 0 {
+			return
+		}
 		_, _ = w.Write(writee)
 		r.lastWrittenByte = writee[len(writee)-1]
 	default:

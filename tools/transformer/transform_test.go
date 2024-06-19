@@ -24,9 +24,7 @@ func TestActionTransformer_Transform(t *testing.T) {
 		b := &bytes.Buffer{}
 		w := bufio.NewWriter(b)
 		md := goldmark.NewMarkdown()
-		md.Parser().AddOptions(parser.WithASTTransformers(util.Prioritized(&ActionTransformer{
-			Kind: "copy",
-		}, 0)))
+		md.Parser().AddOptions(parser.WithASTTransformers(util.Prioritized(&ActionTransformer{Kind: "copy"}, 0)))
 		md.SetRenderer(renderer.NewRenderer(renderer.WithNodeRenderers(util.Prioritized(markdown.NewRenderer(markdown.WithKillercodaActions()), 1000))))
 
 		src := []byte("1. Create a directory called `evaluate-loki` for the demo environment.\n" +
@@ -72,7 +70,76 @@ func TestActionTransformer_Transform(t *testing.T) {
 	})
 }
 
+func TestFigureTransformer_Transform(t *testing.T) {
+	t.Parallel()
+
+	t.Run("with alt argument", func(t *testing.T) {
+		t.Parallel()
+
+		b := &bytes.Buffer{}
+		w := bufio.NewWriter(b)
+		md := goldmark.NewMarkdown()
+		md.Parser().AddOptions(parser.WithASTTransformers(util.Prioritized(&FigureTransformer{}, 0)))
+		md.SetRenderer(renderer.NewRenderer(renderer.WithNodeRenderers(util.Prioritized(markdown.NewRenderer(), 1000))))
+
+		src := []byte("{{< figure src=\"/media/docs/loki/grafana-query-builder-v2.png\" caption=\"Grafana Explore\" alt=\"Grafana Explore\" >}}\n")
+
+		root := md.Parser().Parse(text.NewReader(src))
+		require.NoError(t, md.Renderer().Render(w, src, root))
+
+		w.Flush()
+
+		want := "![Grafana Explore](/media/docs/loki/grafana-query-builder-v2.png)\n"
+
+		assert.Equal(t, want, b.String())
+	})
+
+	t.Run("with caption instead of alt", func(t *testing.T) {
+		t.Parallel()
+
+		b := &bytes.Buffer{}
+		w := bufio.NewWriter(b)
+		md := goldmark.NewMarkdown()
+		md.Parser().AddOptions(parser.WithASTTransformers(util.Prioritized(&FigureTransformer{}, 0)))
+		md.SetRenderer(renderer.NewRenderer(renderer.WithNodeRenderers(util.Prioritized(markdown.NewRenderer(), 1000))))
+
+		src := []byte("{{< figure src=\"/media/docs/loki/grafana-query-builder-v2.png\" caption=\"Grafana Explore\" >}}\n")
+
+		root := md.Parser().Parse(text.NewReader(src))
+		require.NoError(t, md.Renderer().Render(w, src, root))
+
+		w.Flush()
+
+		want := "![Grafana Explore](/media/docs/loki/grafana-query-builder-v2.png)\n"
+
+		assert.Equal(t, want, b.String())
+	})
+
+	t.Run("no alt", func(t *testing.T) {
+		t.Parallel()
+
+		b := &bytes.Buffer{}
+		w := bufio.NewWriter(b)
+		md := goldmark.NewMarkdown()
+		md.Parser().AddOptions(parser.WithASTTransformers(util.Prioritized(&FigureTransformer{}, 0)))
+		md.SetRenderer(renderer.NewRenderer(renderer.WithNodeRenderers(util.Prioritized(markdown.NewRenderer(), 1000))))
+
+		src := []byte("{{< figure src=\"/media/docs/loki/grafana-query-builder-v2.png\" >}}\n")
+
+		root := md.Parser().Parse(text.NewReader(src))
+		require.NoError(t, md.Renderer().Render(w, src, root))
+
+		w.Flush()
+
+		want := "![](/media/docs/loki/grafana-query-builder-v2.png)\n"
+
+		assert.Equal(t, want, b.String())
+	})
+}
+
 func TestIgnoreTransformer_Transform(t *testing.T) {
+	t.Parallel()
+
 	b := &bytes.Buffer{}
 	w := bufio.NewWriter(b)
 	md := goldmark.NewMarkdown()
@@ -106,6 +173,8 @@ This quickstart assumes you are running Linux.
 }
 
 func TestIntroTransformer_Transform(t *testing.T) {
+	t.Parallel()
+
 	b := &bytes.Buffer{}
 	w := bufio.NewWriter(b)
 	md := goldmark.NewMarkdown()
@@ -147,6 +216,8 @@ The Docker Compose configuration instantiates the following components, each in 
 }
 
 func TestLinkTransformer_Transform(t *testing.T) {
+	t.Parallel()
+
 	b := &bytes.Buffer{}
 	w := bufio.NewWriter(b)
 	md := goldmark.NewMarkdown()
