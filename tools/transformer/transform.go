@@ -239,23 +239,60 @@ func (t *IgnoreTransformer) Transform(node *ast.Document, reader text.Reader, _ 
 	source := reader.Source()
 
 	err := ast.Walk(node, func(node ast.Node, entering bool) (ast.WalkStatus, error) {
+		var (
+			inMarker bool
+			toRemove []ast.Node
+		)
+
+		for child := node.FirstChild(); child != nil; child = child.NextSibling() {
+			if isMarker(child, source, ignoreStartMarker) {
+				inMarker = true
+			}
+
+			if inMarker {
+				toRemove = append(toRemove, child)
+			}
+
+			if isMarker(child, source, ignoreEndMarker) {
+				inMarker = false
+			}
+		}
+
+		for _, child := range toRemove {
+			node.RemoveChild(node, child)
+		}
+
+		return ast.WalkContinue, nil
+	})
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error transforming AST: %v\n", err)
+	}
+}
+
+type IncludeTransformer struct{}
+
+// Transform implements the parser.ASTTransformer interface and keeps the Markdown content in HTML comments between the include start and end markers.
+func (t *IncludeTransformer) Transform(node *ast.Document, reader text.Reader, _ parser.Context) {
+	source := reader.Source()
+
+	err := ast.Walk(node, func(node ast.Node, entering bool) (ast.WalkStatus, error) {
 		if !entering {
 			return ast.WalkContinue, nil
 		}
 
-		if isMarker(node, source, ignoreStartMarker) {
+		if isMarker(node, source, includeStartMarker) {
 			toRemove := []ast.Node{
 				node,
 			}
 
 			for sibling := node.NextSibling(); ; sibling = sibling.NextSibling() {
 				if sibling == nil {
-					return ast.WalkStop, fmt.Errorf("%w: %s", errNoEndMarker, ignoreStartMarker)
+					return ast.WalkStop, fmt.Errorf("%w: %s", errNoEndMarker, includeStartMarker)
 				}
 
 				toRemove = append(toRemove, sibling)
 
-				if isMarker(sibling, source, ignoreEndMarker) {
+				if isMarker(sibling, source, includeEndMarker) {
 					break
 				}
 			}
