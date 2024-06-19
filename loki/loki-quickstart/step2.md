@@ -39,7 +39,7 @@ You can view your logs using the command line interface, [LogCLI](https://grafan
 
    After copying any of these queries into the query editor, click **Run Query** (4) to execute the query.
 
-   1. View all the log lines which have the container label `evaluate-loki-flog-1`:
+   1. View all the log lines which have the container label `evaluate-loki-flog-1`{{copy}}:
 
       ```bash
          {container="evaluate-loki-flog-1"}
@@ -52,19 +52,19 @@ You can view your logs using the command line interface, [LogCLI](https://grafan
       Loki queries always start with a label selector.
       In the previous query, the label selector is `{container="evaluate-loki-flog-1"}`.
 
-   1. To view all the log lines which have the container label `evaluate-loki-grafana-1`:
+   1. To view all the log lines which have the container label `evaluate-loki-grafana-1`{{copy}}:
 
       ```bash
          {container="evaluate-loki-grafana-1"}
       ```{{copy}}
 
-   1. Find all the log lines in the `{container="evaluate-loki-flog-1}` stream that contain the string `status`:
+   1. Find all the log lines in the `{container="evaluate-loki-flog-1}`{{copy}} stream that contain the string `status`{{copy}}:
 
       ```bash
          {container="evaluate-loki-flog-1"} |= "status"
       ```{{copy}}
 
-   1. Find all the log lines in the `{container="evaluate-loki-flog-1}` stream where the JSON field `status` has the value `404`:
+   1. Find all the log lines in the `{container="evaluate-loki-flog-1}`{{copy}} stream where the JSON field `status`{{copy}} has the value `404`{{copy}}:
 
       ```bash
       {container="evaluate-loki-flog-1"} | json | status="404"
