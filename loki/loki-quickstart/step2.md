@@ -61,19 +61,19 @@ You can view your logs using the command line interface, [LogCLI](https://grafan
    1. Find all the log lines in the `{container="evaluate-loki-flog-1}` stream that contain the string `status`:
 
       ```bash
-      {container="evaluate-loki-flog-1"} |= `status`
+      {container="evaluate-loki-flog-1"} |= "status"
       ```{{copy}}
 
    1. Find all the log lines in the `{container="evaluate-loki-flog-1}` stream where the JSON field `status` has the value `404`:
 
       ```bash
-      {container="evaluate-loki-flog-1"} | json | status=`404`
+      {container="evaluate-loki-flog-1"} | json | status="404"
       ```{{copy}}
 
    1. Calculate the number of logs per second where the JSON field `status` has the value `404`:
 
       ```bash
-      sum by(container) (rate({container="evaluate-loki-flog-1"} | json | status=`404` [$__auto]))
+      sum by(container) (rate({container="evaluate-loki-flog-1"} | json | status="404" [$__auto]))
       ```{{copy}}
 
    The final query is a metric query which returns a time series.
