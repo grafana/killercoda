@@ -32,6 +32,7 @@ func writeIntro(data []byte, renderer renderer.Renderer) {
 		util.Prioritized(&ActionTransformer{Kind: "copy"}, 3),
 		util.Prioritized(&ActionTransformer{Kind: "exec"}, 3),
 		util.Prioritized(&LinkTransformer{}, 4),
+		util.Prioritized(&HeadingTransformer{}, 5),
 	))
 	md.SetRenderer(renderer)
 
@@ -50,14 +51,13 @@ func writeIntro(data []byte, renderer renderer.Renderer) {
 func writeStep(n int, data []byte, renderer renderer.Renderer) {
 	md := goldmark.NewMarkdown()
 	md.Parser().AddOptions(parser.WithASTTransformers(
-		util.Prioritized(&StepTransformer{
-			Step: n,
-		}, 0),
+		util.Prioritized(&StepTransformer{Step: n}, 0),
 		util.Prioritized(&IgnoreTransformer{}, 1),
 		util.Prioritized(&FigureTransformer{}, 2),
 		util.Prioritized(&ActionTransformer{Kind: "copy"}, 3),
 		util.Prioritized(&ActionTransformer{Kind: "exec"}, 3),
 		util.Prioritized(&LinkTransformer{}, 4),
+		util.Prioritized(&HeadingTransformer{}, 5),
 	))
 	md.SetRenderer(renderer)
 

@@ -1,4 +1,4 @@
-## Install Loki and collecting sample logs
+# Install Loki and collecting sample logs
 
 **To install Loki locally, follow these steps:**
 

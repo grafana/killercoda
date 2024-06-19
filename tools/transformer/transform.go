@@ -170,6 +170,37 @@ func (t *FigureTransformer) Transform(node *ast.Document, reader text.Reader, _ 
 	}
 }
 
+type HeadingTransformer struct{}
+
+// Transform implements the parser.ASTTransformer interface and ensures the heading hierarchy begins at H1.
+func (t *HeadingTransformer) Transform(node *ast.Document, _ text.Reader, _ parser.Context) {
+	var (
+		headingDecrement  int
+		foundFirstHeading bool
+	)
+
+	err := ast.Walk(node, func(node ast.Node, entering bool) (ast.WalkStatus, error) {
+		if !entering {
+			return ast.WalkContinue, nil
+		}
+
+		if heading, ok := node.(*ast.Heading); ok {
+			if !foundFirstHeading {
+				foundFirstHeading = true
+
+				headingDecrement = heading.Level - 1
+			}
+
+			heading.Level -= headingDecrement
+		}
+
+		return ast.WalkContinue, nil
+	})
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error transforming AST: %v\n", err)
+	}
+}
+
 type IgnoreTransformer struct{}
 
 // Transform implements the parser.ASTTransformer interface and removes all nodes between the ignore start and end markers.

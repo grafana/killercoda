@@ -1,4 +1,4 @@
-## View your logs in Grafana
+# View your logs in Grafana
 
 After you have collected logs, you will want to view them.
 You can view your logs using the command line interface, [LogCLI](https://grafana.com/docs/loki/latest/query/logcli/), but the easiest way to view your logs is with Grafana.
@@ -94,7 +94,7 @@ You can view your logs using the command line interface, [LogCLI](https://grafan
 
 For a thorough introduction to LogQL, refer to the [LogQL reference](https://grafana.com/docs/loki/latest/query/).
 
-## Sample queries (code view)
+# Sample queries (code view)
 
 Here are some more sample queries that you can run using the Flog sample data.
 
