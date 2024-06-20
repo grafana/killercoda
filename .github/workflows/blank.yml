@@ -20,8 +20,7 @@ jobs:
           path: killercoda
       - uses: actions/setup-go@v5
         with:
-          go-version-file: go.mod
-        working-directory: killercoda/tools/transformer
+          go-version-file: killercoda/tools/transformer/go.mod
       - run: go build ./
       - run: >
           transformer
