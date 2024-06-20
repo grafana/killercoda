@@ -29,6 +29,7 @@
 
    At the end of the command, you should see something similar to the following:
 
+   ```console
    Creating evaluate-loki_flog_1  ... done
    Creating evaluate-loki_minio_1 ... done
    Creating evaluate-loki_read_1  ... done
@@ -37,6 +38,7 @@
    Creating evaluate-loki_alloy_1   ... done
    Creating evaluate-loki_grafana_1 ... done
    Creating evaluate-loki_backend_1 ... done
+   ```
 
 
 1. (Optional) Verify that the Loki cluster is up and running.
