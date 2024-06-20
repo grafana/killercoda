@@ -8,7 +8,7 @@ jobs:
     if: github.repository == 'grafana/killercoda'
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v
+      - uses: actions/checkout@v4
         with:
           repository: grafana/loki
           # Change to `main` after this branch is merged.
