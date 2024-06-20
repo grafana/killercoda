@@ -35,7 +35,6 @@ func usage(w io.Writer, fs *flag.FlagSet) {
 
 	fmt.Fprintln(w, "  <DESTINATION DIRECTORY PATH>")
 	fmt.Fprintln(w, "    	Path to the Killercoda output directory")
-
 }
 
 func writeIntro(dstDirPath string, data []byte, renderer renderer.Renderer) error {
@@ -121,6 +120,7 @@ func transform(srcFilePath, dstDirPath string) error {
 	}
 
 	var errs error
+
 	for i := 1; i <= 5; i++ {
 		if regexp.MustCompile(fmt.Sprintf(`<!-- Killercoda step%d.md START -->`, i)).Match(data) {
 			if err := writeStep(dstDirPath, i, data, renderer); err != nil {
