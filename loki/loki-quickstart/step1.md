@@ -27,19 +27,17 @@
    ```{{exec}}
 
 
-   You should see something similar to the following:
+   At the end of the command, you should see something similar to the following:
 
-   ```bash
-   ✔ Network evaluate-loki_loki          Created      0.1s
-   ✔ Container evaluate-loki-minio-1     Started      0.6s
-   ✔ Container evaluate-loki-flog-1      Started      0.6s
-   ✔ Container evaluate-loki-backend-1   Started      0.8s
-   ✔ Container evaluate-loki-write-1     Started      0.8s
-   ✔ Container evaluate-loki-read-1      Started      0.8s
-   ✔ Container evaluate-loki-gateway-1   Started      1.1s
-   ✔ Container evaluate-loki-grafana-1   Started      1.4s
-   ✔ Container evaluate-loki-alloy-1     Started      1.4s
-   ```
+   Creating evaluate-loki_flog_1  ... done
+   Creating evaluate-loki_minio_1 ... done
+   Creating evaluate-loki_read_1  ... done
+   Creating evaluate-loki_write_1 ... done
+   Creating evaluate-loki_gateway_1 ... done
+   Creating evaluate-loki_alloy_1   ... done
+   Creating evaluate-loki_grafana_1 ... done
+   Creating evaluate-loki_backend_1 ... done
+
 
 1. (Optional) Verify that the Loki cluster is up and running.
 

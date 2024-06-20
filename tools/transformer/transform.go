@@ -23,6 +23,8 @@ const (
 	copyEndMarker      = "<!-- Killercoda copy END -->"
 	execStartMarker    = "<!-- Killercoda exec START -->"
 	execEndMarker      = "<!-- Killercoda exec END -->"
+	finishStartMarker  = "<!-- Killercoda finish.md START -->"
+	finishEndMarker    = "<!-- Killercoda finish.md END -->"
 	ignoreStartMarker  = "<!-- Killercoda ignore START -->"
 	ignoreEndMarker    = "<!-- Killercoda ignore END -->"
 	includeStartMarker = "<!-- Killercoda include START -->"
@@ -207,6 +209,50 @@ func (t *FigureTransformer) Transform(node *ast.Document, reader text.Reader, _ 
 	}
 }
 
+type FinishTransformer struct{}
+
+// Transform implements the parser.ASTTransformer interface and keeps only the sibling nodes within the finish start and end markers.
+// It removes all other nodes resulting in a document that only contains the content between the markers.
+// It removes the markers themselves.
+func (t *FinishTransformer) Transform(root *ast.Document, reader text.Reader, _ parser.Context) {
+	source := reader.Source()
+
+	err := ast.Walk(root, func(node ast.Node, entering bool) (ast.WalkStatus, error) {
+		if !entering {
+			return ast.WalkContinue, nil
+		}
+
+		if isMarker(node, source, finishStartMarker) {
+			var toKeep []ast.Node
+			for sibling := node.NextSibling(); ; sibling = sibling.NextSibling() {
+				if sibling == nil {
+					return ast.WalkStop, fmt.Errorf("%w: %s", errNoEndMarker, finishEndMarker)
+				}
+
+				if isMarker(sibling, source, finishEndMarker) {
+					break
+				}
+
+				toKeep = append(toKeep, sibling)
+			}
+
+			root.RemoveChildren(root)
+
+			for _, node := range toKeep {
+				root.AppendChild(root, node)
+				node.SetParent(root)
+			}
+
+			return ast.WalkStop, nil
+		}
+
+		return ast.WalkContinue, nil
+	})
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error transforming AST: %v\n", err)
+	}
+}
+
 type HeadingTransformer struct{}
 
 // Transform implements the parser.ASTTransformer interface and ensures the heading hierarchy begins at H1.
@@ -338,9 +384,7 @@ func (t *IncludeTransformer) Transform(node *ast.Document, reader text.Reader, _
 	}
 }
 
-type InlineActionTransformer struct {
-	Kind string
-}
+type InlineActionTransformer struct{}
 
 // Transform implements the parser.ASTTransformer interface and adds inlineAction metadata to any fenced code blocks within between the start and end markers.
 func (t *InlineActionTransformer) Transform(node *ast.Document, _ text.Reader, _ parser.Context) {
