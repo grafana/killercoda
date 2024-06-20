@@ -3,7 +3,7 @@
 
 # "Intro to Ingesting with OpenTelemetry" Sandbox Enviroment
 
-[![What is Loki](https://img.youtube.com/vi/xtEppndO7F8/0.jpg)](https://www.youtube.com/watch?v=xtEppndO7F8)
+[![Ingesting Otel with Loki](https://img.youtube.com/vi/snXhe1fDDa8/0.jpg)](https://www.youtube.com/watch?v=snXhe1fDDa8)
 
 ## Sandbox Overview
 

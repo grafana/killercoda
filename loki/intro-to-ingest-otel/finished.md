@@ -8,4 +8,4 @@ You have successfully learned how to ingest logs into Loki using the OpenTelemet
 
 Head back to the video to continue with Introduction to Ingesting Logs using OpenTelemetry with Loki.
 
-[![What is Loki](https://img.youtube.com/vi/xtEppndO7F8/0.jpg)](https://www.youtube.com/watch?v=xtEppndO7F8)
+[![Ingesting Otel with Loki](https://img.youtube.com/vi/snXhe1fDDa8/0.jpg)](https://www.youtube.com/watch?v=snXhe1fDDa8)
