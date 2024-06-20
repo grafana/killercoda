@@ -22,6 +22,7 @@ jobs:
         with:
           go-version-file: killercoda/tools/transformer/go.mod
       - run: go build ./
+        working-directory: killercoda/tools/transformer
       - run: >
           transformer
           "${GITHUB_WORKSPACE}/loki/docs/sources/get-started/quick-start.md"
