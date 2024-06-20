@@ -37,5 +37,5 @@ git checkout -b "${BRANCH}"
 if ! git diff --exit-code; then
   commit
   git push origin "refs/heads/${BRANCH}"
-  gh pr create --title "${SUBJECT}" --base main --head "${BRANCH}"
+  gh pr create --title "${SUBJECT}" --base main --head "${BRANCH}" --fill
 fi
