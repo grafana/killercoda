@@ -39,20 +39,12 @@ func usage(w io.Writer, fs *flag.FlagSet) {
 	fmt.Fprintln(w, "    	Path to the Killercoda output directory")
 }
 
-func writeIntro(dstDirPath string, data []byte, renderer renderer.Renderer) error {
+func writeIntro(dstDirPath string, data []byte, transformers []util.PrioritizedValue, renderer renderer.Renderer) error {
 	md := goldmark.NewMarkdown()
-	//nolint:gomnd // These priority values are relative to each other and are not magic.
-	md.Parser().AddOptions(parser.WithASTTransformers(
-		util.Prioritized(&IntroTransformer{}, 0),
-		util.Prioritized(&IgnoreTransformer{}, 1),
-		util.Prioritized(&IncludeTransformer{}, 1),
-		util.Prioritized(&FigureTransformer{}, 2),
-		util.Prioritized(&InlineActionTransformer{}, 3),
-		util.Prioritized(&ActionTransformer{Kind: "copy"}, 3),
-		util.Prioritized(&ActionTransformer{Kind: "exec"}, 3),
-		util.Prioritized(&LinkTransformer{}, 4),
-		util.Prioritized(&HeadingTransformer{}, 5),
-	))
+	md.Parser().AddOptions(
+		parser.WithASTTransformers(
+			append(transformers, util.Prioritized(&IntroTransformer{}, 0))...),
+	)
 	md.SetRenderer(renderer)
 
 	root := md.Parser().Parse(text.NewReader(data))
@@ -69,20 +61,12 @@ func writeIntro(dstDirPath string, data []byte, renderer renderer.Renderer) erro
 	return nil
 }
 
-func writeFinish(dstDirPath string, data []byte, renderer renderer.Renderer) error {
+func writeFinish(dstDirPath string, data []byte, transformers []util.PrioritizedValue, renderer renderer.Renderer) error {
 	md := goldmark.NewMarkdown()
-	//nolint:gomnd // These priority values are relative to each other and are not magic.
-	md.Parser().AddOptions(parser.WithASTTransformers(
-		util.Prioritized(&FinishTransformer{}, 0),
-		util.Prioritized(&IgnoreTransformer{}, 1),
-		util.Prioritized(&IncludeTransformer{}, 1),
-		util.Prioritized(&FigureTransformer{}, 2),
-		util.Prioritized(&InlineActionTransformer{}, 3),
-		util.Prioritized(&ActionTransformer{Kind: "copy"}, 3),
-		util.Prioritized(&ActionTransformer{Kind: "exec"}, 3),
-		util.Prioritized(&LinkTransformer{}, 4),
-		util.Prioritized(&HeadingTransformer{}, 5),
-	))
+	md.Parser().AddOptions(
+		parser.WithASTTransformers(
+			append(transformers, util.Prioritized(&FinishTransformer{}, 0))...),
+	)
 	md.SetRenderer(renderer)
 
 	root := md.Parser().Parse(text.NewReader(data))
@@ -99,20 +83,12 @@ func writeFinish(dstDirPath string, data []byte, renderer renderer.Renderer) err
 	return nil
 }
 
-func writeStep(dstDirPath string, n int, data []byte, renderer renderer.Renderer) error {
+func writeStep(dstDirPath string, n int, data []byte, transformers []util.PrioritizedValue, renderer renderer.Renderer) error {
 	md := goldmark.NewMarkdown()
-	//nolint:gomnd // These priority values are relative to each other and are not magic.
-	md.Parser().AddOptions(parser.WithASTTransformers(
-		util.Prioritized(&StepTransformer{Step: n}, 0),
-		util.Prioritized(&IgnoreTransformer{}, 1),
-		util.Prioritized(&IncludeTransformer{}, 1),
-		util.Prioritized(&FigureTransformer{}, 2),
-		util.Prioritized(&InlineActionTransformer{}, 3),
-		util.Prioritized(&ActionTransformer{Kind: "copy"}, 3),
-		util.Prioritized(&ActionTransformer{Kind: "exec"}, 3),
-		util.Prioritized(&LinkTransformer{}, 4),
-		util.Prioritized(&HeadingTransformer{}, 5),
-	))
+	md.Parser().AddOptions(
+		parser.WithASTTransformers(
+			append(transformers, util.Prioritized(&StepTransformer{Step: n}, 0))...),
+	)
 	md.SetRenderer(renderer)
 
 	root := md.Parser().Parse(text.NewReader(data))
@@ -129,15 +105,7 @@ func writeStep(dstDirPath string, n int, data []byte, renderer renderer.Renderer
 	return nil
 }
 
-func writeIndex(dstDirPath string, data []byte, steps int, wroteIntro bool, wroteFinish bool) error {
-	md := goldmark.NewMarkdown()
-	root := md.Parser().Parse(text.NewReader(data))
-
-	meta, ok := root.OwnerDocument().Meta()["killercoda"].(map[any]any)
-	if !ok {
-		return fmt.Errorf("couldn't find metadata in source file front matter")
-	}
-
+func writeIndex(dstDirPath string, meta map[any]any, steps int, wroteIntro bool, wroteFinish bool) error {
 	index, err := killercoda.FromMeta(meta)
 	if err != nil {
 		return fmt.Errorf("couldn't parse metadata: %w", err)
@@ -179,6 +147,39 @@ func transform(srcFilePath, dstDirPath string) error {
 		return fmt.Errorf("couldn't open source file: %w", err)
 	}
 
+	md := goldmark.NewMarkdown()
+	root := md.Parser().Parse(text.NewReader(data))
+
+	meta, ok := root.OwnerDocument().Meta()["killercoda"].(map[any]any)
+	if !ok {
+		return fmt.Errorf("couldn't find metadata in source file front matter")
+	}
+
+	if preprocessing, ok := meta["preprocessing"].(map[any]any); ok {
+		if substitutions, ok := preprocessing["substitutions"].([]any); ok {
+			for _, substitution := range substitutions {
+				if s, ok := substitution.(map[any]any); ok {
+					if expr, ok := s["regexp"].(string); ok {
+						if replacement, ok := s["replacement"].(string); ok {
+							data = regexp.MustCompile(expr).ReplaceAll(data, []byte(replacement))
+						}
+					}
+				}
+			}
+		}
+	}
+
+	transformers := []util.PrioritizedValue{
+		util.Prioritized(&IgnoreTransformer{}, 1),
+		util.Prioritized(&IncludeTransformer{}, 1),
+		util.Prioritized(&FigureTransformer{}, 2),
+		util.Prioritized(&InlineActionTransformer{}, 3),
+		util.Prioritized(&ActionTransformer{Kind: "copy"}, 3),
+		util.Prioritized(&ActionTransformer{Kind: "exec"}, 3),
+		util.Prioritized(&LinkTransformer{}, 4),
+		util.Prioritized(&HeadingTransformer{}, 5),
+	}
+
 	//nolint:gomnd // These priority values are relative to each other and are not magic.
 	renderer := renderer.NewRenderer(
 		renderer.WithNodeRenderers(
@@ -193,7 +194,7 @@ func transform(srcFilePath, dstDirPath string) error {
 	)
 
 	if bytes.Contains(data, []byte(introStartMarker)) {
-		if err := writeIntro(dstDirPath, data, renderer); err != nil {
+		if err := writeIntro(dstDirPath, data, transformers, renderer); err != nil {
 			return err
 		}
 
@@ -201,7 +202,7 @@ func transform(srcFilePath, dstDirPath string) error {
 	}
 
 	if bytes.Contains(data, []byte(finishStartMarker)) {
-		if err := writeFinish(dstDirPath, data, renderer); err != nil {
+		if err := writeFinish(dstDirPath, data, transformers, renderer); err != nil {
 			return err
 		}
 
@@ -217,13 +218,13 @@ func transform(srcFilePath, dstDirPath string) error {
 		if regexp.MustCompile(fmt.Sprintf(`<!-- Killercoda step%d.md START -->`, i)).Match(data) {
 			steps++
 
-			if err := writeStep(dstDirPath, i, data, renderer); err != nil {
+			if err := writeStep(dstDirPath, i, data, transformers, renderer); err != nil {
 				errs = errors.Join(errs, err)
 			}
 		}
 	}
 
-	writeIndex(dstDirPath, data, steps, wroteIntro, wroteFinish)
+	writeIndex(dstDirPath, meta, steps, wroteIntro, wroteFinish)
 
 	return errs
 }

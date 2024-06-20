@@ -106,7 +106,6 @@ func (c *Config) SetOption(name renderer.OptionName, value interface{}) {
 	switch name {
 	case optKillercodaActions:
 		c.KillercodaActions = value.(bool)
-
 	}
 }
 

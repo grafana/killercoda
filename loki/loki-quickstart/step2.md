@@ -39,10 +39,10 @@ You can view your logs using the command line interface, [LogCLI](https://grafan
 
    After copying any of these queries into the query editor, click **Run Query** (4) to execute the query.
 
-   1. View all the log lines which have the container label `evaluate-loki-flog-1`{{copy}}:
+   1. View all the log lines which have the container label `evaluate-loki_flog_1`{{copy}}:
 
       ```bash
-      {container="evaluate-loki-flog-1"}
+      {container="evaluate-loki_flog_1"}
       ```{{copy}}
 
       In Loki, this is a log stream.
@@ -50,30 +50,30 @@ You can view your logs using the command line interface, [LogCLI](https://grafan
       Loki uses [labels](https://grafana.com/docs/loki/latest/get-started/labels/) as metadata to describe log streams.
 
       Loki queries always start with a label selector.
-      In the previous query, the label selector is `{container="evaluate-loki-flog-1"}`{{copy}}.
+      In the previous query, the label selector is `{container="evaluate-loki_flog_1"}`{{copy}}.
 
-   1. To view all the log lines which have the container label `evaluate-loki-grafana-1`{{copy}}:
+   1. To view all the log lines which have the container label `evaluate-loki_grafana_1`{{copy}}:
 
       ```bash
-      {container="evaluate-loki-grafana-1"}
+      {container="evaluate-loki_grafana_1"}
       ```{{copy}}
 
-   1. Find all the log lines in the `{container="evaluate-loki-flog-1}`{{copy}} stream that contain the string `status`{{copy}}:
+   1. Find all the log lines in the `{container="evaluate-loki_flog_1}`{{copy}} stream that contain the string `status`{{copy}}:
 
       ```bash
-      {container="evaluate-loki-flog-1"} |= `status`
+      {container="evaluate-loki_flog_1"} |= `status`
       ```{{copy}}
 
-   1. Find all the log lines in the `{container="evaluate-loki-flog-1}`{{copy}} stream where the JSON field `status`{{copy}} has the value `404`{{copy}}:
+   1. Find all the log lines in the `{container="evaluate-loki_flog_1}`{{copy}} stream where the JSON field `status`{{copy}} has the value `404`{{copy}}:
 
       ```bash
-      {container="evaluate-loki-flog-1"} | json | status=`404`
+      {container="evaluate-loki_flog_1"} | json | status=`404`
       ```{{copy}}
 
    1. Calculate the number of logs per second where the JSON field `status`{{copy}} has the value `404`{{copy}}:
 
       ```bash
-      sum by(container) (rate({container="evaluate-loki-flog-1"} | json | status=`404` [$__auto]))
+      sum by(container) (rate({container="evaluate-loki_flog_1"} | json | status=`404` [$__auto]))
       ```{{copy}}
 
    The final query is a metric query which returns a time series.
@@ -101,7 +101,7 @@ Here are some more sample queries that you can run using the Flog sample data.
 To see all the log lines that flog has generated, enter the LogQL query:
 
 ```bash
-{container="evaluate-loki-flog-1"}
+{container="evaluate-loki_flog_1"}
 ```{{copy}}
 
 The flog app generates log lines for simulated HTTP requests.
@@ -109,25 +109,25 @@ The flog app generates log lines for simulated HTTP requests.
 To see all `GET`{{copy}} log lines, enter the LogQL query:
 
 ```bash
-{container="evaluate-loki-flog-1"} |= "GET"
+{container="evaluate-loki_flog_1"} |= "GET"
 ```{{copy}}
 
 To see all `POST`{{copy}} methods, enter the LogQL query:
 
 ```bash
-{container="evaluate-loki-flog-1"} |= "POST"
+{container="evaluate-loki_flog_1"} |= "POST"
 ```{{copy}}
 
 To see every log line with a 401 status (unauthorized error), enter the LogQL query:
 
 ```bash
-{container="evaluate-loki-flog-1"} | json | status="401"
+{container="evaluate-loki_flog_1"} | json | status="401"
 ```{{copy}}
 
 To see every log line that doesn’t contain the text `401`{{copy}}:
 
 ```bash
-{container="evaluate-loki-flog-1"} != "401"
+{container="evaluate-loki_flog_1"} != "401"
 ```{{copy}}
 
 For more examples, refer to the [query documentation](https://grafana.com/docs/loki/latest/query/query_examples/).
