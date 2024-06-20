@@ -1,7 +1,10 @@
 package main
 
 import (
+	"errors"
+	"flag"
 	"fmt"
+	"io"
 	"os"
 	"path/filepath"
 	"regexp"
@@ -15,11 +18,27 @@ import (
 )
 
 const (
-	srcPath = "/Users/jdb/ext/grafana/loki/docs/sources/get-started/quick-start.md"
-	dstPath = "/Users/jdb/ext/grafana/killercoda/loki/loki-quickstart"
+	command = "transformer"
 )
 
-func writeIntro(data []byte, renderer renderer.Renderer) {
+var (
+	errCreateFile   = fmt.Errorf("couldn't create output file")
+	errRenderOutput = fmt.Errorf("couldn't create render output")
+)
+
+func usage(w io.Writer, fs *flag.FlagSet) {
+	fmt.Fprintf(w, "Usage of %s:\n", command)
+	fs.PrintDefaults()
+
+	fmt.Fprintln(w, "  <SOURCE FILE PATH>")
+	fmt.Fprintln(w, "    	Path to the documentation source file")
+
+	fmt.Fprintln(w, "  <DESTINATION DIRECTORY PATH>")
+	fmt.Fprintln(w, "    	Path to the Killercoda output directory")
+
+}
+
+func writeIntro(dstDirPath string, data []byte, renderer renderer.Renderer) error {
 	md := goldmark.NewMarkdown()
 	//nolint:gomnd // These priority values are relative to each other and are not magic.
 	md.Parser().AddOptions(parser.WithASTTransformers(
@@ -37,19 +56,21 @@ func writeIntro(data []byte, renderer renderer.Renderer) {
 
 	root := md.Parser().Parse(text.NewReader(data))
 
-	outFile := filepath.Join(dstPath, "intro.md")
+	outFile := filepath.Join(dstDirPath, "intro.md")
 
 	out, err := os.Create(outFile)
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "Couldn't create output file: %v\n", err)
+		return fmt.Errorf("%v: %w", errCreateFile, err)
 	}
 
 	if err := md.Renderer().Render(out, data, root); err != nil {
-		fmt.Fprintf(os.Stderr, "Couldn't render output file: %v\n", err)
+		return fmt.Errorf("%v: %w", errRenderOutput, err)
 	}
+
+	return nil
 }
 
-func writeStep(n int, data []byte, renderer renderer.Renderer) {
+func writeStep(dstDirPath string, n int, data []byte, renderer renderer.Renderer) error {
 	md := goldmark.NewMarkdown()
 	//nolint:gomnd // These priority values are relative to each other and are not magic.
 	md.Parser().AddOptions(parser.WithASTTransformers(
@@ -67,24 +88,24 @@ func writeStep(n int, data []byte, renderer renderer.Renderer) {
 
 	root := md.Parser().Parse(text.NewReader(data))
 
-	outFile := filepath.Join(dstPath, fmt.Sprintf("step%d.md", n))
+	outFile := filepath.Join(dstDirPath, fmt.Sprintf("step%d.md", n))
 
 	out, err := os.Create(outFile)
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "Couldn't create step file: %v\n", err)
+		return fmt.Errorf("%v: %w", errCreateFile, err)
 	}
 
 	if err := md.Renderer().Render(out, data, root); err != nil {
-		fmt.Fprintf(os.Stderr, "Couldn't render step file: %v\n", err)
+		return fmt.Errorf("%v: %w", errRenderOutput, err)
 	}
+
+	return nil
 }
 
-func main() {
-	data, err := os.ReadFile(srcPath)
+func transform(srcFilePath, dstDirPath string) error {
+	data, err := os.ReadFile(srcFilePath)
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "Couldn't open source file: %v\n", err)
-
-		os.Exit(1)
+		return fmt.Errorf("couldn't open source file: %w", err)
 	}
 
 	//nolint:gomnd // These priority values are relative to each other and are not magic.
@@ -95,11 +116,50 @@ func main() {
 					markdown.WithKillercodaActions(),
 				), 1000)))
 
-	writeIntro(data, renderer)
+	if err := writeIntro(dstDirPath, data, renderer); err != nil {
+		return err
+	}
 
+	var errs error
 	for i := 1; i <= 5; i++ {
 		if regexp.MustCompile(fmt.Sprintf(`<!-- Killercoda step%d.md START -->`, i)).Match(data) {
-			writeStep(i, data, renderer)
+			if err := writeStep(dstDirPath, i, data, renderer); err != nil {
+				errs = errors.Join(errs, err)
+			}
 		}
+	}
+
+	return errs
+}
+
+func main() {
+	const (
+		requiredSrcFilePath = iota
+		requiredDstDirPath
+		requiredTotal
+	)
+
+	fs := flag.NewFlagSet(command, flag.ExitOnError)
+	flag.Parse()
+
+	if flag.NArg() != requiredTotal {
+		usage(os.Stderr, fs)
+
+		os.Exit(2)
+	}
+
+	srcFilePath := flag.Arg(requiredSrcFilePath)
+	dstDirPath := flag.Arg(requiredDstDirPath)
+
+	if err := transform(srcFilePath, dstDirPath); err != nil {
+		if e, ok := err.(interface{ Unwrap() []error }); ok {
+			for _, err := range e.Unwrap() {
+				fmt.Fprintf(os.Stderr, "Error: %v\n", err)
+			}
+		} else {
+			fmt.Fprintf(os.Stderr, "Error: %v\n", err)
+		}
+
+		os.Exit(1)
 	}
 }
