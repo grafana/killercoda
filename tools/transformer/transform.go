@@ -142,8 +142,14 @@ func (t *AdmonitionTransformer) Transform(node *ast.Document, reader text.Reader
 	}
 }
 
-func isFigureShortcode(s string) bool {
-	return strings.HasPrefix(s, "{{<") && strings.HasSuffix(s, ">}}") && strings.Contains(s, "figure")
+func isFigureShortcode(node ast.Node, source []byte) bool {
+	if paragraph, ok := node.(*ast.Paragraph); ok {
+		raw := strings.TrimSpace(rawText(paragraph, source))
+
+		return strings.HasPrefix(raw, "{{<") && strings.HasSuffix(raw, ">}}") && strings.Contains(raw, "figure")
+	}
+
+	return false
 }
 
 func imageFromFigure(args map[string]string) *ast.Paragraph {
@@ -181,19 +187,17 @@ func (t *FigureTransformer) Transform(node *ast.Document, reader text.Reader, _ 
 			return ast.WalkContinue, nil
 		}
 
-		if paragraph, ok := node.(*ast.Paragraph); ok {
-			raw := strings.TrimSpace(rawText(paragraph, source))
+		if isFigureShortcode(node, source) {
+			raw := strings.TrimSpace(rawText(node, source))
 
-			if isFigureShortcode(raw) {
-				args := make(map[string]string)
-				for _, match := range kvPairRegexp.FindAllStringSubmatch(raw, -1) {
-					args[match[1]] = match[2]
-				}
-
-				replacement := imageFromFigure(args)
-
-				node.Parent().ReplaceChild(node.Parent(), node, replacement)
+			args := make(map[string]string)
+			for _, match := range kvPairRegexp.FindAllStringSubmatch(raw, -1) {
+				args[match[1]] = match[2]
 			}
+
+			replacement := imageFromFigure(args)
+
+			node.Parent().ReplaceChild(node.Parent(), node, replacement)
 		}
 
 		return ast.WalkContinue, nil

@@ -21,16 +21,19 @@ func TestRenderDocument(t *testing.T) {
 	md := goldmark.NewMarkdown()
 	md.SetRenderer(renderer.NewRenderer(renderer.WithNodeRenderers(util.Prioritized(NewRenderer(), 1000))))
 
-	src := []byte(`# Heading 1
-
-First paragraph containing some text.
-
-## Heading 2
-
-- An unordered list
-
-- of two items
-`)
+	src := []byte("# Heading 1\n" +
+		"\n" +
+		"First paragraph containing some text.\n" +
+		"\n" +
+		"## Heading 2\n" +
+		"\n" +
+		"1. An ordered list\n" +
+		"\n" +
+		"   ```bash\n" +
+		"   echo 'Hello, world!'\n" +
+		"   ```\n" +
+		"\n" +
+		"1. of two items\n")
 	root := md.Parser().Parse(text.NewReader(src))
 
 	require.NoError(t, md.Renderer().Render(w, src, root))
