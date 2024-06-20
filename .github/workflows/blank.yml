@@ -24,7 +24,7 @@ jobs:
       - run: go build ./
         working-directory: killercoda/tools/transformer
       - run: >
-          transformer
+          ./transformer
           "${GITHUB_WORKSPACE}/loki/docs/sources/get-started/quick-start.md"
           "${GITHUB_WORKSPACE}/killercoda/loki/loki-quickstart"
         working-directory: killercoda/tools/transformer
