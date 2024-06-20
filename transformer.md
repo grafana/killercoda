@@ -55,7 +55,7 @@ Use directives to:
 - [Configure executable code blocks](#exec)
 - [Define a finish page](#finish)
 - [Define an introduction page](#intro)
-- [Define step pages](#steps)
+- [Define step pages](#step)
 - [Ignore parts of the documentation](#ignore)
 - [Include extra parts not in the website page](#include)
 
@@ -240,11 +240,17 @@ The end marker is:
 <!-- Killercoda intro.md END -->
 ```
 
-### Steps
+### Step
+
+The step directive specifies the start and end of the section of the file to use as a Killercoda step page.
+
+The start marker is the following, where _`<N>`_ is the number of the step:
 
 ```markdown
 <!-- Killercoda step<N>.md START -->
 ```
+
+The end marker is the following, where _`<N>`_ is the number of the step:
 
 ```markdown
 <!-- Killercoda step<N>.md END -->
