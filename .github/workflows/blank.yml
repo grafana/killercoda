@@ -8,14 +8,16 @@ jobs:
     if: github.repository == grafana/killercoda
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v
+        with:
+          repository: grafana/loki
+          # Change to `main` after this branch is merged.
+          ref: jdb/2024-06-killercoda-migration
+          path: loki
       - uses: actions/checkout@v4
-        repository: grafana/loki
-        # Change to `main` after this branch is merged.
-        ref: jdb/2024-06-killercoda-migration
-        path: loki
-      - uses: actions/checkout@v4
-        ref: jdb/2024-06-killercoda-migration
-        path: killercoda
+        with:
+          ref: jdb/2024-06-killercoda-migration
+          path: killercoda
       - uses: actions/setup-go@v5
         with:
           go-version-file: go.mod
