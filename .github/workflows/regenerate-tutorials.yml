@@ -1,0 +1,31 @@
+name: Regenerate tutorials
+on:
+  schedule:
+    - cron: '0 7 * * 1-5'
+  workflow_dispatch:
+jobs:
+  main:
+    if: github.repository == grafana/killercoda
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        repository: grafana/loki
+        # Change to `main` after this branch is merged.
+        ref: jdb/2024-06-killercoda-migration
+        path: loki
+      - uses: actions/checkout@v4
+        ref: jdb/2024-06-killercoda-migration
+        path: killercoda
+      - uses: actions/setup-go@v5
+        with:
+          go-version-file: go.mod
+        working-directory: killercoda/tools/transformer
+      - run: go build ./
+      - run: >
+          transformer
+          "${GITHUB_WORKSPACE}/loki/docs/sources/get-started/quick-start.md"
+          "${GITHUB_WORKSPACE}/killercoda/loki/loki-quickstart"
+        working-directory: killercoda/tools/transformer
+      - run: ./scripts/manage-pr.bash
+        shell: bash
+        working-directory: killercoda
