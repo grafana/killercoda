@@ -6,58 +6,48 @@ To configure Alloy to ingest OpenTelemetry logs, we need to update the Alloy con
 
 First, we will configure the OpenTelemetry logs receiver. This receiver will accept logs via HTTP and gRPC.
 
-1. Open the `config.alloy`{{copy}} file in the `loki-fundamentals`{{copy}} directory and copy the following configuration:
+Open the `config.alloy`{{copy}} file in the `loki-fundamentals`{{copy}} directory and copy the following configuration:
 
-   ```json
-     otelcol.receiver.otlp "default" {
-       http {}
-       grpc {}
+```alloy
+ otelcol.receiver.otlp "default" {
+   http {}
+   grpc {}
 
-       output {
-         logs    = [otelcol.processor.batch.default.input]
-       }
-     }
-   ```{{copy}}
-
-Once added, save the file. Then run the following command to request Alloy to reload the configuration:
-
-```bash
-curl -X POST http://localhost:12345/-/reload
-```{{exec}}
+   output {
+     logs    = [otelcol.processor.batch.default.input]
+   }
+ }
+```{{copy}}
 
 ## OpenTelemetry Logs Processor
 
 Next, we will configure the OpenTelemetry logs processor. This processor will batch the logs before sending them to the logs exporter.
 
-1. Open the `config.alloy`{{copy}} file in the `loki-fundamentals`{{copy}} directory and copy the following configuration:
-   ```alloy
-       otelcol.processor.batch "default" {
-       output {
-       logs = [otelcol.exporter.otlphttp.default.input]
-       }
-         }
-   ```{{copy}}
+Open the `config.alloy`{{copy}} file in the `loki-fundamentals`{{copy}} directory and copy the following configuration:
 
-Once added, save the file. Then run the following command to request Alloy to reload the configuration:
-
-```bash
-curl -X POST http://localhost:12345/-/reload
-```{{exec}}
+```alloy
+    otelcol.processor.batch "default" {
+    output {
+    logs = [otelcol.exporter.otlphttp.default.input]
+    }
+      }
+```{{copy}}
 
 ## OpenTelemetry Logs Exporter
 
 Lastly, we will configure the OpenTelemetry logs exporter. This exporter will send the logs to Loki.
 
-1. Open the `config.alloy`{{copy}} file in the `loki-fundamentals`{{copy}} directory and copy the following configuration:
-   ```
-   ```alloy
-   otelcol.exporter.otlphttp "default" {
-     client {
-       endpoint = "http://loki:3100/otlp"
-     }
-   }
-   ```
-   ```
+Open the `config.alloy`{{copy}} file in the `loki-fundamentals`{{copy}} directory and copy the following configuration:
+
+```alloy
+otelcol.exporter.otlphttp "default" {
+  client {
+    endpoint = "http://loki:3100/otlp"
+  }
+}
+```{{copy}}
+
+## Reload the Alloy configuration
 
 Once added, save the file. Then run the following command to request Alloy to reload the configuration:
 
@@ -71,4 +61,5 @@ If you get stuck or need help creating the configuration, you can copy and repla
 
 ```bash
 cp loki-fundamentals/completed/config.alloy loki-fundamentals/config.alloy
+curl -X POST http://localhost:12345/-/reload
 ```{{exec}}

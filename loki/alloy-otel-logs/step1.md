@@ -17,11 +17,11 @@ In this step, we will set up our environment by cloning the repository that cont
 
    This will spin up the following services:
 
-   - Loki
-
-   - Grafana
-
-   - Alloy
+   ```bash
+   ✔ Container loki-fundamentals-grafana-1  Started                                                        
+   ✔ Container loki-fundamentals-loki-1     Started                        
+   ✔ Container loki-fundamentals-alloy-1    Started
+   ```
 
 We will be access two UI interfaces:
 
