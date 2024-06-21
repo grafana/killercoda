@@ -10,6 +10,7 @@ import (
 
 func (r *Renderer) renderAutoLink(w util.BufWriter, source []byte, node ast.Node, entering bool) (ast.WalkStatus, error) {
 	n := node.(*ast.AutoLink)
+
 	if !entering {
 		return ast.WalkContinue, nil
 	}

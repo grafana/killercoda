@@ -4,7 +4,6 @@ import (
 	"strings"
 
 	"github.com/yuin/goldmark/ast"
-	rendererHTML "github.com/yuin/goldmark/renderer/html"
 	"github.com/yuin/goldmark/util"
 )
 
@@ -164,7 +163,7 @@ func (r *Renderer) renderParagraph(w util.BufWriter, _ []byte, node ast.Node, en
 	return ast.WalkContinue, nil
 }
 
-func (r *Renderer) renderTextBlock(w util.BufWriter, _ []byte, n ast.Node, entering bool) (ast.WalkStatus, error) {
+func (r *Renderer) renderTextBlock(w util.BufWriter, _ []byte, node ast.Node, entering bool) (ast.WalkStatus, error) {
 	if !entering {
 		r.write(w, '\n')
 	}
@@ -172,15 +171,16 @@ func (r *Renderer) renderTextBlock(w util.BufWriter, _ []byte, n ast.Node, enter
 	return ast.WalkContinue, nil
 }
 
-func (r *Renderer) renderThematicBreak(w util.BufWriter, source []byte, n ast.Node, entering bool) (ast.WalkStatus, error) {
-	panic("TODO: implement")
+func (r *Renderer) renderThematicBreak(w util.BufWriter, _ []byte, node ast.Node, entering bool) (ast.WalkStatus, error) {
 	if !entering {
 		return ast.WalkContinue, nil
 	}
-	_, _ = w.WriteString("<hr")
-	if n.Attributes() != nil {
-		rendererHTML.RenderAttributes(w, n, rendererHTML.ThematicAttributeFilter)
+
+	r.write(w, "---\n")
+
+	if node.NextSibling() != nil {
+		r.write(w, '\n')
 	}
-	_, _ = w.WriteString(">\n")
+
 	return ast.WalkContinue, nil
 }

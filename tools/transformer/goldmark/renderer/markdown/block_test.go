@@ -170,3 +170,26 @@ Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deseru
 
 	assert.Equal(t, string(src), b.String())
 }
+
+func TestRenderThematicBreak(t *testing.T) {
+	t.Parallel()
+
+	b := &bytes.Buffer{}
+	w := bufio.NewWriter(b)
+	md := goldmark.NewMarkdown()
+	md.SetRenderer(renderer.NewRenderer(renderer.WithNodeRenderers(util.Prioritized(NewRenderer(), 1000))))
+
+	src := []byte(`One thing
+
+---
+
+Something else
+`)
+	root := md.Parser().Parse(text.NewReader(src))
+
+	require.NoError(t, md.Renderer().Render(w, src, root))
+
+	w.Flush()
+
+	assert.Equal(t, string(src), b.String())
+}
