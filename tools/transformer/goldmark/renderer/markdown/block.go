@@ -24,14 +24,39 @@ func (r *Renderer) renderBlockquote(w util.BufWriter, source []byte, n ast.Node,
 	return ast.WalkContinue, nil
 }
 
-func (r *Renderer) renderCodeBlock(w util.BufWriter, source []byte, n ast.Node, entering bool) (ast.WalkStatus, error) {
-	panic("TODO: implement")
+func (r *Renderer) renderCodeBlock(w util.BufWriter, source []byte, node ast.Node, entering bool) (ast.WalkStatus, error) {
+	n := node.(*ast.CodeBlock)
+
 	if entering {
-		_, _ = w.WriteString("<pre><code>")
+		r.write(w, "```")
+
+		language := n.Language(source)
+		if language != nil {
+			r.write(w, language)
+		}
+
+		r.write(w, '\n')
 		r.writeLines(w, source, n)
 	} else {
-		_, _ = w.WriteString("</code></pre>\n")
+		r.write(w, "```")
+
+		if r.Config.KillercodaActions {
+			if _, ok := n.AttributeString("data-killercoda-exec"); ok {
+				r.write(w, "{{exec}}")
+			}
+
+			if _, ok := n.AttributeString("data-killercoda-copy"); ok {
+				r.write(w, "{{copy}}")
+			}
+		}
+
+		r.write(w, '\n')
+
+		if node.NextSibling() != nil {
+			r.write(w, '\n')
+		}
 	}
+
 	return ast.WalkContinue, nil
 }
 
