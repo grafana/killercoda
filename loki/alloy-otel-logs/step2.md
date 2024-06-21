@@ -2,6 +2,9 @@
 
 To configure Alloy to ingest OpenTelemetry logs, we need to update the Alloy configuration file. To start, we will update the `config.alloy`{{copy}} file to include the OpenTelemetry logs configuration.
 
+**Note: Killercoda has an inbuilt Code editor which can be accessed via the `Editor` tab.**
+
+
 ## OpenTelelmetry Logs Receiver
 
 First, we will configure the OpenTelemetry logs receiver. This receiver will accept logs via HTTP and gRPC.
@@ -26,11 +29,11 @@ Next, we will configure the OpenTelemetry logs processor. This processor will ba
 Open the `config.alloy`{{copy}} file in the `loki-fundamentals`{{copy}} directory and copy the following configuration:
 
 ```alloy
-    otelcol.processor.batch "default" {
+otelcol.processor.batch "default" {
     output {
-    logs = [otelcol.exporter.otlphttp.default.input]
+        logs = [otelcol.exporter.otlphttp.default.input]
     }
-      }
+}
 ```{{copy}}
 
 ## OpenTelemetry Logs Exporter
@@ -54,6 +57,8 @@ Once added, save the file. Then run the following command to request Alloy to re
 ```bash
 curl -X POST http://localhost:12345/-/reload
 ```{{exec}}
+
+The new configuration will be loaded this can be verified by checking the Alloy UI: [http://localhost:12345]({{TRAFFIC_HOST1_12345}}).
 
 # Stuck? Need help?
 
