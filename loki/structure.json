@@ -5,6 +5,7 @@
     { "path": "loki-quickstart", "title": "Loki Quickstart Demo"},
     { "path": "what-is-loki", "title": "What is Loki?"},
     { "path": "intro-to-ingest", "title": "Intro to Ingesting"},
-    { "path": "intro-to-ingest-otel", "title": "Intro to Ingesting with OpenTelemetry"}
+    { "path": "intro-to-ingest-otel", "title": "Intro to Ingesting with OpenTelemetry"},
+    { "path": "alloy-otel-logs", "title": "Ingesting OpenTelemetry logs to Loki using Alloy"}
     ]
 }
