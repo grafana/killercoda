@@ -13,6 +13,27 @@ import (
 	"github.com/yuin/goldmark/util"
 )
 
+func TestRenderBlockquote(t *testing.T) {
+	t.Parallel()
+
+	b := &bytes.Buffer{}
+	w := bufio.NewWriter(b)
+	md := goldmark.NewMarkdown()
+	md.SetRenderer(renderer.NewRenderer(renderer.WithNodeRenderers(util.Prioritized(NewRenderer(), 1000))))
+
+	src := []byte(`> **Note:**
+> This is an admonition.
+`)
+
+	root := md.Parser().Parse(text.NewReader(src))
+
+	require.NoError(t, md.Renderer().Render(w, src, root))
+
+	w.Flush()
+
+	assert.Equal(t, string(src), b.String())
+}
+
 func TestRenderCodeblock(t *testing.T) {
 	t.Parallel()
 

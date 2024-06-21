@@ -8,19 +8,22 @@ import (
 	"github.com/yuin/goldmark/util"
 )
 
-func (r *Renderer) renderBlockquote(w util.BufWriter, source []byte, n ast.Node, entering bool) (ast.WalkStatus, error) {
-	panic("TODO: implement")
+func (r *Renderer) renderBlockquote(w util.BufWriter, source []byte, node ast.Node, entering bool) (ast.WalkStatus, error) {
 	if entering {
-		if n.Attributes() != nil {
-			_, _ = w.WriteString("<blockquote")
-			rendererHTML.RenderAttributes(w, n, rendererHTML.BlockquoteAttributeFilter)
-			_ = w.WriteByte('>')
-		} else {
-			_, _ = w.WriteString("<blockquote>\n")
+		for c := node.FirstChild(); c != nil; c = c.NextSibling() {
+			for i := 0; i < c.Lines().Len(); i++ {
+				line := c.Lines().At(i)
+
+				r.write(w, "> ")
+				r.write(w, line.Value(source))
+			}
 		}
+
+		return ast.WalkSkipChildren, nil
 	} else {
-		_, _ = w.WriteString("</blockquote>\n")
+		r.write(w, '\n')
 	}
+
 	return ast.WalkContinue, nil
 }
 
