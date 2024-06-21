@@ -29,12 +29,6 @@ func (r *Renderer) renderCodeBlock(w util.BufWriter, source []byte, node ast.Nod
 
 	if entering {
 		r.write(w, "```")
-
-		language := n.Language(source)
-		if language != nil {
-			r.write(w, language)
-		}
-
 		r.write(w, '\n')
 		r.writeLines(w, source, n)
 	} else {
