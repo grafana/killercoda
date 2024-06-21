@@ -28,23 +28,11 @@ func (r *Renderer) renderCodeBlock(w util.BufWriter, source []byte, node ast.Nod
 	n := node.(*ast.CodeBlock)
 
 	if entering {
-		r.write(w, "```")
-		r.write(w, '\n')
+		r.indent += 4
+		r.write(w, "    ")
 		r.writeLines(w, source, n)
 	} else {
-		r.write(w, "```")
-
-		if r.Config.KillercodaActions {
-			if _, ok := n.AttributeString("data-killercoda-exec"); ok {
-				r.write(w, "{{exec}}")
-			}
-
-			if _, ok := n.AttributeString("data-killercoda-copy"); ok {
-				r.write(w, "{{copy}}")
-			}
-		}
-
-		r.write(w, '\n')
+		r.indent -= 4
 
 		if node.NextSibling() != nil {
 			r.write(w, '\n')
