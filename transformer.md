@@ -1,4 +1,4 @@
-# Transformer
+# About the transformer tool
 
 The transformer tool generates Killercoda tutorials from Grafana documentation source files.
 
