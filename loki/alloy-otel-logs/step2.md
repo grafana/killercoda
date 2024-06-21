@@ -8,7 +8,7 @@ First, we will configure the OpenTelemetry logs receiver. This receiver will acc
 
 1. Open the `config.alloy`{{copy}} file in the `loki-fundamentals`{{copy}} directory and copy the following configuration:
 
-   ```alloy
+   ```json
      otelcol.receiver.otlp "default" {
        http {}
        grpc {}
@@ -30,18 +30,12 @@ curl -X POST http://localhost:12345/-/reload
 Next, we will configure the OpenTelemetry logs processor. This processor will batch the logs before sending them to the logs exporter.
 
 1. Open the `config.alloy`{{copy}} file in the `loki-fundamentals`{{copy}} directory and copy the following configuration:
-   ```
    ```alloy
-   ```
-
-   otelcol.processor.batch “default” {
-   output {
-   logs = [otelcol.exporter.otlphttp.default.input]
-   }
-   }
-   ```
-   <!-- Killercoda copy END -->
-
+       otelcol.processor.batch "default" {
+       output {
+       logs = [otelcol.exporter.otlphttp.default.input]
+       }
+         }
    ```{{copy}}
 
 Once added, save the file. Then run the following command to request Alloy to reload the configuration:
