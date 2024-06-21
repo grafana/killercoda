@@ -13,6 +13,24 @@ import (
 	"github.com/yuin/goldmark/util"
 )
 
+func TestRenderAutolink(t *testing.T) {
+	t.Parallel()
+
+	b := &bytes.Buffer{}
+	w := bufio.NewWriter(b)
+	md := goldmark.NewMarkdown()
+	md.SetRenderer(renderer.NewRenderer(renderer.WithNodeRenderers(util.Prioritized(NewRenderer(), 1000))))
+
+	src := []byte("<https://grafana.com>\n<mailto:docs@grafana.com>\n<docs@grafana.com>\n")
+	root := md.Parser().Parse(text.NewReader(src))
+
+	require.NoError(t, md.Renderer().Render(w, src, root))
+
+	w.Flush()
+
+	assert.Equal(t, string(src), b.String())
+}
+
 func TestRenderCodespan(t *testing.T) {
 	t.Parallel()
 
@@ -77,8 +95,6 @@ func TestRenderText(t *testing.T) {
 
 	src := []byte("'<GRAFANA_VERSION>'\n")
 	root := md.Parser().Parse(text.NewReader(src))
-
-	root.Dump(src, 0)
 
 	require.NoError(t, md.Renderer().Render(w, src, root))
 

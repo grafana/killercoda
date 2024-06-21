@@ -4,34 +4,43 @@ import (
 	"strings"
 
 	"github.com/yuin/goldmark/ast"
-	rendererHTML "github.com/yuin/goldmark/renderer/html"
 	"github.com/yuin/goldmark/util"
 )
 
-func (r *Renderer) renderBlockquote(w util.BufWriter, source []byte, n ast.Node, entering bool) (ast.WalkStatus, error) {
-	panic("TODO: implement")
+func (r *Renderer) renderBlockquote(w util.BufWriter, source []byte, node ast.Node, entering bool) (ast.WalkStatus, error) {
 	if entering {
-		if n.Attributes() != nil {
-			_, _ = w.WriteString("<blockquote")
-			rendererHTML.RenderAttributes(w, n, rendererHTML.BlockquoteAttributeFilter)
-			_ = w.WriteByte('>')
-		} else {
-			_, _ = w.WriteString("<blockquote>\n")
+		for c := node.FirstChild(); c != nil; c = c.NextSibling() {
+			for i := 0; i < c.Lines().Len(); i++ {
+				line := c.Lines().At(i)
+
+				r.write(w, "> ")
+				r.write(w, line.Value(source))
+			}
 		}
+
+		return ast.WalkSkipChildren, nil
 	} else {
-		_, _ = w.WriteString("</blockquote>\n")
+		r.write(w, '\n')
 	}
+
 	return ast.WalkContinue, nil
 }
 
-func (r *Renderer) renderCodeBlock(w util.BufWriter, source []byte, n ast.Node, entering bool) (ast.WalkStatus, error) {
-	panic("TODO: implement")
+func (r *Renderer) renderCodeBlock(w util.BufWriter, source []byte, node ast.Node, entering bool) (ast.WalkStatus, error) {
+	n := node.(*ast.CodeBlock)
+
 	if entering {
-		_, _ = w.WriteString("<pre><code>")
+		r.indent += 4
+		r.write(w, "    ")
 		r.writeLines(w, source, n)
 	} else {
-		_, _ = w.WriteString("</code></pre>\n")
+		r.indent -= 4
+
+		if node.NextSibling() != nil {
+			r.write(w, '\n')
+		}
 	}
+
 	return ast.WalkContinue, nil
 }
 
@@ -154,7 +163,7 @@ func (r *Renderer) renderParagraph(w util.BufWriter, _ []byte, node ast.Node, en
 	return ast.WalkContinue, nil
 }
 
-func (r *Renderer) renderTextBlock(w util.BufWriter, _ []byte, n ast.Node, entering bool) (ast.WalkStatus, error) {
+func (r *Renderer) renderTextBlock(w util.BufWriter, _ []byte, node ast.Node, entering bool) (ast.WalkStatus, error) {
 	if !entering {
 		r.write(w, '\n')
 	}
@@ -162,15 +171,16 @@ func (r *Renderer) renderTextBlock(w util.BufWriter, _ []byte, n ast.Node, enter
 	return ast.WalkContinue, nil
 }
 
-func (r *Renderer) renderThematicBreak(w util.BufWriter, source []byte, n ast.Node, entering bool) (ast.WalkStatus, error) {
-	panic("TODO: implement")
+func (r *Renderer) renderThematicBreak(w util.BufWriter, _ []byte, node ast.Node, entering bool) (ast.WalkStatus, error) {
 	if !entering {
 		return ast.WalkContinue, nil
 	}
-	_, _ = w.WriteString("<hr")
-	if n.Attributes() != nil {
-		rendererHTML.RenderAttributes(w, n, rendererHTML.ThematicAttributeFilter)
+
+	r.write(w, "---\n")
+
+	if node.NextSibling() != nil {
+		r.write(w, '\n')
 	}
-	_, _ = w.WriteString(">\n")
+
 	return ast.WalkContinue, nil
 }

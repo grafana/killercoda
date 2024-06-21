@@ -5,32 +5,23 @@ import (
 	"html"
 
 	"github.com/yuin/goldmark/ast"
-	rendererHTML "github.com/yuin/goldmark/renderer/html"
 	"github.com/yuin/goldmark/util"
 )
 
 func (r *Renderer) renderAutoLink(w util.BufWriter, source []byte, node ast.Node, entering bool) (ast.WalkStatus, error) {
-	panic("TODO: implement")
 	n := node.(*ast.AutoLink)
+
 	if !entering {
 		return ast.WalkContinue, nil
 	}
-	_, _ = w.WriteString(`<a href="`)
+
+	r.write(w, '<')
+
 	url := n.URL(source)
-	label := n.Label(source)
-	if n.AutoLinkType == ast.AutoLinkEmail && !bytes.HasPrefix(bytes.ToLower(url), []byte("mailto:")) {
-		_, _ = w.WriteString("mailto:")
-	}
-	_, _ = w.Write(util.EscapeHTML(util.URLEscape(url, false)))
-	if n.Attributes() != nil {
-		_ = w.WriteByte('"')
-		rendererHTML.RenderAttributes(w, n, rendererHTML.LinkAttributeFilter)
-		_ = w.WriteByte('>')
-	} else {
-		_, _ = w.WriteString(`">`)
-	}
-	_, _ = w.Write(util.EscapeHTML(label))
-	_, _ = w.WriteString(`</a>`)
+	r.write(w, util.EscapeHTML(util.URLEscape(url, false)))
+
+	r.write(w, '>')
+
 	return ast.WalkContinue, nil
 }
 

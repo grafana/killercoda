@@ -13,6 +13,47 @@ import (
 	"github.com/yuin/goldmark/util"
 )
 
+func TestRenderBlockquote(t *testing.T) {
+	t.Parallel()
+
+	b := &bytes.Buffer{}
+	w := bufio.NewWriter(b)
+	md := goldmark.NewMarkdown()
+	md.SetRenderer(renderer.NewRenderer(renderer.WithNodeRenderers(util.Prioritized(NewRenderer(), 1000))))
+
+	src := []byte(`> **Note:**
+> This is an admonition.
+`)
+
+	root := md.Parser().Parse(text.NewReader(src))
+
+	require.NoError(t, md.Renderer().Render(w, src, root))
+
+	w.Flush()
+
+	assert.Equal(t, string(src), b.String())
+}
+
+func TestRenderCodeblock(t *testing.T) {
+	t.Parallel()
+
+	b := &bytes.Buffer{}
+	w := bufio.NewWriter(b)
+	md := goldmark.NewMarkdown()
+	md.SetRenderer(renderer.NewRenderer(renderer.WithNodeRenderers(util.Prioritized(NewRenderer(), 1000))))
+
+	src := []byte(`    echo 'Hello, world!'
+    echo 'Goodbye, cruel world!'
+`)
+	root := md.Parser().Parse(text.NewReader(src))
+
+	require.NoError(t, md.Renderer().Render(w, src, root))
+
+	w.Flush()
+
+	assert.Equal(t, string(src), b.String())
+}
+
 func TestRenderDocument(t *testing.T) {
 	t.Parallel()
 
@@ -120,6 +161,29 @@ func TestRenderParagraph(t *testing.T) {
 Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
 Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
 Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+`)
+	root := md.Parser().Parse(text.NewReader(src))
+
+	require.NoError(t, md.Renderer().Render(w, src, root))
+
+	w.Flush()
+
+	assert.Equal(t, string(src), b.String())
+}
+
+func TestRenderThematicBreak(t *testing.T) {
+	t.Parallel()
+
+	b := &bytes.Buffer{}
+	w := bufio.NewWriter(b)
+	md := goldmark.NewMarkdown()
+	md.SetRenderer(renderer.NewRenderer(renderer.WithNodeRenderers(util.Prioritized(NewRenderer(), 1000))))
+
+	src := []byte(`One thing
+
+---
+
+Something else
 `)
 	root := md.Parser().Parse(text.NewReader(src))
 
