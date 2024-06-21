@@ -2,7 +2,9 @@
   "title": "Ingesting OpenTelemetry logs to Loki using Alloy",
   "description": "Configuring Grafana Alloy to ingest OpenTelemetry logs to Loki.",
   "details": {
-    "intro": {},
+    "intro": {
+      "text": "intro.md"
+    },
     "steps": [
       {
         "text": "step1.md"
