@@ -6,8 +6,9 @@ In this step, we will start the Carnivorous Greenhouse application. To start the
 
 
 ```bash
- docker compose -f loki-fundamentals/greenhouse/docker-compose-micro.yml up -d --build 
+docker-compose -f loki-fundamentals/greenhouse/docker-compose-micro.yml up -d --build
 ```{{exec}}
+
 
 This will start the following services:
 
