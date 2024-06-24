@@ -9,7 +9,9 @@ These tutorials aim to help users understand and implement Grafana solutions wit
 </p>
 
 Some tutorials are generated from Grafana Labs documentation.
-If you want to modify a generated tutorial or prepare documentation for generation, refer to [About the transformer tool](./transformer.md)
+If you want to modify a generated tutorial or prepare documentation for generation, refer to [About the transformer tool](./docs/transformer.md)
+
+You can also find fully annotated doc examples of tutorials in the [examples](./docs/examples) directory.
 
 ## Run a tutorial
 
