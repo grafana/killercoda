@@ -142,6 +142,10 @@ func writeIndex(dstDirPath string, meta map[any]any, steps int, wroteIntro bool,
 }
 
 func transform(srcFilePath, dstDirPath string) error {
+	if err := os.MkdirAll(dstDirPath, os.ModePerm); err != nil {
+		return fmt.Errorf("couldn't create output directory: %w", err)
+	}
+
 	data, err := os.ReadFile(srcFilePath)
 	if err != nil {
 		return fmt.Errorf("couldn't open source file: %w", err)
