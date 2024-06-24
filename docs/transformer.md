@@ -280,15 +280,34 @@ To generate a tutorial:
 
 1. In the source repository, run `make docs` from the `docs/` directory so that you can verify your changes don't break the rendered documentation.
 
-1. In the source file, add the Killercoda front matter.
+1. In the source file, add the Killercoda metadata to the front matter.
 
-   For more information and an example front matter, refer to [Metadata](#Metadata)
+   Front matter is YAML metadata written before the page's content.
+   For more information, refer to the [Hugo front matter documentation](https://gohugo.io/content-management/front-matter/).
+
+   For an example Killercoda front matter, refer to [Metadata](#Metadata)
+
+1. Configure an introduction page.
+
+   Use one of the two options:
+
+   1. In the source repository, add [intro](#intro) directives.
+   1. 1. In the Killercoda repository, add a `intro.md` file in the output tutorial directory.
+      1. In the source file, add the `killercoda.details.intro.text` field with the value `intro.md`.
 
 1. Add directives for each step in the tutorial.
 
    Each step starts at the [step](#step) directive start marker and ends at the [step](#step) directive end marker.
    Include at least one step.
    The first step use the start marker `<!-- Killercoda step1.md START -->` and the end marker `<!-- Killercoda step1.md END -->`
+
+1. Configure a finish page.
+
+   Use one of the two options:
+
+   1. In the source repository, add [finish](#finish) directives.
+   1. 1. In the Killercoda repository, add a `finish.md` file in the output tutorial directory.
+      1. In the source file, add the `killercoda.details.finish.text` field with the value `finish.md`.
 
 1. Generate the tutorial.
 
