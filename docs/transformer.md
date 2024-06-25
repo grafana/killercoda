@@ -11,7 +11,7 @@ The tool uses the metadata to perform preprocessing on the source file and gener
 
 | Field                                    | Type   | Description                                                                                                                    |
 | ---------------------------------------- | ------ | ------------------------------------------------------------------------------------------------------------------------------ |
-| `killercoda.backend.imageid`             | String | The name of the Killercoda environment's backend image. Supported values include `ubuntu`.                                     |
+| `killercoda.backend.imageid`             | String | The name of the Killercoda environment's backend image. Supported values include, `ubuntu`, `ubuntu-4GB` `kubernetes-kubeadm-1node`, `kubernetes-kubeadm-2nodes`|
 | `killercoda.description`                 | String | The description displayed on the Killercoda website                                                                            |
 | `killercoda.details.finish.text`         | String | The filename of the finish page Markdown source in the grafana/killercoda repository.                                          |
 | `killercoda.details.intro.text`          | String | The filename of the introduction page Markdown source in the grafana/killercoda repository.                                    |
@@ -333,3 +333,30 @@ To generate a tutorial:
 1. In each repository, commit your changes, push your branch, and open a pull request.
 
 1. A Killercoda maintainer reviews the PR to ensure that the generate tutorial works as expected.
+
+
+## Scripts and Extra Course Files
+
+If your tutorial requires scripts or extra files, make sure to manually add them to the tutorial directory in the Killercoda repository. For example, if your tutorial requires a script to run:
+
+1. Add the bash script to the tutorial directory in the Killercoda repository. See the [what-is-loki](../loki/what-is-loki/) tutorial for an example.
+2. Add the script to the `scripts` field in the `index.json` file:
+   ```json
+   "intro": {
+      "text": "intro.md",
+      "foreground": "setup.sh"
+      },
+   ```
+
+For extra assets, such as images or configuration files:
+1. Create a directory called `assets` in the tutorial directory.
+2. Add the assets to the `assets` directory.
+3. Add the mount path to the `index.json` file:
+   ```json
+    "assets": {
+        "host01": [
+          {"file": "/assets", "target": "/assets"}
+        ]
+      }
+   ```
+   See the [grafana-basics](../grafana/grafana-basics/index.json) tutorial for an example.

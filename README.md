@@ -39,6 +39,8 @@ We welcome contributions to enhance these tutorials.
 
 ### Propose changes
 
+> **Note:** Follow the below contribution steps if you plan to create a tutorial that is independant from the offical Grafana Labs documentation. Otherwise follow these [steps](./docs/transformer.md#generate-a-tutorial).
+
 1. Fork the repository by clicking on the **Fork** button on the top right corner of this page.
 
    For more information, refer to [Fork a repository](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/working-with-forks/fork-a-repo).
