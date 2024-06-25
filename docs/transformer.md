@@ -334,8 +334,7 @@ To generate a tutorial:
 
 1. A Killercoda maintainer reviews the PR to ensure that the generate tutorial works as expected.
 
-
-## Scripts and Extra Course Files
+## Scripts and extra course files
 
 If your tutorial requires scripts or extra files, make sure to manually add them to the tutorial directory in the Killercoda repository. For example, if your tutorial requires a script to run:
 
