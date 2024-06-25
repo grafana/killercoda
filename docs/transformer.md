@@ -339,7 +339,7 @@ To generate a tutorial:
 
 If your tutorial requires scripts or extra files, make sure to manually add them to the tutorial directory in the Killercoda repository. For example, if your tutorial requires a script to run:
 
-1. Add the bash script to the tutorial directory in the Killercoda repository. See the [what-is-loki](../loki/what-is-loki/) tutorial for an example.
+1. Add the bash script to the tutorial directory in the Killercoda repository. Refer to the [what-is-loki](../loki/what-is-loki/) tutorial for an example.
 2. Add the script to the `scripts` field in the `index.json` file:
    ```json
    "intro": {
