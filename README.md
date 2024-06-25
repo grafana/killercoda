@@ -1,5 +1,12 @@
 # Killercoda - Grafana Labs Tutorials
 
+<p >
+<a href="https://github.com/grafana/killercoda/actions/workflows/regenerate-tutorials.yml">
+    <img src="https://github.com/grafana/killercoda/actions/workflows/regenerate-tutorials.yml/badge.svg?branch=staging" alt="Regenerate Tutorials">
+</a>
+</p>
+
+
 Welcome to the Grafana Labs tutorials repository.
 This repository contains interactive tutorials for Grafana Labs, hosted on [Killercoda](https://killercoda.com/grafana-labs/).
 These tutorials aim to help users understand and implement Grafana solutions without the need to download or install the software.
