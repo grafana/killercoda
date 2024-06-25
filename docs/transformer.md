@@ -359,4 +359,4 @@ For extra assets, such as images or configuration files:
         ]
       }
    ```
-   See the [grafana-basics](../grafana/grafana-basics/index.json) tutorial for an example.
+   Refer to the [grafana-basics](../grafana/grafana-basics/index.json) tutorial for an example.
