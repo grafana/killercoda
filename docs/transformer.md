@@ -66,25 +66,25 @@ Copy directives tell the transform tool to make the contained fenced code block 
 The start marker is:
 
 ```markdown
-<!-- Killercoda copy START -->
+<!-- INTERACTIVE copy START -->
 ```
 
 The end marker is:
 
 ```markdown
-<!-- Killercoda copy END -->
+<!-- INTERACTIVE copy END -->
 ```
 
 #### Examples
 
 ````markdown
-<!-- Killercoda copy START -->
+<!-- INTERACTIVE copy START -->
 
 ```bash
 echo 'Hello, world!'
 ```
 
-<!-- Killercoda copy END -->
+<!-- INTERACTIVE copy END -->
 ````
 
 Produces:
@@ -106,25 +106,25 @@ Exec directives tell the transform tool to make the contained fenced code block 
 The start marker is:
 
 ```markdown
-<!-- Killercoda exec START -->
+<!-- INTERACTIVE exec START -->
 ```
 
 The end marker is:
 
 ```markdown
-<!-- Killercoda exec END -->
+<!-- INTERACTIVE exec END -->
 ```
 
 #### Examples
 
 ````markdown
-<!-- Killercoda exec START -->
+<!-- INTERACTIVE exec START -->
 
 ```bash
 echo 'Hello, world!'
 ```
 
-<!-- Killercoda exec END -->
+<!-- INTERACTIVE exec END -->
 ````
 
 Produces:
@@ -146,13 +146,13 @@ The finish directive specifies the start and end of the section of the file to u
 The start marker is:
 
 ```markdown
-<!-- Killercoda finish.md START -->
+<!-- INTERACTIVE finish.md START -->
 ```
 
 The end marker is:
 
 ```markdown
-<!-- Killercoda finish.md END -->
+<!-- INTERACTIVE finish.md END -->
 ```
 
 ### Ignore
@@ -162,13 +162,13 @@ The ignore directive tells the transform tool to skip the contents within the ma
 The start marker is:
 
 ```markdown
-<!-- Killercoda ignore START -->
+<!-- INTERACTIVE ignore START -->
 ```
 
 The end marker is:
 
 ```markdown
-<!-- Killercoda ignore END -->
+<!-- INTERACTIVE ignore END -->
 ```
 
 #### Examples
@@ -176,11 +176,11 @@ The end marker is:
 ```markdown
 Information common to both pages.
 
-<!-- Killercoda ignore START -->
+<!-- INTERACTIVE ignore START -->
 
 Information unique to the Grafana website page.
 
-<!-- Killercoda ignore END -->
+<!-- INTERACTIVE ignore END -->
 ```
 
 Produces:
@@ -197,13 +197,13 @@ The HTML comments aren't rendered on the Grafana website.
 The start marker is:
 
 ```markdown
-<!-- Killercoda include START -->
+<!-- INTERACTIVE include START -->
 ```
 
 The end marker is:
 
 ```markdown
-<!-- Killercoda include END -->
+<!-- INTERACTIVE include END -->
 ```
 
 #### Examples
@@ -211,9 +211,9 @@ The end marker is:
 ```markdown
 Information common to both pages.
 
-<!-- Killercoda include START -->
+<!-- INTERACTIVE include START -->
 <!-- Information unique to the Killercoda page. -->
-<!-- Killercoda include END -->
+<!-- INTERACTIVE include END -->
 ```
 
 Produces:
@@ -231,13 +231,13 @@ The intro directive specifies the start and end of the section of the file to us
 The start marker is:
 
 ```markdown
-<!-- Killercoda intro.md START -->
+<!-- INTERACTIVE intro.md START -->
 ```
 
 The end marker is:
 
 ```markdown
-<!-- Killercoda intro.md END -->
+<!-- INTERACTIVE intro.md END -->
 ```
 
 ### Step
@@ -247,13 +247,13 @@ The step directive specifies the start and end of the section of the file to use
 The start marker is the following, where _`<N>`_ is the number of the step:
 
 ```markdown
-<!-- Killercoda step<N>.md START -->
+<!-- INTERACTIVE step<N>.md START -->
 ```
 
 The end marker is the following, where _`<N>`_ is the number of the step:
 
 ```markdown
-<!-- Killercoda step<N>.md END -->
+<!-- INTERACTIVE step<N>.md END -->
 ```
 
 ## Generate a tutorial
@@ -299,7 +299,7 @@ To generate a tutorial:
 
    Each step starts at the [step](#step) directive start marker and ends at the [step](#step) directive end marker.
    Include at least one step.
-   The first step use the start marker `<!-- Killercoda step1.md START -->` and the end marker `<!-- Killercoda step1.md END -->`
+   The first step use the start marker `<!-- INTERACTIVE step1.md START -->` and the end marker `<!-- INTERACTIVE step1.md END -->`
 
 1. Configure a finish page.
 
