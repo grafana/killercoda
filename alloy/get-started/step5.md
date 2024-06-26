@@ -6,11 +6,11 @@ Copy your local `config.alloy`{{copy}} file into the default configuration file 
 
 ```macos
 sudo cp config.alloy $(brew --prefix)/etc/alloy/config.alloy
-```
+```{{copy}}
 
 ```linux
 sudo cp config.alloy /etc/alloy/config.alloy
-```
+```{{copy}}
 
 {{< /code >}}
 
@@ -19,7 +19,7 @@ for restarting the system service.
 
 ```bash
     curl -X POST http://localhost:12345/-/reload
-```
+```{{copy}}
 
 {{< admonition type=“tip” >}}
 This step uses the Alloy UI, which is exposed on `localhost`{{copy}} port `12345`{{copy}}.
@@ -35,10 +35,10 @@ be done as follows:
 
 ```macos
 brew services restart alloy
-```
+```{{copy}}
 
 ```linux
 sudo systemctl reload alloy
-```
+```{{copy}}
 
 {{< /code >}}

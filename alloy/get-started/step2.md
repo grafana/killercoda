@@ -52,7 +52,7 @@ services:
     image: grafana/grafana:11.0.0
     ports:
       - "3000:3000"
-```
+```{{copy}}
 
 Run `docker compose up`{{copy}} to start your Docker container and open [http://localhost:3000]({{TRAFFIC_HOST1_3000}}) in your browser to view the Grafana UI.
 
