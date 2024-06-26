@@ -70,6 +70,100 @@ func TestActionTransformer_Transform(t *testing.T) {
 
 		assert.Equal(t, want, b.String())
 	})
+
+	t.Run("copy without directives", func(t *testing.T) {
+		t.Parallel()
+
+		b := &bytes.Buffer{}
+		w := bufio.NewWriter(b)
+		md := goldmark.NewMarkdown()
+		md.Parser().AddOptions(parser.WithASTTransformers(util.Prioritized(&ActionTransformer{Kind: "copy"}, 0)))
+		md.SetRenderer(renderer.NewRenderer(renderer.WithNodeRenderers(util.Prioritized(markdown.NewRenderer(markdown.WithKillercodaActions()), 1000))))
+
+		src := []byte("1. Create a directory called `evaluate-loki` for the demo environment.\n" +
+			"   Make `evaluate-loki` your current working directory:\n" +
+			"\n" +
+			"   ```bash\n" +
+			"   mkdir evaluate-loki\n" +
+			"   cd evaluate-loki\n" +
+			"   ```\n" +
+			"\n" +
+			"   ```bash\n" +
+			"   mkdir evaluate-loki\n" +
+			"   cd evaluate-loki\n" +
+			"   ```\n")
+
+		root := md.Parser().Parse(text.NewReader(src))
+		require.NoError(t, md.Renderer().Render(w, src, root))
+
+		w.Flush()
+
+		want := "1. Create a directory called `evaluate-loki` for the demo environment.\n" +
+			"   Make `evaluate-loki` your current working directory:\n" +
+			"\n" +
+			"   ```bash\n" +
+			"   mkdir evaluate-loki\n" +
+			"   cd evaluate-loki\n" +
+			"   ```{{copy}}\n" +
+			"\n" +
+			"   ```bash\n" +
+			"   mkdir evaluate-loki\n" +
+			"   cd evaluate-loki\n" +
+			"   ```{{copy}}\n"
+
+		assert.Equal(t, want, b.String())
+	})
+
+	t.Run("exec", func(t *testing.T) {
+		t.Parallel()
+
+		b := &bytes.Buffer{}
+		w := bufio.NewWriter(b)
+		md := goldmark.NewMarkdown()
+		md.Parser().AddOptions(parser.WithASTTransformers(util.Prioritized(&ActionTransformer{Kind: "exec"}, 0)))
+		md.SetRenderer(renderer.NewRenderer(renderer.WithNodeRenderers(util.Prioritized(markdown.NewRenderer(markdown.WithKillercodaActions()), 1000))))
+
+		src := []byte("1. Create a directory called `evaluate-loki` for the demo environment.\n" +
+			"   Make `evaluate-loki` your current working directory:\n" +
+			"\n" +
+			"   <!-- INTERACTIVE exec START -->\n" +
+			"\n" +
+			"   ```bash\n" +
+			"   mkdir evaluate-loki\n" +
+			"   cd evaluate-loki\n" +
+			"   ```\n" +
+			"\n" +
+			"   <!-- INTERACTIVE exec END -->\n" +
+			"\n" +
+			"   <!-- INTERACTIVE exec START -->\n" +
+			"\n" +
+			"   ```bash\n" +
+			"   mkdir evaluate-loki\n" +
+			"   cd evaluate-loki\n" +
+			"   ```\n" +
+			"\n" +
+			"   <!-- INTERACTIVE exec END -->\n")
+
+		root := md.Parser().Parse(text.NewReader(src))
+		require.NoError(t, md.Renderer().Render(w, src, root))
+
+		w.Flush()
+
+		want := "1. Create a directory called `evaluate-loki` for the demo environment.\n" +
+			"   Make `evaluate-loki` your current working directory:\n" +
+			"\n" +
+			"   ```bash\n" +
+			"   mkdir evaluate-loki\n" +
+			"   cd evaluate-loki\n" +
+			"   ```{{exec}}\n" +
+			"\n" +
+			"   ```bash\n" +
+			"   mkdir evaluate-loki\n" +
+			"   cd evaluate-loki\n" +
+			"   ```{{exec}}\n"
+
+		assert.Equal(t, want, b.String())
+	})
 }
 
 func TestAdmonitionTransformer_Transform(t *testing.T) {
