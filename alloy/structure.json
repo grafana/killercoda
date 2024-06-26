@@ -1,5 +1,6 @@
 {
     "items": [
-    { "path": "getting-started", "title": "Getting Started with Alloy"}
+    { "path": "getting-started", "title": "Getting Started with Alloy"},
+    { "path": "get-started", "title": "DAVID CHAOS TOOLTEST - Get Started with Alloy" }
     ]
 }
