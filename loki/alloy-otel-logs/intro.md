@@ -1,6 +1,12 @@
-# Ingesting OpenTelemetry logs to Loki using Alloy
+# Sending OpenTelemetry logs to Loki using Alloy
 
-Alloy natively supports ingesting OpenTelemetry logs. In this example, we will configure Alloy to ingest OpenTelemetry logs to Loki.
+Alloy natively supports receiving logs in the OpenTelemetry format. This allows you to send logs from applications instrumented with OpenTelemetry to Alloy, which can then be sent to Loki for storage and visualization in Grafana. In this example, we will make use of 3 Alloy components to achieve this:
+
+- **OpenTelemetry Logs Receiver:** This receiver will accept logs via HTTP and gRPC.
+
+- **OpenTelemetry Logs Processor:** This processor will batch the logs before sending them to the logs exporter.
+
+- **OpenTelemetry Logs Exporter:** This exporter will send the logs to Loki.
 
 ## Dependencies
 

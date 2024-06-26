@@ -16,7 +16,7 @@ jobs:
           path: loki
       - uses: actions/checkout@v4
         with:
-          ref: jdb/2024-06-killercoda-migration
+          ref: staging
           path: killercoda
       - uses: actions/setup-go@v5
         with:

@@ -9,14 +9,15 @@ To use the transformer tool, you need to add Killercoda metadata to the source f
 You specify Killercoda tutorial metadata in the source file front matter as the value for the `killercoda` field.
 The tool uses the metadata to perform preprocessing on the source file and generate the Killercoda configuration files for the tutorial.
 
-| Field                                    | Type   | Description                                                                                                                    |
-| ---------------------------------------- | ------ | ------------------------------------------------------------------------------------------------------------------------------ |
-| `killercoda.backend.imageid`             | String | The name of the Killercoda environment's backend image. Supported values include, `ubuntu`, `ubuntu-4GB` `kubernetes-kubeadm-1node`, `kubernetes-kubeadm-2nodes`|
-| `killercoda.description`                 | String | The description displayed on the Killercoda website                                                                            |
-| `killercoda.details.finish.text`         | String | The filename of the finish page Markdown source in the grafana/killercoda repository.                                          |
-| `killercoda.details.intro.text`          | String | The filename of the introduction page Markdown source in the grafana/killercoda repository.                                    |
-| `killercoda.preprocessing.substitutions` | Array  | Substitute matches of a regular expression with a replacement. For more information, refer to [Substitutions](#substitutions). |
-| `killercoda.title`                       | String | The title for the tutorial on the Killercoda website.                                                                          |
+| Field                                    | Type   | Description                                                                                                                                                          |
+| ---------------------------------------- | ------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `killercoda.backend.imageid`             | String | The name of the Killercoda environment's backend image. Supported values include `ubuntu`.                                                                           |
+| `killercoda.description`                 | String | The description displayed on the Killercoda website                                                                                                                  |
+| `killercoda.details.finish.text`         | String | The filename of the finish page Markdown source in the grafana/killercoda repository. A [finish directive](#finish) in the documentation source overrides this.      |
+| `killercoda.details.intro.text`          | String | The filename of the introduction page Markdown source in the grafana/killercoda repository. An [intro directive](#intro) in the documentation source overrides this. |
+| `killercoda.preprocessing.substitutions` | Array  | Substitute matches of a regular expression with a replacement. For more information, refer to [Substitutions](#substitutions).                                       |
+| `killercoda.title`                       | String | The title for the tutorial on the Killercoda website.                                                                                                                |
+
 
 The following YAML demonstrates a number of the fields:
 
@@ -30,7 +31,7 @@ killercoda:
   description: This sandbox provides an online enviroment for testing the Loki quickstart demo.
   details:
     finish:
-      text: finished.md
+      text: finish.md
   backend:
     imageid: ubuntu
 ```
@@ -53,8 +54,8 @@ Use directives to:
 
 - [Configure copyable code blocks](#copy)
 - [Configure executable code blocks](#exec)
-- [Define a finish page](#finish)
 - [Define an introduction page](#intro)
+- [Define a finish page](#finish)
 - [Define step pages](#step)
 - [Ignore parts of the documentation](#ignore)
 - [Include extra parts not in the website page](#include)
@@ -66,25 +67,25 @@ Copy directives tell the transform tool to make the contained fenced code block 
 The start marker is:
 
 ```markdown
-<!-- Killercoda copy START -->
+<!-- INTERACTIVE copy START -->
 ```
 
 The end marker is:
 
 ```markdown
-<!-- Killercoda copy END -->
+<!-- INTERACTIVE copy END -->
 ```
 
 #### Examples
 
 ````markdown
-<!-- Killercoda copy START -->
+<!-- INTERACTIVE copy START -->
 
 ```bash
 echo 'Hello, world!'
 ```
 
-<!-- Killercoda copy END -->
+<!-- INTERACTIVE copy END -->
 ````
 
 Produces:
@@ -106,25 +107,25 @@ Exec directives tell the transform tool to make the contained fenced code block 
 The start marker is:
 
 ```markdown
-<!-- Killercoda exec START -->
+<!-- INTERACTIVE exec START -->
 ```
 
 The end marker is:
 
 ```markdown
-<!-- Killercoda exec END -->
+<!-- INTERACTIVE exec END -->
 ```
 
 #### Examples
 
 ````markdown
-<!-- Killercoda exec START -->
+<!-- INTERACTIVE exec START -->
 
 ```bash
 echo 'Hello, world!'
 ```
 
-<!-- Killercoda exec END -->
+<!-- INTERACTIVE exec END -->
 ````
 
 Produces:
@@ -142,17 +143,18 @@ echo 'Hello, world!'
 ### Finish
 
 The finish directive specifies the start and end of the section of the file to use as the Killercoda finish page.
+If this is present, it overrides the `killercoda.details.finish.text` front matter.
 
 The start marker is:
 
 ```markdown
-<!-- Killercoda finish.md START -->
+<!-- INTERACTIVE finish.md START -->
 ```
 
 The end marker is:
 
 ```markdown
-<!-- Killercoda finish.md END -->
+<!-- INTERACTIVE finish.md END -->
 ```
 
 ### Ignore
@@ -162,13 +164,13 @@ The ignore directive tells the transform tool to skip the contents within the ma
 The start marker is:
 
 ```markdown
-<!-- Killercoda ignore START -->
+<!-- INTERACTIVE ignore START -->
 ```
 
 The end marker is:
 
 ```markdown
-<!-- Killercoda ignore END -->
+<!-- INTERACTIVE ignore END -->
 ```
 
 #### Examples
@@ -176,11 +178,11 @@ The end marker is:
 ```markdown
 Information common to both pages.
 
-<!-- Killercoda ignore START -->
+<!-- INTERACTIVE ignore START -->
 
 Information unique to the Grafana website page.
 
-<!-- Killercoda ignore END -->
+<!-- INTERACTIVE ignore END -->
 ```
 
 Produces:
@@ -197,13 +199,13 @@ The HTML comments aren't rendered on the Grafana website.
 The start marker is:
 
 ```markdown
-<!-- Killercoda include START -->
+<!-- INTERACTIVE include START -->
 ```
 
 The end marker is:
 
 ```markdown
-<!-- Killercoda include END -->
+<!-- INTERACTIVE include END -->
 ```
 
 #### Examples
@@ -211,9 +213,9 @@ The end marker is:
 ```markdown
 Information common to both pages.
 
-<!-- Killercoda include START -->
+<!-- INTERACTIVE include START -->
 <!-- Information unique to the Killercoda page. -->
-<!-- Killercoda include END -->
+<!-- INTERACTIVE include END -->
 ```
 
 Produces:
@@ -227,17 +229,18 @@ Information unique to the Killercoda page.
 ### Intro
 
 The intro directive specifies the start and end of the section of the file to use as the Killercoda introduction page.
+If this is present, it overrides the `killercoda.details.intro.text` front matter.
 
 The start marker is:
 
 ```markdown
-<!-- Killercoda intro.md START -->
+<!-- INTERACTIVE intro.md START -->
 ```
 
 The end marker is:
 
 ```markdown
-<!-- Killercoda intro.md END -->
+<!-- INTERACTIVE intro.md END -->
 ```
 
 ### Step
@@ -247,13 +250,13 @@ The step directive specifies the start and end of the section of the file to use
 The start marker is the following, where _`<N>`_ is the number of the step:
 
 ```markdown
-<!-- Killercoda step<N>.md START -->
+<!-- INTERACTIVE step<N>.md START -->
 ```
 
 The end marker is the following, where _`<N>`_ is the number of the step:
 
 ```markdown
-<!-- Killercoda step<N>.md END -->
+<!-- INTERACTIVE step<N>.md END -->
 ```
 
 ## Generate a tutorial
@@ -299,7 +302,7 @@ To generate a tutorial:
 
    Each step starts at the [step](#step) directive start marker and ends at the [step](#step) directive end marker.
    Include at least one step.
-   The first step use the start marker `<!-- Killercoda step1.md START -->` and the end marker `<!-- Killercoda step1.md END -->`
+   The first step use the start marker `<!-- INTERACTIVE step1.md START -->` and the end marker `<!-- INTERACTIVE step1.md END -->`
 
 1. Configure a finish page.
 
