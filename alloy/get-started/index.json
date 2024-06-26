@@ -1,0 +1,32 @@
+{
+  "title": "Getting Started with Grafana Alloy",
+  "description": "This sandbox provides an online enviroment for using the Alloy quickstart demo.",
+  "details": {
+    "intro": {
+      "text": "intro.md"
+    },
+    "steps": [
+      {
+        "text": "step1.md"
+      },
+      {
+        "text": "step2.md"
+      },
+      {
+        "text": "step3.md"
+      },
+      {
+        "text": "step4.md"
+      },
+      {
+        "text": "step5.md"
+      }
+    ],
+    "finish": {
+      "text": "finished.md"
+    }
+  },
+  "backend": {
+    "imageid": "ubuntu"
+  }
+}
