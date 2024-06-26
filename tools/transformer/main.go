@@ -219,7 +219,7 @@ func transform(srcFilePath, dstDirPath string) error {
 	)
 
 	for i := 1; i <= 5; i++ {
-		if regexp.MustCompile(fmt.Sprintf(`<!-- Killercoda step%d.md START -->`, i)).Match(data) {
+		if regexp.MustCompile(fmt.Sprintf(`<!-- INTERACTIVE step%d.md START -->`, i)).Match(data) {
 			steps++
 
 			if err := writeStep(dstDirPath, i, data, transformers, renderer); err != nil {
