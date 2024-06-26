@@ -18,6 +18,7 @@ The tool uses the metadata to perform preprocessing on the source file and gener
 | `killercoda.preprocessing.substitutions` | Array  | Substitute matches of a regular expression with a replacement. For more information, refer to [Substitutions](#substitutions).                                       |
 | `killercoda.title`                       | String | The title for the tutorial on the Killercoda website.                                                                                                                |
 
+
 The following YAML demonstrates a number of the fields:
 
 ```yaml
@@ -335,3 +336,64 @@ To generate a tutorial:
 1. In each repository, commit your changes, push your branch, and open a pull request.
 
 1. A Killercoda maintainer reviews the PR to ensure that the generate tutorial works as expected.
+
+## Scripts and extra course files
+
+If your tutorial requires scripts or extra files, make sure to manually add them to the tutorial directory in the Killercoda repository. For example, if your tutorial requires a script to run:
+
+1. Add the bash script to the tutorial directory in the Killercoda repository. Refer to the [what-is-loki](../loki/what-is-loki/) tutorial for an example.
+2. Add the script to the desired step within the `index.json` file. Note that `foreground` scripts run in the foreground (seen in terminal), and `background` scripts run in the background (run in background thread). For example:
+   ```json
+   {
+      "title": "What is Loki?",
+      "description": "A sandbox enviroment to introduce Loki to new users.",
+      "details": {
+         "intro": {
+         "text": "intro.md",
+         "foreground": "script1.sh"
+         },
+         "steps": [
+         {
+            "text": "step1.md",
+            "foreground": "script2.sh"
+         }
+         ],
+         "finish": {
+         "text": "finished.md"
+         }
+      },
+      "backend": {
+         "imageid": "ubuntu"
+      }
+   }
+
+   ```
+
+For extra assets, such as images or configuration files:
+1. Create a directory called `assets` in the tutorial directory.
+2. Add the assets to the `assets` directory.
+3. Add the mount path to the `index.json` file:
+   ```json
+   {
+      "title": "Grafana Basics",
+      "description": "In this demo learn how to install and configure Grafana",
+      "details": {
+         "intro": {
+         "text": "intro.md"
+         },
+         "steps": [],
+         "finish": {
+         "text": "finished.md"
+         },
+         "assets": {
+         "host01": [
+            {"file": "*", "target": "/education"}
+         ]
+         }
+      },
+      "backend": {
+         "imageid": "ubuntu"
+      }
+   }
+   ```
+   Refer to the [grafana-basics](../grafana/grafana-basics/index.json) tutorial for an example.
