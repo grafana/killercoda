@@ -9,14 +9,14 @@ To use the transformer tool, you need to add Killercoda metadata to the source f
 You specify Killercoda tutorial metadata in the source file front matter as the value for the `killercoda` field.
 The tool uses the metadata to perform preprocessing on the source file and generate the Killercoda configuration files for the tutorial.
 
-| Field                                    | Type   | Description                                                                                                                    |
-| ---------------------------------------- | ------ | ------------------------------------------------------------------------------------------------------------------------------ |
-| `killercoda.backend.imageid`             | String | The name of the Killercoda environment's backend image. Supported values include `ubuntu`.                                     |
-| `killercoda.description`                 | String | The description displayed on the Killercoda website                                                                            |
-| `killercoda.details.finish.text`         | String | The filename of the finish page Markdown source in the grafana/killercoda repository.                                          |
-| `killercoda.details.intro.text`          | String | The filename of the introduction page Markdown source in the grafana/killercoda repository.                                    |
-| `killercoda.preprocessing.substitutions` | Array  | Substitute matches of a regular expression with a replacement. For more information, refer to [Substitutions](#substitutions). |
-| `killercoda.title`                       | String | The title for the tutorial on the Killercoda website.                                                                          |
+| Field                                    | Type   | Description                                                                                                                                                          |
+| ---------------------------------------- | ------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `killercoda.backend.imageid`             | String | The name of the Killercoda environment's backend image. Supported values include `ubuntu`.                                                                           |
+| `killercoda.description`                 | String | The description displayed on the Killercoda website                                                                                                                  |
+| `killercoda.details.finish.text`         | String | The filename of the finish page Markdown source in the grafana/killercoda repository. A [finish directive](#finish) in the documentation source overrides this.      |
+| `killercoda.details.intro.text`          | String | The filename of the introduction page Markdown source in the grafana/killercoda repository. An [intro directive](#intro) in the documentation source overrides this. |
+| `killercoda.preprocessing.substitutions` | Array  | Substitute matches of a regular expression with a replacement. For more information, refer to [Substitutions](#substitutions).                                       |
+| `killercoda.title`                       | String | The title for the tutorial on the Killercoda website.                                                                                                                |
 
 The following YAML demonstrates a number of the fields:
 
@@ -30,7 +30,7 @@ killercoda:
   description: This sandbox provides an online enviroment for testing the Loki quickstart demo.
   details:
     finish:
-      text: finished.md
+      text: finish.md
   backend:
     imageid: ubuntu
 ```
@@ -53,8 +53,8 @@ Use directives to:
 
 - [Configure copyable code blocks](#copy)
 - [Configure executable code blocks](#exec)
-- [Define a finish page](#finish)
 - [Define an introduction page](#intro)
+- [Define a finish page](#finish)
 - [Define step pages](#step)
 - [Ignore parts of the documentation](#ignore)
 - [Include extra parts not in the website page](#include)
@@ -142,6 +142,7 @@ echo 'Hello, world!'
 ### Finish
 
 The finish directive specifies the start and end of the section of the file to use as the Killercoda finish page.
+If this is present, it overrides the `killercoda.details.finish.text` front matter.
 
 The start marker is:
 
@@ -227,6 +228,7 @@ Information unique to the Killercoda page.
 ### Intro
 
 The intro directive specifies the start and end of the section of the file to use as the Killercoda introduction page.
+If this is present, it overrides the `killercoda.details.intro.text` front matter.
 
 The start marker is:
 
