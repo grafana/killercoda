@@ -1,5 +1,12 @@
 # Killercoda - Grafana Labs Tutorials
 
+<p >
+<a href="https://github.com/grafana/killercoda/actions/workflows/regenerate-tutorials.yml">
+    <img src="https://github.com/grafana/killercoda/actions/workflows/regenerate-tutorials.yml/badge.svg?branch=staging" alt="Regenerate Tutorials">
+</a>
+</p>
+
+
 Welcome to the Grafana Labs tutorials repository.
 This repository contains interactive tutorials for Grafana Labs, hosted on [Killercoda](https://killercoda.com/grafana-labs/).
 These tutorials aim to help users understand and implement Grafana solutions without the need to download or install the software.
@@ -38,6 +45,10 @@ We welcome contributions to enhance these tutorials.
 - Become familiar with the Grafana topic you want to write a tutorial for.
 
 ### Propose changes
+
+> **Note:**
+> Use the following contribution steps if you want to create a tutorial that's not also part of Grafana Labs documentation.
+> Otherwise follow these [steps](./docs/transformer.md#generate-a-tutorial) to generate a tutorial from that documentation.
 
 1. Fork the repository by clicking on the **Fork** button on the top right corner of this page.
 
