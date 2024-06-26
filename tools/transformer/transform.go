@@ -19,18 +19,18 @@ var (
 )
 
 const (
-	copyStartMarker    = "<!-- Killercoda copy START -->"
-	copyEndMarker      = "<!-- Killercoda copy END -->"
-	execStartMarker    = "<!-- Killercoda exec START -->"
-	execEndMarker      = "<!-- Killercoda exec END -->"
-	finishStartMarker  = "<!-- Killercoda finish.md START -->"
-	finishEndMarker    = "<!-- Killercoda finish.md END -->"
-	ignoreStartMarker  = "<!-- Killercoda ignore START -->"
-	ignoreEndMarker    = "<!-- Killercoda ignore END -->"
-	includeStartMarker = "<!-- Killercoda include START -->"
-	includeEndMarker   = "<!-- Killercoda include END -->"
-	introStartMarker   = "<!-- Killercoda intro.md START -->"
-	introEndMarker     = "<!-- Killercoda intro.md END -->"
+	copyStartMarker    = "<!-- INTERACTIVE copy START -->"
+	copyEndMarker      = "<!-- INTERACTIVE copy END -->"
+	execStartMarker    = "<!-- INTERACTIVE exec START -->"
+	execEndMarker      = "<!-- INTERACTIVE exec END -->"
+	finishStartMarker  = "<!-- INTERACTIVE finish.md START -->"
+	finishEndMarker    = "<!-- INTERACTIVE finish.md END -->"
+	ignoreStartMarker  = "<!-- INTERACTIVE ignore START -->"
+	ignoreEndMarker    = "<!-- INTERACTIVE ignore END -->"
+	includeStartMarker = "<!-- INTERACTIVE include START -->"
+	includeEndMarker   = "<!-- INTERACTIVE include END -->"
+	introStartMarker   = "<!-- INTERACTIVE intro.md START -->"
+	introEndMarker     = "<!-- INTERACTIVE intro.md END -->"
 )
 
 func isMarker(node ast.Node, source []byte, marker string) bool {
@@ -509,8 +509,8 @@ type StepTransformer struct {
 // It removes all other nodes resulting in a document that only contains the content between the markers.
 // It removes the markers themselves.
 func (t *StepTransformer) Transform(root *ast.Document, reader text.Reader, _ parser.Context) {
-	stepStartMarker := fmt.Sprintf("<!-- Killercoda step%d.md START -->", t.Step)
-	stepEndMarker := fmt.Sprintf("<!-- Killercoda step%d.md END -->", t.Step)
+	stepStartMarker := fmt.Sprintf("<!-- INTERACTIVE step%d.md START -->", t.Step)
+	stepEndMarker := fmt.Sprintf("<!-- INTERACTIVE step%d.md END -->", t.Step)
 
 	source := reader.Source()
 
