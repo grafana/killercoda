@@ -95,7 +95,7 @@ func (t *ActionTransformer) Transform(node *ast.Document, reader text.Reader, _ 
 				toRemove = append(toRemove, child)
 			}
 
-			if inMarker {
+			if inMarker || t.Kind == "copy" {
 				if fenced, ok := child.(*ast.FencedCodeBlock); ok {
 					fenced.SetAttributeString("data-killercoda-"+t.Kind, "true")
 				}
