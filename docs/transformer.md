@@ -342,12 +342,31 @@ To generate a tutorial:
 If your tutorial requires scripts or extra files, make sure to manually add them to the tutorial directory in the Killercoda repository. For example, if your tutorial requires a script to run:
 
 1. Add the bash script to the tutorial directory in the Killercoda repository. Refer to the [what-is-loki](../loki/what-is-loki/) tutorial for an example.
-2. Add the script to the `scripts` field in the `index.json` file:
+2. Add the script to the desired step within the `index.json` file. Note that `foreground` scripts run in the foreground (seen in terminal), and `background` scripts run in the background (Run in background thread). For example:
    ```json
-   "intro": {
-      "text": "intro.md",
-      "foreground": "setup.sh"
+   {
+      "title": "What is Loki?",
+      "description": "A sandbox enviroment to introduce Loki to new users.",
+      "details": {
+         "intro": {
+         "text": "intro.md",
+         "foreground": "script1.sh"
+         },
+         "steps": [
+         {
+            "text": "step1.md",
+            "foreground": "script2.sh"
+         }
+         ],
+         "finish": {
+         "text": "finished.md"
+         }
       },
+      "backend": {
+         "imageid": "ubuntu"
+      }
+   }
+
    ```
 
 For extra assets, such as images or configuration files:
@@ -355,10 +374,26 @@ For extra assets, such as images or configuration files:
 2. Add the assets to the `assets` directory.
 3. Add the mount path to the `index.json` file:
    ```json
-    "assets": {
-        "host01": [
-          {"file": "/assets", "target": "/assets"}
-        ]
+   {
+      "title": "Grafana Basics",
+      "description": "In this demo learn how to install and configure Grafana",
+      "details": {
+         "intro": {
+         "text": "intro.md"
+         },
+         "steps": [],
+         "finish": {
+         "text": "finished.md"
+         },
+         "assets": {
+         "host01": [
+            {"file": "*", "target": "/education"}
+         ]
+         }
+      },
+      "backend": {
+         "imageid": "ubuntu"
       }
+   }
    ```
    Refer to the [grafana-basics](../grafana/grafana-basics/index.json) tutorial for an example.
