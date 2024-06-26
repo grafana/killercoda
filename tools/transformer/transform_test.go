@@ -32,23 +32,23 @@ func TestActionTransformer_Transform(t *testing.T) {
 		src := []byte("1. Create a directory called `evaluate-loki` for the demo environment.\n" +
 			"   Make `evaluate-loki` your current working directory:\n" +
 			"\n" +
-			"   <!-- Killercoda copy START -->\n" +
+			"   <!-- INTERACTIVE copy START -->\n" +
 			"\n" +
 			"   ```bash\n" +
 			"   mkdir evaluate-loki\n" +
 			"   cd evaluate-loki\n" +
 			"   ```\n" +
 			"\n" +
-			"   <!-- Killercoda copy END -->\n" +
+			"   <!-- INTERACTIVE copy END -->\n" +
 			"\n" +
-			"   <!-- Killercoda copy START -->\n" +
+			"   <!-- INTERACTIVE copy START -->\n" +
 			"\n" +
 			"   ```bash\n" +
 			"   mkdir evaluate-loki\n" +
 			"   cd evaluate-loki\n" +
 			"   ```\n" +
 			"\n" +
-			"   <!-- Killercoda copy END -->\n")
+			"   <!-- INTERACTIVE copy END -->\n")
 
 		root := md.Parser().Parse(text.NewReader(src))
 		require.NoError(t, md.Renderer().Render(w, src, root))
@@ -208,13 +208,13 @@ func TestIgnoreTransformer_Transform(t *testing.T) {
 
 	src := []byte(`## Install Loki and collecting sample logs
 
-<!-- Killercoda ignore START -->
+<!-- INTERACTIVE ignore START -->
 
 {{< admonition type="note" >}}
 This quickstart assumes you are running Linux.
 {{< /admonition >}}
 
-<!-- Killercoda ignore END -->
+<!-- INTERACTIVE ignore END -->
 
 **To install Loki locally, follow these steps:**
 `)
@@ -241,11 +241,11 @@ func TestIncludeTransformer_Transform(t *testing.T) {
 	md.Parser().AddOptions(parser.WithASTTransformers(util.Prioritized(&IncludeTransformer{}, 0)))
 	md.SetRenderer(renderer.NewRenderer(renderer.WithNodeRenderers(util.Prioritized(markdown.NewRenderer(), 1000))))
 
-	src := []byte("<!-- Killercoda include START -->\n" +
+	src := []byte("<!-- INTERACTIVE include START -->\n" +
 		"<!-- ```bash -->\n" +
 		"<!-- docker-compose up -d -->\n" +
 		"<!-- ```{{exec}} -->\n" +
-		"<!-- Killercoda include END -->\n")
+		"<!-- INTERACTIVE include END -->\n")
 
 	root := md.Parser().Parse(text.NewReader(src))
 	require.NoError(t, md.Renderer().Render(w, src, root))
@@ -268,7 +268,7 @@ func TestIntroTransformer_Transform(t *testing.T) {
 	md.Parser().AddOptions(parser.WithASTTransformers(util.Prioritized(&IntroTransformer{}, 0)))
 	md.SetRenderer(renderer.NewRenderer(renderer.WithNodeRenderers(util.Prioritized(markdown.NewRenderer(), 1000))))
 
-	src := []byte(`<!-- Killercoda intro.md START -->
+	src := []byte(`<!-- INTERACTIVE intro.md START -->
 
 # Quickstart to run Loki locally
 
@@ -279,7 +279,7 @@ The Docker Compose configuration instantiates the following components, each in 
 - **Grafana Alloy** which scrapes the log lines from flog, and pushes them to Loki through the gateway.
 - **Grafana** which provides visualization of the log lines captured within Loki.
 
-<!-- Killercoda intro.md END -->
+<!-- INTERACTIVE intro.md END -->
 `)
 
 	root := md.Parser().Parse(text.NewReader(src))
