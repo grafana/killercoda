@@ -142,16 +142,16 @@ func transform(srcFilePath, dstDirPath string) error {
 		wroteFinish bool
 	)
 
-	if bytes.Contains(data, []byte(fileIntroStartMarker)) {
-		if err := writeFile(dstDirPath, "intro.md", append(transformers, util.Prioritized(&StepTransformer{StartMarker: fileIntroStartMarker, EndMarker: fileIntroEndMarker}, 0)), renderer, data); err != nil {
+	if bytes.Contains(data, []byte(pageIntroStartMarker)) {
+		if err := writeFile(dstDirPath, "intro.md", append(transformers, util.Prioritized(&StepTransformer{StartMarker: pageIntroStartMarker, EndMarker: pageIntroEndMarker}, 0)), renderer, data); err != nil {
 			return err
 		}
 
 		wroteIntro = true
 	}
 
-	if bytes.Contains(data, []byte(fileFinishStartMarker)) {
-		if err := writeFile(dstDirPath, "finish.md", append(transformers, util.Prioritized(&StepTransformer{StartMarker: fileFinishStartMarker, EndMarker: fileFinishEndMarker}, 0)), renderer, data); err != nil {
+	if bytes.Contains(data, []byte(pageFinishStartMarker)) {
+		if err := writeFile(dstDirPath, "finish.md", append(transformers, util.Prioritized(&StepTransformer{StartMarker: pageFinishStartMarker, EndMarker: pageFinishEndMarker}, 0)), renderer, data); err != nil {
 			return err
 		}
 
@@ -164,8 +164,8 @@ func transform(srcFilePath, dstDirPath string) error {
 	)
 
 	for i := 1; i <= 20; i++ {
-		startMarker := fmt.Sprintf(`<!-- INTERACTIVE file step%d.md START -->`, i)
-		endMarker := fmt.Sprintf(`<!-- INTERACTIVE file step%d.md END -->`, i)
+		startMarker := pageStepStartMarkers[i-1]
+		endMarker := pageStepEndMarkers[i-1]
 
 		if regexp.MustCompile(startMarker).Match(data) {
 			steps++

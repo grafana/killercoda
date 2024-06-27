@@ -3,52 +3,6 @@
 package main
 
 const (
-	copyStartMarker       = `<!-- INTERACTIVE copy START -->`
-	copyEndMarker         = `<!-- INTERACTIVE copy END -->`
-	execStartMarker       = `<!-- INTERACTIVE exec START -->`
-	execEndMarker         = `<!-- INTERACTIVE exec END -->`
-	fileIntroStartMarker  = `<!-- INTERACTIVE file intro.md START -->`
-	fileIntroEndMarker    = `<!-- INTERACTIVE file intro.md END -->`
-	fileFinishStartMarker = `<!-- INTERACTIVE file finish.md START -->`
-	fileFinishEndMarker   = `<!-- INTERACTIVE file finish.md END -->`
-	fileStep1StartMarker  = `<!-- INTERACTIVE file step1.md START -->`
-	fileStep1EndMarker    = `<!-- INTERACTIVE file step1.md END -->`
-	fileStep2StartMarker  = `<!-- INTERACTIVE file step2.md START -->`
-	fileStep2EndMarker    = `<!-- INTERACTIVE file step2.md END -->`
-	fileStep3StartMarker  = `<!-- INTERACTIVE file step3.md START -->`
-	fileStep3EndMarker    = `<!-- INTERACTIVE file step3.md END -->`
-	fileStep4StartMarker  = `<!-- INTERACTIVE file step4.md START -->`
-	fileStep4EndMarker    = `<!-- INTERACTIVE file step4.md END -->`
-	fileStep5StartMarker  = `<!-- INTERACTIVE file step5.md START -->`
-	fileStep5EndMarker    = `<!-- INTERACTIVE file step5.md END -->`
-	fileStep6StartMarker  = `<!-- INTERACTIVE file step6.md START -->`
-	fileStep6EndMarker    = `<!-- INTERACTIVE file step6.md END -->`
-	fileStep7StartMarker  = `<!-- INTERACTIVE file step7.md START -->`
-	fileStep7EndMarker    = `<!-- INTERACTIVE file step7.md END -->`
-	fileStep8StartMarker  = `<!-- INTERACTIVE file step8.md START -->`
-	fileStep8EndMarker    = `<!-- INTERACTIVE file step8.md END -->`
-	fileStep9StartMarker  = `<!-- INTERACTIVE file step9.md START -->`
-	fileStep9EndMarker    = `<!-- INTERACTIVE file step9.md END -->`
-	fileStep10StartMarker = `<!-- INTERACTIVE file step10.md START -->`
-	fileStep10EndMarker   = `<!-- INTERACTIVE file step10.md END -->`
-	fileStep11StartMarker = `<!-- INTERACTIVE file step11.md START -->`
-	fileStep11EndMarker   = `<!-- INTERACTIVE file step11.md END -->`
-	fileStep12StartMarker = `<!-- INTERACTIVE file step12.md START -->`
-	fileStep12EndMarker   = `<!-- INTERACTIVE file step12.md END -->`
-	fileStep13StartMarker = `<!-- INTERACTIVE file step13.md START -->`
-	fileStep13EndMarker   = `<!-- INTERACTIVE file step13.md END -->`
-	fileStep14StartMarker = `<!-- INTERACTIVE file step14.md START -->`
-	fileStep14EndMarker   = `<!-- INTERACTIVE file step14.md END -->`
-	fileStep15StartMarker = `<!-- INTERACTIVE file step15.md START -->`
-	fileStep15EndMarker   = `<!-- INTERACTIVE file step15.md END -->`
-	fileStep16StartMarker = `<!-- INTERACTIVE file step16.md START -->`
-	fileStep16EndMarker   = `<!-- INTERACTIVE file step16.md END -->`
-	fileStep17StartMarker = `<!-- INTERACTIVE file step17.md START -->`
-	fileStep17EndMarker   = `<!-- INTERACTIVE file step17.md END -->`
-	fileStep18StartMarker = `<!-- INTERACTIVE file step18.md START -->`
-	fileStep18EndMarker   = `<!-- INTERACTIVE file step18.md END -->`
-	fileStep19StartMarker = `<!-- INTERACTIVE file step19.md START -->`
-	fileStep19EndMarker   = `<!-- INTERACTIVE file step19.md END -->`
 	finishStartMarker     = `<!-- INTERACTIVE finish START -->`
 	finishEndMarker       = `<!-- INTERACTIVE finish END -->`
 	ignoreStartMarker     = `<!-- INTERACTIVE ignore START -->`
@@ -57,4 +11,55 @@ const (
 	includeEndMarker      = `<!-- INTERACTIVE include END -->`
 	introStartMarker      = `<!-- INTERACTIVE intro START -->`
 	introEndMarker        = `<!-- INTERACTIVE intro END -->`
+	pageIntroStartMarker  = `<!-- INTERACTIVE page intro.md START -->`
+	pageIntroEndMarker    = `<!-- INTERACTIVE page intro.md END -->`
+	pageFinishStartMarker = `<!-- INTERACTIVE page finish.md START -->`
+	pageFinishEndMarker   = `<!-- INTERACTIVE page finish.md END -->`
+	copyStartMarker       = `<!-- INTERACTIVE copy START -->`
+	copyEndMarker         = `<!-- INTERACTIVE copy END -->`
+	execStartMarker       = `<!-- INTERACTIVE exec START -->`
+	execEndMarker         = `<!-- INTERACTIVE exec END -->`
 )
+
+var pageStepStartMarkers = [20]string{
+	"<!-- INTERACTIVE page step1.md START -->",
+	"<!-- INTERACTIVE page step2.md START -->",
+	"<!-- INTERACTIVE page step3.md START -->",
+	"<!-- INTERACTIVE page step4.md START -->",
+	"<!-- INTERACTIVE page step5.md START -->",
+	"<!-- INTERACTIVE page step6.md START -->",
+	"<!-- INTERACTIVE page step7.md START -->",
+	"<!-- INTERACTIVE page step8.md START -->",
+	"<!-- INTERACTIVE page step9.md START -->",
+	"<!-- INTERACTIVE page step10.md START -->",
+	"<!-- INTERACTIVE page step11.md START -->",
+	"<!-- INTERACTIVE page step12.md START -->",
+	"<!-- INTERACTIVE page step13.md START -->",
+	"<!-- INTERACTIVE page step14.md START -->",
+	"<!-- INTERACTIVE page step15.md START -->",
+	"<!-- INTERACTIVE page step16.md START -->",
+	"<!-- INTERACTIVE page step17.md START -->",
+	"<!-- INTERACTIVE page step18.md START -->",
+	"<!-- INTERACTIVE page step19.md START -->",
+}
+var pageStepEndMarkers = [20]string{
+	"<!-- INTERACTIVE page step1.md END -->",
+	"<!-- INTERACTIVE page step2.md END -->",
+	"<!-- INTERACTIVE page step3.md END -->",
+	"<!-- INTERACTIVE page step4.md END -->",
+	"<!-- INTERACTIVE page step5.md END -->",
+	"<!-- INTERACTIVE page step6.md END -->",
+	"<!-- INTERACTIVE page step7.md END -->",
+	"<!-- INTERACTIVE page step8.md END -->",
+	"<!-- INTERACTIVE page step9.md END -->",
+	"<!-- INTERACTIVE page step10.md END -->",
+	"<!-- INTERACTIVE page step11.md END -->",
+	"<!-- INTERACTIVE page step12.md END -->",
+	"<!-- INTERACTIVE page step13.md END -->",
+	"<!-- INTERACTIVE page step14.md END -->",
+	"<!-- INTERACTIVE page step15.md END -->",
+	"<!-- INTERACTIVE page step16.md END -->",
+	"<!-- INTERACTIVE page step17.md END -->",
+	"<!-- INTERACTIVE page step18.md END -->",
+	"<!-- INTERACTIVE page step19.md END -->",
+}

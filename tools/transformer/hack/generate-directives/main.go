@@ -54,29 +54,46 @@ func generateMarkers(outputPath string) error {
 	g.Printf("package " + "main")
 	g.Printf("\n")
 
-	g.Printf("const (\n")
+	{
+		g.Printf("const (\n")
 
-	for directive := range directives {
-		switch directive {
-		case "file":
-			g.Printf("%sIntroStartMarker = `%s`\n", directive, marker(directive, []string{"intro.md"}, true))
-			g.Printf("%sIntroEndMarker = `%s`\n", directive, marker(directive, []string{"intro.md"}, false))
+		for directive := range directives {
+			switch directive {
+			case "page":
+				g.Printf("%sIntroStartMarker = `%s`\n", directive, marker(directive, []string{"intro.md"}, true))
+				g.Printf("%sIntroEndMarker = `%s`\n", directive, marker(directive, []string{"intro.md"}, false))
 
-			g.Printf("%sFinishStartMarker = `%s`\n", directive, marker(directive, []string{"finish.md"}, true))
-			g.Printf("%sFinishEndMarker = `%s`\n", directive, marker(directive, []string{"finish.md"}, false))
+				g.Printf("%sFinishStartMarker = `%s`\n", directive, marker(directive, []string{"finish.md"}, true))
+				g.Printf("%sFinishEndMarker = `%s`\n", directive, marker(directive, []string{"finish.md"}, false))
 
-			for i := 1; i < 20; i++ {
-				stepFilename := fmt.Sprintf("step%d.md", i)
-				g.Printf("%sStep%dStartMarker = `%s`\n", directive, i, marker(directive, []string{stepFilename}, true))
-				g.Printf("%sStep%dEndMarker = `%s`\n", directive, i, marker(directive, []string{stepFilename}, false))
+			default:
+				g.Printf("%sStartMarker = `%s`\n", directive, marker(directive, nil, true))
+				g.Printf("%sEndMarker = `%s`\n", directive, marker(directive, nil, false))
 			}
-		default:
-			g.Printf("%sStartMarker = `%s`\n", directive, marker(directive, nil, true))
-			g.Printf("%sEndMarker = `%s`\n", directive, marker(directive, nil, false))
 		}
+
+		g.Printf(")\n")
 	}
 
-	g.Printf(")\n")
+	{
+		const maxSteps = 20
+
+		g.Printf("var pageStepStartMarkers = [%d]string{\n", maxSteps)
+
+		for i := 1; i < maxSteps; i++ {
+			stepFilename := fmt.Sprintf("step%d.md", i)
+			g.Printf("\"%s\",\n", marker("page", []string{stepFilename}, true))
+		}
+		g.Printf("}\n")
+
+		g.Printf("var pageStepEndMarkers = [%d]string{\n", maxSteps)
+
+		for i := 1; i < maxSteps; i++ {
+			stepFilename := fmt.Sprintf("step%d.md", i)
+			g.Printf("\"%s\",\n", marker("page", []string{stepFilename}, false))
+		}
+		g.Printf("}\n")
+	}
 
 	src, err := g.format()
 	if err != nil {
@@ -113,11 +130,11 @@ const (
 var directives = map[string][]string{
 	"copy":    {},
 	"exec":    {},
-	"file":    {"FILENAME"},
 	"finish":  {},
 	"ignore":  {},
 	"include": {},
 	"intro":   {},
+	"page":    {"FILENAME"},
 }
 
 func marker(directive string, args []string, isStart bool) string {
