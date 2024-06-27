@@ -194,50 +194,6 @@ func (t *FigureTransformer) Transform(node *ast.Document, reader text.Reader, _ 
 	}
 }
 
-type FinishTransformer struct{}
-
-// Transform implements the parser.ASTTransformer interface and keeps only the sibling nodes within the finish start and end markers.
-// It removes all other nodes resulting in a document that only contains the content between the markers.
-// It removes the markers themselves.
-func (t *FinishTransformer) Transform(root *ast.Document, reader text.Reader, _ parser.Context) {
-	source := reader.Source()
-
-	err := ast.Walk(root, func(node ast.Node, entering bool) (ast.WalkStatus, error) {
-		if !entering {
-			return ast.WalkContinue, nil
-		}
-
-		if isMarker(node, source, finishStartMarker) {
-			var toKeep []ast.Node
-			for sibling := node.NextSibling(); ; sibling = sibling.NextSibling() {
-				if sibling == nil {
-					return ast.WalkStop, fmt.Errorf("%w: %s", errNoEndMarker, finishEndMarker)
-				}
-
-				if isMarker(sibling, source, finishEndMarker) {
-					break
-				}
-
-				toKeep = append(toKeep, sibling)
-			}
-
-			root.RemoveChildren(root)
-
-			for _, node := range toKeep {
-				root.AppendChild(root, node)
-				node.SetParent(root)
-			}
-
-			return ast.WalkStop, nil
-		}
-
-		return ast.WalkContinue, nil
-	})
-	if err != nil {
-		fmt.Fprintf(os.Stderr, "Error transforming AST: %v\n", err)
-	}
-}
-
 type HeadingTransformer struct{}
 
 // Transform implements the parser.ASTTransformer interface and ensures the heading hierarchy begins at H1.
@@ -389,50 +345,6 @@ func (t *InlineActionTransformer) Transform(node *ast.Document, _ text.Reader, _
 	}
 }
 
-type IntroTransformer struct{}
-
-// Transform implements the parser.ASTTransformer interface and keeps only the sibling nodes within the intro start and end markers.
-// It removes all other nodes resulting in a document that only contains the content between the markers.
-// It removes the markers themselves.
-func (t *IntroTransformer) Transform(root *ast.Document, reader text.Reader, _ parser.Context) {
-	source := reader.Source()
-
-	err := ast.Walk(root, func(node ast.Node, entering bool) (ast.WalkStatus, error) {
-		if !entering {
-			return ast.WalkContinue, nil
-		}
-
-		if isMarker(node, source, introStartMarker) {
-			var toKeep []ast.Node
-			for sibling := node.NextSibling(); ; sibling = sibling.NextSibling() {
-				if sibling == nil {
-					return ast.WalkStop, fmt.Errorf("%w: %s", errNoEndMarker, introStartMarker)
-				}
-
-				if isMarker(sibling, source, introEndMarker) {
-					break
-				}
-
-				toKeep = append(toKeep, sibling)
-			}
-
-			root.RemoveChildren(root)
-
-			for _, node := range toKeep {
-				root.AppendChild(root, node)
-				node.SetParent(root)
-			}
-
-			return ast.WalkStop, nil
-		}
-
-		return ast.WalkContinue, nil
-	})
-	if err != nil {
-		fmt.Fprintf(os.Stderr, "Error transforming AST: %v\n", err)
-	}
-}
-
 type LinkTransformer struct{}
 
 // Transform implements the parser.ASTTransformer interface and replaces version substitution syntax (<SOMETHING_VERSION>) with 'latest' in links.
@@ -487,16 +399,14 @@ func (t *LinkTransformer) Transform(root *ast.Document, _ text.Reader, _ parser.
 }
 
 type StepTransformer struct {
-	Step int
+	StartMarker string
+	EndMarker   string
 }
 
 // Transform implements the parser.ASTTransformer interface and keeps only the sibling nodes within the step start and end markers.
 // It removes all other nodes resulting in a document that only contains the content between the markers.
 // It removes the markers themselves.
 func (t *StepTransformer) Transform(root *ast.Document, reader text.Reader, _ parser.Context) {
-	stepStartMarker := fmt.Sprintf("<!-- INTERACTIVE step%d.md START -->", t.Step)
-	stepEndMarker := fmt.Sprintf("<!-- INTERACTIVE step%d.md END -->", t.Step)
-
 	source := reader.Source()
 
 	err := ast.Walk(root, func(node ast.Node, entering bool) (ast.WalkStatus, error) {
@@ -504,14 +414,14 @@ func (t *StepTransformer) Transform(root *ast.Document, reader text.Reader, _ pa
 			return ast.WalkContinue, nil
 		}
 
-		if isMarker(node, source, stepStartMarker) {
+		if isMarker(node, source, t.StartMarker) {
 			var toKeep []ast.Node
 			for sibling := node.NextSibling(); ; sibling = sibling.NextSibling() {
 				if sibling == nil {
-					return ast.WalkStop, fmt.Errorf("%w: %s", errNoEndMarker, stepStartMarker)
+					return ast.WalkStop, fmt.Errorf("%w: %s", errNoEndMarker, t.StartMarker)
 				}
 
-				if isMarker(sibling, source, stepEndMarker) {
+				if isMarker(sibling, source, t.EndMarker) {
 					break
 				}
 

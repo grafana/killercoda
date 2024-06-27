@@ -353,49 +353,6 @@ func TestIncludeTransformer_Transform(t *testing.T) {
 	assert.Equal(t, want, b.String())
 }
 
-func TestIntroTransformer_Transform(t *testing.T) {
-	t.Parallel()
-
-	b := &bytes.Buffer{}
-	w := bufio.NewWriter(b)
-	md := goldmark.NewMarkdown()
-	md.Parser().AddOptions(parser.WithASTTransformers(util.Prioritized(&IntroTransformer{}, 0)))
-	md.SetRenderer(renderer.NewRenderer(renderer.WithNodeRenderers(util.Prioritized(markdown.NewRenderer(), 1000))))
-
-	src := []byte(`<!-- INTERACTIVE intro.md START -->
-
-# Quickstart to run Loki locally
-
-The Docker Compose configuration instantiates the following components, each in its own container:
-
-- **flog** a sample application which generates log lines.
-  [flog](https://github.com/mingrammer/flog) is a log generator for common log formats.
-- **Grafana Alloy** which scrapes the log lines from flog, and pushes them to Loki through the gateway.
-- **Grafana** which provides visualization of the log lines captured within Loki.
-
-<!-- INTERACTIVE intro.md END -->
-`)
-
-	root := md.Parser().Parse(text.NewReader(src))
-	require.NoError(t, md.Renderer().Render(w, src, root))
-
-	w.Flush()
-
-	want := `# Quickstart to run Loki locally
-
-The Docker Compose configuration instantiates the following components, each in its own container:
-
-- **flog** a sample application which generates log lines.
-  [flog](https://github.com/mingrammer/flog) is a log generator for common log formats.
-
-- **Grafana Alloy** which scrapes the log lines from flog, and pushes them to Loki through the gateway.
-
-- **Grafana** which provides visualization of the log lines captured within Loki.
-`
-
-	assert.Equal(t, want, b.String())
-}
-
 func TestLinkTransformer_Transform(t *testing.T) {
 	t.Parallel()
 
@@ -427,4 +384,51 @@ It runs Loki in a [monolithic deployment](https://grafana.com/docs/loki/latest/g
 `
 
 	assert.Equal(t, want, b.String())
+}
+
+func TestStepTransformer_Transform(t *testing.T) {
+	t.Parallel()
+
+	t.Run("intro", func(t *testing.T) {
+		t.Parallel()
+
+		b := &bytes.Buffer{}
+		w := bufio.NewWriter(b)
+		md := goldmark.NewMarkdown()
+		md.Parser().AddOptions(parser.WithASTTransformers(util.Prioritized(&StepTransformer{StartMarker: fileIntroStartMarker, EndMarker: fileIntroEndMarker}, 0)))
+		md.SetRenderer(renderer.NewRenderer(renderer.WithNodeRenderers(util.Prioritized(markdown.NewRenderer(), 1000))))
+
+		src := []byte(`<!-- INTERACTIVE intro.md START -->
+
+# Quickstart to run Loki locally
+
+The Docker Compose configuration instantiates the following components, each in its own container:
+
+- **flog** a sample application which generates log lines.
+  [flog](https://github.com/mingrammer/flog) is a log generator for common log formats.
+- **Grafana Alloy** which scrapes the log lines from flog, and pushes them to Loki through the gateway.
+- **Grafana** which provides visualization of the log lines captured within Loki.
+
+<!-- INTERACTIVE intro.md END -->
+`)
+
+		root := md.Parser().Parse(text.NewReader(src))
+		require.NoError(t, md.Renderer().Render(w, src, root))
+
+		w.Flush()
+
+		want := `# Quickstart to run Loki locally
+
+The Docker Compose configuration instantiates the following components, each in its own container:
+
+- **flog** a sample application which generates log lines.
+  [flog](https://github.com/mingrammer/flog) is a log generator for common log formats.
+
+- **Grafana Alloy** which scrapes the log lines from flog, and pushes them to Loki through the gateway.
+
+- **Grafana** which provides visualization of the log lines captured within Loki.
+`
+
+		assert.Equal(t, want, b.String())
+	})
 }
