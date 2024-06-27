@@ -18,21 +18,6 @@ var (
 	kvPairRegexp              = regexp.MustCompile(`([a-zA-Z_]+)=(?:"(.*?[^\\])"|([^ ].+?))`)
 )
 
-const (
-	copyStartMarker    = "<!-- INTERACTIVE copy START -->"
-	copyEndMarker      = "<!-- INTERACTIVE copy END -->"
-	execStartMarker    = "<!-- INTERACTIVE exec START -->"
-	execEndMarker      = "<!-- INTERACTIVE exec END -->"
-	finishStartMarker  = "<!-- INTERACTIVE finish.md START -->"
-	finishEndMarker    = "<!-- INTERACTIVE finish.md END -->"
-	ignoreStartMarker  = "<!-- INTERACTIVE ignore START -->"
-	ignoreEndMarker    = "<!-- INTERACTIVE ignore END -->"
-	includeStartMarker = "<!-- INTERACTIVE include START -->"
-	includeEndMarker   = "<!-- INTERACTIVE include END -->"
-	introStartMarker   = "<!-- INTERACTIVE intro.md START -->"
-	introEndMarker     = "<!-- INTERACTIVE intro.md END -->"
-)
-
 func isMarker(node ast.Node, source []byte, marker string) bool {
 	if node, ok := node.(*ast.HTMLBlock); ok {
 		raw := rawText(node, source)

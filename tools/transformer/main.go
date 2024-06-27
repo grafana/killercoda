@@ -1,3 +1,4 @@
+//go:generate go run ./hack/generate-directives directives.go
 package main
 
 import (
