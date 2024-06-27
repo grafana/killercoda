@@ -13,7 +13,7 @@ killercoda:
     imageid: ubuntu
 ---
 
-<!-- INTERACTIVE intro.md START -->
+<!-- INTERACTIVE page intro.md START -->
 
 # Sending OpenTelemetry logs to Loki using Alloy
 
@@ -49,9 +49,9 @@ In this scenario, we have a microservices application called the Carnivourse Gre
 
 Each service generates logs using the OpenTelemetry SDK and exports to Alloy in the OpenTelemetry format. Alloy then ingests the logs and sends them to Loki. We will configure Alloy to ingest OpenTelemetry logs, send them to Loki, and view the logs in Grafana.
 
-<!-- INTERACTIVE intro.md END -->
+<!-- INTERACTIVE page intro.md END -->
 
-<!-- INTERACTIVE step1.md START -->
+<!-- INTERACTIVE page step1.md START -->
 
 ## Step 1: Environment setup
 
@@ -88,9 +88,9 @@ In this step, we will set up our environment by cloning the repository that cont
 We will be access two UI interfaces:
 - Alloy at [http://localhost:12345](http://localhost:12345)
 - Grafana at [http://localhost:3000](http://localhost:3000)
-<!-- INTERACTIVE step1.md END -->
+<!-- INTERACTIVE page step1.md END -->
 
-<!-- INTERACTIVE step2.md START -->
+<!-- INTERACTIVE page step2.md START -->
 
 ## Step 2: Configure Alloy to ingest OpenTelemetry logs
 
@@ -173,9 +173,9 @@ curl -X POST http://localhost:12345/-/reload
 ```
 <!-- INTERACTIVE exec END -->
 
-<!-- INTERACTIVE step2.md END -->
+<!-- INTERACTIVE page step2.md END -->
 
-<!-- INTERACTIVE step3.md START -->
+<!-- INTERACTIVE page step3.md START -->
 
 ## Step 3: Start the Carnivorous Greenhouse
 
@@ -224,4 +224,4 @@ Once started, you can access the Carnivorous Greenhouse application at [http://l
 Finally to view the logs in Loki, navigate to the Loki Logs Explore view in Grafana at [http://localhost:3000/a/grafana-lokiexplore-app/explore](http://localhost:3000/a/grafana-lokiexplore-app/explore).
 
 
-<!-- INTERACTIVE step3.md END -->
+<!-- INTERACTIVE page step3.md END -->
