@@ -395,10 +395,10 @@ func TestStepTransformer_Transform(t *testing.T) {
 		b := &bytes.Buffer{}
 		w := bufio.NewWriter(b)
 		md := goldmark.NewMarkdown()
-		md.Parser().AddOptions(parser.WithASTTransformers(util.Prioritized(&StepTransformer{StartMarker: fileIntroStartMarker, EndMarker: fileIntroEndMarker}, 0)))
+		md.Parser().AddOptions(parser.WithASTTransformers(util.Prioritized(&StepTransformer{StartMarker: pageIntroStartMarker, EndMarker: pageIntroEndMarker}, 0)))
 		md.SetRenderer(renderer.NewRenderer(renderer.WithNodeRenderers(util.Prioritized(markdown.NewRenderer(), 1000))))
 
-		src := []byte(`<!-- INTERACTIVE intro.md START -->
+		src := []byte(`<!-- INTERACTIVE page intro.md START -->
 
 # Quickstart to run Loki locally
 
@@ -409,7 +409,7 @@ The Docker Compose configuration instantiates the following components, each in 
 - **Grafana Alloy** which scrapes the log lines from flog, and pushes them to Loki through the gateway.
 - **Grafana** which provides visualization of the log lines captured within Loki.
 
-<!-- INTERACTIVE intro.md END -->
+<!-- INTERACTIVE page intro.md END -->
 `)
 
 		root := md.Parser().Parse(text.NewReader(src))
