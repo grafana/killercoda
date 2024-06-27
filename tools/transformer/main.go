@@ -1,3 +1,4 @@
+//go:generate go run ./hack/generate-directives directives.go
 package main
 
 import (
@@ -20,13 +21,7 @@ import (
 	"github.com/yuin/goldmark/util"
 )
 
-const (
-	command = "transformer"
-
-	indexFilename  = "index.json"
-	introFilename  = "intro.md"
-	finishFilename = "finish.md"
-)
+const command = "transformer"
 
 func usage(w io.Writer, fs *flag.FlagSet) {
 	fmt.Fprintf(w, "Usage of %s:\n", command)
@@ -39,103 +34,53 @@ func usage(w io.Writer, fs *flag.FlagSet) {
 	fmt.Fprintln(w, "    	Path to the Killercoda output directory")
 }
 
-func writeIntro(dstDirPath string, data []byte, transformers []util.PrioritizedValue, renderer renderer.Renderer) error {
-	md := goldmark.NewMarkdown()
-	md.Parser().AddOptions(
-		parser.WithASTTransformers(
-			append(transformers, util.Prioritized(&IntroTransformer{}, 0))...),
+func main() {
+	const (
+		requiredSrcFilePath = iota
+		requiredDstDirPath
+		requiredTotal
 	)
+
+	fs := flag.NewFlagSet(command, flag.ExitOnError)
+	flag.Parse()
+
+	if flag.NArg() != requiredTotal {
+		usage(os.Stderr, fs)
+
+		os.Exit(2)
+	}
+
+	srcFilePath := flag.Arg(requiredSrcFilePath)
+	dstDirPath := flag.Arg(requiredDstDirPath)
+
+	if err := transform(srcFilePath, dstDirPath); err != nil {
+		if e, ok := err.(interface{ Unwrap() []error }); ok {
+			for _, err := range e.Unwrap() {
+				fmt.Fprintf(os.Stderr, "Error: %v\n", err)
+			}
+		} else {
+			fmt.Fprintf(os.Stderr, "Error: %v\n", err)
+		}
+
+		os.Exit(1)
+	}
+}
+
+func writeFile(dstDirPath, filename string, transformers []util.PrioritizedValue, renderer renderer.Renderer, data []byte) error {
+	md := goldmark.NewMarkdown()
+	md.Parser().AddOptions(parser.WithASTTransformers(transformers...))
+
 	md.SetRenderer(renderer)
 
 	root := md.Parser().Parse(text.NewReader(data))
 
-	out, err := os.Create(filepath.Join(dstDirPath, introFilename))
+	out, err := os.Create(filepath.Join(dstDirPath, filename))
 	if err != nil {
 		return fmt.Errorf("couldn't create intro file: %w", err)
 	}
 
 	if err := md.Renderer().Render(out, data, root); err != nil {
 		return fmt.Errorf("couldn't render intro output: %w", err)
-	}
-
-	return nil
-}
-
-func writeFinish(dstDirPath string, data []byte, transformers []util.PrioritizedValue, renderer renderer.Renderer) error {
-	md := goldmark.NewMarkdown()
-	md.Parser().AddOptions(
-		parser.WithASTTransformers(
-			append(transformers, util.Prioritized(&FinishTransformer{}, 0))...),
-	)
-	md.SetRenderer(renderer)
-
-	root := md.Parser().Parse(text.NewReader(data))
-
-	out, err := os.Create(filepath.Join(dstDirPath, finishFilename))
-	if err != nil {
-		return fmt.Errorf("couldn't create finish file: %w", err)
-	}
-
-	if err := md.Renderer().Render(out, data, root); err != nil {
-		return fmt.Errorf("couldn't render finish output: %w", err)
-	}
-
-	return nil
-}
-
-func writeStep(dstDirPath string, n int, data []byte, transformers []util.PrioritizedValue, renderer renderer.Renderer) error {
-	md := goldmark.NewMarkdown()
-	md.Parser().AddOptions(
-		parser.WithASTTransformers(
-			append(transformers, util.Prioritized(&StepTransformer{Step: n}, 0))...),
-	)
-	md.SetRenderer(renderer)
-
-	root := md.Parser().Parse(text.NewReader(data))
-
-	out, err := os.Create(filepath.Join(dstDirPath, fmt.Sprintf("step%d.md", n)))
-	if err != nil {
-		return fmt.Errorf("could create step file: %w", err)
-	}
-
-	if err := md.Renderer().Render(out, data, root); err != nil {
-		return fmt.Errorf("couldn't render step %d output: %w", n, err)
-	}
-
-	return nil
-}
-
-func writeIndex(dstDirPath string, meta map[any]any, steps int, wroteIntro bool, wroteFinish bool) error {
-	index, err := killercoda.FromMeta(meta)
-	if err != nil {
-		return fmt.Errorf("couldn't parse metadata: %w", err)
-	}
-
-	if wroteIntro {
-		index.Details.Intro.Text = introFilename
-	}
-
-	for i := 0; i < steps; i++ {
-		index.Details.Steps = append(index.Details.Steps, killercoda.Text{
-			Text: fmt.Sprintf("step%d.md", i+1),
-		})
-	}
-
-	if wroteFinish {
-		index.Details.Finish.Text = finishFilename
-	}
-
-	f, err := os.Create(filepath.Join(dstDirPath, indexFilename))
-	if err != nil {
-		return fmt.Errorf("couldn't create index file: %w", err)
-	}
-	defer f.Close()
-
-	enc := json.NewEncoder(f)
-	enc.SetIndent("", "  ")
-
-	if err := enc.Encode(index); err != nil {
-		return fmt.Errorf("couldn't encode index file: %w", err)
 	}
 
 	return nil
@@ -197,16 +142,16 @@ func transform(srcFilePath, dstDirPath string) error {
 		wroteFinish bool
 	)
 
-	if bytes.Contains(data, []byte(introStartMarker)) {
-		if err := writeIntro(dstDirPath, data, transformers, renderer); err != nil {
+	if bytes.Contains(data, []byte(pageIntroStartMarker)) {
+		if err := writeFile(dstDirPath, "intro.md", append(transformers, util.Prioritized(&StepTransformer{StartMarker: pageIntroStartMarker, EndMarker: pageIntroEndMarker}, 0)), renderer, data); err != nil {
 			return err
 		}
 
 		wroteIntro = true
 	}
 
-	if bytes.Contains(data, []byte(finishStartMarker)) {
-		if err := writeFinish(dstDirPath, data, transformers, renderer); err != nil {
+	if bytes.Contains(data, []byte(pageFinishStartMarker)) {
+		if err := writeFile(dstDirPath, "finish.md", append(transformers, util.Prioritized(&StepTransformer{StartMarker: pageFinishStartMarker, EndMarker: pageFinishEndMarker}, 0)), renderer, data); err != nil {
 			return err
 		}
 
@@ -218,49 +163,61 @@ func transform(srcFilePath, dstDirPath string) error {
 		steps int
 	)
 
-	for i := 1; i <= 5; i++ {
-		if regexp.MustCompile(fmt.Sprintf(`<!-- INTERACTIVE step%d.md START -->`, i)).Match(data) {
-			steps++
+	for i := 1; i <= 20; i++ {
+		startMarker := pageStepStartMarkers[i-1]
+		endMarker := pageStepEndMarkers[i-1]
 
-			if err := writeStep(dstDirPath, i, data, transformers, renderer); err != nil {
+		if regexp.MustCompile(startMarker).Match(data) {
+			steps++
+			if err := writeFile(dstDirPath, fmt.Sprintf("step%d.md", i), append(transformers, util.Prioritized(&StepTransformer{StartMarker: startMarker, EndMarker: endMarker}, 0)), renderer, data); err != nil {
 				errs = errors.Join(errs, err)
 			}
+
+			continue
 		}
+
+		break
 	}
 
-	writeIndex(dstDirPath, meta, steps, wroteIntro, wroteFinish)
+	if err := writeIndex(dstDirPath, meta, steps, wroteIntro, wroteFinish); err != nil {
+		return err
+	}
 
 	return errs
 }
 
-func main() {
-	const (
-		requiredSrcFilePath = iota
-		requiredDstDirPath
-		requiredTotal
-	)
-
-	fs := flag.NewFlagSet(command, flag.ExitOnError)
-	flag.Parse()
-
-	if flag.NArg() != requiredTotal {
-		usage(os.Stderr, fs)
-
-		os.Exit(2)
+func writeIndex(dstDirPath string, meta map[any]any, steps int, wroteIntro bool, wroteFinish bool) error {
+	index, err := killercoda.FromMeta(meta)
+	if err != nil {
+		return fmt.Errorf("couldn't parse metadata: %w", err)
 	}
 
-	srcFilePath := flag.Arg(requiredSrcFilePath)
-	dstDirPath := flag.Arg(requiredDstDirPath)
-
-	if err := transform(srcFilePath, dstDirPath); err != nil {
-		if e, ok := err.(interface{ Unwrap() []error }); ok {
-			for _, err := range e.Unwrap() {
-				fmt.Fprintf(os.Stderr, "Error: %v\n", err)
-			}
-		} else {
-			fmt.Fprintf(os.Stderr, "Error: %v\n", err)
-		}
-
-		os.Exit(1)
+	if wroteIntro {
+		index.Details.Intro.Text = "intro.md"
 	}
+
+	for i := 0; i < steps; i++ {
+		index.Details.Steps = append(index.Details.Steps, killercoda.Text{
+			Text: fmt.Sprintf("step%d.md", i+1),
+		})
+	}
+
+	if wroteFinish {
+		index.Details.Finish.Text = "finish.md"
+	}
+
+	f, err := os.Create(filepath.Join(dstDirPath, "index.json"))
+	if err != nil {
+		return fmt.Errorf("couldn't create index file: %w", err)
+	}
+	defer f.Close()
+
+	enc := json.NewEncoder(f)
+	enc.SetIndent("", "  ")
+
+	if err := enc.Encode(index); err != nil {
+		return fmt.Errorf("couldn't encode index file: %w", err)
+	}
+
+	return nil
 }
