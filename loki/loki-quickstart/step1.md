@@ -8,7 +8,7 @@
    ```bash
    mkdir evaluate-loki
    cd evaluate-loki
-   ```{{exec}}
+   ```{{exec}}{{copy}}
 
 1. Download `loki-config.yaml`{{copy}}, `alloy-local-config.yaml`{{copy}}, and `docker-compose.yaml`{{copy}}:
 
@@ -16,7 +16,7 @@
    wget https://raw.githubusercontent.com/grafana/loki/main/examples/getting-started/loki-config.yaml -O loki-config.yaml
    wget https://raw.githubusercontent.com/grafana/loki/main/examples/getting-started/alloy-local-config.yaml -O alloy-local-config.yaml
    wget https://raw.githubusercontent.com/grafana/loki/main/examples/getting-started/docker-compose.yaml -O docker-compose.yaml
-   ```{{exec}}
+   ```{{exec}}{{copy}}
 
 1. Deploy the sample Docker image.
 

@@ -30,6 +30,8 @@ You can view your logs using the command line interface, [LogCLI](https://grafan
 
    - [Code mode](https://grafana.com/docs/grafana/latest/datasources/loki/query-editor/#code-mode), which provides a feature-rich editor for writing LogQL queries.
 
+   Next we’ll walk through a few simple queries using both the builder and code views.
+
 1. Click **Code** (3) to work in Code mode in the query editor.
 
    Here are some sample queries to get you started using LogQL.
@@ -58,13 +60,13 @@ You can view your logs using the command line interface, [LogCLI](https://grafan
       {container="evaluate-loki_grafana_1"}
       ```{{copy}}
 
-   1. Find all the log lines in the `{container="evaluate-loki_flog_1}`{{copy}} stream that contain the string `status`{{copy}}:
+   1. Find all the log lines in the `{container="evaluate-loki_flog_1"}`{{copy}} stream that contain the string `status`{{copy}}:
 
       ```bash
       {container="evaluate-loki_flog_1"} |= `status`
       ```{{copy}}
 
-   1. Find all the log lines in the `{container="evaluate-loki_flog_1}`{{copy}} stream where the JSON field `status`{{copy}} has the value `404`{{copy}}:
+   1. Find all the log lines in the `{container="evaluate-loki_flog_1"}`{{copy}} stream where the JSON field `status`{{copy}} has the value `404`{{copy}}:
 
       ```bash
       {container="evaluate-loki_flog_1"} | json | status=`404`
