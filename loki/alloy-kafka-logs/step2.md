@@ -20,6 +20,7 @@ loki.source.kafka "raw" {
   forward_to             = [loki.write.http.receiver]
   relabel_rules          = loki.relabel.kafka.rules
   version                = "2.0.0"
+  labels                = {service_name = "raw_kafka"}
 }
 ```{{copy}}
 
@@ -34,6 +35,8 @@ In this configuration:
 - `relabel_rules`{{copy}}: The relabel rules to apply to the incoming logs. This can be used to generate labels from the temporary internal labels that are added by the Kafka source.
 
 - `version`{{copy}}: The Kafka protocol version to use.
+
+- `labels`{{copy}}: The labels to add to the incoming logs. In this case, we are adding a `service_name`{{copy}} label with the value `raw_kafka`{{copy}}. This will be used to identify the logs from the raw Kafka source in the Log Explorer App in Grafana.
 
 For more information on the `loki.source.kafka`{{copy}} configuration, see the [Loki Kafka Source documentation](https://grafana.com/docs/alloy/latest/reference/components/loki.source.kafka/).
 
