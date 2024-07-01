@@ -5,7 +5,7 @@ In this step, we will set up our environment by cloning the repository that cont
 1. To get started, clone the repository that contains our demo application:
 
    ```bash
-   git clone -b microservice-otel  https://github.com/grafana/loki-fundamentals.git
+   git clone -b microservice-kafka  https://github.com/grafana/loki-fundamentals.git
    ```{{exec}}
 
 1. Next we will spin up our observability stack using Docker Compose:
@@ -18,9 +18,11 @@ In this step, we will set up our environment by cloning the repository that cont
    This will spin up the following services:
 
    ```bash
-   ✔ Container loki-fundamentals-grafana-1  Started                                                        
-   ✔ Container loki-fundamentals-loki-1     Started                        
-   ✔ Container loki-fundamentals-alloy-1    Started
+   ✔ Container loki-fundamentals-grafana-1      Started                                                        
+   ✔ Container loki-fundamentals-loki-1         Started                        
+   ✔ Container loki-fundamentals-alloy-1        Started
+   ✔ Container loki-fundamentals-zookeeper-1    Started
+   ✔ Container loki-fundamentals-kafka-1        Started
    ```{{copy}}
 
 We will be access two UI interfaces:
