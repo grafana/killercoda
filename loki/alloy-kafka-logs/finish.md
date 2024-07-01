@@ -1,6 +1,6 @@
 # Summary
 
-In this example, we configured Alloy to ingest OpenTelemetry logs and send them to Loki. This was a simple example to demonstrate how to send logs from an application instrumented with OpenTelemetry to Loki using Alloy. Where to go next?
+In this example, we configured Alloy to ingest logs via Kafka. We configured Alloy to ingest logs in two different formats: raw logs and OpenTelemetry logs. Where to go next?
 
 ### Back to Docs
 Head back to wear you started from to continue with the Loki documentation: [Loki documentation](https://grafana.com/docs/send-data/alloy).

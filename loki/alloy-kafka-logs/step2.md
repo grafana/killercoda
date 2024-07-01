@@ -1,0 +1,101 @@
+# Step 2: Configure Alloy to ingest raw Kafka logs
+
+In this first step, we will configure Alloy to ingest raw Kafka logs. To do this, we will update the `config.alloy`{{copy}} file to include the Kafka logs configuration.
+
+**Note: Killercoda has an inbuilt Code editor which can be accessed via the `Editor` tab.**
+
+
+## Loki Kafka Source component
+
+First, we will configure the Loki Kafka source. `loki.source.kafka`{{copy}} reads messages from Kafka using a consumer group and forwards them to other `loki.*`{{copy}} components.
+
+The component starts a new Kafka consumer group for the given arguments and fans out incoming entries to the list of receivers in forward_to.
+
+Open the `config.alloy`{{copy}} file in the `loki-fundamentals`{{copy}} directory and copy the following configuration:
+
+```alloy
+loki.source.kafka "raw" {
+  brokers                = ["kafka:9092"]
+  topics                 = ["loki"]
+  forward_to             = [loki.write.http.receiver]
+  relabel_rules          = loki.relabel.kafka.rules
+  version                = "2.0.0"
+}
+```{{copy}}
+
+In this configuration:
+
+- `brokers`{{copy}}: The Kafka brokers to connect to.
+
+- `topics`{{copy}}: The Kafka topics to consume. In this case, we are consuming the `loki`{{copy}} topic.
+
+- `forward_to`{{copy}}: The list of receivers to forward the logs to. In this case, we are forwarding the logs to the `loki.write.http.receiver`{{copy}}.
+
+- `relabel_rules`{{copy}}: The relabel rules to apply to the incoming logs. This can be used to generate labels from the temporary internal labels that are added by the Kafka source.
+
+- `version`{{copy}}: The Kafka protocol version to use.
+
+For more information on the `loki.source.kafka`{{copy}} configuration, see the [Loki Kafka Source documentation](https://grafana.com/docs/alloy/latest/reference/components/loki.source.kafka/).
+
+## Loki Relabel Rules component
+
+Next, we will configure the Loki relabel rules. The `loki.relabel`{{copy}} component rewrites the label set of each log entry passed to its receiver by applying one or more relabeling rules and forwards the results to the list of receivers in the component’s arguments. In our case we are directly calling the rule from the `loki.source.kafka`{{copy}} component.
+
+Open the `config.alloy`{{copy}} file in the `loki-fundamentals`{{copy}} directory and copy the following configuration:
+
+```alloy
+loki.relabel "kafka" {
+  forward_to      = [loki.write.http.receiver]
+  rule {
+    source_labels = ["__meta_kafka_topic"]
+    target_label  = "topic"
+  }
+}
+```{{copy}}
+
+In this configuration:
+
+- `forward_to`{{copy}}: The list of receivers to forward the logs to. In this case, we are forwarding the logs to the `loki.write.http.receiver`{{copy}}. Though in this case, we are directly calling the rule from the `loki.source.kafka`{{copy}} component. So `forward_to`{{copy}} is being used as a placeholder as it is required by the `loki.relabel`{{copy}} component.
+
+- `rule`{{copy}}: The relabeling rule to apply to the incoming logs. In this case, we are renaming the `__meta_kafka_topic`{{copy}} label to `topic`{{copy}}.
+
+For more information on the `loki.relabel`{{copy}} configuration, see the [Loki Relabel documentation](https://grafana.com/docs/alloy/latest/reference/components/loki.relabel/).
+
+## Loki Write component
+
+Lastly, we will configure the Loki write component. `loki.write`{{copy}} receives log entries from other loki components and sends them over the network using the Loki logproto format.
+
+Open the `config.alloy`{{copy}} file in the `loki-fundamentals`{{copy}} directory and copy the following configuration:
+
+```alloy
+loki.write "http" {
+  endpoint {
+    url = "http://loki:3100/loki/api/v1/push"
+  }
+}
+```{{copy}}
+
+In this configuration:
+
+- `endpoint`{{copy}}: The endpoint to send the logs to. In this case, we are sending the logs to the Loki HTTP endpoint.
+
+For more information on the `loki.write`{{copy}} configuration, see the [Loki Write documentation](https://grafana.com/docs/alloy/latest/reference/components/loki.write/).
+
+## Reload the Alloy configuration
+
+Once added, save the file. Then run the following command to request Alloy to reload the configuration:
+
+```bash
+curl -X POST http://localhost:12345/-/reload
+```{{exec}}
+
+The new configuration will be loaded this can be verified by checking the Alloy UI: [http://localhost:12345]({{TRAFFIC_HOST1_12345}}).
+
+# Stuck? Need help?
+
+If you get stuck or need help creating the configuration, you can copy and replace the entire `config.alloy`{{copy}} using the completed configuration file:
+
+```bash
+cp loki-fundamentals/completed/config-raw.alloy loki-fundamentals/config.alloy
+curl -X POST http://localhost:12345/-/reload
+```{{exec}}

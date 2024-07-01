@@ -1,0 +1,29 @@
+{
+  "title": "Sending Logs to Loki via Kafka using Alloy",
+  "description": "Configuring Grafana Alloy to recive logs via Kafka and send them to Loki.",
+  "details": {
+    "intro": {
+      "text": "intro.md"
+    },
+    "steps": [
+      {
+        "text": "step1.md"
+      },
+      {
+        "text": "step2.md"
+      },
+      {
+        "text": "step3.md"
+      },
+      {
+        "text": "step4.md"
+      }
+    ],
+    "finish": {
+      "text": "finish.md"
+    }
+  },
+  "backend": {
+    "imageid": "ubuntu"
+  }
+}
