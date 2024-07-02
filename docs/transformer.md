@@ -54,7 +54,6 @@ Use directives to:
 - [Configure executable code blocks](#exec)
 - [Define pages](#page)
 - [Ignore parts of the documentation](#ignore)
-- [Include extra parts not in the website page](#include)
 
 ### Exec
 
@@ -112,6 +111,8 @@ The end marker is:
 <!-- INTERACTIVE ignore END -->
 ```
 
+To do the inverse task, and ignore content in the website build, use the [`docs/ignore` shortcode](https://grafana.com/docs/writers-toolkit/write/shortcodes/#docsignore).
+
 #### Examples
 
 ```markdown
@@ -128,41 +129,6 @@ Produces:
 
 ```markdown
 Information common to both pages.
-```
-
-### Include
-
-The include directive tells the transform tool to include the contents of the HTML comments within the markers as content when generating the Killercoda page.
-The HTML comments aren't rendered on the Grafana website.
-
-The start marker is:
-
-```markdown
-<!-- INTERACTIVE include START -->
-```
-
-The end marker is:
-
-```markdown
-<!-- INTERACTIVE include END -->
-```
-
-#### Examples
-
-```markdown
-Information common to both pages.
-
-<!-- INTERACTIVE include START -->
-<!-- Information unique to the Killercoda page. -->
-<!-- INTERACTIVE include END -->
-```
-
-Produces:
-
-```markdown
-Information common to both pages.
-
-Information unique to the Killercoda page.
 ```
 
 ### Page

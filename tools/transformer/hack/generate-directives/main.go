@@ -128,13 +128,12 @@ const (
 )
 
 var directives = map[string][]string{
-	"copy":    {},
-	"exec":    {},
-	"finish":  {},
-	"ignore":  {},
-	"include": {},
-	"intro":   {},
-	"page":    {"FILENAME"},
+	"copy":   {},
+	"exec":   {},
+	"finish": {},
+	"ignore": {},
+	"intro":  {},
+	"page":   {"FILENAME"},
 }
 
 func marker(directive string, args []string, isStart bool) string {
