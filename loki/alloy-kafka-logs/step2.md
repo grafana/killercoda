@@ -2,10 +2,11 @@
 
 In this first step, we will configure Alloy to ingest raw Kafka logs. To do this, we will update the `config.alloy`{{copy}} file to include the Kafka logs configuration.
 
-**Note: Killercoda has an inbuilt Code editor which can be accessed via the `Editor` tab.**
+{{< docs/ignore >}}
+**Note: Killercoda has an inbuilt Code editor which can be accessed via the `Editor`{{copy}} tab.**
+{{< /docs/ignore >}}
 
-
-## Loki Kafka Source component
+## Source logs from kafka
 
 First, we will configure the Loki Kafka source. `loki.source.kafka`{{copy}} reads messages from Kafka using a consumer group and forwards them to other `loki.*`{{copy}} components.
 
@@ -40,7 +41,7 @@ In this configuration:
 
 For more information on the `loki.source.kafka`{{copy}} configuration, see the [Loki Kafka Source documentation](https://grafana.com/docs/alloy/latest/reference/components/loki.source.kafka/).
 
-## Loki Relabel Rules component
+## Create a dynamic relabel based on Kafka topic
 
 Next, we will configure the Loki relabel rules. The `loki.relabel`{{copy}} component rewrites the label set of each log entry passed to its receiver by applying one or more relabeling rules and forwards the results to the list of receivers in the component’s arguments. In our case we are directly calling the rule from the `loki.source.kafka`{{copy}} component.
 
@@ -64,7 +65,7 @@ In this configuration:
 
 For more information on the `loki.relabel`{{copy}} configuration, see the [Loki Relabel documentation](https://grafana.com/docs/alloy/latest/reference/components/loki.relabel/).
 
-## Loki Write component
+## Write logs to Loki
 
 Lastly, we will configure the Loki write component. `loki.write`{{copy}} receives log entries from other loki components and sends them over the network using the Loki logproto format.
 
@@ -84,7 +85,7 @@ In this configuration:
 
 For more information on the `loki.write`{{copy}} configuration, see the [Loki Write documentation](https://grafana.com/docs/alloy/latest/reference/components/loki.write/).
 
-## Reload the Alloy configuration
+## Reload the Alloy configuration to check the changes
 
 Once added, save the file. Then run the following command to request Alloy to reload the configuration:
 

@@ -2,10 +2,11 @@
 
 To configure Alloy to ingest OpenTelemetry logs, we need to update the Alloy configuration file. To start, we will update the `config.alloy`{{copy}} file to include the OpenTelemetry logs configuration.
 
-**Note: Killercoda has an inbuilt Code editor which can be accessed via the `Editor` tab.**
+{{< docs/ignore >}}
+**Note: Killercoda has an inbuilt Code editor which can be accessed via the `Editor`{{copy}} tab.**
+{{< /docs/ignore >}}
 
-
-## OpenTelelmetry Receiver OTLP
+## Recive OpenTelemetry logs via gRPC and HTTP
 
 First, we will configure the OpenTelemetry receiver. `otelcol.receiver.otlp`{{copy}} accepts logs in the OpenTelemetry format via HTTP and gRPC. We will use this receiver to receive logs from the Carnivorous Greenhouse application.
 
@@ -32,7 +33,7 @@ In this configuration:
 
 For more information on the `otelcol.receiver.otlp`{{copy}} configuration, see the [OpenTelemetry Receiver OTLP documentation](https://grafana.com/docs/alloy/latest/reference/components/otelcol.receiver.otlp/).
 
-## OpenTelemetry Processor Batch
+## Create batches of logs using a OpenTelemetry Processor
 
 Next, we will configure a OpenTelemetry processor. `otelcol.processor.batch`{{copy}} accepts telemetry data from other otelcol components and places them into batches. Batching improves the compression of data and reduces the number of outgoing network requests required to transmit data. This processor supports both size and time based batching.
 
@@ -52,7 +53,7 @@ In this configuration:
 
 For more information on the `otelcol.processor.batch`{{copy}} configuration, see the [OpenTelemetry Processor Batch documentation](https://grafana.com/docs/alloy/latest/reference/components/otelcol.processor.batch/).
 
-## OpenTelemetry Exporter OTLP HTTP
+## Export logs to Loki using a OpenTelemetry Exporter
 
 Lastly, we will configure the OpenTelemetry exporter. `otelcol.exporter.otlphttp`{{copy}} accepts telemetry data from other otelcol components and writes them over the network using the OTLP HTTP protocol. We will use this exporter to send the logs to Loki’s native OTLP endpoint.
 
