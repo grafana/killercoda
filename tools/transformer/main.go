@@ -120,7 +120,7 @@ func transform(srcFilePath, dstDirPath string) error {
 
 	transformers := []util.PrioritizedValue{
 		util.Prioritized(&IgnoreTransformer{}, 1),
-		util.Prioritized(&IncludeTransformer{}, 1),
+		util.Prioritized(&DocsIgnoreTransformer{}, 1),
 		util.Prioritized(&FigureTransformer{}, 2),
 		util.Prioritized(&InlineActionTransformer{}, 3),
 		util.Prioritized(&ActionTransformer{Kind: "copy"}, 3),
