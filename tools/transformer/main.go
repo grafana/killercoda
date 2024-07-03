@@ -117,6 +117,7 @@ func transform(srcFilePath, dstDirPath string) error {
 			}
 		}
 	}
+	data = regexp.MustCompile("{{< *?/?docs/ignore *?>}}").ReplaceAll(data, []byte(""))
 
 	transformers := []util.PrioritizedValue{
 		util.Prioritized(&IgnoreTransformer{}, 1),

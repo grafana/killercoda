@@ -225,54 +225,6 @@ This is a note.
 	})
 }
 
-func TestDocsIgnoreTransformer_Transform(t *testing.T) {
-	t.Parallel()
-
-	b := &bytes.Buffer{}
-	w := bufio.NewWriter(b)
-	md := goldmark.NewMarkdown()
-	md.Parser().AddOptions(
-		parser.WithBlockParsers(
-			util.Prioritized(killercoda.NewFencedCodeBlockParser(), 101),
-		),
-		parser.WithASTTransformers(
-			util.Prioritized(&DocsIgnoreTransformer{}, 0),
-		),
-	)
-	md.SetRenderer(renderer.NewRenderer(
-		renderer.WithNodeRenderers(
-			util.Prioritized(
-				markdown.NewRenderer(
-					markdown.WithKillercodaActions(),
-				), 1000))))
-
-	src := []byte("Before\n" +
-		"\n" +
-		"{{< docs/ignore >}}\n" +
-		"```bash\n" +
-		"docker-compose up -d\n" +
-		"```{{exec}}\n" +
-		"\n" +
-		"{{< /docs/ignore >}}\n" +
-		"\n" +
-		"After\n")
-
-	root := md.Parser().Parse(text.NewReader(src))
-	require.NoError(t, md.Renderer().Render(w, src, root))
-
-	w.Flush()
-
-	want := "Before\n" +
-		"\n" +
-		"```bash\n" +
-		"docker-compose up -d\n" +
-		"```{{exec}}\n" +
-		"\n" +
-		"After\n"
-
-	assert.Equal(t, want, b.String())
-}
-
 func TestFigureTransformer_Transform(t *testing.T) {
 	t.Parallel()
 

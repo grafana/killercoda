@@ -20,6 +20,11 @@ var (
 
 func isMarker(node ast.Node, source []byte, marker string) bool {
 	switch node := node.(type) {
+	case *ast.Text, *ast.String:
+		if strings.TrimSpace(string(node.Text(source))) == marker {
+			return true
+		}
+
 	case *ast.HTMLBlock, *ast.Paragraph:
 		raw := rawText(node, source)
 		if strings.TrimSpace(raw) == marker {
@@ -120,40 +125,6 @@ func (t *AdmonitionTransformer) Transform(node *ast.Document, reader text.Reader
 
 			if strings.HasPrefix(raw, "{{<") && strings.HasSuffix(raw, ">}}") && strings.Contains(raw, "admonition") {
 				panic("TODO: implement")
-			}
-		}
-
-		return ast.WalkContinue, nil
-	})
-	if err != nil {
-		fmt.Fprintf(os.Stderr, "Error transforming AST: %v\n", err)
-	}
-}
-
-type DocsIgnoreTransformer struct{}
-
-// Transform implements the parser.ASTTransformer interface and removes the docs/ignore shortcode markers.
-// The Hugo shortcode ignores the inner content in the website build so it can appear exclusively in Killercoda.
-// The inner content can confuse the Goldmark parser if it contains Killercoda specific Markdown.
-// For example, the `{{exec}}` action at the end of a fenced code block stops it being correctly closed.
-func (t *DocsIgnoreTransformer) Transform(node *ast.Document, reader text.Reader, _ parser.Context) {
-	source := reader.Source()
-
-	err := ast.Walk(node, func(node ast.Node, entering bool) (ast.WalkStatus, error) {
-		if !entering {
-			var toRemove []ast.Node
-
-			for c := node.FirstChild(); c != nil; c = c.NextSibling() {
-				if isMarker(c, source, "{{< docs/ignore >}}") {
-					toRemove = append(toRemove, c)
-				}
-				if isMarker(c, source, "{{< /docs/ignore >}}") {
-					toRemove = append(toRemove, c)
-				}
-			}
-
-			for _, child := range toRemove {
-				node.RemoveChild(node, child)
 			}
 		}
 
