@@ -3,22 +3,20 @@
 package main
 
 const (
+	copyStartMarker       = `<!-- INTERACTIVE copy START -->`
+	copyEndMarker         = `<!-- INTERACTIVE copy END -->`
+	execStartMarker       = `<!-- INTERACTIVE exec START -->`
+	execEndMarker         = `<!-- INTERACTIVE exec END -->`
 	finishStartMarker     = `<!-- INTERACTIVE finish START -->`
 	finishEndMarker       = `<!-- INTERACTIVE finish END -->`
 	ignoreStartMarker     = `<!-- INTERACTIVE ignore START -->`
 	ignoreEndMarker       = `<!-- INTERACTIVE ignore END -->`
-	includeStartMarker    = `<!-- INTERACTIVE include START -->`
-	includeEndMarker      = `<!-- INTERACTIVE include END -->`
 	introStartMarker      = `<!-- INTERACTIVE intro START -->`
 	introEndMarker        = `<!-- INTERACTIVE intro END -->`
 	pageIntroStartMarker  = `<!-- INTERACTIVE page intro.md START -->`
 	pageIntroEndMarker    = `<!-- INTERACTIVE page intro.md END -->`
 	pageFinishStartMarker = `<!-- INTERACTIVE page finish.md START -->`
 	pageFinishEndMarker   = `<!-- INTERACTIVE page finish.md END -->`
-	copyStartMarker       = `<!-- INTERACTIVE copy START -->`
-	copyEndMarker         = `<!-- INTERACTIVE copy END -->`
-	execStartMarker       = `<!-- INTERACTIVE exec START -->`
-	execEndMarker         = `<!-- INTERACTIVE exec END -->`
 )
 
 var pageStepStartMarkers = [20]string{

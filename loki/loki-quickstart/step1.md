@@ -26,7 +26,6 @@
    docker-compose up -d
    ```{{exec}}
 
-
    At the end of the command, you should see something similar to the following:
 
    ```console
@@ -38,8 +37,7 @@
    Creating evaluate-loki_alloy_1   ... done
    Creating evaluate-loki_grafana_1 ... done
    Creating evaluate-loki_backend_1 ... done
-   ```
-
+   ```{{copy}}
 
 1. (Optional) Verify that the Loki cluster is up and running.
 
