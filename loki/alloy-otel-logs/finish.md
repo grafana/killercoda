@@ -2,12 +2,9 @@
 
 In this example, we configured Alloy to ingest OpenTelemetry logs and send them to Loki. This was a simple example to demonstrate how to send logs from an application instrumented with OpenTelemetry to Loki using Alloy. Where to go next?
 
-{{< docs/ignore >}}
-
 ## Back to Docs
 
 Head back to wear you started from to continue with the Loki documentation: [Loki documentation](https://grafana.com/docs/loki/latest/send-data/alloy)
-{{< /docs/ignore >}}
 
 # Further reading
 

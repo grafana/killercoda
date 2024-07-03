@@ -2,9 +2,7 @@
 
 In this first step, we will configure Alloy to ingest raw Kafka logs. To do this, we will update the `config.alloy`{{copy}} file to include the Kafka logs configuration.
 
-{{< docs/ignore >}}
 **Note: Killercoda has an inbuilt Code editor which can be accessed via the `Editor`{{copy}} tab.**
-{{< /docs/ignore >}}
 
 ## Source logs from kafka
 

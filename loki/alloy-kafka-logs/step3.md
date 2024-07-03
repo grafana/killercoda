@@ -2,9 +2,7 @@
 
 Next we will configure Alloy to also ingest OpenTelemetry logs via Kafka, we need to update the Alloy configuration file once again. We will add the new components to the `config.alloy`{{copy}} file along with the existing components.
 
-{{< docs/ignore >}}
 **Note: Killercoda has an inbuilt Code editor which can be accessed via the `Editor`{{copy}} tab.**
-{{< /docs/ignore >}}
 
 ## Source OpenTelemetry logs from Kafka
 

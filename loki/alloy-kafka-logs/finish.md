@@ -2,12 +2,9 @@
 
 In this example, we configured Alloy to ingest logs via Kafka. We configured Alloy to ingest logs in two different formats: raw logs and OpenTelemetry logs. Where to go next?
 
-{{< docs/ignore >}}
-
 ## Back to Docs
 
 Head back to wear you started from to continue with the Loki documentation: [Loki documentation](https://grafana.com/docs/loki/latest/send-data/alloy)
-{{< /docs/ignore >}}
 
 # Further reading
 

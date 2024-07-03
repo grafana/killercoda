@@ -2,9 +2,7 @@
 
 In this step, we will start the Carnivorous Greenhouse application. To start the application, run the following command:
 
-{{< docs/ignore >}}
 **Note: This docker-compose file relies on the `loki-fundamentals_loki`{{copy}} docker network. If you have not started the observability stack, you will need to start it first.**
-{{< /docs/ignore >}}
 
 ```bash
 docker compose -f loki-fundamentals/greenhouse/docker-compose-micro.yml up -d --build 
@@ -12,13 +10,11 @@ docker compose -f loki-fundamentals/greenhouse/docker-compose-micro.yml up -d --
 
 <!-- raw HTML omitted -->
 
-{{< docs/ignore >}}
+<!-- raw HTML omitted -->
 
 ```bash
 docker-compose -f loki-fundamentals/greenhouse/docker-compose-micro.yml up -d --build
-```{{copy}}
-
-{{< /docs/ignore >}}
+```{{exec}}
 
 This will start the following services:
 

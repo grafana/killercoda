@@ -2,9 +2,7 @@
 
 To configure Alloy to ingest OpenTelemetry logs, we need to update the Alloy configuration file. To start, we will update the `config.alloy`{{copy}} file to include the OpenTelemetry logs configuration.
 
-{{< docs/ignore >}}
 **Note: Killercoda has an inbuilt Code editor which can be accessed via the `Editor`{{copy}} tab.**
-{{< /docs/ignore >}}
 
 ## Recive OpenTelemetry logs via gRPC and HTTP
 
