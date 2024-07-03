@@ -19,7 +19,8 @@ var (
 )
 
 func isMarker(node ast.Node, source []byte, marker string) bool {
-	if node, ok := node.(*ast.HTMLBlock); ok {
+	switch node := node.(type) {
+	case *ast.HTMLBlock, *ast.Paragraph:
 		raw := rawText(node, source)
 		if strings.TrimSpace(raw) == marker {
 			return true
@@ -119,6 +120,40 @@ func (t *AdmonitionTransformer) Transform(node *ast.Document, reader text.Reader
 
 			if strings.HasPrefix(raw, "{{<") && strings.HasSuffix(raw, ">}}") && strings.Contains(raw, "admonition") {
 				panic("TODO: implement")
+			}
+		}
+
+		return ast.WalkContinue, nil
+	})
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error transforming AST: %v\n", err)
+	}
+}
+
+type DocsIgnoreTransformer struct{}
+
+// Transform implements the parser.ASTTransformer interface and removes the docs/ignore shortcode markers.
+// The Hugo shortcode ignores the inner content in the website build so it can appear exclusively in Killercoda.
+// The inner content can confuse the Goldmark parser if it contains Killercoda specific Markdown.
+// For example, the `{{exec}}` action at the end of a fenced code block stops it being correctly closed.
+func (t *DocsIgnoreTransformer) Transform(node *ast.Document, reader text.Reader, _ parser.Context) {
+	source := reader.Source()
+
+	err := ast.Walk(node, func(node ast.Node, entering bool) (ast.WalkStatus, error) {
+		if !entering {
+			var toRemove []ast.Node
+
+			for c := node.FirstChild(); c != nil; c = c.NextSibling() {
+				if isMarker(c, source, "{{< docs/ignore >}}") {
+					toRemove = append(toRemove, c)
+				}
+				if isMarker(c, source, "{{< /docs/ignore >}}") {
+					toRemove = append(toRemove, c)
+				}
+			}
+
+			for _, child := range toRemove {
+				node.RemoveChild(node, child)
 			}
 		}
 
@@ -253,69 +288,6 @@ func (t *IgnoreTransformer) Transform(node *ast.Document, reader text.Reader, _ 
 
 		for _, child := range toRemove {
 			node.RemoveChild(node, child)
-		}
-
-		return ast.WalkContinue, nil
-	})
-	if err != nil {
-		fmt.Fprintf(os.Stderr, "Error transforming AST: %v\n", err)
-	}
-}
-
-type IncludeTransformer struct{}
-
-// Transform implements the parser.ASTTransformer interface and keeps the Markdown content in HTML comments between the include start and end markers.
-func (t *IncludeTransformer) Transform(node *ast.Document, reader text.Reader, _ parser.Context) {
-	source := reader.Source()
-
-	err := ast.Walk(node, func(node ast.Node, entering bool) (ast.WalkStatus, error) {
-		var (
-			inMarker     bool
-			toRemove     []ast.Node
-			replacements = make(map[ast.Node]ast.Node)
-		)
-
-		replacement := ast.NewParagraph()
-		for child := node.FirstChild(); child != nil; child = child.NextSibling() {
-			if isMarker(child, source, includeStartMarker) {
-				inMarker = true
-				toRemove = append(toRemove, child)
-
-				continue
-			}
-
-			if isMarker(child, source, includeEndMarker) {
-				inMarker = false
-
-				replacements[child] = replacement
-				replacement = ast.NewParagraph()
-
-				continue
-			}
-
-			if inMarker {
-				if comment, ok := child.(*ast.HTMLBlock); ok {
-					text := rawText(comment, source)
-					text = strings.TrimSpace(text)
-					text = strings.TrimPrefix(text, "<!--")
-					text = strings.TrimSuffix(text, "-->")
-					text = strings.TrimSpace(text)
-
-					str := ast.NewString([]byte(text + "\n"))
-					str.SetRaw(true)
-
-					replacement.AppendChild(replacement, str)
-					toRemove = append(toRemove, child)
-				}
-			}
-		}
-
-		for _, child := range toRemove {
-			node.RemoveChild(node, child)
-		}
-
-		for child, replacement := range replacements {
-			node.ReplaceChild(node, child, replacement)
 		}
 
 		return ast.WalkContinue, nil
