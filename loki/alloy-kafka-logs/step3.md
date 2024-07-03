@@ -2,10 +2,9 @@
 
 Next we will configure Alloy to also ingest OpenTelemetry logs via Kafka, we need to update the Alloy configuration file once again. We will add the new components to the `config.alloy`{{copy}} file along with the existing components.
 
-**Note: Killercoda has an inbuilt Code editor which can be accessed via the `Editor` tab.**
+**Note: Killercoda has an inbuilt Code editor which can be accessed via the `Editor`{{copy}} tab.**
 
-
-## OpenTelelmetry Kafka Receiver
+## Source OpenTelemetry logs from Kafka
 
 First, we will configure the OpenTelemetry Kafaka receiver. `otelcol.receiver.kafka`{{copy}} accepts telemetry data from a Kafka broker and forwards it to other `otelcol.*`{{copy}} components.
 
@@ -38,7 +37,7 @@ In this configuration:
 
 For more information on the `otelcol.receiver.kafka`{{copy}} configuration, see the [OpenTelemetry Receiver Kafka documentation](https://grafana.com/docs/alloy/latest/reference/components/otelcol.receiver.kafka/).
 
-## OpenTelemetry Processor Batch
+## Batch OpenTelemetry logs before sending
 
 Next, we will configure a OpenTelemetry processor. `otelcol.processor.batch`{{copy}} accepts telemetry data from other otelcol components and places them into batches. Batching improves the compression of data and reduces the number of outgoing network requests required to transmit data. This processor supports both size and time based batching.
 
@@ -58,7 +57,7 @@ In this configuration:
 
 For more information on the `otelcol.processor.batch`{{copy}} configuration, see the [OpenTelemetry Processor Batch documentation](https://grafana.com/docs/alloy/latest/reference/components/otelcol.processor.batch/).
 
-## OpenTelemetry Exporter OTLP HTTP
+## Write OpenTelemetry logs to Loki
 
 Lastly, we will configure the OpenTelemetry exporter. `otelcol.exporter.otlphttp`{{copy}} accepts telemetry data from other otelcol components and writes them over the network using the OTLP HTTP protocol. We will use this exporter to send the logs to Loki’s native OTLP endpoint.
 
@@ -78,7 +77,7 @@ In this configuration:
 
 For more information on the `otelcol.exporter.otlphttp`{{copy}} configuration, see the [OpenTelemetry Exporter OTLP HTTP documentation](https://grafana.com/docs/alloy/latest/reference/components/otelcol.exporter.otlphttp/).
 
-## Reload the Alloy configuration
+## Reload the Alloy configuration to check the changes
 
 Once added, save the file. Then run the following command to request Alloy to reload the configuration:
 

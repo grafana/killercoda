@@ -11,9 +11,8 @@ In this step, we will set up our environment by cloning the repository that cont
 1. Next we will spin up our observability stack using Docker Compose:
 
    ```bash
-   docker-compose -f loki-fundamentals/docker-compose.yml up -d
+   docker-compose -f loki-fundamentals/docker-compose.yml up -d 
    ```{{exec}}
-
 
    This will spin up the following services:
 
