@@ -6,13 +6,9 @@ import (
 	"bytes"
 	"testing"
 
-	"github.com/grafana/killercoda/tools/transformer/goldmark"
-	"github.com/grafana/killercoda/tools/transformer/goldmark/killercoda"
-	"github.com/grafana/killercoda/tools/transformer/goldmark/renderer/markdown"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
-	"github.com/yuin/goldmark/parser"
-	"github.com/yuin/goldmark/renderer"
+	"github.com/yuin/goldmark"
 	"github.com/yuin/goldmark/text"
 	"github.com/yuin/goldmark/util"
 )
@@ -26,9 +22,12 @@ func TestActionTransformer_Transform(t *testing.T) {
 
 		b := &bytes.Buffer{}
 		w := bufio.NewWriter(b)
-		md := goldmark.NewMarkdown()
-		md.Parser().AddOptions(parser.WithASTTransformers(util.Prioritized(&ActionTransformer{Kind: "copy"}, 0)))
-		md.SetRenderer(renderer.NewRenderer(renderer.WithNodeRenderers(util.Prioritized(markdown.NewRenderer(markdown.WithKillercodaActions()), 1000))))
+		md := goldmark.New(goldmark.WithExtensions(&KillercodaExtension{
+			Transformers: []util.PrioritizedValue{},
+			AdditionalExtenders: []goldmark.Extender{
+				&ActionTransformer{Kind: "copy"},
+			},
+		}))
 
 		src := []byte("1. Create a directory called `evaluate-loki` for the demo environment.\n" +
 			"   Make `evaluate-loki` your current working directory:\n" +
@@ -77,9 +76,12 @@ func TestActionTransformer_Transform(t *testing.T) {
 
 		b := &bytes.Buffer{}
 		w := bufio.NewWriter(b)
-		md := goldmark.NewMarkdown()
-		md.Parser().AddOptions(parser.WithASTTransformers(util.Prioritized(&ActionTransformer{Kind: "copy"}, 0)))
-		md.SetRenderer(renderer.NewRenderer(renderer.WithNodeRenderers(util.Prioritized(markdown.NewRenderer(markdown.WithKillercodaActions()), 1000))))
+		md := goldmark.New(goldmark.WithExtensions(&KillercodaExtension{
+			Transformers: []util.PrioritizedValue{},
+			AdditionalExtenders: []goldmark.Extender{
+				&ActionTransformer{Kind: "copy"},
+			},
+		}))
 
 		src := []byte("1. Create a directory called `evaluate-loki` for the demo environment.\n" +
 			"   Make `evaluate-loki` your current working directory:\n" +
@@ -120,9 +122,12 @@ func TestActionTransformer_Transform(t *testing.T) {
 
 		b := &bytes.Buffer{}
 		w := bufio.NewWriter(b)
-		md := goldmark.NewMarkdown()
-		md.Parser().AddOptions(parser.WithASTTransformers(util.Prioritized(&ActionTransformer{Kind: "exec"}, 0)))
-		md.SetRenderer(renderer.NewRenderer(renderer.WithNodeRenderers(util.Prioritized(markdown.NewRenderer(markdown.WithKillercodaActions()), 1000))))
+		md := goldmark.New(goldmark.WithExtensions(&KillercodaExtension{
+			Transformers: []util.PrioritizedValue{},
+			AdditionalExtenders: []goldmark.Extender{
+				&ActionTransformer{Kind: "exec"},
+			},
+		}))
 
 		src := []byte("1. Create a directory called `evaluate-loki` for the demo environment.\n" +
 			"   Make `evaluate-loki` your current working directory:\n" +
@@ -176,9 +181,12 @@ func TestAdmonitionTransformer_Transform(t *testing.T) {
 
 		b := &bytes.Buffer{}
 		w := bufio.NewWriter(b)
-		md := goldmark.NewMarkdown()
-		md.Parser().AddOptions(parser.WithASTTransformers(util.Prioritized(&AdmonitionTransformer{}, 0)))
-		md.SetRenderer(renderer.NewRenderer(renderer.WithNodeRenderers(util.Prioritized(markdown.NewRenderer(), 1000))))
+		md := goldmark.New(goldmark.WithExtensions(&KillercodaExtension{
+			Transformers: []util.PrioritizedValue{},
+			AdditionalExtenders: []goldmark.Extender{
+				&AdmonitionTransformer{},
+			},
+		}))
 
 		src := []byte(`{{< admonition type="note" >}}
 This is a note.
@@ -201,9 +209,12 @@ This is a note.
 
 		b := &bytes.Buffer{}
 		w := bufio.NewWriter(b)
-		md := goldmark.NewMarkdown()
-		md.Parser().AddOptions(parser.WithASTTransformers(util.Prioritized(&AdmonitionTransformer{}, 0)))
-		md.SetRenderer(renderer.NewRenderer(renderer.WithNodeRenderers(util.Prioritized(markdown.NewRenderer(), 1000))))
+		md := goldmark.New(goldmark.WithExtensions(&KillercodaExtension{
+			Transformers: []util.PrioritizedValue{},
+			AdditionalExtenders: []goldmark.Extender{
+				&AdmonitionTransformer{},
+			},
+		}))
 
 		src := []byte(`{{< admonition type="note" >}}
 
@@ -233,9 +244,12 @@ func TestFigureTransformer_Transform(t *testing.T) {
 
 		b := &bytes.Buffer{}
 		w := bufio.NewWriter(b)
-		md := goldmark.NewMarkdown()
-		md.Parser().AddOptions(parser.WithASTTransformers(util.Prioritized(&FigureTransformer{}, 0)))
-		md.SetRenderer(renderer.NewRenderer(renderer.WithNodeRenderers(util.Prioritized(markdown.NewRenderer(), 1000))))
+		md := goldmark.New(goldmark.WithExtensions(&KillercodaExtension{
+			Transformers: []util.PrioritizedValue{},
+			AdditionalExtenders: []goldmark.Extender{
+				&FigureTransformer{},
+			},
+		}))
 
 		src := []byte("{{< figure src=\"/media/docs/loki/grafana-query-builder-v2.png\" caption=\"Grafana Explore\" alt=\"Grafana Explore\" >}}\n")
 
@@ -254,9 +268,12 @@ func TestFigureTransformer_Transform(t *testing.T) {
 
 		b := &bytes.Buffer{}
 		w := bufio.NewWriter(b)
-		md := goldmark.NewMarkdown()
-		md.Parser().AddOptions(parser.WithASTTransformers(util.Prioritized(&FigureTransformer{}, 0)))
-		md.SetRenderer(renderer.NewRenderer(renderer.WithNodeRenderers(util.Prioritized(markdown.NewRenderer(), 1000))))
+		md := goldmark.New(goldmark.WithExtensions(&KillercodaExtension{
+			Transformers: []util.PrioritizedValue{},
+			AdditionalExtenders: []goldmark.Extender{
+				&FigureTransformer{},
+			},
+		}))
 
 		src := []byte("{{< figure src=\"/media/docs/loki/grafana-query-builder-v2.png\" caption=\"Grafana Explore\" >}}\n")
 
@@ -275,9 +292,12 @@ func TestFigureTransformer_Transform(t *testing.T) {
 
 		b := &bytes.Buffer{}
 		w := bufio.NewWriter(b)
-		md := goldmark.NewMarkdown()
-		md.Parser().AddOptions(parser.WithASTTransformers(util.Prioritized(&FigureTransformer{}, 0)))
-		md.SetRenderer(renderer.NewRenderer(renderer.WithNodeRenderers(util.Prioritized(markdown.NewRenderer(), 1000))))
+		md := goldmark.New(goldmark.WithExtensions(&KillercodaExtension{
+			Transformers: []util.PrioritizedValue{},
+			AdditionalExtenders: []goldmark.Extender{
+				&FigureTransformer{},
+			},
+		}))
 
 		src := []byte("{{< figure src=\"/media/docs/loki/grafana-query-builder-v2.png\" >}}\n")
 
@@ -297,9 +317,12 @@ func TestIgnoreTransformer_Transform(t *testing.T) {
 
 	b := &bytes.Buffer{}
 	w := bufio.NewWriter(b)
-	md := goldmark.NewMarkdown()
-	md.Parser().AddOptions(parser.WithASTTransformers(util.Prioritized(&IgnoreTransformer{}, 0)))
-	md.SetRenderer(renderer.NewRenderer(renderer.WithNodeRenderers(util.Prioritized(markdown.NewRenderer(), 1000))))
+	md := goldmark.New(goldmark.WithExtensions(&KillercodaExtension{
+		Transformers: []util.PrioritizedValue{},
+		AdditionalExtenders: []goldmark.Extender{
+			&IgnoreTransformer{},
+		},
+	}))
 
 	src := []byte(`## Install Loki and collecting sample logs
 
@@ -332,9 +355,12 @@ func TestLinkTransformer_Transform(t *testing.T) {
 
 	b := &bytes.Buffer{}
 	w := bufio.NewWriter(b)
-	md := goldmark.NewMarkdown()
-	md.Parser().AddOptions(parser.WithASTTransformers(util.Prioritized(&LinkTransformer{}, 0)))
-	md.SetRenderer(renderer.NewRenderer(renderer.WithNodeRenderers(util.Prioritized(markdown.NewRenderer(), 1000))))
+	md := goldmark.New(goldmark.WithExtensions(&KillercodaExtension{
+		Transformers: []util.PrioritizedValue{},
+		AdditionalExtenders: []goldmark.Extender{
+			&LinkTransformer{},
+		},
+	}))
 
 	src := []byte(`You can view your logs using the command line interface, [LogCLI](/docs/loki/latest/query/logcli/), but the easiest way to view your logs is with Grafana.
 
@@ -368,9 +394,13 @@ func TestStepTransformer_Transform(t *testing.T) {
 
 		b := &bytes.Buffer{}
 		w := bufio.NewWriter(b)
-		md := goldmark.NewMarkdown()
-		md.Parser().AddOptions(parser.WithASTTransformers(util.Prioritized(&StepTransformer{StartMarker: pageIntroStartMarker, EndMarker: pageIntroEndMarker}, 0)))
-		md.SetRenderer(renderer.NewRenderer(renderer.WithNodeRenderers(util.Prioritized(markdown.NewRenderer(), 1000))))
+
+		md := goldmark.New(goldmark.WithExtensions(&KillercodaExtension{
+			Transformers: []util.PrioritizedValue{},
+			AdditionalExtenders: []goldmark.Extender{
+				&StepTransformer{StartMarker: pageIntroStartMarker, EndMarker: pageIntroEndMarker},
+			},
+		}))
 
 		src := []byte(`<!-- INTERACTIVE page intro.md START -->
 

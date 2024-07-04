@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"strings"
 
+	"github.com/yuin/goldmark"
 	"github.com/yuin/goldmark/ast"
 	"github.com/yuin/goldmark/renderer"
 	"github.com/yuin/goldmark/util"
@@ -144,7 +145,7 @@ type Renderer struct {
 }
 
 // NewRenderer configures a new Goldmark renderer for Markdown.
-func NewRenderer(opts ...Option) renderer.NodeRenderer {
+func NewRenderer(opts ...Option) *Renderer {
 	renderer := &Renderer{
 		Config: NewConfig(),
 
@@ -155,5 +156,10 @@ func NewRenderer(opts ...Option) renderer.NodeRenderer {
 	for _, opt := range opts {
 		opt.SetMarkdownOption(&renderer.Config)
 	}
+
 	return renderer
+}
+
+func (r *Renderer) Extend(md goldmark.Markdown) {
+	md.SetRenderer(renderer.NewRenderer(renderer.WithNodeRenderers(util.Prioritized(r, 1000))))
 }

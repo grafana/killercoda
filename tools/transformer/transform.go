@@ -7,9 +7,11 @@ import (
 	"regexp"
 	"strings"
 
+	"github.com/yuin/goldmark"
 	"github.com/yuin/goldmark/ast"
 	"github.com/yuin/goldmark/parser"
 	"github.com/yuin/goldmark/text"
+	"github.com/yuin/goldmark/util"
 )
 
 var (
@@ -50,6 +52,12 @@ func rawText(node ast.Node, source []byte) string {
 
 type ActionTransformer struct {
 	Kind string
+}
+
+func (t *ActionTransformer) Extend(md goldmark.Markdown) {
+	md.Parser().AddOptions(
+		parser.WithASTTransformers(
+			util.Prioritized(t, 0)))
 }
 
 // Transform implements the parser.ASTTransformer interface and adds action metadata to any fenced code blocks within between the start and end markers.
@@ -111,6 +119,12 @@ func (t *ActionTransformer) Transform(node *ast.Document, reader text.Reader, _ 
 
 type AdmonitionTransformer struct{}
 
+func (t *AdmonitionTransformer) Extend(md goldmark.Markdown) {
+	md.Parser().AddOptions(
+		parser.WithASTTransformers(
+			util.Prioritized(t, 0)))
+}
+
 // Transform implements the parser.ASTTransformer interface and replaces all admonition shortcodes with blockquotes.
 func (t *AdmonitionTransformer) Transform(node *ast.Document, reader text.Reader, _ parser.Context) {
 	source := reader.Source()
@@ -170,6 +184,12 @@ func imageFromFigure(args map[string]string) *ast.Paragraph {
 }
 
 type FigureTransformer struct{}
+
+func (t *FigureTransformer) Extend(md goldmark.Markdown) {
+	md.Parser().AddOptions(
+		parser.WithASTTransformers(
+			util.Prioritized(t, 0)))
+}
 
 // Transform implements the parser.ASTTransformer interface and replaces all figure shortcodes with image elements.
 func (t *FigureTransformer) Transform(node *ast.Document, reader text.Reader, _ parser.Context) {
@@ -233,6 +253,12 @@ func (t *HeadingTransformer) Transform(node *ast.Document, _ text.Reader, _ pars
 
 type IgnoreTransformer struct{}
 
+func (t *IgnoreTransformer) Extend(md goldmark.Markdown) {
+	md.Parser().AddOptions(
+		parser.WithASTTransformers(
+			util.Prioritized(t, 0)))
+}
+
 // Transform implements the parser.ASTTransformer interface and removes all nodes between the ignore start and end markers.
 func (t *IgnoreTransformer) Transform(node *ast.Document, reader text.Reader, _ parser.Context) {
 	source := reader.Source()
@@ -290,6 +316,12 @@ func (t *InlineActionTransformer) Transform(node *ast.Document, _ text.Reader, _
 
 type LinkTransformer struct{}
 
+func (t *LinkTransformer) Extend(md goldmark.Markdown) {
+	md.Parser().AddOptions(
+		parser.WithASTTransformers(
+			util.Prioritized(t, 0)))
+}
+
 // Transform implements the parser.ASTTransformer interface and replaces version substitution syntax (<SOMETHING_VERSION>) with 'latest' in links.
 func (t *LinkTransformer) Transform(root *ast.Document, _ text.Reader, _ parser.Context) {
 	err := ast.Walk(root, func(node ast.Node, entering bool) (ast.WalkStatus, error) {
@@ -344,6 +376,12 @@ func (t *LinkTransformer) Transform(root *ast.Document, _ text.Reader, _ parser.
 type StepTransformer struct {
 	StartMarker string
 	EndMarker   string
+}
+
+func (t *StepTransformer) Extend(md goldmark.Markdown) {
+	md.Parser().AddOptions(
+		parser.WithASTTransformers(
+			util.Prioritized(t, 0)))
 }
 
 // Transform implements the parser.ASTTransformer interface and keeps only the sibling nodes within the step start and end markers.
