@@ -5,12 +5,10 @@ import (
 	"bytes"
 	"testing"
 
-	"github.com/grafana/killercoda/tools/transformer/goldmark"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
-	"github.com/yuin/goldmark/renderer"
+	"github.com/yuin/goldmark"
 	"github.com/yuin/goldmark/text"
-	"github.com/yuin/goldmark/util"
 )
 
 func TestRenderBlockquote(t *testing.T) {
@@ -18,8 +16,7 @@ func TestRenderBlockquote(t *testing.T) {
 
 	b := &bytes.Buffer{}
 	w := bufio.NewWriter(b)
-	md := goldmark.NewMarkdown()
-	md.SetRenderer(renderer.NewRenderer(renderer.WithNodeRenderers(util.Prioritized(NewRenderer(), 1000))))
+	md := goldmark.New(goldmark.WithExtensions(NewRenderer()))
 
 	src := []byte(`> **Note:**
 > This is an admonition.
@@ -39,8 +36,7 @@ func TestRenderCodeblock(t *testing.T) {
 
 	b := &bytes.Buffer{}
 	w := bufio.NewWriter(b)
-	md := goldmark.NewMarkdown()
-	md.SetRenderer(renderer.NewRenderer(renderer.WithNodeRenderers(util.Prioritized(NewRenderer(), 1000))))
+	md := goldmark.New(goldmark.WithExtensions(NewRenderer()))
 
 	src := []byte(`    echo 'Hello, world!'
     echo 'Goodbye, cruel world!'
@@ -59,8 +55,7 @@ func TestRenderDocument(t *testing.T) {
 
 	b := &bytes.Buffer{}
 	w := bufio.NewWriter(b)
-	md := goldmark.NewMarkdown()
-	md.SetRenderer(renderer.NewRenderer(renderer.WithNodeRenderers(util.Prioritized(NewRenderer(), 1000))))
+	md := goldmark.New(goldmark.WithExtensions(NewRenderer()))
 
 	src := []byte("# Heading 1\n" +
 		"\n" +
@@ -89,8 +84,7 @@ func TestRenderFencedCodeBlock(t *testing.T) {
 
 	b := &bytes.Buffer{}
 	w := bufio.NewWriter(b)
-	md := goldmark.NewMarkdown()
-	md.SetRenderer(renderer.NewRenderer(renderer.WithNodeRenderers(util.Prioritized(NewRenderer(), 1000))))
+	md := goldmark.New(goldmark.WithExtensions(NewRenderer()))
 
 	src := []byte("```go\ngo run ./\n```\n")
 	root := md.Parser().Parse(text.NewReader(src))
@@ -107,8 +101,7 @@ func TestRenderHeading(t *testing.T) {
 
 	b := &bytes.Buffer{}
 	w := bufio.NewWriter(b)
-	md := goldmark.NewMarkdown()
-	md.SetRenderer(renderer.NewRenderer(renderer.WithNodeRenderers(util.Prioritized(NewRenderer(), 1000))))
+	md := goldmark.New(goldmark.WithExtensions(NewRenderer()))
 
 	src := []byte("# Heading 1\n")
 	root := md.Parser().Parse(text.NewReader(src))
@@ -125,8 +118,7 @@ func TestRenderList(t *testing.T) {
 
 	b := &bytes.Buffer{}
 	w := bufio.NewWriter(b)
-	md := goldmark.NewMarkdown()
-	md.SetRenderer(renderer.NewRenderer(renderer.WithNodeRenderers(util.Prioritized(NewRenderer(), 1000))))
+	md := goldmark.New(goldmark.WithExtensions(NewRenderer()))
 
 	src := []byte(`- One
 
@@ -154,8 +146,7 @@ func TestRenderParagraph(t *testing.T) {
 
 	b := &bytes.Buffer{}
 	w := bufio.NewWriter(b)
-	md := goldmark.NewMarkdown()
-	md.SetRenderer(renderer.NewRenderer(renderer.WithNodeRenderers(util.Prioritized(NewRenderer(), 1000))))
+	md := goldmark.New(goldmark.WithExtensions(NewRenderer()))
 
 	src := []byte(`Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
@@ -176,8 +167,7 @@ func TestRenderThematicBreak(t *testing.T) {
 
 	b := &bytes.Buffer{}
 	w := bufio.NewWriter(b)
-	md := goldmark.NewMarkdown()
-	md.SetRenderer(renderer.NewRenderer(renderer.WithNodeRenderers(util.Prioritized(NewRenderer(), 1000))))
+	md := goldmark.New(goldmark.WithExtensions(NewRenderer()))
 
 	src := []byte(`One thing
 

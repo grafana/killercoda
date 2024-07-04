@@ -7,9 +7,11 @@ import (
 	"regexp"
 	"strings"
 
+	"github.com/yuin/goldmark"
 	"github.com/yuin/goldmark/ast"
 	"github.com/yuin/goldmark/parser"
 	"github.com/yuin/goldmark/text"
+	"github.com/yuin/goldmark/util"
 )
 
 var (
@@ -20,6 +22,11 @@ var (
 
 func isMarker(node ast.Node, source []byte, marker string) bool {
 	switch node := node.(type) {
+	case *ast.Text, *ast.String:
+		if strings.TrimSpace(string(node.Text(source))) == marker {
+			return true
+		}
+
 	case *ast.HTMLBlock, *ast.Paragraph:
 		raw := rawText(node, source)
 		if strings.TrimSpace(raw) == marker {
@@ -45,6 +52,12 @@ func rawText(node ast.Node, source []byte) string {
 
 type ActionTransformer struct {
 	Kind string
+}
+
+func (t *ActionTransformer) Extend(md goldmark.Markdown) {
+	md.Parser().AddOptions(
+		parser.WithASTTransformers(
+			util.Prioritized(t, 0)))
 }
 
 // Transform implements the parser.ASTTransformer interface and adds action metadata to any fenced code blocks within between the start and end markers.
@@ -106,6 +119,12 @@ func (t *ActionTransformer) Transform(node *ast.Document, reader text.Reader, _ 
 
 type AdmonitionTransformer struct{}
 
+func (t *AdmonitionTransformer) Extend(md goldmark.Markdown) {
+	md.Parser().AddOptions(
+		parser.WithASTTransformers(
+			util.Prioritized(t, 0)))
+}
+
 // Transform implements the parser.ASTTransformer interface and replaces all admonition shortcodes with blockquotes.
 func (t *AdmonitionTransformer) Transform(node *ast.Document, reader text.Reader, _ parser.Context) {
 	source := reader.Source()
@@ -120,40 +139,6 @@ func (t *AdmonitionTransformer) Transform(node *ast.Document, reader text.Reader
 
 			if strings.HasPrefix(raw, "{{<") && strings.HasSuffix(raw, ">}}") && strings.Contains(raw, "admonition") {
 				panic("TODO: implement")
-			}
-		}
-
-		return ast.WalkContinue, nil
-	})
-	if err != nil {
-		fmt.Fprintf(os.Stderr, "Error transforming AST: %v\n", err)
-	}
-}
-
-type DocsIgnoreTransformer struct{}
-
-// Transform implements the parser.ASTTransformer interface and removes the docs/ignore shortcode markers.
-// The Hugo shortcode ignores the inner content in the website build so it can appear exclusively in Killercoda.
-// The inner content can confuse the Goldmark parser if it contains Killercoda specific Markdown.
-// For example, the `{{exec}}` action at the end of a fenced code block stops it being correctly closed.
-func (t *DocsIgnoreTransformer) Transform(node *ast.Document, reader text.Reader, _ parser.Context) {
-	source := reader.Source()
-
-	err := ast.Walk(node, func(node ast.Node, entering bool) (ast.WalkStatus, error) {
-		if !entering {
-			var toRemove []ast.Node
-
-			for c := node.FirstChild(); c != nil; c = c.NextSibling() {
-				if isMarker(c, source, "{{< docs/ignore >}}") {
-					toRemove = append(toRemove, c)
-				}
-				if isMarker(c, source, "{{< /docs/ignore >}}") {
-					toRemove = append(toRemove, c)
-				}
-			}
-
-			for _, child := range toRemove {
-				node.RemoveChild(node, child)
 			}
 		}
 
@@ -199,6 +184,12 @@ func imageFromFigure(args map[string]string) *ast.Paragraph {
 }
 
 type FigureTransformer struct{}
+
+func (t *FigureTransformer) Extend(md goldmark.Markdown) {
+	md.Parser().AddOptions(
+		parser.WithASTTransformers(
+			util.Prioritized(t, 0)))
+}
 
 // Transform implements the parser.ASTTransformer interface and replaces all figure shortcodes with image elements.
 func (t *FigureTransformer) Transform(node *ast.Document, reader text.Reader, _ parser.Context) {
@@ -262,6 +253,12 @@ func (t *HeadingTransformer) Transform(node *ast.Document, _ text.Reader, _ pars
 
 type IgnoreTransformer struct{}
 
+func (t *IgnoreTransformer) Extend(md goldmark.Markdown) {
+	md.Parser().AddOptions(
+		parser.WithASTTransformers(
+			util.Prioritized(t, 0)))
+}
+
 // Transform implements the parser.ASTTransformer interface and removes all nodes between the ignore start and end markers.
 func (t *IgnoreTransformer) Transform(node *ast.Document, reader text.Reader, _ parser.Context) {
 	source := reader.Source()
@@ -319,6 +316,12 @@ func (t *InlineActionTransformer) Transform(node *ast.Document, _ text.Reader, _
 
 type LinkTransformer struct{}
 
+func (t *LinkTransformer) Extend(md goldmark.Markdown) {
+	md.Parser().AddOptions(
+		parser.WithASTTransformers(
+			util.Prioritized(t, 0)))
+}
+
 // Transform implements the parser.ASTTransformer interface and replaces version substitution syntax (<SOMETHING_VERSION>) with 'latest' in links.
 func (t *LinkTransformer) Transform(root *ast.Document, _ text.Reader, _ parser.Context) {
 	err := ast.Walk(root, func(node ast.Node, entering bool) (ast.WalkStatus, error) {
@@ -373,6 +376,12 @@ func (t *LinkTransformer) Transform(root *ast.Document, _ text.Reader, _ parser.
 type StepTransformer struct {
 	StartMarker string
 	EndMarker   string
+}
+
+func (t *StepTransformer) Extend(md goldmark.Markdown) {
+	md.Parser().AddOptions(
+		parser.WithASTTransformers(
+			util.Prioritized(t, 0)))
 }
 
 // Transform implements the parser.ASTTransformer interface and keeps only the sibling nodes within the step start and end markers.

@@ -12,13 +12,9 @@ import (
 	"path/filepath"
 	"regexp"
 
-	"github.com/grafana/killercoda/tools/transformer/goldmark"
-	"github.com/grafana/killercoda/tools/transformer/goldmark/renderer/markdown"
 	"github.com/grafana/killercoda/tools/transformer/killercoda"
-	"github.com/yuin/goldmark/parser"
-	"github.com/yuin/goldmark/renderer"
+	"github.com/yuin/goldmark"
 	"github.com/yuin/goldmark/text"
-	"github.com/yuin/goldmark/util"
 )
 
 const command = "transformer"
@@ -66,12 +62,7 @@ func main() {
 	}
 }
 
-func writeFile(dstDirPath, filename string, transformers []util.PrioritizedValue, renderer renderer.Renderer, data []byte) error {
-	md := goldmark.NewMarkdown()
-	md.Parser().AddOptions(parser.WithASTTransformers(transformers...))
-
-	md.SetRenderer(renderer)
-
+func writeFile(md goldmark.Markdown, dstDirPath, filename string, data []byte) error {
 	root := md.Parser().Parse(text.NewReader(data))
 
 	out, err := os.Create(filepath.Join(dstDirPath, filename))
@@ -96,7 +87,11 @@ func transform(srcFilePath, dstDirPath string) error {
 		return fmt.Errorf("couldn't open source file: %w", err)
 	}
 
-	md := goldmark.NewMarkdown()
+	md := goldmark.New(goldmark.WithExtensions(&KillercodaExtension{
+		Transformers:        DefaultKillercodaTransformers,
+		AdditionalExtenders: []goldmark.Extender{},
+	}))
+
 	root := md.Parser().Parse(text.NewReader(data))
 
 	meta, ok := root.OwnerDocument().Meta()["killercoda"].(map[any]any)
@@ -104,38 +99,17 @@ func transform(srcFilePath, dstDirPath string) error {
 		return fmt.Errorf("couldn't find metadata in source file front matter")
 	}
 
-	if preprocessing, ok := meta["preprocessing"].(map[any]any); ok {
-		if substitutions, ok := preprocessing["substitutions"].([]any); ok {
-			for _, substitution := range substitutions {
-				if s, ok := substitution.(map[any]any); ok {
-					if expr, ok := s["regexp"].(string); ok {
-						if replacement, ok := s["replacement"].(string); ok {
-							data = regexp.MustCompile(expr).ReplaceAll(data, []byte(replacement))
-						}
-					}
-				}
-			}
-		}
+	pp, err := NewSubstitutionPreprocessorFromMeta(meta)
+	if err != nil {
+		return fmt.Errorf("couldn't create substitution preprocessor: %w", err)
 	}
 
-	transformers := []util.PrioritizedValue{
-		util.Prioritized(&IgnoreTransformer{}, 1),
-		util.Prioritized(&DocsIgnoreTransformer{}, 1),
-		util.Prioritized(&FigureTransformer{}, 2),
-		util.Prioritized(&InlineActionTransformer{}, 3),
-		util.Prioritized(&ActionTransformer{Kind: "copy"}, 3),
-		util.Prioritized(&ActionTransformer{Kind: "exec"}, 3),
-		util.Prioritized(&LinkTransformer{}, 4),
-		util.Prioritized(&HeadingTransformer{}, 5),
-	}
+	pp.AddSubstitution(docsIgnoreRegexp, []byte(""))
 
-	//nolint:gomnd // These priority values are relative to each other and are not magic.
-	renderer := renderer.NewRenderer(
-		renderer.WithNodeRenderers(
-			util.Prioritized(
-				markdown.NewRenderer(
-					markdown.WithKillercodaActions(),
-				), 1000)))
+	data, err = pp.Process(data)
+	if err != nil {
+		return fmt.Errorf("couldn't process substitutions: %w", err)
+	}
 
 	var (
 		wroteIntro  bool
@@ -143,7 +117,14 @@ func transform(srcFilePath, dstDirPath string) error {
 	)
 
 	if bytes.Contains(data, []byte(pageIntroStartMarker)) {
-		if err := writeFile(dstDirPath, "intro.md", append(transformers, util.Prioritized(&StepTransformer{StartMarker: pageIntroStartMarker, EndMarker: pageIntroEndMarker}, 0)), renderer, data); err != nil {
+		md := goldmark.New(goldmark.WithExtensions(&KillercodaExtension{
+			Transformers: DefaultKillercodaTransformers,
+			AdditionalExtenders: []goldmark.Extender{
+				&StepTransformer{StartMarker: pageIntroStartMarker, EndMarker: pageIntroEndMarker},
+			},
+		}))
+
+		if err := writeFile(md, dstDirPath, "intro.md", data); err != nil {
 			return err
 		}
 
@@ -151,7 +132,14 @@ func transform(srcFilePath, dstDirPath string) error {
 	}
 
 	if bytes.Contains(data, []byte(pageFinishStartMarker)) {
-		if err := writeFile(dstDirPath, "finish.md", append(transformers, util.Prioritized(&StepTransformer{StartMarker: pageFinishStartMarker, EndMarker: pageFinishEndMarker}, 0)), renderer, data); err != nil {
+		md := goldmark.New(goldmark.WithExtensions(&KillercodaExtension{
+			Transformers: DefaultKillercodaTransformers,
+			AdditionalExtenders: []goldmark.Extender{
+				&StepTransformer{StartMarker: pageFinishStartMarker, EndMarker: pageFinishEndMarker},
+			},
+		}))
+
+		if err := writeFile(md, dstDirPath, "finish.md", data); err != nil {
 			return err
 		}
 
@@ -169,7 +157,14 @@ func transform(srcFilePath, dstDirPath string) error {
 
 		if regexp.MustCompile(startMarker).Match(data) {
 			steps++
-			if err := writeFile(dstDirPath, fmt.Sprintf("step%d.md", i), append(transformers, util.Prioritized(&StepTransformer{StartMarker: startMarker, EndMarker: endMarker}, 0)), renderer, data); err != nil {
+			md := goldmark.New(goldmark.WithExtensions(&KillercodaExtension{
+				Transformers: DefaultKillercodaTransformers,
+				AdditionalExtenders: []goldmark.Extender{
+					&StepTransformer{StartMarker: startMarker, EndMarker: endMarker},
+				},
+			}))
+
+			if err := writeFile(md, dstDirPath, fmt.Sprintf("step%d.md", i), data); err != nil {
 				errs = errors.Join(errs, err)
 			}
 
@@ -185,6 +180,8 @@ func transform(srcFilePath, dstDirPath string) error {
 
 	return errs
 }
+
+var docsIgnoreRegexp = regexp.MustCompile("{{< *?/?docs/ignore *?>}}\n?")
 
 func writeIndex(dstDirPath string, meta map[any]any, steps int, wroteIntro bool, wroteFinish bool) error {
 	index, err := killercoda.FromMeta(meta)
