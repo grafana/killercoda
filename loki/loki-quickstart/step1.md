@@ -22,22 +22,41 @@
 
    With `evaluate-loki`{{copy}} as the current working directory, start the demo environment using `docker compose`{{copy}}:
 
-   ```bash
-   docker-compose up -d
-   ```{{exec}}
+   <!-- raw HTML omitted -->
+
+   <!-- raw HTML omitted -->
+
+   <!-- raw HTML omitted -->
+
+   <!-- raw HTML omitted -->
+
+   <!-- raw HTML omitted -->
 
    At the end of the command, you should see something similar to the following:
 
-   ```console
-   Creating evaluate-loki_flog_1  ... done
-   Creating evaluate-loki_minio_1 ... done
-   Creating evaluate-loki_read_1  ... done
-   Creating evaluate-loki_write_1 ... done
-   Creating evaluate-loki_gateway_1 ... done
-   Creating evaluate-loki_alloy_1   ... done
-   Creating evaluate-loki_grafana_1 ... done
-   Creating evaluate-loki_backend_1 ... done
-   ```{{copy}}
+   <!-- raw HTML omitted -->
+
+   <!-- raw HTML omitted -->
+
+   <!-- raw HTML omitted -->
+
+   <!-- raw HTML omitted -->
+
+   <!-- raw HTML omitted -->
+
+   <!-- raw HTML omitted -->
+
+   <!-- raw HTML omitted -->
+
+   <!-- raw HTML omitted -->
+
+   <!-- raw HTML omitted -->
+
+   <!-- raw HTML omitted -->
+
+   <!-- raw HTML omitted -->
+
+   <!-- raw HTML omitted -->
 
 1. (Optional) Verify that the Loki cluster is up and running.
 
