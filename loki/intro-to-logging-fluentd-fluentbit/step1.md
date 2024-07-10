@@ -20,5 +20,5 @@ In this step, we will set up our environment by cloning the repository that cont
    ✔ Container loki-fundamentals_grafana_1  Started                                                        
    ✔ Container loki-fundamentals_loki_1     Started                        
    ✔ Container loki-fundamentals_fluentd_1  Started
-   ✔ Container loki-fundamentals_fluentbit_1 Started
+   ✔ Container loki-fundamentals_fluent-bit_1 Started
    ```{{copy}}
