@@ -51,53 +51,9 @@ You write directives in the source file with HTML comments.
 
 Use directives to:
 
-- [Configure copyable code blocks](#copy)
 - [Configure executable code blocks](#exec)
-- [Define an introduction page](#intro)
-- [Define a finish page](#finish)
-- [Define step pages](#step)
+- [Define pages](#page)
 - [Ignore parts of the documentation](#ignore)
-- [Include extra parts not in the website page](#include)
-
-### Copy
-
-Copy directives tell the transform tool to make the contained fenced code block copyable.
-
-The start marker is:
-
-```markdown
-<!-- INTERACTIVE copy START -->
-```
-
-The end marker is:
-
-```markdown
-<!-- INTERACTIVE copy END -->
-```
-
-#### Examples
-
-````markdown
-<!-- INTERACTIVE copy START -->
-
-```bash
-echo 'Hello, world!'
-```
-
-<!-- INTERACTIVE copy END -->
-````
-
-Produces:
-
-<!-- prettier-ignore-start -->
-
-````markdown
-```bash
-echo 'Hello, world!'
-```{{exec}}
-````
-
-<!-- prettier-ignore-end -->
 
 ### Exec
 
@@ -139,23 +95,6 @@ echo 'Hello, world!'
 
 <!-- prettier-ignore-end -->
 
-### Finish
-
-The finish directive specifies the start and end of the section of the file to use as the Killercoda finish page.
-If this is present, it overrides the `killercoda.details.finish.text` front matter.
-
-The start marker is:
-
-```markdown
-<!-- INTERACTIVE finish.md START -->
-```
-
-The end marker is:
-
-```markdown
-<!-- INTERACTIVE finish.md END -->
-```
-
 ### Ignore
 
 The ignore directive tells the transform tool to skip the contents within the markers when generating the Killercoda page.
@@ -171,6 +110,8 @@ The end marker is:
 ```markdown
 <!-- INTERACTIVE ignore END -->
 ```
+
+To do the inverse task, and ignore content in the website build, use the [`docs/ignore` shortcode](https://grafana.com/docs/writers-toolkit/write/shortcodes/#docsignore).
 
 #### Examples
 
@@ -190,72 +131,30 @@ Produces:
 Information common to both pages.
 ```
 
-### Include
+### Page
 
-The include directive tells the transform tool to include the contents of the HTML comments within the markers as content when generating the Killercoda page.
-The HTML comments aren't rendered on the Grafana website.
+The page directive tells the transform tool to use the content between the markers as the source for a Killercoda page.
+The page's filename is the first argument to the directive.
+
+Every tutorial must have at least the pages:
+
+- `intro.md`: An introduction to the tutorial.
+- `step1.md`: The first step in the tutorial.
+- `finish.md`: A closing page that summarizes steps taken and includes next steps.
+
+You can also add additional steps using the `step<N>.md`, where _`<N>`_ is in the range 2-20.
+Steps must be sequential, you can't have `step1.md` and `step3.md` without a `step2.md`.
 
 The start marker is:
 
 ```markdown
-<!-- INTERACTIVE include START -->
+<!-- INTERACTIVE page <FILENAME> START -->
 ```
 
 The end marker is:
 
 ```markdown
-<!-- INTERACTIVE include END -->
-```
-
-#### Examples
-
-```markdown
-Information common to both pages.
-
-<!-- INTERACTIVE include START -->
-<!-- Information unique to the Killercoda page. -->
-<!-- INTERACTIVE include END -->
-```
-
-Produces:
-
-```markdown
-Information common to both pages.
-
-Information unique to the Killercoda page.
-```
-
-### Intro
-
-The intro directive specifies the start and end of the section of the file to use as the Killercoda introduction page.
-If this is present, it overrides the `killercoda.details.intro.text` front matter.
-
-The start marker is:
-
-```markdown
-<!-- INTERACTIVE intro.md START -->
-```
-
-The end marker is:
-
-```markdown
-<!-- INTERACTIVE intro.md END -->
-```
-
-### Step
-
-The step directive specifies the start and end of the section of the file to use as a Killercoda step page.
-
-The start marker is the following, where _`<N>`_ is the number of the step:
-
-```markdown
-<!-- INTERACTIVE step<N>.md START -->
-```
-
-The end marker is the following, where _`<N>`_ is the number of the step:
-
-```markdown
-<!-- INTERACTIVE step<N>.md END -->
+<!-- INTERACTIVE page <FILENAME> END -->
 ```
 
 ## Generate a tutorial
@@ -287,27 +186,32 @@ To generate a tutorial:
    Front matter is YAML metadata written before the page's content.
    For more information, refer to the [Hugo front matter documentation](https://gohugo.io/content-management/front-matter/).
 
-   For an example Killercoda front matter, refer to [Metadata](#Metadata)
+   For an example Killercoda front matter, refer to [Metadata](#metadata).
 
 1. Configure an introduction page.
 
    Use one of the two options:
 
-   1. In the source repository, add [intro](#intro) directives.
+   1. In the source repository, add the [page](#page) directives with the `intro.md` argument.
+
+      The start marker is `<!-- INTERACTIVE page intro.md START -->` and the end marker is `<!-- INTERACTIVE page intro.md END -->`.
+
    1. 1. In the Killercoda repository, add a `intro.md` file in the output tutorial directory.
       1. In the source file, add the `killercoda.details.intro.text` field with the value `intro.md`.
 
-1. Add directives for each step in the tutorial.
+1. Add [page](#page) directives for each step in the tutorial.
 
-   Each step starts at the [step](#step) directive start marker and ends at the [step](#step) directive end marker.
-   Include at least one step.
-   The first step use the start marker `<!-- INTERACTIVE step1.md START -->` and the end marker `<!-- INTERACTIVE step1.md END -->`
+   You must include at least one step.
+   The first step uses the start marker `<!-- INTERACTIVE page step1.md START -->` and the end marker `<!-- INTERACTIVE page step1.md END -->`.
 
 1. Configure a finish page.
 
    Use one of the two options:
 
-   1. In the source repository, add [finish](#finish) directives.
+   1. In the source repository, add the [page](#page) directives with the `finish.md` argument.
+
+      The start marker is `<!-- INTERACTIVE page finish.md START -->` and the end marker is `<!-- INTERACTIVE page finish.md END -->`.
+
    1. 1. In the Killercoda repository, add a `finish.md` file in the output tutorial directory.
       1. In the source file, add the `killercoda.details.finish.text` field with the value `finish.md`.
 
@@ -335,3 +239,64 @@ To generate a tutorial:
 1. In each repository, commit your changes, push your branch, and open a pull request.
 
 1. A Killercoda maintainer reviews the PR to ensure that the generate tutorial works as expected.
+
+## Scripts and extra course files
+
+If your tutorial requires scripts or extra files, make sure to manually add them to the tutorial directory in the Killercoda repository. For example, if your tutorial requires a script to run:
+
+1. Add the bash script to the tutorial directory in the Killercoda repository. Refer to the [what-is-loki](../loki/what-is-loki/) tutorial for an example.
+2. Add the script to the desired step within the `index.json` file. Note that `foreground` scripts run in the foreground (seen in terminal), and `background` scripts run in the background (run in background thread). For example:
+   ```json
+   {
+      "title": "What is Loki?",
+      "description": "A sandbox enviroment to introduce Loki to new users.",
+      "details": {
+         "intro": {
+         "text": "intro.md",
+         "foreground": "script1.sh"
+         },
+         "steps": [
+         {
+            "text": "step1.md",
+            "foreground": "script2.sh"
+         }
+         ],
+         "finish": {
+         "text": "finished.md"
+         }
+      },
+      "backend": {
+         "imageid": "ubuntu"
+      }
+   }
+
+   ```
+
+For extra assets, such as images or configuration files:
+1. Create a directory called `assets` in the tutorial directory.
+2. Add the assets to the `assets` directory.
+3. Add the mount path to the `index.json` file:
+   ```json
+   {
+      "title": "Grafana Basics",
+      "description": "In this demo learn how to install and configure Grafana",
+      "details": {
+         "intro": {
+         "text": "intro.md"
+         },
+         "steps": [],
+         "finish": {
+         "text": "finished.md"
+         },
+         "assets": {
+         "host01": [
+            {"file": "*", "target": "/education"}
+         ]
+         }
+      },
+      "backend": {
+         "imageid": "ubuntu"
+      }
+   }
+   ```
+   Refer to the [grafana-basics](../grafana/grafana-basics/index.json) tutorial for an example.

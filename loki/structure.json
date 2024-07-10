@@ -6,6 +6,8 @@
     { "path": "what-is-loki", "title": "What is Loki?"},
     { "path": "intro-to-ingest", "title": "Intro to Ingesting"},
     { "path": "intro-to-ingest-otel", "title": "Intro to Ingesting with OpenTelemetry"},
-    { "path": "alloy-otel-logs", "title": "Ingesting OpenTelemetry logs to Loki using Alloy"}
+    { "path": "alloy-otel-logs", "title": "Ingesting OpenTelemetry logs to Loki using Alloy"},
+    { "path": "alloy-kafka-logs", "title": "Configuring Grafana Alloy to recive logs via Kafka and send them to Loki."},
+    { "path": "intro-to-logging-fluentd-fluentbit", "title": "Configuring Fluentd and Fluent bit to send logs to Loki."}
     ]
 }

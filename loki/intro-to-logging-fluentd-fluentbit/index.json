@@ -1,6 +1,6 @@
 {
-  "title": "Loki Quickstart Demo",
-  "description": "This sandbox provides an online enviroment for testing the Loki quickstart demo.",
+  "title": "Introduction to ingesting logs into Loki using Fluentd and Fluent Bit",
+  "description": "Configuring Fluentd and Fluent bit to send logs to Loki.",
   "details": {
     "intro": {
       "text": "intro.md"
@@ -11,6 +11,12 @@
       },
       {
         "text": "step2.md"
+      },
+      {
+        "text": "step3.md"
+      },
+      {
+        "text": "step4.md"
       }
     ],
     "finish": {

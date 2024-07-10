@@ -6,12 +6,9 @@ import (
 	"bytes"
 	"testing"
 
-	"github.com/grafana/killercoda/tools/transformer/goldmark"
-	"github.com/grafana/killercoda/tools/transformer/goldmark/renderer/markdown"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
-	"github.com/yuin/goldmark/parser"
-	"github.com/yuin/goldmark/renderer"
+	"github.com/yuin/goldmark"
 	"github.com/yuin/goldmark/text"
 	"github.com/yuin/goldmark/util"
 )
@@ -25,9 +22,12 @@ func TestActionTransformer_Transform(t *testing.T) {
 
 		b := &bytes.Buffer{}
 		w := bufio.NewWriter(b)
-		md := goldmark.NewMarkdown()
-		md.Parser().AddOptions(parser.WithASTTransformers(util.Prioritized(&ActionTransformer{Kind: "copy"}, 0)))
-		md.SetRenderer(renderer.NewRenderer(renderer.WithNodeRenderers(util.Prioritized(markdown.NewRenderer(markdown.WithKillercodaActions()), 1000))))
+		md := goldmark.New(goldmark.WithExtensions(&KillercodaExtension{
+			Transformers: []util.PrioritizedValue{},
+			AdditionalExtenders: []goldmark.Extender{
+				&ActionTransformer{Kind: "copy"},
+			},
+		}))
 
 		src := []byte("1. Create a directory called `evaluate-loki` for the demo environment.\n" +
 			"   Make `evaluate-loki` your current working directory:\n" +
@@ -70,6 +70,106 @@ func TestActionTransformer_Transform(t *testing.T) {
 
 		assert.Equal(t, want, b.String())
 	})
+
+	t.Run("copy without directives", func(t *testing.T) {
+		t.Parallel()
+
+		b := &bytes.Buffer{}
+		w := bufio.NewWriter(b)
+		md := goldmark.New(goldmark.WithExtensions(&KillercodaExtension{
+			Transformers: []util.PrioritizedValue{},
+			AdditionalExtenders: []goldmark.Extender{
+				&ActionTransformer{Kind: "copy"},
+			},
+		}))
+
+		src := []byte("1. Create a directory called `evaluate-loki` for the demo environment.\n" +
+			"   Make `evaluate-loki` your current working directory:\n" +
+			"\n" +
+			"   ```bash\n" +
+			"   mkdir evaluate-loki\n" +
+			"   cd evaluate-loki\n" +
+			"   ```\n" +
+			"\n" +
+			"   ```bash\n" +
+			"   mkdir evaluate-loki\n" +
+			"   cd evaluate-loki\n" +
+			"   ```\n")
+
+		root := md.Parser().Parse(text.NewReader(src))
+		require.NoError(t, md.Renderer().Render(w, src, root))
+
+		w.Flush()
+
+		want := "1. Create a directory called `evaluate-loki` for the demo environment.\n" +
+			"   Make `evaluate-loki` your current working directory:\n" +
+			"\n" +
+			"   ```bash\n" +
+			"   mkdir evaluate-loki\n" +
+			"   cd evaluate-loki\n" +
+			"   ```{{copy}}\n" +
+			"\n" +
+			"   ```bash\n" +
+			"   mkdir evaluate-loki\n" +
+			"   cd evaluate-loki\n" +
+			"   ```{{copy}}\n"
+
+		assert.Equal(t, want, b.String())
+	})
+
+	t.Run("exec", func(t *testing.T) {
+		t.Parallel()
+
+		b := &bytes.Buffer{}
+		w := bufio.NewWriter(b)
+		md := goldmark.New(goldmark.WithExtensions(&KillercodaExtension{
+			Transformers: []util.PrioritizedValue{},
+			AdditionalExtenders: []goldmark.Extender{
+				&ActionTransformer{Kind: "exec"},
+			},
+		}))
+
+		src := []byte("1. Create a directory called `evaluate-loki` for the demo environment.\n" +
+			"   Make `evaluate-loki` your current working directory:\n" +
+			"\n" +
+			"   <!-- INTERACTIVE exec START -->\n" +
+			"\n" +
+			"   ```bash\n" +
+			"   mkdir evaluate-loki\n" +
+			"   cd evaluate-loki\n" +
+			"   ```\n" +
+			"\n" +
+			"   <!-- INTERACTIVE exec END -->\n" +
+			"\n" +
+			"   <!-- INTERACTIVE exec START -->\n" +
+			"\n" +
+			"   ```bash\n" +
+			"   mkdir evaluate-loki\n" +
+			"   cd evaluate-loki\n" +
+			"   ```\n" +
+			"\n" +
+			"   <!-- INTERACTIVE exec END -->\n")
+
+		root := md.Parser().Parse(text.NewReader(src))
+		require.NoError(t, md.Renderer().Render(w, src, root))
+
+		w.Flush()
+
+		want := "1. Create a directory called `evaluate-loki` for the demo environment.\n" +
+			"   Make `evaluate-loki` your current working directory:\n" +
+			"\n" +
+			"   ```bash\n" +
+			"   mkdir evaluate-loki\n" +
+			"   cd evaluate-loki\n" +
+			"   ```{{exec}}\n" +
+			"\n" +
+			"   ```bash\n" +
+			"   mkdir evaluate-loki\n" +
+			"   cd evaluate-loki\n" +
+			"   ```{{exec}}\n"
+
+		assert.Equal(t, want, b.String())
+	})
 }
 
 func TestAdmonitionTransformer_Transform(t *testing.T) {
@@ -81,9 +181,12 @@ func TestAdmonitionTransformer_Transform(t *testing.T) {
 
 		b := &bytes.Buffer{}
 		w := bufio.NewWriter(b)
-		md := goldmark.NewMarkdown()
-		md.Parser().AddOptions(parser.WithASTTransformers(util.Prioritized(&AdmonitionTransformer{}, 0)))
-		md.SetRenderer(renderer.NewRenderer(renderer.WithNodeRenderers(util.Prioritized(markdown.NewRenderer(), 1000))))
+		md := goldmark.New(goldmark.WithExtensions(&KillercodaExtension{
+			Transformers: []util.PrioritizedValue{},
+			AdditionalExtenders: []goldmark.Extender{
+				&AdmonitionTransformer{},
+			},
+		}))
 
 		src := []byte(`{{< admonition type="note" >}}
 This is a note.
@@ -106,9 +209,12 @@ This is a note.
 
 		b := &bytes.Buffer{}
 		w := bufio.NewWriter(b)
-		md := goldmark.NewMarkdown()
-		md.Parser().AddOptions(parser.WithASTTransformers(util.Prioritized(&AdmonitionTransformer{}, 0)))
-		md.SetRenderer(renderer.NewRenderer(renderer.WithNodeRenderers(util.Prioritized(markdown.NewRenderer(), 1000))))
+		md := goldmark.New(goldmark.WithExtensions(&KillercodaExtension{
+			Transformers: []util.PrioritizedValue{},
+			AdditionalExtenders: []goldmark.Extender{
+				&AdmonitionTransformer{},
+			},
+		}))
 
 		src := []byte(`{{< admonition type="note" >}}
 
@@ -138,9 +244,12 @@ func TestFigureTransformer_Transform(t *testing.T) {
 
 		b := &bytes.Buffer{}
 		w := bufio.NewWriter(b)
-		md := goldmark.NewMarkdown()
-		md.Parser().AddOptions(parser.WithASTTransformers(util.Prioritized(&FigureTransformer{}, 0)))
-		md.SetRenderer(renderer.NewRenderer(renderer.WithNodeRenderers(util.Prioritized(markdown.NewRenderer(), 1000))))
+		md := goldmark.New(goldmark.WithExtensions(&KillercodaExtension{
+			Transformers: []util.PrioritizedValue{},
+			AdditionalExtenders: []goldmark.Extender{
+				&FigureTransformer{},
+			},
+		}))
 
 		src := []byte("{{< figure src=\"/media/docs/loki/grafana-query-builder-v2.png\" caption=\"Grafana Explore\" alt=\"Grafana Explore\" >}}\n")
 
@@ -159,9 +268,12 @@ func TestFigureTransformer_Transform(t *testing.T) {
 
 		b := &bytes.Buffer{}
 		w := bufio.NewWriter(b)
-		md := goldmark.NewMarkdown()
-		md.Parser().AddOptions(parser.WithASTTransformers(util.Prioritized(&FigureTransformer{}, 0)))
-		md.SetRenderer(renderer.NewRenderer(renderer.WithNodeRenderers(util.Prioritized(markdown.NewRenderer(), 1000))))
+		md := goldmark.New(goldmark.WithExtensions(&KillercodaExtension{
+			Transformers: []util.PrioritizedValue{},
+			AdditionalExtenders: []goldmark.Extender{
+				&FigureTransformer{},
+			},
+		}))
 
 		src := []byte("{{< figure src=\"/media/docs/loki/grafana-query-builder-v2.png\" caption=\"Grafana Explore\" >}}\n")
 
@@ -180,9 +292,12 @@ func TestFigureTransformer_Transform(t *testing.T) {
 
 		b := &bytes.Buffer{}
 		w := bufio.NewWriter(b)
-		md := goldmark.NewMarkdown()
-		md.Parser().AddOptions(parser.WithASTTransformers(util.Prioritized(&FigureTransformer{}, 0)))
-		md.SetRenderer(renderer.NewRenderer(renderer.WithNodeRenderers(util.Prioritized(markdown.NewRenderer(), 1000))))
+		md := goldmark.New(goldmark.WithExtensions(&KillercodaExtension{
+			Transformers: []util.PrioritizedValue{},
+			AdditionalExtenders: []goldmark.Extender{
+				&FigureTransformer{},
+			},
+		}))
 
 		src := []byte("{{< figure src=\"/media/docs/loki/grafana-query-builder-v2.png\" >}}\n")
 
@@ -202,9 +317,12 @@ func TestIgnoreTransformer_Transform(t *testing.T) {
 
 	b := &bytes.Buffer{}
 	w := bufio.NewWriter(b)
-	md := goldmark.NewMarkdown()
-	md.Parser().AddOptions(parser.WithASTTransformers(util.Prioritized(&IgnoreTransformer{}, 0)))
-	md.SetRenderer(renderer.NewRenderer(renderer.WithNodeRenderers(util.Prioritized(markdown.NewRenderer(), 1000))))
+	md := goldmark.New(goldmark.WithExtensions(&KillercodaExtension{
+		Transformers: []util.PrioritizedValue{},
+		AdditionalExtenders: []goldmark.Extender{
+			&IgnoreTransformer{},
+		},
+	}))
 
 	src := []byte(`## Install Loki and collecting sample logs
 
@@ -232,84 +350,17 @@ This quickstart assumes you are running Linux.
 	assert.Equal(t, want, b.String())
 }
 
-func TestIncludeTransformer_Transform(t *testing.T) {
-	t.Parallel()
-
-	b := &bytes.Buffer{}
-	w := bufio.NewWriter(b)
-	md := goldmark.NewMarkdown()
-	md.Parser().AddOptions(parser.WithASTTransformers(util.Prioritized(&IncludeTransformer{}, 0)))
-	md.SetRenderer(renderer.NewRenderer(renderer.WithNodeRenderers(util.Prioritized(markdown.NewRenderer(), 1000))))
-
-	src := []byte("<!-- INTERACTIVE include START -->\n" +
-		"<!-- ```bash -->\n" +
-		"<!-- docker-compose up -d -->\n" +
-		"<!-- ```{{exec}} -->\n" +
-		"<!-- INTERACTIVE include END -->\n")
-
-	root := md.Parser().Parse(text.NewReader(src))
-	require.NoError(t, md.Renderer().Render(w, src, root))
-
-	w.Flush()
-
-	want := "```bash\n" +
-		"docker-compose up -d\n" +
-		"```{{exec}}\n\n"
-
-	assert.Equal(t, want, b.String())
-}
-
-func TestIntroTransformer_Transform(t *testing.T) {
-	t.Parallel()
-
-	b := &bytes.Buffer{}
-	w := bufio.NewWriter(b)
-	md := goldmark.NewMarkdown()
-	md.Parser().AddOptions(parser.WithASTTransformers(util.Prioritized(&IntroTransformer{}, 0)))
-	md.SetRenderer(renderer.NewRenderer(renderer.WithNodeRenderers(util.Prioritized(markdown.NewRenderer(), 1000))))
-
-	src := []byte(`<!-- INTERACTIVE intro.md START -->
-
-# Quickstart to run Loki locally
-
-The Docker Compose configuration instantiates the following components, each in its own container:
-
-- **flog** a sample application which generates log lines.
-  [flog](https://github.com/mingrammer/flog) is a log generator for common log formats.
-- **Grafana Alloy** which scrapes the log lines from flog, and pushes them to Loki through the gateway.
-- **Grafana** which provides visualization of the log lines captured within Loki.
-
-<!-- INTERACTIVE intro.md END -->
-`)
-
-	root := md.Parser().Parse(text.NewReader(src))
-	require.NoError(t, md.Renderer().Render(w, src, root))
-
-	w.Flush()
-
-	want := `# Quickstart to run Loki locally
-
-The Docker Compose configuration instantiates the following components, each in its own container:
-
-- **flog** a sample application which generates log lines.
-  [flog](https://github.com/mingrammer/flog) is a log generator for common log formats.
-
-- **Grafana Alloy** which scrapes the log lines from flog, and pushes them to Loki through the gateway.
-
-- **Grafana** which provides visualization of the log lines captured within Loki.
-`
-
-	assert.Equal(t, want, b.String())
-}
-
 func TestLinkTransformer_Transform(t *testing.T) {
 	t.Parallel()
 
 	b := &bytes.Buffer{}
 	w := bufio.NewWriter(b)
-	md := goldmark.NewMarkdown()
-	md.Parser().AddOptions(parser.WithASTTransformers(util.Prioritized(&LinkTransformer{}, 0)))
-	md.SetRenderer(renderer.NewRenderer(renderer.WithNodeRenderers(util.Prioritized(markdown.NewRenderer(), 1000))))
+	md := goldmark.New(goldmark.WithExtensions(&KillercodaExtension{
+		Transformers: []util.PrioritizedValue{},
+		AdditionalExtenders: []goldmark.Extender{
+			&LinkTransformer{},
+		},
+	}))
 
 	src := []byte(`You can view your logs using the command line interface, [LogCLI](/docs/loki/latest/query/logcli/), but the easiest way to view your logs is with Grafana.
 
@@ -333,4 +384,55 @@ It runs Loki in a [monolithic deployment](https://grafana.com/docs/loki/latest/g
 `
 
 	assert.Equal(t, want, b.String())
+}
+
+func TestStepTransformer_Transform(t *testing.T) {
+	t.Parallel()
+
+	t.Run("intro", func(t *testing.T) {
+		t.Parallel()
+
+		b := &bytes.Buffer{}
+		w := bufio.NewWriter(b)
+
+		md := goldmark.New(goldmark.WithExtensions(&KillercodaExtension{
+			Transformers: []util.PrioritizedValue{},
+			AdditionalExtenders: []goldmark.Extender{
+				&StepTransformer{StartMarker: pageIntroStartMarker, EndMarker: pageIntroEndMarker},
+			},
+		}))
+
+		src := []byte(`<!-- INTERACTIVE page intro.md START -->
+
+# Quickstart to run Loki locally
+
+The Docker Compose configuration instantiates the following components, each in its own container:
+
+- **flog** a sample application which generates log lines.
+  [flog](https://github.com/mingrammer/flog) is a log generator for common log formats.
+- **Grafana Alloy** which scrapes the log lines from flog, and pushes them to Loki through the gateway.
+- **Grafana** which provides visualization of the log lines captured within Loki.
+
+<!-- INTERACTIVE page intro.md END -->
+`)
+
+		root := md.Parser().Parse(text.NewReader(src))
+		require.NoError(t, md.Renderer().Render(w, src, root))
+
+		w.Flush()
+
+		want := `# Quickstart to run Loki locally
+
+The Docker Compose configuration instantiates the following components, each in its own container:
+
+- **flog** a sample application which generates log lines.
+  [flog](https://github.com/mingrammer/flog) is a log generator for common log formats.
+
+- **Grafana Alloy** which scrapes the log lines from flog, and pushes them to Loki through the gateway.
+
+- **Grafana** which provides visualization of the log lines captured within Loki.
+`
+
+		assert.Equal(t, want, b.String())
+	})
 }

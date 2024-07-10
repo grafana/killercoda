@@ -1,37 +1,43 @@
-# Step 2: Configure Alloy to ingest OpenTelemetry logs
+# Step 3: Configure Alloy to ingest OpenTelemetry logs via Kafka
 
-To configure Alloy to ingest OpenTelemetry logs, we need to update the Alloy configuration file. To start, we will update the `config.alloy`{{copy}} file to include the OpenTelemetry logs configuration.
+Next we will configure Alloy to also ingest OpenTelemetry logs via Kafka, we need to update the Alloy configuration file once again. We will add the new components to the `config.alloy`{{copy}} file along with the existing components.
 
 **Note: Killercoda has an inbuilt Code editor which can be accessed via the `Editor`{{copy}} tab.**
 
-## Recive OpenTelemetry logs via gRPC and HTTP
+## Source OpenTelemetry logs from Kafka
 
-First, we will configure the OpenTelemetry receiver. `otelcol.receiver.otlp`{{copy}} accepts logs in the OpenTelemetry format via HTTP and gRPC. We will use this receiver to receive logs from the Carnivorous Greenhouse application.
+First, we will configure the OpenTelemetry Kafaka receiver. `otelcol.receiver.kafka`{{copy}} accepts telemetry data from a Kafka broker and forwards it to other `otelcol.*`{{copy}} components.
 
 Open the `config.alloy`{{copy}} file in the `loki-fundamentals`{{copy}} directory and copy the following configuration:
 
 ```alloy
- otelcol.receiver.otlp "default" {
-   http {}
-   grpc {}
+otelcol.receiver.kafka "default" {
+  brokers          = ["kafka:9092"]
+  protocol_version = "2.0.0"
+  topic           = "otlp"
+  encoding        = "otlp_proto"
 
-   output {
-     logs    = [otelcol.processor.batch.default.input]
-   }
- }
+  output {
+    logs    = [otelcol.processor.batch.default.input]
+  }
+}
 ```{{copy}}
 
 In this configuration:
 
-- `http`{{copy}}: The HTTP configuration for the receiver. This configuration is used to receive logs in the OpenTelemetry format via HTTP.
+- `brokers`{{copy}}: The Kafka brokers to connect to.
 
-- `grpc`{{copy}}: The gRPC configuration for the receiver. This configuration is used to receive logs in the OpenTelemetry format via gRPC.
+- `protocol_version`{{copy}}: The Kafka protocol version to use.
 
-- `output`{{copy}}: The list of processors to forward the logs to. In this case, we are forwarding the logs to the `otelcol.processor.batch.default.input`{{copy}}.
+- `topic`{{copy}}: The Kafka topic to consume. In this case, we are consuming the `otlp`{{copy}} topic.
 
-For more information on the `otelcol.receiver.otlp`{{copy}} configuration, see the [OpenTelemetry Receiver OTLP documentation](https://grafana.com/docs/alloy/latest/reference/components/otelcol.receiver.otlp/).
+- `encoding`{{copy}}: The encoding of the incoming logs. Which decodes messages as OTLP protobuf.
 
-## Create batches of logs using a OpenTelemetry Processor
+- `output`{{copy}}: The list of receivers to forward the logs to. In this case, we are forwarding the logs to the `otelcol.processor.batch.default.input`{{copy}}.
+
+For more information on the `otelcol.receiver.kafka`{{copy}} configuration, see the [OpenTelemetry Receiver Kafka documentation](https://grafana.com/docs/alloy/latest/reference/components/otelcol.receiver.kafka/).
+
+## Batch OpenTelemetry logs before sending
 
 Next, we will configure a OpenTelemetry processor. `otelcol.processor.batch`{{copy}} accepts telemetry data from other otelcol components and places them into batches. Batching improves the compression of data and reduces the number of outgoing network requests required to transmit data. This processor supports both size and time based batching.
 
@@ -51,7 +57,7 @@ In this configuration:
 
 For more information on the `otelcol.processor.batch`{{copy}} configuration, see the [OpenTelemetry Processor Batch documentation](https://grafana.com/docs/alloy/latest/reference/components/otelcol.processor.batch/).
 
-## Export logs to Loki using a OpenTelemetry Exporter
+## Write OpenTelemetry logs to Loki
 
 Lastly, we will configure the OpenTelemetry exporter. `otelcol.exporter.otlphttp`{{copy}} accepts telemetry data from other otelcol components and writes them over the network using the OTLP HTTP protocol. We will use this exporter to send the logs to Loki’s native OTLP endpoint.
 
@@ -65,9 +71,13 @@ otelcol.exporter.otlphttp "default" {
 }
 ```{{copy}}
 
+In this configuration:
+
+- `client`{{copy}}: The client configuration for the exporter. In this case, we are sending the logs to the Loki OTLP endpoint.
+
 For more information on the `otelcol.exporter.otlphttp`{{copy}} configuration, see the [OpenTelemetry Exporter OTLP HTTP documentation](https://grafana.com/docs/alloy/latest/reference/components/otelcol.exporter.otlphttp/).
 
-## Reload the Alloy configuration
+## Reload the Alloy configuration to check the changes
 
 Once added, save the file. Then run the following command to request Alloy to reload the configuration:
 

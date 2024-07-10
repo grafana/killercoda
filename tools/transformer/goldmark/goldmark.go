@@ -1,3 +1,4 @@
+// Package goldmark provides extensions to the Goldmark Markdown interface.
 package goldmark
 
 import (
@@ -8,13 +9,19 @@ import (
 	"mvdan.cc/xurls/v2"
 )
 
-// NewMarkdown returns a Goldmark Markdown interface configured to match the Grafana website settings.
-// For list of default extension: https://gohugo.io/getting-started/configuration-markup/.
-// For website configuration:
+// Extension contains Goldmark extensions.
+type Extension struct {
+	Extenders     []goldmark.Extender
+	ParserOptions []parser.Option
+}
+
+// NewWebsite returns an extension to the Goldmark Markdown interface configured to approximate the Grafana website configuration.
+// For list of default extensions: https://gohugo.io/getting-started/configuration-markup/.
+// For the website configuration:
 // https://github.com/grafana/website/blob/master/config/_default/config.yaml#L103-L121
-func NewMarkdown() goldmark.Markdown {
-	return goldmark.New(
-		goldmark.WithExtensions(
+func NewWebsite() *Extension {
+	return &Extension{
+		Extenders: []goldmark.Extender{
 			extension.DefinitionList,
 			extension.Footnote,
 			extension.NewLinkify(
@@ -30,9 +37,17 @@ func NewMarkdown() goldmark.Markdown {
 			extension.TaskList,
 			extension.Typographer,
 			meta.New(meta.WithStoresInDocument()),
-		),
-		goldmark.WithParserOptions(
+		},
+		ParserOptions: []parser.Option{
 			parser.WithAutoHeadingID(),
-		),
-	)
+		},
+	}
+}
+
+func (e *Extension) Extend(md goldmark.Markdown) {
+	md.Parser().AddOptions(e.ParserOptions...)
+
+	for _, extender := range e.Extenders {
+		extender.Extend(md)
+	}
 }

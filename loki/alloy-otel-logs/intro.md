@@ -2,11 +2,11 @@
 
 Alloy natively supports receiving logs in the OpenTelemetry format. This allows you to send logs from applications instrumented with OpenTelemetry to Alloy, which can then be sent to Loki for storage and visualization in Grafana. In this example, we will make use of 3 Alloy components to achieve this:
 
-- **OpenTelemetry Logs Receiver:** This receiver will accept logs via HTTP and gRPC.
+- **OpenTelemetry Receiver:** This component will receive logs in the OpenTelemetry format via HTTP and gRPC.
 
-- **OpenTelemetry Logs Processor:** This processor will batch the logs before sending them to the logs exporter.
+- **OpenTelemetry Processor:** This component will accept telemetry data from other `otelcol.*`{{copy}} components and place them into batches. Batching improves the compression of data and reduces the number of outgoing network requests required to transmit data.
 
-- **OpenTelemetry Logs Exporter:** This exporter will send the logs to Loki.
+- **OpenTelemetry Exporter:** This component will accept telemetry data from other `otelcol.*`{{copy}} components and write them over the network using the OTLP HTTP protocol. We will use this exporter to send the logs to Loki’s native OTLP endpoint.
 
 ## Dependencies
 
