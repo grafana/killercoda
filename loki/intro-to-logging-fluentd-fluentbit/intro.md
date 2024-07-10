@@ -1,3 +1,5 @@
+![Loki Quickstart](../../assets/loki-ile.png)
+
 # “Introduction to ingesting logs into Loki using Fluentd and Fluent Bit” Sandbox Enviroment
 
 [![Ingesting Otel with Loki](https://img.youtube.com/vi/snXhe1fDDa8/0.jpg)](https://www.youtube.com/watch?v=snXhe1fDDa8)

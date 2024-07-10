@@ -1,6 +1,6 @@
 # Summary
 
-![Loki Quickstart](https://grafana.com/../../assets/loki-ile.png)
+![Loki Quickstart](../../assets/loki-ile.png)
 
  Congratulations! You have completed the Introduction to Ingesting Logs with Loki (Otel) scenario.
 

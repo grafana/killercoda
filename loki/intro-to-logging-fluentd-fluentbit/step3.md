@@ -58,7 +58,7 @@ The `logmap.json`{{copy}} file maps the `service`{{copy}} field in the log to th
 After configuring Fluentd, we need to restart the Fluentd container to apply the changes. To restart the Fluentd container, run the following command:
 
 ```bash
-docker restart loki-fundamentals-fluent-bit-1
+docker restart loki-fundamentals_fluent_bit-1
 ```{{exec}}
 
 # Stuck? Need help?
@@ -67,5 +67,5 @@ If you get stuck or need help creating the configuration, you can copy and repla
 
 ```bash
 cp loki-fundamentals/completed/fluent-bit.conf loki-fundamentals/fluent-bit.conf
-docker restart loki-fundamentals-fluent-bit-1
+docker restart loki-fundamentals_fluent_bit-1
 ```{{exec}}

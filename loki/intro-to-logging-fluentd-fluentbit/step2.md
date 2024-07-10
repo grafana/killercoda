@@ -57,7 +57,7 @@ Copy and paste the above configuration into the `fluentd.conf`{{copy}} file loca
 After configuring Fluentd, we need to restart the Fluentd container to apply the changes. To restart the Fluentd container, run the following command:
 
 ```bash
-docker restart loki-fundamentals-fluentd-1
+docker restart loki-fundamentals_fluentd_1
 ```{{exec}}
 
 # Stuck? Need help?
@@ -66,5 +66,5 @@ If you get stuck or need help creating the configuration, you can copy and repla
 
 ```bash
 cp loki-fundamentals/completed/fluentd.conf loki-fundamentals/fluentd.conf
-docker restart loki-fundamentals-fluentd-1
+docker restart loki-fundamentals_fluentd_1
 ```{{exec}}

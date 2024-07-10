@@ -17,8 +17,8 @@ In this step, we will set up our environment by cloning the repository that cont
    This will spin up the following services:
 
    ```bash
-   ✔ Container loki-fundamentals-grafana-1  Started                                                        
-   ✔ Container loki-fundamentals-loki-1     Started                        
-   ✔ Container loki-fundamentals-fluentd-1  Started
-   ✔ Container loki-fundamentals-fluentbit-1 Started
+   ✔ Container loki-fundamentals_grafana_1  Started                                                        
+   ✔ Container loki-fundamentals_loki_1     Started                        
+   ✔ Container loki-fundamentals_fluentd_1  Started
+   ✔ Container loki-fundamentals_fluentbit_1 Started
    ```{{copy}}
