@@ -8,11 +8,19 @@ killercoda:
   description: Configuring Fluentd and Fluent bit to send logs to Loki.
   backend:
     imageid: ubuntu
+  preprocessing:
+    substitutions:
+      - regexp: loki-fundamentals-([^-]+)-
+        replacement: loki-fundamentals_${1}_
 ---
 
 <!-- INTERACTIVE page intro.md START -->
 
+![Loki Quickstart](../../assets/loki-ile.png)
+
 # "Introduction to ingesting logs into Loki using Fluentd and Fluent Bit" Sandbox Enviroment
+
+[![Ingesting Otel with Loki](https://img.youtube.com/vi/snXhe1fDDa8/0.jpg)](https://www.youtube.com/watch?v=snXhe1fDDa8)
 
 ## Sandbox Overview
 
