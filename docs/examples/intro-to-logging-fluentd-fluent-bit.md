@@ -66,7 +66,7 @@ In this step, we will set up our environment by cloning the repository that cont
     ✔ Container loki-fundamentals-grafana-1  Started                                                        
     ✔ Container loki-fundamentals-loki-1     Started                        
     ✔ Container loki-fundamentals-fluentd-1  Started
-    ✔ Container loki-fundamentals-fluentbit-1 Started
+    ✔ Container loki-fundamentals-fluent-bit-1 Started
     ```
 
 <!-- INTERACTIVE page step1.md END -->
