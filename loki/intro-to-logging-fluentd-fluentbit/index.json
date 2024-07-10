@@ -1,0 +1,29 @@
+{
+  "title": "Introduction to ingesting logs into Loki using Fluentd and Fluent Bit",
+  "description": "Configuring Fluentd and Fluent bit to send logs to Loki.",
+  "details": {
+    "intro": {
+      "text": "intro.md"
+    },
+    "steps": [
+      {
+        "text": "step1.md"
+      },
+      {
+        "text": "step2.md"
+      },
+      {
+        "text": "step3.md"
+      },
+      {
+        "text": "step4.md"
+      }
+    ],
+    "finish": {
+      "text": "finish.md"
+    }
+  },
+  "backend": {
+    "imageid": "ubuntu"
+  }
+}
