@@ -1,4 +1,4 @@
-# Step 3: Configure fluent Bit to send logs to Loki
+# Step 3: Configure Fluent Bit to send logs to Loki
 
 In this step, we will configure Fluent Bit to send logs to Loki.
 
@@ -53,9 +53,9 @@ Lets quickly talk about LabelMapPath and logmap.json. The `LabelMapPath`{{copy}}
 
 The `logmap.json`{{copy}} file maps the `service`{{copy}} field in the log to the `service_name`{{copy}} label in Loki and the `instance_id`{{copy}} field in the log to the `instance_id`{{copy}} label in Loki.
 
-# Restart the Fluentd Container
+# Restart the Fluent Bit Container
 
-After configuring Fluentd, we need to restart the Fluentd container to apply the changes. To restart the Fluentd container, run the following command:
+After configuring Fluent Bit, we need to restart the Fluent Bit container to apply the changes. To restart the Fluent Bit container, run the following command:
 
 ```bash
 docker restart loki-fundamentals_fluent-bit_1
