@@ -1,5 +1,9 @@
 # Install Loki and collecting sample logs
 
+{{< admonition type=“note” >}}
+This quickstart assumes you are running Linux.
+{{< /admonition >}}
+
 **To install Loki locally, follow these steps:**
 
 1. Create a directory called `evaluate-loki`{{copy}} for the demo environment.
