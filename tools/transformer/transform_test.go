@@ -71,7 +71,7 @@ func TestActionTransformer_Transform(t *testing.T) {
 		assert.Equal(t, want, b.String())
 	})
 
-	t.Run("copy without directives", func(t *testing.T) {
+	t.Run("copy without directives bash", func(t *testing.T) {
 		t.Parallel()
 
 		b := &bytes.Buffer{}
@@ -107,12 +107,60 @@ func TestActionTransformer_Transform(t *testing.T) {
 			"   ```bash\n" +
 			"   mkdir evaluate-loki\n" +
 			"   cd evaluate-loki\n" +
-			"   ```{{copy}}\n" +
+			"   ```{{exec}}\n" + // Updated based on the new logic
 			"\n" +
 			"   ```bash\n" +
 			"   mkdir evaluate-loki\n" +
 			"   cd evaluate-loki\n" +
-			"   ```{{copy}}\n"
+			"   ```{{exec}}\n" // Updated based on the new logic
+
+		assert.Equal(t, want, b.String())
+	})
+
+	t.Run("bash command with copy directive", func(t *testing.T) {
+		t.Parallel()
+
+		b := &bytes.Buffer{}
+		w := bufio.NewWriter(b)
+		md := goldmark.New(goldmark.WithExtensions(&KillercodaExtension{
+			Transformers: []util.PrioritizedValue{},
+			AdditionalExtenders: []goldmark.Extender{
+				&ActionTransformer{Kind: "copy"},
+			},
+		}))
+
+		src := []byte("1. Create a directory called `evaluate-loki` for the demo environment.\n" +
+			"   Make `evaluate-loki` your current working directory:\n" +
+			"\n" +
+			"   <!-- INTERACTIVE copy START -->\n" +
+			"   ```bash\n" +
+			"   mkdir evaluate-loki\n" +
+			"   cd evaluate-loki\n" +
+			"   ```\n" +
+			"   <!-- INTERACTIVE copy END -->\n" +
+			"\n" +
+			"   ```bash\n" +
+			"   mkdir evaluate-loki\n" +
+			"   cd evaluate-loki\n" +
+			"   ```\n")
+
+		root := md.Parser().Parse(text.NewReader(src))
+		require.NoError(t, md.Renderer().Render(w, src, root))
+
+		w.Flush()
+
+		want := "1. Create a directory called `evaluate-loki` for the demo environment.\n" +
+			"   Make `evaluate-loki` your current working directory:\n" +
+			"\n" +
+			"   ```bash\n" +
+			"   mkdir evaluate-loki\n" +
+			"   cd evaluate-loki\n" +
+			"   ```{{copy}}\n" + // Updated based on the new logic
+			"\n" +
+			"   ```bash\n" +
+			"   mkdir evaluate-loki\n" +
+			"   cd evaluate-loki\n" +
+			"   ```{{exec}}\n" // Updated based on the new logic
 
 		assert.Equal(t, want, b.String())
 	})
