@@ -56,12 +56,10 @@ Each service generates logs using the OpenTelemetry SDK and exports to Alloy in 
 In this step, we will set up our environment by cloning the repository that contains our demo application and spinning up our observability stack using Docker Compose.
 
 1. To get started, clone the repository that contains our demo application:
-    <!-- INTERACTIVE exec START -->
     ```bash
     git clone -b microservice-otel  https://github.com/grafana/loki-fundamentals.git
     ```
-    <!-- INTERACTIVE exec END -->
-1.  Next we will spin up our observability stack using Docker Compose:
+2.  Next we will spin up our observability stack using Docker Compose:
 
     <!-- INTERACTIVE ignore START -->
     ```bash
@@ -71,20 +69,20 @@ In this step, we will set up our environment by cloning the repository that cont
 
     {{< docs/ignore >}}
 
-    <!-- INTERACTIVE exec START -->
     ```bash 
     docker-compose -f loki-fundamentals/docker-compose.yml up -d 
     ```
-    <!-- INTERACTIVE exec END -->
-
+    
     {{< /docs/ignore >}}
 
     This will spin up the following services:
+    <!-- INTERACTIVE copy START -->
     ```bash
     ✔ Container loki-fundamentals-grafana-1  Started                                                        
     ✔ Container loki-fundamentals-loki-1     Started                        
     ✔ Container loki-fundamentals-alloy-1    Started
     ```
+    <!-- INTERACTIVE copy END -->
 
 We will be access two UI interfaces:
 - Alloy at [http://localhost:12345](http://localhost:12345)
@@ -164,11 +162,10 @@ For more information on the `otelcol.exporter.otlphttp` configuration, see the [
 ### Reload the Alloy configuration
 
 Once added, save the file. Then run the following command to request Alloy to reload the configuration:
-<!-- INTERACTIVE exec START -->
+
 ```bash
 curl -X POST http://localhost:12345/-/reload
 ```
-<!-- INTERACTIVE exec END -->
 
 The new configuration will be loaded this can be verified by checking the Alloy UI: [http://localhost:12345](http://localhost:12345).
 
@@ -176,12 +173,12 @@ The new configuration will be loaded this can be verified by checking the Alloy 
 
 If you get stuck or need help creating the configuration, you can copy and replace the entire `config.alloy` using the completed configuration file:
 
-<!-- INTERACTIVE exec START -->
+
 ```bash
 cp loki-fundamentals/completed/config.alloy loki-fundamentals/config.alloy
 curl -X POST http://localhost:12345/-/reload
 ```
-<!-- INTERACTIVE exec END -->
+
 
 <!-- INTERACTIVE page step2.md END -->
 
@@ -211,11 +208,11 @@ docker compose -f loki-fundamentals/greenhouse/docker-compose-micro.yml up -d --
 
 {{< docs/ignore >}}
 
-<!-- INTERACTIVE exec START -->
+
 ```bash
 docker-compose -f loki-fundamentals/greenhouse/docker-compose-micro.yml up -d --build
 ```
-<!-- INTERACTIVE exec END -->
+
 
 {{< /docs/ignore >}}
 

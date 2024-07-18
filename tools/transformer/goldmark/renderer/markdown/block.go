@@ -67,13 +67,10 @@ func (r *Renderer) renderFencedCodeBlock(w util.BufWriter, source []byte, node a
 		if r.Config.KillercodaActions {
 			var action string
 
-			if _, ok := n.AttributeString("data-killercoda-copy"); ok {
-				action = "{{copy}}"
-			}
-
-			// exec takes precedence over copy.
 			if _, ok := n.AttributeString("data-killercoda-exec"); ok {
 				action = "{{exec}}"
+			} else if _, ok := n.AttributeString("data-killercoda-copy"); ok {
+				action = "{{copy}}"
 			}
 
 			r.write(w, action)

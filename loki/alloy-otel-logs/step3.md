@@ -18,7 +18,7 @@ This will start the following services:
  ✔ Container greenhouse-plant_service-1      Started
  ✔ Container greenhouse-simulation_service-1 Started
  ✔ Container greenhouse-main_app-1           Started
-```{{copy}}
+```{{exec}}
 
 Once started, you can access the Carnivorous Greenhouse application at [http://localhost:5005]({{TRAFFIC_HOST1_5005}}). Generate some logs by interacting with the application in the following ways:
 
