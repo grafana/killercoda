@@ -2,6 +2,10 @@
 
 Next we will configure Alloy to also ingest OpenTelemetry logs via Kafka, we need to update the Alloy configuration file once again. We will add the new components to the `config.alloy`{{copy}} file along with the existing components.
 
+## Open your Code Editor and Locate the `config.alloy`{{copy}} file
+
+Like before, we generate our next pipeline configuration within the same `config.alloy`{{copy}} file. The below configuration snippets will be added **in addition** to the existing configuration. Essentially, we are configuring two pipelines within the same Alloy configuration file.
+
 ## Source OpenTelemetry logs from Kafka
 
 First, we will configure the OpenTelemetry Kafaka receiver. `otelcol.receiver.kafka`{{copy}} accepts telemetry data from a Kafka broker and forwards it to other `otelcol.*`{{copy}} components.
@@ -34,10 +38,6 @@ In this configuration:
 - `output`{{copy}}: The list of receivers to forward the logs to. In this case, we are forwarding the logs to the `otelcol.processor.batch.default.input`{{copy}}.
 
 For more information on the `otelcol.receiver.kafka`{{copy}} configuration, see the [OpenTelemetry Receiver Kafka documentation](https://grafana.com/docs/alloy/latest/reference/components/otelcol.receiver.kafka/).
-
-## Open your Code Editor and Locate the `config.alloy`{{copy}} file
-
-Like before, we generate our next pipeline configuration within the same `config.alloy`{{copy}} file. The below configuration snippets will be added **in addition** to the existing configuration. Essentially, we are configuring two pipelines within the same Alloy configuration file.
 
 ## Batch OpenTelemetry logs before sending
 
