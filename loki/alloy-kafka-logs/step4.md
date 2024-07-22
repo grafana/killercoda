@@ -10,7 +10,7 @@ docker-compose -f loki-fundamentals/greenhouse/docker-compose-micro.yml up -d --
 
 This will start the following services:
 
-```bash
+```console
  ✔ Container greenhouse-db-1                 Started                                                         
  ✔ Container greenhouse-websocket_service-1  Started 
  ✔ Container greenhouse-bug_service-1        Started

@@ -1,26 +1,16 @@
 # Sending Logs to Loki via Kafka using Alloy
 
-Alloy nativley supports receiving logs via Kafka. In this example, we will configure Alloy to recive logs via kafka using two different methods:
+Alloy natively supports receiving logs via Kafka. In this example, we will configure Alloy to receive logs via Kafka using two different methods:
 
 - [loki.source.kafka](https://grafana.com/docs/alloy/latest/reference/components/loki.source.kafka): reads messages from Kafka using a consumer group and forwards them to other `loki.*`{{copy}} components.
 
 - [otelcol.receiver.kafka](https://grafana.com/docs/alloy/latest/reference/components/otelcol.receiver.kafka/): accepts telemetry data from a Kafka broker and forwards it to other `otelcol.*`{{copy}} components.
 
-## Dependencies
-
-Before you begin, ensure you have the following to run the demo:
-
-- Docker
-
-- Docker Compose
-
 ## Scenario
 
-In this scenario, we have a microservices application called the Carnivourse Greenhouse. This application consists of the following services:
+In this scenario, we have a microservices application called the Carnivorous Greenhouse. This application consists of the following services:
 
-- **User Service:** Mangages user data and authentication for the application. Such as creating users and logging in.
-
-- **plant Service:** Manges the creation of new plants and updates other services when a new plant is created.
+- **User Service:** Manages user data and authentication for the application. Such as creating users and logging in.
 
 - **Simulation Service:** Generates sensor data for each plant.
 
