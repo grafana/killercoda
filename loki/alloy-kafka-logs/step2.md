@@ -14,7 +14,7 @@ Grafana Alloy requires a configuration file to define the components and their r
 
 1. Click on the `config.alloy`{{copy}} file to open it in the code editor.
 
-The below configuration snippets will be added to the `config.alloy`{{copy}} file.
+You will copy all three of the following configuration snippets into the `config.alloy`{{copy}} file.
 
 ## Source logs from kafka
 
@@ -55,7 +55,7 @@ For more information on the `loki.source.kafka`{{copy}} configuration, see the [
 
 Next, we will configure the Loki relabel rules. The `loki.relabel`{{copy}} component rewrites the label set of each log entry passed to its receiver by applying one or more relabeling rules and forwards the results to the list of receivers in the component’s arguments. In our case we are directly calling the rule from the `loki.source.kafka`{{copy}} component.
 
-Add the following configuration to the `config.alloy`{{copy}} file:
+Now add the following configuration to the `config.alloy`{{copy}} file:
 
 ```alloy
 loki.relabel "kafka" {
@@ -81,7 +81,7 @@ For more information on the `loki.relabel`{{copy}} configuration, see the [Loki 
 
 Lastly, we will configure the Loki write component. `loki.write`{{copy}} receives log entries from other loki components and sends them over the network using the Loki logproto format.
 
-Add the following configuration to the `config.alloy`{{copy}} file:
+And finally, add the following configuration to the `config.alloy`{{copy}} file:
 
 ```alloy
 loki.write "http" {

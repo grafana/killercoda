@@ -10,17 +10,17 @@ Grafana Alloy requires a configuration file to define the components and their r
 
 1. Expand the `loki-fundamentals`{{copy}} directory in the file explorer of the `Editor`{{copy}} tab.
 
-1. Locate the `config.alloy`{{copy}} file in the `loki-fundamentals`{{copy}} directory (Top level directory).
+1. Locate the `config.alloy`{{copy}} file in the top level directory, `loki-fundamentals'.
 
 1. Click on the `config.alloy`{{copy}} file to open it in the code editor.
 
-The below configuration snippets will be added to the `config.alloy`{{copy}} file.
+You will copy all three of the following configuration snippets into the `config.alloy`{{copy}} file.
 
 ## Recive OpenTelemetry logs via gRPC and HTTP
 
 First, we will configure the OpenTelemetry receiver. `otelcol.receiver.otlp`{{copy}} accepts logs in the OpenTelemetry format via HTTP and gRPC. We will use this receiver to receive logs from the Carnivorous Greenhouse application.
 
-Add the following configuration to the `config.alloy`{{copy}} file:
+Now add the following configuration to the `config.alloy`{{copy}} file:
 
 ```alloy
  otelcol.receiver.otlp "default" {
@@ -47,7 +47,7 @@ For more information on the `otelcol.receiver.otlp`{{copy}} configuration, see t
 
 Next, we will configure a OpenTelemetry processor. `otelcol.processor.batch`{{copy}} accepts telemetry data from other otelcol components and places them into batches. Batching improves the compression of data and reduces the number of outgoing network requests required to transmit data. This processor supports both size and time based batching.
 
-Add the following configuration to the `config.alloy`{{copy}} file:
+Now add the following configuration to the `config.alloy`{{copy}} file:
 
 ```alloy
 otelcol.processor.batch "default" {
@@ -67,7 +67,7 @@ For more information on the `otelcol.processor.batch`{{copy}} configuration, see
 
 Lastly, we will configure the OpenTelemetry exporter. `otelcol.exporter.otlphttp`{{copy}} accepts telemetry data from other otelcol components and writes them over the network using the OTLP HTTP protocol. We will use this exporter to send the logs to Loki’s native OTLP endpoint.
 
-Add the following configuration to the `config.alloy`{{copy}} file:
+Now add the following configuration to the `config.alloy`{{copy}} file:
 
 ```alloy
 otelcol.exporter.otlphttp "default" {

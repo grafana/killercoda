@@ -4,13 +4,13 @@ Next we will configure Alloy to also ingest OpenTelemetry logs via Kafka, we nee
 
 ## Open your Code Editor and Locate the `config.alloy`{{copy}} file
 
-Like before, we generate our next pipeline configuration within the same `config.alloy`{{copy}} file. The below configuration snippets will be added **in addition** to the existing configuration. Essentially, we are configuring two pipelines within the same Alloy configuration file.
+Like before, we generate our next pipeline configuration within the same `config.alloy`{{copy}} file. You will add the following configuration snippets to the file **in addition** to the existing configuration. Essentially, we are configuring two pipelines within the same Alloy configuration file.
 
 ## Source OpenTelemetry logs from Kafka
 
 First, we will configure the OpenTelemetry Kafaka receiver. `otelcol.receiver.kafka`{{copy}} accepts telemetry data from a Kafka broker and forwards it to other `otelcol.*`{{copy}} components.
 
-Add the following configuration to the `config.alloy`{{copy}} file:
+Now add the following configuration to the `config.alloy`{{copy}} file:
 
 ```alloy
 otelcol.receiver.kafka "default" {
@@ -43,7 +43,7 @@ For more information on the `otelcol.receiver.kafka`{{copy}} configuration, see 
 
 Next, we will configure a OpenTelemetry processor. `otelcol.processor.batch`{{copy}} accepts telemetry data from other otelcol components and places them into batches. Batching improves the compression of data and reduces the number of outgoing network requests required to transmit data. This processor supports both size and time based batching.
 
-Add the following configuration to the `config.alloy`{{copy}} file:
+Now add the following configuration to the `config.alloy`{{copy}} file:
 
 ```alloy
 otelcol.processor.batch "default" {
