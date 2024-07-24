@@ -1,6 +1,6 @@
 # Create an alert
 
-Next, we’ll establish an [alert rule](http://grafana.com/docs/grafana/next/alerting/fundamentals/alert-rule-evaluation/) within Grafana Alerting to notify us whenever our sample app experiences a specific volume of requests.
+Next, we’ll establish an [alert rule](http://grafana.com/docs/grafana/next/alerting/fundamentals/alert-rule-evaluation/) within Grafana Alerting to notify us whenever alert rules are triggered and resolved.
 
 In Grafana, **navigate to Alerting** > **Alert rules**. Click on **New alert rule**.
 
