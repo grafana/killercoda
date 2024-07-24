@@ -10,6 +10,4 @@ In this tutorial you will:
 
 - Receive firing and resolved alert notifications in a public webhook.
 
-{{< admonition type=“tip” >}}
 Check out [Part 2](http://grafana.com/tutorials/alerting-get-started-pt2/) if you want to learn more about alerts and notification routing.
-{{< /admonition >}}

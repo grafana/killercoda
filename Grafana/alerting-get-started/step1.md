@@ -2,7 +2,10 @@
 
 ## Grafana Cloud users
 
-As a Grafana Cloud user, you don’t have to install anything. Continue to [Create a contact point](https://grafana.com#create-a-contact-point).
+As a Grafana Cloud user, you don’t have to install anything.    <!-- raw HTML omitted -->
+Continue to [Create a contact point](https://grafana.com#create-a-contact-point).
+
+<!-- raw HTML omitted -->
 
 ## Grafana OSS users
 

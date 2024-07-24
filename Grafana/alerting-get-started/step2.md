@@ -4,10 +4,10 @@ Besides being an open-source observability tool, Grafana has its own built-in al
 
 In this step, we’ll set up a new [contact point](https://grafana.com/docs/grafana/latest/alerting/configure-notifications/manage-contact-points/integrations/webhook-notifier/). This contact point will use the _webhooks_ integration. In order to make this work, we also need an endpoint for our webhook integration to receive the alert. We will use [Webhook.site](https://webhook.site/) to quickly set up that test endpoint. This way we can make sure that our alert is actually sending a notification somewhere.
 
-1. In your browser, **sign in** to your Grafana Cloud account.
+1. In your browser, **sign in** to your Grafana Cloud account.S
 
    **NOTE:**
-   **OSS users**: To log in, navigate to localhost:3000, where Grafana is running locally.
+   **OSS users**: To log in, navigate to [http://localhost:3000]({{TRAFFIC_HOST1_3000}}), where Grafana is running locally.
 
 1. In another tab, go to [Webhook.site](https://webhook.site/).
 
