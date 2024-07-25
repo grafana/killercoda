@@ -14,7 +14,7 @@ In this scenario, we have a microservices application called the Carnivourse Gre
 
 - **User Service:** Manages user data and authentication for the application. Such as creating users and logging in.
 
-- **plant Service:** Manages the creation of new plants and updates other services when a new plant is created.
+- **Plant Service:** Manages the creation of new plants and updates other services when a new plant is created.
 
 - **Simulation Service:** Generates sensor data for each plant.
 
