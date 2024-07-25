@@ -8,12 +8,18 @@ jobs:
     if: github.repository == 'grafana/killercoda'
     runs-on: ubuntu-latest
     steps:
+      # Check out all the repositories that contain documentation sources from which we generate tutorials.
       - uses: actions/checkout@v4
         with:
           repository: grafana/loki
           # Change to `main` after this branch is merged.
           ref: jdb/2024-06-killercoda-migration
+          path: loki-alt
+      - uses: actions/checkout@v4
+        with:
+          repository: grafana/loki
           path: loki
+
       - uses: actions/checkout@v4
         with:
           path: killercoda
@@ -25,11 +31,23 @@ jobs:
       - run: ./scripts/check-out-branch.bash
         shell: bash
         working-directory: killercoda
+      # Run the transformer on all documentation sources.
       - run: >
           ./transformer
-          "${GITHUB_WORKSPACE}/loki/docs/sources/get-started/quick-start.md"
+          "${GITHUB_WORKSPACE}/loki-alt/docs/sources/get-started/quick-start.md"
           "${GITHUB_WORKSPACE}/killercoda/loki/loki-quickstart"
         working-directory: killercoda/tools/transformer
+      - run: >
+          ./transformer
+          "${GITHUB_WORKSPACE}/loki/docs/sources/send-data/alloy/examples/alloy-kafka-logs.md"
+          "${GITHUB_WORKSPACE}/killercoda/loki/alloy-kafka-logs"
+        working-directory: killercoda/tools/transformer
+      - run: >
+          ./transformer
+          "${GITHUB_WORKSPACE}/loki/docs/sources/send-data/alloy/examples/alloy-otel-logs.md"
+          "${GITHUB_WORKSPACE}/killercoda/loki/alloy-otel-logs"
+        working-directory: killercoda/tools/transformer
+
       - run: ./scripts/manage-pr.bash
         env:
           GH_TOKEN: ${{ github.token }}
