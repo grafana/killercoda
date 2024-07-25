@@ -2,11 +2,9 @@
 
 Next, we’ll establish an [alert rule](http://grafana.com/docs/grafana/next/alerting/fundamentals/alert-rule-evaluation/) within Grafana Alerting to notify us whenever alert rules are triggered and resolved.
 
-In Grafana, **navigate to Alerting** > **Alert rules**. Click on **New alert rule**.
+1. In Grafana, **navigate to Alerting** > **Alert rules**. Click on **New alert rule**.
 
-## Enter alert rule name
-
-Make it short and descriptive as this will appear in your alert notification. For instance, **database-metrics**
+1. Enter alert rule name for your alert rule. Make it short and descriptive as this will appear in your alert notification. For instance, **database-metrics**
 
 ## Define query and alert condition
 

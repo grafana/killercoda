@@ -6,12 +6,11 @@ In this step, we’ll set up a new [contact point](https://grafana.com/docs/graf
 
 1. In your browser, **sign in** to your Grafana Cloud account.
 
-   **NOTE:**
-   **OSS and Killercoda users**: To log in, navigate to [http://localhost:3000]({{TRAFFIC_HOST1_3000}}), where Grafana is running locally.
+   OSS users: To log in, navigate to [http://localhost:3000]({{TRAFFIC_HOST1_3000}}), where Grafana is running.
 
 1. In another tab, go to [Webhook.site](https://webhook.site/).
 
-1. **Copy Your unique URL**.
+1. Copy Your unique URL.
 
 Your webhook endpoint is now waiting for the first request.
 
