@@ -6,6 +6,8 @@ In this step, we’ll set up a new [contact point](https://grafana.com/docs/graf
 
 1. In your browser, **sign in** to your Grafana Cloud account.
 
+   OSS users: To log in, navigate to [http://localhost:3000]({{TRAFFIC_HOST1_3000}}), where Grafana is running.
+
 1. In another tab, go to [Webhook.site](https://webhook.site/).
 
 1. Copy Your unique URL.
