@@ -8,21 +8,13 @@ Alloy natively supports receiving logs in the OpenTelemetry format. This allows 
 
 - **OpenTelemetry Exporter:** This component will accept telemetry data from other `otelcol.*`{{copy}} components and write them over the network using the OTLP HTTP protocol. We will use this exporter to send the logs to Loki’s native OTLP endpoint.
 
-## Dependencies
-
-Before you begin, ensure you have the following to run the demo:
-
-- Docker
-
-- Docker Compose
-
 ## Scenario
 
 In this scenario, we have a microservices application called the Carnivourse Greenhouse. This application consists of the following services:
 
-- **User Service:** Mangages user data and authentication for the application. Such as creating users and logging in.
+- **User Service:** Manages user data and authentication for the application. Such as creating users and logging in.
 
-- **plant Service:** Manges the creation of new plants and updates other services when a new plant is created.
+- **Plant Service:** Manages the creation of new plants and updates other services when a new plant is created.
 
 - **Simulation Service:** Generates sensor data for each plant.
 
