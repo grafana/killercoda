@@ -45,7 +45,7 @@ For more information on the `otelcol.receiver.otlp`{{copy}} configuration, see t
 
 ## Create batches of logs using a OpenTelemetry Processor
 
-Next, we will configure a OpenTelemetry processor. `otelcol.processor.batch`{{copy}} accepts telemetry data from other otelcol components and places them into batches. Batching improves the compression of data and reduces the number of outgoing network requests required to transmit data. This processor supports both size and time based batching.
+Next, we will configure a OpenTelemetry processor. `otelcol.processor.batch`{{copy}} accepts telemetry data from other `otelcol`{{copy}} components and places them into batches. Batching improves the compression of data and reduces the number of outgoing network requests required to transmit data. This processor supports both size and time based batching.
 
 Now add the following configuration to the `config.alloy`{{copy}} file:
 
@@ -65,7 +65,7 @@ For more information on the `otelcol.processor.batch`{{copy}} configuration, see
 
 ## Export logs to Loki using a OpenTelemetry Exporter
 
-Lastly, we will configure the OpenTelemetry exporter. `otelcol.exporter.otlphttp`{{copy}} accepts telemetry data from other otelcol components and writes them over the network using the OTLP HTTP protocol. We will use this exporter to send the logs to Loki’s native OTLP endpoint.
+Lastly, we will configure the OpenTelemetry exporter. `otelcol.exporter.otlphttp`{{copy}} accepts telemetry data from other `otelcol`{{copy}} components and writes them over the network using the OTLP HTTP protocol. We will use this exporter to send the logs to Loki’s native OTLP endpoint.
 
 Now add the following configuration to the `config.alloy`{{copy}} file:
 
@@ -87,7 +87,7 @@ Once added, save the file. Then run the following command to request Alloy to re
 curl -X POST http://localhost:12345/-/reload
 ```{{exec}}
 
-The new configuration will be loaded this can be verified by checking the Alloy UI: [http://localhost:12345]({{TRAFFIC_HOST1_12345}}).
+The new configuration will be loaded. You can verify this by checking the Alloy UI: [http://localhost:12345]({{TRAFFIC_HOST1_12345}}).
 
 # Stuck? Need help?
 

@@ -73,8 +73,6 @@ In this configuration:
 
 - `rule`{{copy}}: The relabeling rule to apply to the incoming logs. In this case, we are renaming the `__meta_kafka_topic`{{copy}} label to `topic`{{copy}}.
 
-Lastly, we will configure the Loki write component. `loki.write`{{copy}} receives log entries from other Loki components and sends them over the network using the Loki logproto format.
-
 For more information on the `loki.relabel`{{copy}} configuration, see the [Loki Relabel documentation](https://grafana.com/docs/alloy/latest/reference/components/loki.relabel/).
 
 ## Write logs to Loki
@@ -105,7 +103,7 @@ Once added, save the file. Then run the following command to request Alloy to re
 curl -X POST http://localhost:12345/-/reload
 ```{{exec}}
 
-The new configuration will be loaded this can be verified by checking the Alloy UI: [http://localhost:12345]({{TRAFFIC_HOST1_12345}}).
+The new configuration will be loaded.  You can verify this by checking the Alloy UI: [http://localhost:12345]({{TRAFFIC_HOST1_12345}}).
 
 # Stuck? Need help?
 
