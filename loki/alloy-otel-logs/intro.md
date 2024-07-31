@@ -6,7 +6,7 @@ Alloy natively supports receiving logs in the OpenTelemetry format. This allows 
 
 - **OpenTelemetry Processor:** This component will accept telemetry data from other `otelcol.*`{{copy}} components and place them into batches. Batching improves the compression of data and reduces the number of outgoing network requests required to transmit data.
 
-- **OpenTelemetry Exporter:** This component will accept telemetry data from other `otelcol.*`{{copy}} components and write them over the network using the OTLP HTTP protocol. We will use this exporter to send the logs to Loki’s native OTLP endpoint.
+- **OpenTelemetry Exporter:** This component will accept telemetry data from other `otelcol.*`{{copy}} components and write them over the network using the OTLP HTTP protocol. We will use this exporter to send the logs to the Loki native OTLP endpoint.
 
 ## Scenario
 
