@@ -19,7 +19,10 @@ jobs:
         with:
           repository: grafana/loki
           path: loki
-
+      - uses: actions/checkout@v4
+        with:
+          repository: grafana/grafana
+          path: grafana
       - uses: actions/checkout@v4
         with:
           path: killercoda
@@ -46,6 +49,11 @@ jobs:
           ./transformer
           "${GITHUB_WORKSPACE}/loki/docs/sources/send-data/alloy/examples/alloy-otel-logs.md"
           "${GITHUB_WORKSPACE}/killercoda/loki/alloy-otel-logs"
+        working-directory: killercoda/tools/transformer
+      - run: >
+          ./transformer
+          "${GITHUB_WORKSPACE}/grafana/docs/sources/tutorials/alerting-get-started/index.md"
+          "${GITHUB_WORKSPACE}/killercoda/grafana/alerting-get-started"
         working-directory: killercoda/tools/transformer
 
       - run: ./scripts/manage-pr.bash
