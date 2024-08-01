@@ -12,12 +12,6 @@ jobs:
       - uses: actions/checkout@v4
         with:
           repository: grafana/loki
-          # Change to `main` after this branch is merged.
-          ref: jdb/2024-06-killercoda-migration
-          path: loki-alt
-      - uses: actions/checkout@v4
-        with:
-          repository: grafana/loki
           path: loki
       - uses: actions/checkout@v4
         with:
@@ -37,7 +31,7 @@ jobs:
       # Run the transformer on all documentation sources.
       - run: >
           ./transformer
-          "${GITHUB_WORKSPACE}/loki-alt/docs/sources/get-started/quick-start.md"
+          "${GITHUB_WORKSPACE}/loki/docs/sources/get-started/quick-start.md"
           "${GITHUB_WORKSPACE}/killercoda/loki/loki-quickstart"
         working-directory: killercoda/tools/transformer
       - run: >
