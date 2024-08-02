@@ -1,0 +1,26 @@
+{
+  "title": "Getting started with the OpenTelemetry Collector and Loki tutorial",
+  "description": "A Tutorial configuring the OpenTelemetry Collector to send OpenTelemetry logs to Loki",
+  "details": {
+    "intro": {
+      "text": "intro.md"
+    },
+    "steps": [
+      {
+        "text": "step1.md"
+      },
+      {
+        "text": "step2.md"
+      },
+      {
+        "text": "step3.md"
+      }
+    ],
+    "finish": {
+      "text": "finish.md"
+    }
+  },
+  "backend": {
+    "imageid": "ubuntu"
+  }
+}
