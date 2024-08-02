@@ -168,6 +168,12 @@ This will restart the OpenTelemetry Collector container with the new configurati
 docker logs loki-fundamentals_otel-collector_1
 ```{{exec}}
 
+Within the logs, you should see the following message:
+
+```console
+2024-08-02T13:10:25.136Z        info    service@v0.106.1/service.go:225 Everything is ready. Begin running and processing data.
+```{{exec}}
+
 # Stuck? Need help?
 
 If you get stuck or need help creating the configuration, you can copy and replace the entire `otel-config.yaml`{{copy}} using the completed configuration file:
