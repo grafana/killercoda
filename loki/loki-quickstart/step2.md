@@ -136,7 +136,7 @@ For more examples, refer to the [query documentation](https://grafana.com/docs/l
 
 # Loki data source in Grafana
 
-In this example, the Loki data source is already configured in Grafana. This can be seen within the docker-compose.yaml file:
+In this example, the Loki data source is already configured in Grafana. This can be seen within the `docker-compose.yaml`{{copy}} file:
 
 ```yaml
   grafana:
