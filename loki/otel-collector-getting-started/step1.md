@@ -22,14 +22,6 @@ In this step, we will set up our environment by cloning the repository that cont
    ✔ Container loki-fundamentals_otel-collector_1   Started
    ```{{copy}}
 
-   <!-- raw HTML omitted -->
-
-   {{< admonition type=“note” >}}
-   The OpenTelemetry Collector container will show as `Stopped`{{copy}}. This is expected as we have provided an empty configuration file. We will update this file in the next step.
-   {{< /admonition >}}
-
-   <!-- raw HTML omitted -->
-
-           ***Note:** The OpenTelemetry Collector container will show as `Stopped`. This is expected as we have provided an empty configuration file. We will update this file in the next step.*
+   **Note:** The OpenTelemetry Collector container will show as `Stopped`{{copy}}. This is expected as we have provided an empty configuration file. We will update this file in the next step.
 
 Once we have finished configuring the OpenTelemetry Collector and sending logs to Loki, we will be able to view the logs in Grafana. To check if Grafana is up and running, navigate to the following URL: [http://localhost:3000]({{TRAFFIC_HOST1_3000}})
