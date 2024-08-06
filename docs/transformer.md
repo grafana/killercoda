@@ -71,6 +71,12 @@ The end marker is:
 <!-- INTERACTIVE exec END -->
 ```
 
+> #### NOTE
+>
+> By default, the tool defaults to make code fenced with `bash` as executable. Meaning you do not need to specify the `<!-- INTERACTIVE exec START/STOP -->` directives for bash code blocks. It is possible to override this behaviour by adding the directive such as `<!-- INTERACTIVE copy START/STOP -->` to the fenced code block as directives always take precedence.
+
+
+
 #### Examples
 
 ````markdown
@@ -94,6 +100,50 @@ echo 'Hello, world!'
 ````
 
 <!-- prettier-ignore-end -->
+
+### Copy
+
+Copy directives tell the transform tool to make the contained fenced code block copyable.
+
+The start marker is:
+
+```markdown
+<!-- INTERACTIVE copy START -->
+```
+
+The end marker is:
+
+```markdown
+<!-- INTERACTIVE copy END -->
+```
+
+> #### NOTE
+>
+> By default, the tool defaults to make all fenced code apart from `bash` as copyable. Meaning you do not need to specify the `<!-- INTERACTIVE copy START/STOP -->` directives for code blocks. The primary reason for using copy directives is to override the default behaviour for `bash` code blocks.
+
+#### Examples
+
+````markdown
+<!-- INTERACTIVE copy START -->
+
+```bash
+echo 'Hello, world!'
+```
+<!-- INTERACTIVE copy END -->
+````
+
+Produces:
+
+<!-- prettier-ignore-start -->
+
+````markdown
+```bash
+echo 'Hello, world!'
+```{{copy}}
+````
+
+<!-- prettier-ignore-end -->
+
 
 ### Ignore
 
