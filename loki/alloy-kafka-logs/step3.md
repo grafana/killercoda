@@ -2,13 +2,15 @@
 
 Next we will configure Alloy to also ingest OpenTelemetry logs via Kafka, we need to update the Alloy configuration file once again. We will add the new components to the `config.alloy`{{copy}} file along with the existing components.
 
-**Note: Killercoda has an inbuilt Code editor which can be accessed via the `Editor`{{copy}} tab.**
+## Open your Code Editor and Locate the `config.alloy`{{copy}} file
+
+Like before, we generate our next pipeline configuration within the same `config.alloy`{{copy}} file. You will add the following configuration snippets to the file **in addition** to the existing configuration. Essentially, we are configuring two pipelines within the same Alloy configuration file.
 
 ## Source OpenTelemetry logs from Kafka
 
 First, we will configure the OpenTelemetry Kafaka receiver. `otelcol.receiver.kafka`{{copy}} accepts telemetry data from a Kafka broker and forwards it to other `otelcol.*`{{copy}} components.
 
-Open the `config.alloy`{{copy}} file in the `loki-fundamentals`{{copy}} directory and copy the following configuration:
+Now add the following configuration to the `config.alloy`{{copy}} file:
 
 ```alloy
 otelcol.receiver.kafka "default" {
@@ -41,7 +43,7 @@ For more information on the `otelcol.receiver.kafka`{{copy}} configuration, see 
 
 Next, we will configure a OpenTelemetry processor. `otelcol.processor.batch`{{copy}} accepts telemetry data from other otelcol components and places them into batches. Batching improves the compression of data and reduces the number of outgoing network requests required to transmit data. This processor supports both size and time based batching.
 
-Open the `config.alloy`{{copy}} file in the `loki-fundamentals`{{copy}} directory and copy the following configuration:
+Now add the following configuration to the `config.alloy`{{copy}} file:
 
 ```alloy
 otelcol.processor.batch "default" {
@@ -59,9 +61,9 @@ For more information on the `otelcol.processor.batch`{{copy}} configuration, see
 
 ## Write OpenTelemetry logs to Loki
 
-Lastly, we will configure the OpenTelemetry exporter. `otelcol.exporter.otlphttp`{{copy}} accepts telemetry data from other otelcol components and writes them over the network using the OTLP HTTP protocol. We will use this exporter to send the logs to Loki’s native OTLP endpoint.
+Lastly, we will configure the OpenTelemetry exporter. `otelcol.exporter.otlphttp`{{copy}} accepts telemetry data from other otelcol components and writes them over the network using the OTLP HTTP protocol. We will use this exporter to send the logs to the Loki native OTLP endpoint.
 
-Open the `config.alloy`{{copy}} file in the `loki-fundamentals`{{copy}} directory and copy the following configuration:
+Finally, add the following configuration to the `config.alloy`{{copy}} file:
 
 ```alloy
 otelcol.exporter.otlphttp "default" {
@@ -85,11 +87,11 @@ Once added, save the file. Then run the following command to request Alloy to re
 curl -X POST http://localhost:12345/-/reload
 ```{{exec}}
 
-The new configuration will be loaded this can be verified by checking the Alloy UI: [http://localhost:12345]({{TRAFFIC_HOST1_12345}}).
+The new configuration will be loaded. You can verify this by checking the Alloy UI: [http://localhost:12345]({{TRAFFIC_HOST1_12345}}).
 
-# Stuck? Need help?
+# Stuck? Need help (Full Configuration)?
 
-If you get stuck or need help creating the configuration, you can copy and replace the entire `config.alloy`{{copy}} using the completed configuration file:
+If you get stuck or need help creating the configuration, you can copy and replace the entire `config.alloy`{{copy}}. This differs from the previous `Stuck? Need help`{{copy}} section as we are replacing the entire configuration file with the completed configuration file. Rather than just adding the first Loki Raw Pipeline configuration.
 
 ```bash
 cp loki-fundamentals/completed/config.alloy loki-fundamentals/config.alloy

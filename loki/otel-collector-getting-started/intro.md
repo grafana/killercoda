@@ -1,6 +1,7 @@
-# Sending OpenTelemetry logs to Loki using Alloy
+# Getting started with the OpenTelemetry Collector and Loki tutorial
 
-Alloy natively supports receiving logs in the OpenTelemetry format. This allows you to send logs from applications instrumented with OpenTelemetry to Alloy, which can then be sent to Loki for storage and visualization in Grafana. In this example, we will make use of 3 Alloy components to achieve this:
+The OpenTelemetry Collector offers a vendor-agnostic implementation of how to receive, process and export telemetry data. With the introduction of the OTLP endpoint in Loki, you can now send logs from applications instrumented with OpenTelemetry to Loki using the OpenTelemetry Collector in native OTLP format.
+In this example, we will teach you how to configure the OpenTelemetry Collector to receive logs in the OpenTelemetry format and send them to Loki using the OTLP HTTP protocol. This will involve configuring the following components in the OpenTelemetry Collector:
 
 - **OpenTelemetry Receiver:** This component will receive logs in the OpenTelemetry format via HTTP and gRPC.
 
@@ -26,4 +27,4 @@ In this scenario, we have a microservices application called the Carnivourse Gre
 
 - **Database:** A database that stores user and plant data.
 
-Each service generates logs using the OpenTelemetry SDK and exports to Alloy in the OpenTelemetry format. Alloy then ingests the logs and sends them to Loki. We will configure Alloy to ingest OpenTelemetry logs, send them to Loki, and view the logs in Grafana.
+Each service generates logs using the OpenTelemetry SDK and exports to the OpenTelemetry Collector in the OpenTelemetry format (otlp). The collector then ingests the logs and sends them to Loki.

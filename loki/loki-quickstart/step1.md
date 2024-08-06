@@ -29,14 +29,15 @@
    At the end of the command, you should see something similar to the following:
 
    ```console
-   Creating evaluate-loki_flog_1  ... done
-   Creating evaluate-loki_minio_1 ... done
-   Creating evaluate-loki_read_1  ... done
-   Creating evaluate-loki_write_1 ... done
-   Creating evaluate-loki_gateway_1 ... done
-   Creating evaluate-loki_alloy_1   ... done
-   Creating evaluate-loki_grafana_1 ... done
-   Creating evaluate-loki_backend_1 ... done
+   ✔ Network evaluate-loki_loki          Created      0.1s
+   ✔ Container evaluate-loki_minio_1     Started      0.6s
+   ✔ Container evaluate-loki_flog_1      Started      0.6s
+   ✔ Container evaluate-loki_backend_1   Started      0.8s
+   ✔ Container evaluate-loki_write_1     Started      0.8s
+   ✔ Container evaluate-loki_read_1      Started      0.8s
+   ✔ Container evaluate-loki_gateway_1   Started      1.1s
+   ✔ Container evaluate-loki_grafana_1   Started      1.4s
+   ✔ Container evaluate-loki_alloy_1     Started      1.4s
    ```{{copy}}
 
 1. (Optional) Verify that the Loki cluster is up and running.
@@ -50,3 +51,9 @@
 1. (Optional) Verify that Grafana Alloy is running.
 
    - You can access the Grafana Alloy UI at [http://localhost:12345]({{TRAFFIC_HOST1_12345}}).
+
+1. (Optional) You can check all the containers are running by running the following command:
+
+   ```bash
+   docker ps -a 
+   ```{{exec}}
