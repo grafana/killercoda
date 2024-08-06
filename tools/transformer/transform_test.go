@@ -17,7 +17,7 @@ import (
 func TestActionTransformer_Transform(t *testing.T) {
 	t.Parallel()
 
-	t.Run("copy", func(t *testing.T) {
+	t.Run("copy directive overrides exec for bash language", func(t *testing.T) {
 		t.Parallel()
 
 		b := &bytes.Buffer{}
@@ -26,20 +26,12 @@ func TestActionTransformer_Transform(t *testing.T) {
 			Transformers: []util.PrioritizedValue{},
 			AdditionalExtenders: []goldmark.Extender{
 				&ActionTransformer{Kind: "copy"},
+				&ActionTransformer{Kind: "exec"},
 			},
 		}))
 
 		src := []byte("1. Create a directory called `evaluate-loki` for the demo environment.\n" +
 			"   Make `evaluate-loki` your current working directory:\n" +
-			"\n" +
-			"   <!-- INTERACTIVE copy START -->\n" +
-			"\n" +
-			"   ```bash\n" +
-			"   mkdir evaluate-loki\n" +
-			"   cd evaluate-loki\n" +
-			"   ```\n" +
-			"\n" +
-			"   <!-- INTERACTIVE copy END -->\n" +
 			"\n" +
 			"   <!-- INTERACTIVE copy START -->\n" +
 			"\n" +
@@ -61,17 +53,12 @@ func TestActionTransformer_Transform(t *testing.T) {
 			"   ```bash\n" +
 			"   mkdir evaluate-loki\n" +
 			"   cd evaluate-loki\n" +
-			"   ```{{copy}}\n" +
-			"\n" +
-			"   ```bash\n" +
-			"   mkdir evaluate-loki\n" +
-			"   cd evaluate-loki\n" +
 			"   ```{{copy}}\n"
 
 		assert.Equal(t, want, b.String())
 	})
 
-	t.Run("copy without directives bash", func(t *testing.T) {
+	t.Run("bash language defaults to exec", func(t *testing.T) {
 		t.Parallel()
 
 		b := &bytes.Buffer{}
@@ -80,16 +67,12 @@ func TestActionTransformer_Transform(t *testing.T) {
 			Transformers: []util.PrioritizedValue{},
 			AdditionalExtenders: []goldmark.Extender{
 				&ActionTransformer{Kind: "copy"},
+				&ActionTransformer{Kind: "exec"},
 			},
 		}))
 
 		src := []byte("1. Create a directory called `evaluate-loki` for the demo environment.\n" +
 			"   Make `evaluate-loki` your current working directory:\n" +
-			"\n" +
-			"   ```bash\n" +
-			"   mkdir evaluate-loki\n" +
-			"   cd evaluate-loki\n" +
-			"   ```\n" +
 			"\n" +
 			"   ```bash\n" +
 			"   mkdir evaluate-loki\n" +
@@ -107,17 +90,12 @@ func TestActionTransformer_Transform(t *testing.T) {
 			"   ```bash\n" +
 			"   mkdir evaluate-loki\n" +
 			"   cd evaluate-loki\n" +
-			"   ```{{exec}}\n" + // Updated based on the new logic
-			"\n" +
-			"   ```bash\n" +
-			"   mkdir evaluate-loki\n" +
-			"   cd evaluate-loki\n" +
-			"   ```{{exec}}\n" // Updated based on the new logic
+			"   ```{{exec}}\n"
 
 		assert.Equal(t, want, b.String())
 	})
 
-	t.Run("bash command with copy directive", func(t *testing.T) {
+	t.Run("exec directive overrides copy default for other languages", func(t *testing.T) {
 		t.Parallel()
 
 		b := &bytes.Buffer{}
@@ -126,53 +104,6 @@ func TestActionTransformer_Transform(t *testing.T) {
 			Transformers: []util.PrioritizedValue{},
 			AdditionalExtenders: []goldmark.Extender{
 				&ActionTransformer{Kind: "copy"},
-			},
-		}))
-
-		src := []byte("1. Create a directory called `evaluate-loki` for the demo environment.\n" +
-			"   Make `evaluate-loki` your current working directory:\n" +
-			"\n" +
-			"   <!-- INTERACTIVE copy START -->\n" +
-			"   ```bash\n" +
-			"   mkdir evaluate-loki\n" +
-			"   cd evaluate-loki\n" +
-			"   ```\n" +
-			"   <!-- INTERACTIVE copy END -->\n" +
-			"\n" +
-			"   ```bash\n" +
-			"   mkdir evaluate-loki\n" +
-			"   cd evaluate-loki\n" +
-			"   ```\n")
-
-		root := md.Parser().Parse(text.NewReader(src))
-		require.NoError(t, md.Renderer().Render(w, src, root))
-
-		w.Flush()
-
-		want := "1. Create a directory called `evaluate-loki` for the demo environment.\n" +
-			"   Make `evaluate-loki` your current working directory:\n" +
-			"\n" +
-			"   ```bash\n" +
-			"   mkdir evaluate-loki\n" +
-			"   cd evaluate-loki\n" +
-			"   ```{{copy}}\n" + // Updated based on the new logic
-			"\n" +
-			"   ```bash\n" +
-			"   mkdir evaluate-loki\n" +
-			"   cd evaluate-loki\n" +
-			"   ```{{exec}}\n" // Updated based on the new logic
-
-		assert.Equal(t, want, b.String())
-	})
-
-	t.Run("exec", func(t *testing.T) {
-		t.Parallel()
-
-		b := &bytes.Buffer{}
-		w := bufio.NewWriter(b)
-		md := goldmark.New(goldmark.WithExtensions(&KillercodaExtension{
-			Transformers: []util.PrioritizedValue{},
-			AdditionalExtenders: []goldmark.Extender{
 				&ActionTransformer{Kind: "exec"},
 			},
 		}))
@@ -182,16 +113,7 @@ func TestActionTransformer_Transform(t *testing.T) {
 			"\n" +
 			"   <!-- INTERACTIVE exec START -->\n" +
 			"\n" +
-			"   ```bash\n" +
-			"   mkdir evaluate-loki\n" +
-			"   cd evaluate-loki\n" +
 			"   ```\n" +
-			"\n" +
-			"   <!-- INTERACTIVE exec END -->\n" +
-			"\n" +
-			"   <!-- INTERACTIVE exec START -->\n" +
-			"\n" +
-			"   ```bash\n" +
 			"   mkdir evaluate-loki\n" +
 			"   cd evaluate-loki\n" +
 			"   ```\n" +
@@ -206,15 +128,47 @@ func TestActionTransformer_Transform(t *testing.T) {
 		want := "1. Create a directory called `evaluate-loki` for the demo environment.\n" +
 			"   Make `evaluate-loki` your current working directory:\n" +
 			"\n" +
-			"   ```bash\n" +
-			"   mkdir evaluate-loki\n" +
-			"   cd evaluate-loki\n" +
-			"   ```{{exec}}\n" +
-			"\n" +
-			"   ```bash\n" +
+			"   ```\n" +
 			"   mkdir evaluate-loki\n" +
 			"   cd evaluate-loki\n" +
 			"   ```{{exec}}\n"
+
+		assert.Equal(t, want, b.String())
+	})
+
+	t.Run("other languages default to copy", func(t *testing.T) {
+		t.Parallel()
+
+		b := &bytes.Buffer{}
+		w := bufio.NewWriter(b)
+		md := goldmark.New(goldmark.WithExtensions(&KillercodaExtension{
+			Transformers: []util.PrioritizedValue{},
+			AdditionalExtenders: []goldmark.Extender{
+				&ActionTransformer{Kind: "copy"},
+				&ActionTransformer{Kind: "exec"},
+			},
+		}))
+
+		src := []byte("1. Create a directory called `evaluate-loki` for the demo environment.\n" +
+			"   Make `evaluate-loki` your current working directory:\n" +
+			"\n" +
+			"   ```\n" +
+			"   mkdir evaluate-loki\n" +
+			"   cd evaluate-loki\n" +
+			"   ```\n")
+
+		root := md.Parser().Parse(text.NewReader(src))
+		require.NoError(t, md.Renderer().Render(w, src, root))
+
+		w.Flush()
+
+		want := "1. Create a directory called `evaluate-loki` for the demo environment.\n" +
+			"   Make `evaluate-loki` your current working directory:\n" +
+			"\n" +
+			"   ```\n" +
+			"   mkdir evaluate-loki\n" +
+			"   cd evaluate-loki\n" +
+			"   ```{{copy}}\n"
 
 		assert.Equal(t, want, b.String())
 	})
