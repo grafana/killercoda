@@ -75,9 +75,6 @@ The end marker is:
 >
 > By default, the tool makes `bash` fenced code blocks executable so you don't need `<!-- INTERACTIVE exec START/STOP -->` directives for bash code blocks.
 > You can override this behavior with the `<!-- INTERACTIVE copy START/STOP -->` directives which take precedence over the default behavior.
-
-
-
 #### Examples
 
 ````markdown
