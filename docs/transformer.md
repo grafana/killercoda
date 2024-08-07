@@ -73,7 +73,8 @@ The end marker is:
 
 > #### NOTE
 >
-> By default, the tool defaults to make code fenced with `bash` as executable. Meaning you do not need to specify the `<!-- INTERACTIVE exec START/STOP -->` directives for bash code blocks. It is possible to override this behaviour by adding the directive such as `<!-- INTERACTIVE copy START/STOP -->` to the fenced code block as directives always take precedence.
+> By default, the tool makes `bash` fenced code blocks executable so you don't need `<!-- INTERACTIVE exec START/STOP -->` directives for bash code blocks.
+> You can override this behavior with the `<!-- INTERACTIVE copy START/STOP -->` directives which take precedence over the default behavior.
 
 
 
