@@ -108,5 +108,5 @@ This final component creates a [`loki.write`{{copy}}](https://grafana.com/docs/a
 
 This completes the simple configuration pipeline.
 
-> The `basic_auth` block is commented out because the local `docker-compose` stack doesn't require it. It's included in this example to show how you can configure authorization for other environments.For further authorization options, refer to the [loki.write][loki.write] component reference.
+> The `basic_auth` block is commented out because the local `docker-compose` stack doesn't require it. It's included in this example to show how you can configure authorization for other environments.For further authorization options, refer to the [`loki.write`](https://grafana.com/docs/alloy/latest/reference/components/loki/loki.write/) component reference.
 With this configuration, Alloy connects directly to the Loki instance running in the Docker container.

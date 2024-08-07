@@ -15,3 +15,5 @@ Install and run Alloy on Linux.
    ```{{exec}}
 
 1. [Run Alloy](https://grafana.com/docs/alloy/latest/set-up/run/linux/).
+
+You should now be able to access the Alloy UI at [http://localhost:12345]({{TRAFFIC_HOST1_12345}}).
