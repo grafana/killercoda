@@ -94,15 +94,25 @@ func (t *ActionTransformer) Transform(node *ast.Document, reader text.Reader, _ 
 				toRemove = append(toRemove, child)
 			}
 
-			if inMarker || t.Kind == "copy" {
-				if fenced, ok := child.(*ast.FencedCodeBlock); ok {
-					fenced.SetAttributeString("data-killercoda-"+t.Kind, "true")
-				}
-			}
-
 			if isMarker(child, source, endMarker) {
 				inMarker = false
 				toRemove = append(toRemove, child)
+			}
+
+			if fenced, ok := child.(*ast.FencedCodeBlock); ok {
+				if inMarker {
+					fenced.SetAttributeString("data-killercoda-"+t.Kind, "true")
+				} else {
+					// Only set the language attribute if not within a marker
+					if t.Kind != "exec" {
+						language := string(fenced.Language(source))
+						if language == "bash" {
+							fenced.SetAttributeString("data-killercoda-exec", "true")
+						} else {
+							fenced.SetAttributeString("data-killercoda-copy", "true")
+						}
+					}
+				}
 			}
 		}
 
