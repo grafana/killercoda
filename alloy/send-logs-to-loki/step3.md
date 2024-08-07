@@ -11,9 +11,7 @@ You can try the examples using a `config.alloy`{{copy}} file and experiment with
 To start create a `config.alloy`{{copy}} file within your current working directory:
 
 ```bash
-    mkdir alloy-config
-    cd alloy-config
-    touch config.alloy
+touch config.alloy
 ```{{exec}}
 
 ## First component: Log files

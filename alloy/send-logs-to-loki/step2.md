@@ -7,11 +7,11 @@ This Docker Compose file includes Loki and Prometheus configured as data sources
 > The interactive sandbox has a VSCode like editor that allows you to access files and folders. To access this feature, click on the `Editor` tab. Note that the editor also has a terminal that you can use to run commands. Since some commands assume you are within a specific directory our recommendation is to run the commands in `tab1`.
 1. Create a new directory and save the Docker Compose file as `docker-compose.yml`{{copy}}.
 
-```bash
-  mkdir alloy-tutorial
-  cd alloy-tutorial
-  touch docker-compose.yml
-```{{exec}}
+   ```bash
+   mkdir alloy-tutorial
+   cd alloy-tutorial
+   touch docker-compose.yml
+   ```{{exec}}
 
 1. Copy the following Docker Compose file into `docker-compose.yml`{{copy}}:
 
