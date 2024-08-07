@@ -68,8 +68,8 @@ This Docker Compose file includes Loki and Prometheus configured as data sources
 
 1. to start the local Grafana instance, run the following command:
 
-```bash
-docker-compose up -d
-```{{exec}}
+   ```bash
+    docker-compose up -d
+   ```{{exec}}
 
 1. Open [http://localhost:3000]({{TRAFFIC_HOST1_3000}}) in your browser to access the Grafana UI.

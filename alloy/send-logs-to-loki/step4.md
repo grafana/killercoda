@@ -2,9 +2,9 @@
 
 1. Copy your local `config.alloy`{{copy}} file into the default Alloy configuration file location.
 
-        ```bash
-    sudo cp config.alloy /etc/alloy/config.alloy
-    ```
+```bash
+  sudo cp config.alloy /etc/alloy/config.alloy
+```{{exec}}
 
 1. Call the `/-/reload`{{copy}} endpoint to tell Alloy to reload the configuration file without a system service restart.
 
