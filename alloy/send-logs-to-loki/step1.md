@@ -6,6 +6,6 @@ This tutorial requires a Linux or macOS environment with Docker installed.
 
 Install and run Alloy on Linux.
 
-1. [Install Alloy](https://grafana.com/../../set-up/install/linux/).
+1. [Install Alloy](https://grafana.com/docs/alloy/latest/set-up/install/linux/).
 
-1. [Run Alloy](https://grafana.com/../../set-up/run/linux/).
+1. [Run Alloy](https://grafana.com/docs/alloy/latest/set-up/run/linux/).
