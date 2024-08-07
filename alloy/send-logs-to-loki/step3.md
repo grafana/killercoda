@@ -6,24 +6,26 @@ You use components in the `config.alloy`{{copy}} file to tell Alloy which logs y
 The examples run on a single host so that you can run them on your laptop or in a Virtual Machine.
 You can try the examples using a `config.alloy`{{copy}} file and experiment with the examples.
 
+## Create a `config.alloy`{{copy}} file
+
+To start create a `config.alloy`{{copy}} file within your current working directory:
+
+```bash
+    mkdir alloy-config
+    cd alloy-config
+    touch config.alloy
+```{{exec}}
+
 ## First component: Log files
 
-`local.file_match`{{copy}} is a component that tells Alloy which log files to source:
+Copy and paste the following component configuration at the top of the file:
 
-1. Create a file called `config.alloy`{{copy}} in your current working directory:
-
-   ```bash
-    touch config.alloy
-   ```{{exec}}
-
-1. Copy and paste the following component configuration at the top of the file:
-
-   ```alloy
-    local.file_match "local_files" {
-        path_targets = [{"__path__" = "/var/log/*.log"}]
-        sync_period = "5s"
-    }
-   ```{{copy}}
+```alloy
+ local.file_match "local_files" {
+     path_targets = [{"__path__" = "/var/log/*.log"}]
+     sync_period = "5s"
+ }
+```{{copy}}
 
 This configuration creates a [local.file_match](https://grafana.com/docs/alloy/latest/reference/components/local/local.file_match/) component named `local_files`{{copy}} which does the following:
 
@@ -33,9 +35,7 @@ This configuration creates a [local.file_match](https://grafana.com/docs/alloy/l
 
 ## Second component: Scraping
 
-The next component scrapes the logs from the log files you specified in the first component:
-
-1. Copy and paste the following component configuration below the previous component in your `config.alloy`{{copy}} file:
+Copy and paste the following component configuration below the previous component in your `config.alloy`{{copy}} file:
 
 ```alloy
   loki.source.file "log_scrape" {
@@ -59,7 +59,7 @@ Filtering non-essential logs before sending them to a data source can help you m
 
 The following example demonstrates how you can filter out or drop logs before sending them to Loki.
 
-1. Copy and paste the following component configuration below the previous component in your `config.alloy`{{copy}} file:
+Copy and paste the following component configuration below the previous component in your `config.alloy`{{copy}} file:
 
 ```alloy
   loki.process "filter_logs" {
@@ -91,9 +91,7 @@ The [`loki.process`{{copy}} documentation](https://grafana.com/docs/alloy/latest
 
 ## Fourth component: Write logs to Loki
 
-Lastly, you need to configure a component to write the processed logs to Loki:
-
-1. Copy and paste this component configuration below the previous component in your `config.alloy`{{copy}} file:
+Copy and paste this component configuration below the previous component in your `config.alloy`{{copy}} file:
 
 ```alloy
   loki.write "grafana_loki" {
@@ -108,7 +106,7 @@ Lastly, you need to configure a component to write the processed logs to Loki:
   }
 ```{{copy}}
 
-This final component creates a [`loki.write`{{copy}}][] component named `grafana_loki`{{copy}} that points to `http://localhost:3100/loki/api/v1/push`{{copy}}.
+This final component creates a [`loki.write`{{copy}}](https://grafana.com/docs/alloy/latest/reference/components/loki/loki.write/) component named `grafana_loki`{{copy}} that points to `http://localhost:3100/loki/api/v1/push`{{copy}}.
 
 This completes the simple configuration pipeline.
 
