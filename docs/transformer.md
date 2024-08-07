@@ -115,9 +115,9 @@ The end marker is:
 <!-- INTERACTIVE copy END -->
 ```
 
-> #### NOTE
->
-> By default, the tool defaults to make all fenced code apart from `bash` as copyable. Meaning you do not need to specify the `<!-- INTERACTIVE copy START/STOP -->` directives for code blocks. The primary reason for using copy directives is to override the default behaviour for `bash` code blocks.
+> [!NOTE]
+> By default, the tool makes all fenced code blocks other than `bash` copyable so you don't need `<!-- INTERACTIVE copy START/STOP -->` directives for those code blocks.
+> You can override this behavior with the `<!-- INTERACTIVE exec START/STOP -->` directives which take precedence over the default behavior.
 
 #### Examples
 
