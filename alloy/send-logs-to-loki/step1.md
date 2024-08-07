@@ -2,6 +2,7 @@
 
 This tutorial requires a Linux or macOS environment with Docker installed.
 
+> This online sandbox enviroment is based on an Ubuntu image and has Docker pre-installed. To install Alloy simply follow the links below and copy and paste the `Ubuntu/Debian` commands in the terminal.
 ## Linux
 
 Install and run Alloy on Linux.
