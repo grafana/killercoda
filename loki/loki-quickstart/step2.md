@@ -45,7 +45,7 @@ You can view your logs using the command line interface, [LogCLI](https://grafan
 
       ```bash
       {container="evaluate-loki_flog_1"}
-      ```{{copy}}
+      ```{{exec}}
 
       In Loki, this is a log stream.
 
@@ -58,25 +58,25 @@ You can view your logs using the command line interface, [LogCLI](https://grafan
 
       ```bash
       {container="evaluate-loki_grafana_1"}
-      ```{{copy}}
+      ```{{exec}}
 
    1. Find all the log lines in the `{container="evaluate-loki_flog_1"}`{{copy}} stream that contain the string `status`{{copy}}:
 
       ```bash
       {container="evaluate-loki_flog_1"} |= `status`
-      ```{{copy}}
+      ```{{exec}}
 
    1. Find all the log lines in the `{container="evaluate-loki_flog_1"}`{{copy}} stream where the JSON field `status`{{copy}} has the value `404`{{copy}}:
 
       ```bash
       {container="evaluate-loki_flog_1"} | json | status=`404`
-      ```{{copy}}
+      ```{{exec}}
 
    1. Calculate the number of logs per second where the JSON field `status`{{copy}} has the value `404`{{copy}}:
 
       ```bash
       sum by(container) (rate({container="evaluate-loki_flog_1"} | json | status=`404` [$__auto]))
-      ```{{copy}}
+      ```{{exec}}
 
    The final query is a metric query which returns a time series.
    This makes Grafana draw a graph of the results.
@@ -104,7 +104,7 @@ To see all the log lines that flog has generated, enter the LogQL query:
 
 ```bash
 {container="evaluate-loki_flog_1"}
-```{{copy}}
+```{{exec}}
 
 The flog app generates log lines for simulated HTTP requests.
 
@@ -112,73 +112,24 @@ To see all `GET`{{copy}} log lines, enter the LogQL query:
 
 ```bash
 {container="evaluate-loki_flog_1"} |= "GET"
-```{{copy}}
+```{{exec}}
 
 To see all `POST`{{copy}} methods, enter the LogQL query:
 
 ```bash
 {container="evaluate-loki_flog_1"} |= "POST"
-```{{copy}}
+```{{exec}}
 
 To see every log line with a 401 status (unauthorized error), enter the LogQL query:
 
 ```bash
 {container="evaluate-loki_flog_1"} | json | status="401"
-```{{copy}}
+```{{exec}}
 
 To see every log line that doesn’t contain the text `401`{{copy}}:
 
 ```bash
 {container="evaluate-loki_flog_1"} != "401"
-```{{copy}}
+```{{exec}}
 
 For more examples, refer to the [query documentation](https://grafana.com/docs/loki/latest/query/query_examples/).
-
-# Loki data source in Grafana
-
-In this example, the Loki data source is already configured in Grafana. This can be seen within the `docker-compose.yaml`{{copy}} file:
-
-```yaml
-  grafana:
-    image: grafana/grafana:latest
-    environment:
-      - GF_PATHS_PROVISIONING=/etc/grafana/provisioning
-      - GF_AUTH_ANONYMOUS_ENABLED=true
-      - GF_AUTH_ANONYMOUS_ORG_ROLE=Admin
-    depends_on:
-      - gateway
-    entrypoint:
-      - sh
-      - -euc
-      - |
-        mkdir -p /etc/grafana/provisioning/datasources
-        cat <<EOF > /etc/grafana/provisioning/datasources/ds.yaml
-        apiVersion: 1
-        datasources:
-          - name: Loki
-            type: loki
-            access: proxy
-            url: http://gateway:3100
-            jsonData:
-              httpHeaderName1: "X-Scope-OrgID"
-            secureJsonData:
-              httpHeaderValue1: "tenant1"
-        EOF
-        /run.sh
-```{{copy}}
-
-Within the entrypoint section, the Loki data source is configured with the following details:
-
-- Name: Loki (name of the data source)
-
-- Type: loki (type of data source)
-
-- Access: proxy (access type)
-
-- URL: <http://gateway:3100> (URL of the Loki data source. Loki uses a nginx gateway to direct traffic to the appropriate component)
-
-- jsonData: httpHeaderName1: “X-Scope-OrgID” (header name for the organization ID)
-
-- secureJsonData: httpHeaderValue1: “tenant1” (header value for the organization ID)
-
-It is important to note when Loki is configured in any other mode other than monolithic deployment, a tenant ID is required to be passed in the header. Without this, queries will return an authorization error.
