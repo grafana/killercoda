@@ -1,6 +1,5 @@
 {
     "items": [
-    { "path": "getting-started", "title": "Getting Started with Alloy"},
     { "path": "send-logs-to-loki", "title": "Use Grafana Alloy to send logs to Loki"}
     ]
 }
