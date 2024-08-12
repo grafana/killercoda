@@ -12,9 +12,9 @@
     curl -X POST http://localhost:12345/-/reload
    ```{{exec}}
 
-   > This step uses the Alloy UI on `localhost` port `12345`. If you chose to run Alloy in a Docker container, make sure you use the `--server.http.listen-addr=` argument. If you don’t use this argument, the [debugging UI][https://grafana.com/docs/alloy/latest/troubleshoot/debug/#alloy-ui] won’t be available outside of the Docker container.
+   > This step uses the Alloy UI on `localhost` port `12345`. If you chose to run Alloy in a Docker container, make sure you use the `--server.http.listen-addr=` argument. If you don’t use this argument, the [debugging UI][https://grafana.com/docs/alloy/latest/tutorials/https://grafana.com/docs/alloy/latest/tutorials/troubleshoot/debug/#alloy-ui] won’t be available outside of the Docker container.
 
-1. Optional: You can do a system service restart Alloy and load the configuration file:
+1. Optional: You can do a system service restart Alloy and load the configuration file.
 
    ```bash
     sudo systemctl reload alloy

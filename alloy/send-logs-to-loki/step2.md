@@ -4,7 +4,7 @@ In this tutorial, you configure Alloy to collect logs from your local machine an
 You can use the following Docker Compose file to set up a local Grafana instance.
 This Docker Compose file includes Loki and Prometheus configured as data sources.
 
-> The interactive sandbox has a VSCode like editor that allows you to access files and folders. To access this feature, click on the `Editor` tab. Note that the editor also has a terminal that you can use to run commands. Since some commands assume you are within a specific directory our recommendation is to run the commands in `tab1`.
+> The interactive sandbox has a VSCode-like editor that allows you to access files and folders. To access this feature, click on the `Editor` tab. The editor also has a terminal that you can use to run commands. Since some commands assume you are within a specific directory, we recommend running the commands in `tab1`.
 1. Create a new directory and save the Docker Compose file as `docker-compose.yml`{{copy}}.
 
    ```bash
@@ -13,7 +13,7 @@ This Docker Compose file includes Loki and Prometheus configured as data sources
    touch docker-compose.yml
    ```{{exec}}
 
-1. Copy the following Docker Compose file into `docker-compose.yml`{{copy}}:
+1. Copy the following Docker Compose file into `docker-compose.yml`{{copy}}.
 
    ```yaml
     version: '3'
