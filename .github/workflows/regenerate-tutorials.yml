@@ -19,6 +19,10 @@ jobs:
           path: grafana
       - uses: actions/checkout@v4
         with:
+            repository: grafana/alloy
+            path: alloy
+      - uses: actions/checkout@v4
+        with:
           path: killercoda
       - uses: actions/setup-go@v5
         with:
@@ -49,7 +53,11 @@ jobs:
           "${GITHUB_WORKSPACE}/grafana/docs/sources/tutorials/alerting-get-started/index.md"
           "${GITHUB_WORKSPACE}/killercoda/grafana/alerting-get-started"
         working-directory: killercoda/tools/transformer
-
+      - run: >
+          ./transformer
+          "${GITHUB_WORKSPACE}/alloy/docs/sources/tutorials/send-logs-to-loki.md"
+          "${GITHUB_WORKSPACE}/killercoda/alloy/send-logs-to-loki"
+        working-directory: killercoda/tools/transformer
       - run: ./scripts/manage-pr.bash
         env:
           GH_TOKEN: ${{ github.token }}

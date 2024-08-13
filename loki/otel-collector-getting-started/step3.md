@@ -10,7 +10,7 @@ docker-compose -f loki-fundamentals/greenhouse/docker-compose-micro.yml up -d --
 
 This will start the following services:
 
-```bash
+```console
  ✔ Container greenhouse-db-1                 Started                                                         
  ✔ Container greenhouse-websocket_service-1  Started 
  ✔ Container greenhouse-bug_service-1        Started
@@ -18,7 +18,7 @@ This will start the following services:
  ✔ Container greenhouse-plant_service-1      Started
  ✔ Container greenhouse-simulation_service-1 Started
  ✔ Container greenhouse-main_app-1           Started
-```{{exec}}
+```{{copy}}
 
 Once started, you can access the Carnivorous Greenhouse application at [http://localhost:5005]({{TRAFFIC_HOST1_5005}}). Generate some logs by interacting with the application in the following ways:
 

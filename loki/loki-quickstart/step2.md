@@ -133,3 +133,52 @@ To see every log line that doesn’t contain the text `401`{{copy}}:
 ```{{copy}}
 
 For more examples, refer to the [query documentation](https://grafana.com/docs/loki/latest/query/query_examples/).
+
+# Loki data source in Grafana
+
+In this example, the Loki data source is already configured in Grafana. This can be seen within the `docker-compose.yaml`{{copy}} file:
+
+```yaml
+  grafana:
+    image: grafana/grafana:latest
+    environment:
+      - GF_PATHS_PROVISIONING=/etc/grafana/provisioning
+      - GF_AUTH_ANONYMOUS_ENABLED=true
+      - GF_AUTH_ANONYMOUS_ORG_ROLE=Admin
+    depends_on:
+      - gateway
+    entrypoint:
+      - sh
+      - -euc
+      - |
+        mkdir -p /etc/grafana/provisioning/datasources
+        cat <<EOF > /etc/grafana/provisioning/datasources/ds.yaml
+        apiVersion: 1
+        datasources:
+          - name: Loki
+            type: loki
+            access: proxy
+            url: http://gateway:3100
+            jsonData:
+              httpHeaderName1: "X-Scope-OrgID"
+            secureJsonData:
+              httpHeaderValue1: "tenant1"
+        EOF
+        /run.sh
+```{{copy}}
+
+Within the entrypoint section, the Loki data source is configured with the following details:
+
+- `Name: Loki`{{copy}} (name of the data source)
+
+- `Type: loki`{{copy}} (type of data source)
+
+- `Access: proxy`{{copy}} (access type)
+
+- `URL: http://gateway:3100`{{copy}} (URL of the Loki data source. Loki uses an nginx gateway to direct traffic to the appropriate component)
+
+- `jsonData.httpHeaderName1: "X-Scope-OrgID"`{{copy}} (header name for the organization ID)
+
+- `secureJsonData.httpHeaderValue1: "tenant1"`{{copy}} (header value for the organization ID)
+
+It is important to note when Loki is configured in any other mode other than monolithic deployment, you are required to pass a tenant ID in the header. Without this, queries will return an authorization error.
