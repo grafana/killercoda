@@ -14,6 +14,7 @@ This Docker Compose file includes Loki and Prometheus configured as data sources
    ```{{exec}}
 
 1. Copy the following Docker Compose file into `docker-compose.yml`{{copy}}.
+   > We recommend using the `Editor`{{copy}} tab to copy and paste the Docker Compose file. However, you can also use a terminal editor like `nano`{{copy}} or `vim`{{copy}}.
 
    ```yaml
     version: '3'
