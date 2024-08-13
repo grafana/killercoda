@@ -169,16 +169,16 @@ In this example, the Loki data source is already configured in Grafana. This can
 
 Within the entrypoint section, the Loki data source is configured with the following details:
 
-- Name: Loki (name of the data source)
+- `Name: Loki`{{copy}} (name of the data source)
 
-- Type: loki (type of data source)
+- `Type: loki`{{copy}} (type of data source)
 
-- Access: proxy (access type)
+- `Access: proxy`{{copy}} (access type)
 
-- URL: <http://gateway:3100> (URL of the Loki data source. Loki uses a nginx gateway to direct traffic to the appropriate component)
+- `URL: http://gateway:3100`{{copy}} (URL of the Loki data source. Loki uses an nginx gateway to direct traffic to the appropriate component)
 
-- jsonData: httpHeaderName1: “X-Scope-OrgID” (header name for the organization ID)
+- `jsonData.httpHeaderName1: "X-Scope-OrgID"`{{copy}} (header name for the organization ID)
 
-- secureJsonData: httpHeaderValue1: “tenant1” (header value for the organization ID)
+- `secureJsonData.httpHeaderValue1: "tenant1"`{{copy}} (header value for the organization ID)
 
-It is important to note when Loki is configured in any other mode other than monolithic deployment, a tenant ID is required to be passed in the header. Without this, queries will return an authorization error.
+It is important to note when Loki is configured in any other mode other than monolithic deployment, you are required to pass a tenant ID in the header. Without this, queries will return an authorization error.
