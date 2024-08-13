@@ -8,7 +8,7 @@ You can try the examples using a `config.alloy`{{copy}} file and experiment with
 
 ## Create a `config.alloy`{{copy}} file
 
-To start create a `config.alloy`{{copy}} file within your current working directory:
+Create a `config.alloy`{{copy}} file within your current working directory.
 
 ```bash
 touch config.alloy
@@ -16,7 +16,7 @@ touch config.alloy
 
 ## First component: Log files
 
-Copy and paste the following component configuration at the top of the file:
+Copy and paste the following component configuration at the top of the file.
 
 ```alloy
  local.file_match "local_files" {

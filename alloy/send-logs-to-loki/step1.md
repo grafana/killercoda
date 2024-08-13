@@ -1,6 +1,6 @@
 # Install Alloy and start the service
 
-> This online sandbox enviroment is based on an Ubuntu image and has Docker pre-installed. To install Alloy follow the links below, and copy and paste the `Ubuntu/Debian` commands in the terminal.
+> This online sandbox environment is based on an Ubuntu image and has Docker pre-installed. To install Alloy in the sandbox, perform the following steps.
 ## Linux
 
 Install and run Alloy on Linux.
