@@ -10,4 +10,4 @@ In this tutorial you will:
 
 - Receive firing and resolved alert notifications in a public webhook.
 
-Check out [Part 2](http://grafana.com/tutorials/alerting-get-started-pt2/) if you want to learn more about alerts and notification routing.
+> Before you dive in, remember that you can [explore advanced topics like alert instances and notification routing](http://grafana.com/tutorials/alerting-get-started-pt2/) in the second part of this guide.
