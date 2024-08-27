@@ -44,16 +44,6 @@ We have now configured an alert rule and a contact point. Now let’s see if we 
 
 Once the query `sum(rate(tns_request_duration_seconds_count[5m])) by(route)`{{copy}} returns a value greater than `0.2`{{copy}} Grafana will trigger our alert. Browse to the Request Bin we created earlier and find the sent Grafana alert notification with details and metadata.
 
-{{< admonition type=“note” >}}
-The alert may be triggered by the `/metrics`{{copy}} endpoint which is frequently accessed by Grafana when pulling metrics from the application. If this happens, you can increase the **Threshold** value in **Section 2** for testing purposes.
-{{< /admonition >}}
-
-# Display Grafana Alerts to your dashboard
-
-In most cases, it’s also valuable to display Grafana Alerts as annotations to your dashboard. Check out the video tutorial below to learn how to display alerting to your dashboard.
-
-{{< youtube id=“ClLp-iSoaSY” >}}
-
 Let’s see how we can configure this.
 
 1. In Grafana’s sidebar, hover over the **Alerting** (bell) icon and then click **Alert rules**.
