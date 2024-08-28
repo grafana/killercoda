@@ -1,6 +1,6 @@
 {
   "title": "Grafana fundamentals",
-  "description": "Learn how to use Grafana to set up a monitoring solution for your application. You will explore metrics and logs, build and annotate dashboards, and set up alerts.",
+  "description": "Learn how to use Grafana to set up a monitoring solution for your application. You will explore metrics and logs, build and annotate dashboards, and set up alert rules.",
   "details": {
     "intro": {
       "text": "intro.md"

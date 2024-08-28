@@ -8,4 +8,4 @@ In this tutorial, you’ll learn how to use Grafana to set up a monitoring solut
 
 - Annotate dashboards
 
-- Set up alerts
+- Set up alert rules
