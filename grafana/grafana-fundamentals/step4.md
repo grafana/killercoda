@@ -8,7 +8,7 @@ Grafana supports log data sources, like [Loki](https://grafana.com/oss/loki/). J
 
 1. In the list of data sources, click **Loki**.
 
-1. In the URL box, enter [http://loki:3100](http://loki:3100).
+1. In the URL box, enter `http://loki:3100`{{copy}}
 
 1. Scroll to the bottom of the page and click **Save & Test** to save your changes.
 
