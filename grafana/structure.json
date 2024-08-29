@@ -2,6 +2,7 @@
     "items": [
         { "path": "grafana-basics", "title": "Grafana Basics"},
         { "path": "alerting-get-started", "title": "Get started with Grafana Alerting"},
+	      { "path": "alerting-loki-logs", "title": "Create alert rules with logs"},
         { "path": "grafana-fundamentals", "title": "Grafana Fundamentals"},
         { "path": "fo11y", "title": "Frontend Observability"}
     ]
