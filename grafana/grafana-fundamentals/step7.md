@@ -49,7 +49,7 @@ Manually annotating your dashboard is fine for those single events. For regularl
 
 1. At the top of your dashboard, there is now a toggle to display the results of the newly created annotation query. Press it if it’s not already enabled.
 
-1. Click the **Save dashboard** icon to save the changes.
+1. Click the **Save dashboard** (disk) icon to save the changes.
 
 1. To test the changes, go back to the [sample application]({{TRAFFIC_HOST1_8081}}), post a new link without a URL to generate an error in your browser that says `empty url`{{copy}}.
 

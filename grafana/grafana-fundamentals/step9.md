@@ -12,7 +12,7 @@ Your Request Bin is now waiting for the first request.
 
 Next, let’s configure a Contact Point in Grafana’s Alerting UI to send notifications to our Request Bin.
 
-1. Return to Grafana. In Grafana’s sidebar, hover over the **Alerting** (bell) icon and then click **Contact points**.
+1. Return to Grafana. In Grafana’s sidebar, hover over the **Alerting** (bell) icon and then click **Manage Contact points**.
 
 1. Click **+ Add contact point**.
 

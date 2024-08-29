@@ -18,7 +18,7 @@ Now that Grafana knows how to notify us, it’s time to set up an alert rule:
    sum(rate(tns_request_duration_seconds_count[5m])) by(route)
    ```{{copy}}
 
-1. Press **Preview**. You should see some data returned.
+1. Scroll down to bottom of section #2 and click on the **Preview** button. You should see some data returned.
 
 1. Keep expressions “B” and “C” as they are. These expressions (Reduce and Threshold, respectively) come by default when creating a new rule. Expression “B”, selects the last value of our query “A”, while the Threshold expression “C” will check if the last value from expression “B” is above a specific value. In addition, the Threshold expression is the alert rule condition by default. Enter `0.2`{{copy}} as threshold value. [You can read more about queries and conditions here](https://grafana.com/docs/grafana/latest/alerting/fundamentals/alert-rules/queries-conditions/#expression-queries).
 
