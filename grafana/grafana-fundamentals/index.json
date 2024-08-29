@@ -1,0 +1,47 @@
+{
+  "title": "Grafana fundamentals",
+  "description": "Learn how to use Grafana to set up a monitoring solution for your application. You will explore metrics and logs, build and annotate dashboards, and set up alert rules.",
+  "details": {
+    "intro": {
+      "text": "intro.md"
+    },
+    "steps": [
+      {
+        "text": "step1.md"
+      },
+      {
+        "text": "step2.md"
+      },
+      {
+        "text": "step3.md"
+      },
+      {
+        "text": "step4.md"
+      },
+      {
+        "text": "step5.md"
+      },
+      {
+        "text": "step6.md"
+      },
+      {
+        "text": "step7.md"
+      },
+      {
+        "text": "step8.md"
+      },
+      {
+        "text": "step9.md"
+      },
+      {
+        "text": "step10.md"
+      }
+    ],
+    "finish": {
+      "text": "finish.md"
+    }
+  },
+  "backend": {
+    "imageid": "ubuntu"
+  }
+}
