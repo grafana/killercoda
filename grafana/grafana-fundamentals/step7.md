@@ -49,7 +49,7 @@ Manually annotating your dashboard is fine for those single events. For regularl
 
 1. At the top of your dashboard, there is now a toggle to display the results of the newly created annotation query. Press it if it’s not already enabled.
 
-1. Click the **Save dashboard** icon to save the changes.
+1. Click the **Save dashboard** (disk) icon to save the changes.
 
 1. To test the changes, go back to the [sample application]({{TRAFFIC_HOST1_8081}}), post a new link without a URL to generate an error in your browser that says `empty url`{{copy}}.
 
@@ -59,4 +59,4 @@ The log lines returned by your query are now displayed as annotations in the gra
 
 Being able to combine data from multiple data sources in one graph allows you to correlate information from both Prometheus and Loki.
 
-Annotations also work very well alongside alerts. In the next and final section, we will set up an alert for our app `grafana.news`{{copy}} and then we will trigger it. This will provide a quick intro to our new Alerting platform.
+Annotations also work very well alongside alert rules. In the next and final section, we will set up an alert rules for our app `grafana.news`{{copy}} and then we will trigger it. This will provide a quick intro to our new Alerting platform.
