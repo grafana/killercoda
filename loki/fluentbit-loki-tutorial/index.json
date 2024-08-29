@@ -1,0 +1,26 @@
+{
+  "title": "Sending logs to Loki using Fluent Bit tutorial",
+  "description": "Sending logs to Loki using Fluent Bit using the official Fluent Bit Loki output plugin.",
+  "details": {
+    "intro": {
+      "text": "intro.md"
+    },
+    "steps": [
+      {
+        "text": "step1.md"
+      },
+      {
+        "text": "step2.md"
+      },
+      {
+        "text": "step3.md"
+      }
+    ],
+    "finish": {
+      "text": "finish.md"
+    }
+  },
+  "backend": {
+    "imageid": "ubuntu"
+  }
+}
