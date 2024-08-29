@@ -44,9 +44,7 @@ If you’re using your own logs, modify the LogQL query to match your own log me
 
    It should return a single sample with the value 1 at the current timestamp. And, since `1`{{copy}} is above `0`{{copy}}, the alert condition has been met, and the alert rule state is `Firing`{{copy}}.
 
-   <!-- raw HTML omitted -->
-
-   ![A preview of a firing alert](https://grafana.com/media/docs/alerting/alerting-always-firing-alert.png)
+   ![Preview of a firing alert instances](https://grafana.com/media/docs/alerting/expression-loki-alert.png)
 
 ## Set evaluation behavior
 

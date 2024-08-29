@@ -1,6 +1,6 @@
 {
   "title": "How to create alerts with log data",
-  "description": "Learn how to use Loki with Grafana Alerting to keep track of what’s happening in your environment with real logs.",
+  "description": "Learn how to use Loki with Grafana Alerting to keep track of what’s happening in your environment with real log data.",
   "details": {
     "intro": {
       "text": "intro.md"
