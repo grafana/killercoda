@@ -9,6 +9,7 @@
     { "path": "alloy-otel-logs", "title": "Ingesting OpenTelemetry logs to Loki using Alloy"},
     { "path": "alloy-kafka-logs", "title": "Configuring Grafana Alloy to recive logs via Kafka and send them to Loki."},
     { "path": "intro-to-logging-fluentd-fluentbit", "title": "Configuring Fluentd and Fluent bit to send logs to Loki."},
-    { "path": "otel-collector-getting-started", "title": "Getting started with the OpenTelemetry Collector and Loki tutorial"}
+    { "path": "otel-collector-getting-started", "title": "Getting started with the OpenTelemetry Collector and Loki tutorial"},
+    { "path": "fluentbit-loki-tutorial", "title": "Sending logs to Loki using Fluent Bit tutorial"}
     ]
 }
