@@ -58,6 +58,11 @@ jobs:
           "${GITHUB_WORKSPACE}/alloy/docs/sources/tutorials/send-logs-to-loki.md"
           "${GITHUB_WORKSPACE}/killercoda/alloy/send-logs-to-loki"
         working-directory: killercoda/tools/transformer
+      - run: >
+          ./transformer
+          "${GITHUB_WORKSPACE}/grafana/docs/sources/tutorials/grafana-fundamentals/index.md"
+          "${GITHUB_WORKSPACE}/killercoda/grafana/grafana-fundamentals"
+        working-directory: killercoda/tools/transformer
       - run: ./scripts/manage-pr.bash
         env:
           GH_TOKEN: ${{ github.token }}
