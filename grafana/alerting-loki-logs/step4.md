@@ -1,4 +1,4 @@
-# Create an alert ruke
+# Create an alert rule
 
 Next, we’ll establish an [alert rule](http://grafana.com/docs/grafana/next/alerting/fundamentals/alert-rule-evaluation/) within Grafana Alerting to notify us whenever alert rules are triggered and resolved.
 
@@ -42,7 +42,7 @@ If you’re using your own logs, modify the LogQL query to match your own log me
 
 1. Click **Preview** to run the queries.
 
-   It should return alert instances from log lines with a status code that is not 200 (OK), and that has met the alert condition. The condition for the alert rule to fire is any ocurrence that goes over the threshold of `0`{{copy}}. Since the Loki query has returned more than zero alert instances, the alert rule is `Firing`{{copy}}.
+   It should return alert instances from log lines with a status code that is not 200 (OK), and that has met the alert condition. The condition for the alert rule to fire is any occurrence that goes over the threshold of `0`{{copy}}. Since the Loki query has returned more than zero alert instances, the alert rule is `Firing`{{copy}}.
 
    ![Preview of a firing alert instances](https://grafana.com/media/docs/alerting/expression-loki-alert.png)
 
