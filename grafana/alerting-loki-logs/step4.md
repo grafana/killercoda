@@ -18,9 +18,9 @@ In this section, we define queries, expressions (used to manipulate the data), a
 
 1. Paste the query below.
 
-```
-sum by (message)(count_over_time({filename="/var/log/web_requests.log"} != `status=200` | pattern `<_> <message> duration<_>` [10m]))
-```{{copy}}
+   ```
+   sum by (message)(count_over_time({filename="/var/log/web_requests.log"} != "status=200" | pattern "<_> <message> duration<_>" [10m]))
+   ```{{copy}}
 
 This query will count the number of log lines with a status code that is not 200 (OK), then sum the result set by message type using an **instant query** and the time interval indicated in brackets. It uses the LogQL pattern parser to add a new label called `message`{{copy}} that contains the level, method, url, and status from the log line.
 
@@ -42,7 +42,7 @@ If you’re using your own logs, modify the LogQL query to match your own log me
 
 1. Click **Preview** to run the queries.
 
-   It should return a single sample with the value 1 at the current timestamp. And, since `1`{{copy}} is above `0`{{copy}}, the alert condition has been met, and the alert rule state is `Firing`{{copy}}.
+   It should return alert instances from log lines with a status code that is not 200 (OK), and that has met the alert condition. The condition for the alert rule to fire is any ocurrence that goes over the threshold of `0`{{copy}}. Since the Loki query has returned more than zero alert instances, the alert rule is `Firing`{{copy}}.
 
    ![Preview of a firing alert instances](https://grafana.com/media/docs/alerting/expression-loki-alert.png)
 
@@ -56,7 +56,7 @@ An [evaluation group](https://grafana.com/docs/grafana/latest/alerting/fundament
 
 To set up the evaluation:
 
-1. In **Folder**, click **+ New folder** and enter a name. For example: _loki-alerts_. This folder will contain our alerts.
+1. In **Folder**, click **+ New folder** and enter a name. For example: _web-server-alerts_. This folder will contain our alerts.
 
 1. In the **Evaluation group**, repeat the above step to create a new evaluation group. We will name it _1m-evaluation_.
 

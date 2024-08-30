@@ -63,6 +63,11 @@ jobs:
           "${GITHUB_WORKSPACE}/grafana/docs/sources/tutorials/grafana-fundamentals/index.md"
           "${GITHUB_WORKSPACE}/killercoda/grafana/grafana-fundamentals"
         working-directory: killercoda/tools/transformer
+      - run: >
+          ./transformer
+          "${GITHUB_WORKSPACE}/grafana/docs/sources/tutorials/create-alerts-with-logs/index.md"
+          "${GITHUB_WORKSPACE}/killercoda/grafana/alerting-loki-logs"
+        working-directory: killercoda/tools/transformer
       - run: ./scripts/manage-pr.bash
         env:
           GH_TOKEN: ${{ github.token }}
