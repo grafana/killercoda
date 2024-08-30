@@ -3,8 +3,7 @@
   "description": "Learn how to use Grafana Alloy to send logs to Loki",
   "details": {
     "intro": {
-      "text": "intro.md",
-      "foreground": "../../sandbox-scripts/docker-compose.sh"
+      "text": "intro.md"
     },
     "steps": [
       {
