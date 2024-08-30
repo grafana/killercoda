@@ -1,16 +1,16 @@
 # Generate sample logs
 
-1. Download and save a python file that generates logs.
+1. Download and save a Python file that generates logs.
 
-```bash
-wget https://raw.githubusercontent.com/grafana/tutorial-environment/master/app/loki/web-server-logs-simulator.py
-```{{exec}}
+   ```bash
+   wget https://raw.githubusercontent.com/grafana/tutorial-environment/master/app/loki/web-server-logs-simulator.py
+   ```{{exec}}
 
 1. Execute the log-generating Python script.
 
-```bash
-python3 ./web-server-logs-simulator.py | sudo tee -a /var/log/web_requests.log
-```{{exec}}
+   ```bash
+   python3 ./web-server-logs-simulator.py | sudo tee -a /var/log/web_requests.log
+   ```{{exec}}
 
 ## Troubleshooting the script
 
