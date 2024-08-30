@@ -14,6 +14,6 @@ As part of the docker compose manifest, Grafana is now accessible on port 3000. 
 
 1. To stop the services:
 
-   ```
+   ```bash
    docker compose down -v
-   ```{{copy}}
+   ```{{exec}}

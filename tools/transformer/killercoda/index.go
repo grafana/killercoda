@@ -17,6 +17,9 @@ func FromMeta(meta map[any]any) (Index, error) {
 			if text, ok := intro["text"].(string); ok {
 				index.Details.Intro.Text = text
 			}
+			if text, ok := intro["foreground"].(string); ok {
+				index.Details.Intro.Foreground = text
+			}
 		}
 
 		if steps, ok := details["steps"].([]any); ok {
@@ -50,9 +53,9 @@ type Backend struct {
 }
 
 type Details struct {
-	Intro  Text   `json:"intro,omitempty"`
+	Intro  Intro  `json:"intro,omitempty"`
 	Steps  []Text `json:"steps"`
-	Finish Text   `json:"finish,omitempty"`
+	Finish Finish `json:"finish,omitempty"`
 }
 
 type Index struct {
@@ -64,4 +67,14 @@ type Index struct {
 
 type Text struct {
 	Text string `json:"text,omitempty"`
+}
+
+type Intro struct {
+	Text       string `json:"text,omitempty"`
+	Foreground string `json:"foreground,omitempty"`
+}
+
+type Finish struct {
+	Text       string `json:"text,omitempty"`
+	Foreground string `json:"foreground,omitempty"`
 }
