@@ -1,6 +1,6 @@
 # Generate sample logs
 
-1. Download and save a python file that generates logs.
+1. Download and save a Python file that generates logs.
 
    ```bash
    wget https://raw.githubusercontent.com/grafana/tutorial-environment/master/app/loki/web-server-logs-simulator.py
