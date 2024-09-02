@@ -30,7 +30,7 @@ Let’s generate an error, and analyze it with Explore.
    {filename="/var/log/tns-app.log"} |= "error"
    ```{{copy}}
 
-1. Click on the log line that says `level=error msg="empty url"`{{copy}} to see more information about the error.
+1. Click the log line that says `level=error msg="empty url"`{{copy}} to see more information about the error.
 
    > **Note:** If you're in Live mode, clicking logs will not show more information about the error. Instead, stop and exit the live stream, then click the log line there.
 
