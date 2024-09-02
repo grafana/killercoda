@@ -20,6 +20,10 @@ func FromMeta(meta map[any]any) (Index, error) {
 			if text, ok := intro["foreground"].(string); ok {
 				index.Details.Intro.Foreground = text
 			}
+
+			if text, ok := intro["background"].(string); ok {
+				index.Details.Intro.Background = text
+			}
 		}
 
 		if steps, ok := details["steps"].([]any); ok {
@@ -35,6 +39,13 @@ func FromMeta(meta map[any]any) (Index, error) {
 		if finished, ok := details["finish"].(map[any]any); ok {
 			if text, ok := finished["text"].(string); ok {
 				index.Details.Finish.Text = text
+			}
+			if text, ok := finished["foreground"].(string); ok {
+				index.Details.Finish.Foreground = text
+			}
+
+			if text, ok := finished["background"].(string); ok {
+				index.Details.Finish.Background = text
 			}
 		}
 	}
@@ -72,9 +83,11 @@ type Text struct {
 type Intro struct {
 	Text       string `json:"text,omitempty"`
 	Foreground string `json:"foreground,omitempty"`
+	Background string `json:"background,omitempty"`
 }
 
 type Finish struct {
 	Text       string `json:"text,omitempty"`
 	Foreground string `json:"foreground,omitempty"`
+	Background string `json:"background,omitempty"`
 }

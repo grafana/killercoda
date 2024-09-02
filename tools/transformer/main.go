@@ -216,5 +216,107 @@ func writeIndex(dstDirPath string, meta map[any]any, steps int, wroteIntro bool,
 		return fmt.Errorf("couldn't encode index file: %w", err)
 	}
 
+	// Check if forground scripts have been added to the intro or finish within meta
+	// If so, copy the scripts from `sandbox-scripts` to the destination directory
+	if introScript := index.Details.Intro.Foreground; introScript != "" {
+		if err := copyScript(introScript, dstDirPath); err != nil {
+			return fmt.Errorf("couldn't copy intro script: %w", err)
+		}
+	}
+
+	if finishScript := index.Details.Finish.Foreground; finishScript != "" {
+		if err := copyScript(finishScript, dstDirPath); err != nil {
+			return fmt.Errorf("couldn't copy finish script: %w", err)
+		}
+	}
+
+	if finishScript := index.Details.Finish.Background; finishScript != "" {
+		if err := copyScript(finishScript, dstDirPath); err != nil {
+			return fmt.Errorf("couldn't copy finish script: %w", err)
+		}
+	}
+
+	if introScript := index.Details.Intro.Background; introScript != "" {
+		if err := copyScript(introScript, dstDirPath); err != nil {
+			return fmt.Errorf("couldn't copy intro script: %w", err)
+		}
+	}
+
+	// Clean up any scripts which are not part of the index.json
+	if err := cleanUpScripts(dstDirPath, index); err != nil {
+		return fmt.Errorf("couldn't clean up scripts: %w", err)
+	}
+
+	return nil
+}
+
+// Helper function to copy a script from `sandbox-scripts` to the destination directory
+func copyScript(scriptName, dstDirPath string) error {
+	repoPath := "../../sandbox-scripts"
+	sourcePath := filepath.Join(repoPath, scriptName)
+	destPath := filepath.Join(dstDirPath, scriptName)
+
+	sourceFile, err := os.Open(sourcePath)
+	if err != nil {
+		return fmt.Errorf("couldn't open source script file: %w", err)
+	}
+
+	defer sourceFile.Close()
+
+	destFile, err := os.Create(destPath)
+	if err != nil {
+		return fmt.Errorf("couldn't create destination script file: %w", err)
+	}
+	defer destFile.Close()
+
+	if _, err := io.Copy(destFile, sourceFile); err != nil {
+		return fmt.Errorf("couldn't copy script file: %w", err)
+	}
+
+	return nil
+}
+
+// Helper function to clean up any scripts which are not part of the index.json
+func cleanUpScripts(dstDirPath string, index killercoda.Index) error {
+
+	scriptSet := make(map[string]struct{})
+
+	addScript := func(script string) {
+		if script != "" {
+			scriptSet[script] = struct{}{}
+		}
+	}
+
+	addScript(index.Details.Intro.Foreground)
+	addScript(index.Details.Intro.Background)
+	addScript(index.Details.Finish.Foreground)
+	addScript(index.Details.Finish.Background)
+
+	// Walk through the destination directory and remove any .sh scripts which are not part of the index
+	err := filepath.Walk(dstDirPath, func(path string, info os.FileInfo, err error) error {
+		if err != nil {
+			return err
+		}
+
+		if !info.IsDir() && filepath.Ext(path) == ".sh" {
+			relPath, err := filepath.Rel(dstDirPath, path)
+			if err != nil {
+				return err
+			}
+
+			if _, exists := scriptSet[relPath]; !exists {
+				if err := os.Remove(path); err != nil {
+					return fmt.Errorf("couldn't remove script file %s: %w", path, err)
+				}
+			}
+		}
+
+		return nil
+	})
+
+	if err != nil {
+		return fmt.Errorf("error cleaning up scripts: %w", err)
+	}
+
 	return nil
 }

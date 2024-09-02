@@ -288,63 +288,79 @@ To generate a tutorial:
 
 1. A Killercoda maintainer reviews the PR to ensure that the generate tutorial works as expected.
 
-## Scripts and extra course files
+## Adding foreground and background scripts (experimental)
 
-If your tutorial requires scripts or extra files, make sure to manually add them to the tutorial directory in the Killercoda repository. For example, if your tutorial requires a script to run:
+> Note: It is recommended to use `foreground` scripts rather than `background` scripts. This allows the user to see the output of the script. 
 
-1. Add the bash script to the tutorial directory in the Killercoda repository. Refer to the [what-is-loki](../loki/what-is-loki/) tutorial for an example.
-2. Add the script to the desired step within the `index.json` file. Note that `foreground` scripts run in the foreground (seen in terminal), and `background` scripts run in the background (run in background thread). For example:
-   ```json
-   {
-      "title": "What is Loki?",
-      "description": "A sandbox enviroment to introduce Loki to new users.",
-      "details": {
-         "intro": {
-         "text": "intro.md",
-         "foreground": "script1.sh"
-         },
-         "steps": [
-         {
-            "text": "step1.md",
-            "foreground": "script2.sh"
-         }
-         ],
-         "finish": {
-         "text": "finished.md"
-         }
-      },
-      "backend": {
-         "imageid": "ubuntu"
-      }
-   }
+Foreground and background scripts are shell scripts that run during the introduction and finish pages of a tutorial. The scripts are useful for setting up the environment for the tutorial and cleaning up after the tutorial. Scripts are another asset that needs to be maintained, so use them sparingly. A good example of using a script is to update the `docker compose` package before running the tutorial.
 
-   ```
+### Create your script
 
-For extra assets, such as images or configuration files:
-1. Create a directory called `assets` in the tutorial directory.
-2. Add the assets to the `assets` directory.
-3. Add the mount path to the `index.json` file:
-   ```json
-   {
-      "title": "Grafana Basics",
-      "description": "In this demo learn how to install and configure Grafana",
-      "details": {
-         "intro": {
-         "text": "intro.md"
-         },
-         "steps": [],
-         "finish": {
-         "text": "finished.md"
-         },
-         "assets": {
-         "host01": [
-            {"file": "*", "target": "/education"}
-         ]
-         }
-      },
-      "backend": {
-         "imageid": "ubuntu"
-      }
-   }
-   ```
-   Refer to the [grafana-basics](../grafana/grafana-basics/index.json) tutorial for an example.
+Since these scripts are primarily used for preparing the interactive environment, they are stored within the [`sandbox-scripts`](/sandbox-scripts/) directory in the Killercoda repository. Make sure to create your script in this directory and name with a unique name that reflects the purpose of the script. Note if a script already exists that performs the same function, you can reuse it.
+
+Here is an example of a script that updates the `docker-compose` package:
+
+```bash
+sudo install -m 0755 -d /etc/apt/keyrings
+sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
+sudo chmod a+r /etc/apt/keyrings/docker.asc
+echo \
+  "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu \
+  $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | \
+  sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+sudo apt-get update
+sudo apt-get install -y docker-compose-plugin && clear && echo "Setup complete. You may now begin the tutorial."
+```
+
+Note that you should add a message at the end of the script to inform the user that the setup is complete.
+
+### Add the script to the tutorial
+
+To add the script to the tutorial, you need to add the script to the `killercoda` metadata in the source file. Note that we currently only support foreground and background scripts for the introduction and finish pages. These scripts are specified in the `killercoda.details` field in the source file. Lets look at an example:
+
+```yaml
+title: Quick start for Tempo
+menuTitle: Quick start for Tempo
+description: Use Docker to quickly view traces using K-6 and Tempo
+weight: 600
+killercoda:
+  title: Quick start for Tempo
+  description: Use Docker to quickly view traces using K-6 and Tempo
+  details:
+      intro:
+         foreground: docker-compose-update.sh
+  backend:
+    imageid: ubuntu
+```
+
+In the example above, we have added a foreground script to the introduction page. The script is named `docker-compose-update.sh` and is located in the `sandbox-scripts` directory. The script will run when the introduction page is loaded.
+
+Another example is adding a background script to the finish page:
+
+```yaml
+title: Quick start for Tempo
+menuTitle: Quick start for Tempo
+description: Use Docker to quickly view traces using K-6 and Tempo
+weight: 600
+killercoda:
+  title: Quick start for Tempo
+  description: Use Docker to quickly view traces using K-6 and Tempo
+  details:
+      finish:
+         background: docker-compose-cleanup.sh
+  backend:
+    imageid: ubuntu
+```
+
+### Quick FAQ
+
+Here are a few common facts about using foreground and background scripts:
+
+* Any scripts which are not specified in the `killercoda.details` field but exist in the course directory will be **deleted**. This helps us to clean up old scripts that are no longer in use.
+
+* If you want to use the same script for multiple tutorials, you can specify the same script in multiple source files. The script will be copied to the respective tutorial directories.
+
+* The transformer will fail if the script specified in the `killercoda.details` field does not exist in the `sandbox-scripts` directory.
+
+* We currently only support foreground and background scripts for the introduction and finish pages. If you require scripts for other pages, please reach out to us via an issue.
+

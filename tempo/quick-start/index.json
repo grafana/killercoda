@@ -4,7 +4,7 @@
   "details": {
     "intro": {
       "text": "intro.md",
-      "foreground": "setup.sh"
+      "foreground": "docker-compose-update.sh"
     },
     "steps": [
       {
