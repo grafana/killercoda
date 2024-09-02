@@ -45,7 +45,7 @@ Manually annotating your dashboard is fine for those single events. For regularl
 
 1. Click **Apply**. Grafana displays the Annotations list, with your new annotation.
 
-1. Click on your dashboard name to return to your dashboard.
+1. Click your dashboard name to return to your dashboard.
 
 1. At the top of your dashboard, there is now a toggle to display the results of the newly created annotation query. Press it if it’s not already enabled.
 
