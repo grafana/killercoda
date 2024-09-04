@@ -317,7 +317,8 @@ sudo apt-get update
 sudo apt-get install -y docker-compose-plugin && clear && echo "Setup complete. You may now begin the tutorial."
 ```
 
-Note that you should add a message at the end of the script to inform the user that the setup is complete.
+> [!TIP]
+> Add a message at the end of the script to inform the user that the setup is complete.
 
 ### Add the script to the tutorial
 
