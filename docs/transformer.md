@@ -290,9 +290,14 @@ To generate a tutorial:
 
 ## Add foreground and background scripts
 
-> Note: It is recommended to use `foreground` scripts rather than `background` scripts. This allows the user to see the output of the script. 
+Foreground and background scripts are shell scripts that run during the introduction and finish pages of a tutorial.
+The scripts are useful for setting up the environment for the tutorial and cleaning up after the tutorial.
 
-Foreground and background scripts are shell scripts that run during the introduction and finish pages of a tutorial. The scripts are useful for setting up the environment for the tutorial and cleaning up after the tutorial. Scripts are another asset that needs to be maintained, so use them sparingly. A good example of using a script is to update the `docker compose` package before running the tutorial.
+Scripts are another asset that needs to be maintained, so use them sparingly.
+A good example of using a script is to update the Docker Compose package before running the tutorial.
+
+Use foreground scripts when you want to the user to see the script output.
+Use background scripts when you want to hide the output of the script.
 
 ### Create your script
 
