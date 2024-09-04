@@ -301,7 +301,7 @@ Use background scripts when you want to hide the output of the script.
 
 ### Create your script
 
-Since these scripts are primarily used for preparing the interactive environment, they are stored within the [`sandbox-scripts`](/sandbox-scripts/) directory in the Killercoda repository. Make sure to create your script in this directory and name with a unique name that reflects the purpose of the script. Note if a script already exists that performs the same function, you can reuse it.
+Since these scripts are primarily used for preparing the interactive environment, they are stored within the sandbox tutorial in the Killercoda repository. Make sure to run the transformer first to  create your tutorial before adding your script in this generated tutorial directory.
 
 Here is an example of a script that updates the Docker Compose package:
 
@@ -329,6 +329,7 @@ sudo apt-get install -y docker-compose-plugin && clear && echo "Setup complete. 
 
 > [!TIP]
 > Add a message at the end of the script to inform the user that the setup is complete.
+> Due to an issue with how Killercoda runs the script, after an apt-get install command, the script will not continue to run. A work around is to use `&& <Next command>` to force the script to continue.
 
 ### Add the script to the tutorial
 
