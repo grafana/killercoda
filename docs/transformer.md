@@ -362,16 +362,3 @@ killercoda:
   backend:
     imageid: ubuntu
 ```
-
-### Quick FAQ
-
-Here are a few common facts about using foreground and background scripts:
-
-* Any scripts which are not specified in the `killercoda.details` field but exist in the course directory will be **deleted**. This helps us to clean up old scripts that are no longer in use.
-
-* If you want to use the same script for multiple tutorials, you can specify the same script in multiple source files. The script will be copied to the respective tutorial directories.
-
-* The transformer will fail if the script specified in the `killercoda.details` field does not exist in the `sandbox-scripts` directory.
-
-* We currently only support foreground and background scripts for the introduction and finish pages. If you require scripts for other pages, please reach out to us via an issue.
-
