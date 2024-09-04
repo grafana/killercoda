@@ -322,7 +322,12 @@ sudo apt-get install -y docker-compose-plugin && clear && echo "Setup complete. 
 
 ### Add the script to the tutorial
 
-To add the script to the tutorial, you need to add the script to the `killercoda` metadata in the source file. Note that we currently only support foreground and background scripts for the introduction and finish pages. These scripts are specified in the `killercoda.details` field in the source file. Lets look at an example:
+To add the script to the tutorial, you need to add the script to the `killercoda` metadata in the source file. 
+
+> [!NOTE]
+> The transformer tool only supports foreground and background scripts for the introduction and finish pages.
+
+The following example sets the foreground script for the introduction page to be `docker-compose-update.sh`:
 
 ```yaml
 title: Quick start for Tempo
