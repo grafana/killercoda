@@ -303,7 +303,7 @@ Use background scripts when you want to hide the output of the script.
 
 Since these scripts are primarily used for preparing the interactive environment, they are stored within the [`sandbox-scripts`](/sandbox-scripts/) directory in the Killercoda repository. Make sure to create your script in this directory and name with a unique name that reflects the purpose of the script. Note if a script already exists that performs the same function, you can reuse it.
 
-Here is an example of a script that updates the `docker-compose` package:
+Here is an example of a script that updates the Docker Compose package:
 
 ```bash
 sudo install -m 0755 -d /etc/apt/keyrings
