@@ -346,7 +346,7 @@ killercoda:
 
 In the example above, we have added a foreground script to the introduction page. The script is named `docker-compose-update.sh` and is located in the `sandbox-scripts` directory. The script will run when the introduction page is loaded.
 
-Another example is adding a background script to the finish page:
+The following example sets the foreground script for the introduction page to be `docker-compose-cleanup.sh`:
 
 ```yaml
 title: Quick start for Tempo
