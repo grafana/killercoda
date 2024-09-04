@@ -288,7 +288,7 @@ To generate a tutorial:
 
 1. A Killercoda maintainer reviews the PR to ensure that the generate tutorial works as expected.
 
-## Adding foreground and background scripts (experimental)
+## Add foreground and background scripts
 
 > Note: It is recommended to use `foreground` scripts rather than `background` scripts. This allows the user to see the output of the script. 
 
