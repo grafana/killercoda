@@ -3,7 +3,8 @@
   "description": "Use Docker to quickly view traces using K-6 and Tempo",
   "details": {
     "intro": {
-      "text": "intro.md"
+      "text": "intro.md",
+      "foreground": "docker-compose-update.sh"
     },
     "steps": [
       {
