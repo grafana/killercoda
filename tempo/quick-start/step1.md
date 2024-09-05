@@ -18,7 +18,13 @@
    docker compose up -d
    ```{{exec}}
 
-1. Verify that the services are running using `docker compose ps`{{copy}}. You should see something like:
+1. Verify that the services are running.
+
+   ```bash
+   docker compose ps
+   ```{{exec}}
+
+   You should see something like:
 
    ```console
    docker compose ps
