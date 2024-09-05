@@ -1,0 +1,30 @@
+{
+  "title": "Use Grafana Alloy to send metrics to Prometheus",
+  "description": "Learn how to send metrics to Prometheus",
+  "details": {
+    "intro": {
+      "text": "intro.md",
+      "foreground": "previous-tutorial-setup.sh"
+    },
+    "steps": [
+      {
+        "text": "step1.md"
+      },
+      {
+        "text": "step2.md"
+      },
+      {
+        "text": "step3.md"
+      },
+      {
+        "text": "step4.md"
+      }
+    ],
+    "finish": {
+      "text": "finish.md"
+    }
+  },
+  "backend": {
+    "imageid": "ubuntu"
+  }
+}
