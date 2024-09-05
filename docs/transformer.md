@@ -288,63 +288,87 @@ To generate a tutorial:
 
 1. A Killercoda maintainer reviews the PR to ensure that the generate tutorial works as expected.
 
-## Scripts and extra course files
+## Add foreground and background scripts
 
-If your tutorial requires scripts or extra files, make sure to manually add them to the tutorial directory in the Killercoda repository. For example, if your tutorial requires a script to run:
+Foreground and background scripts are shell scripts that run during the introduction and finish pages of a tutorial.
+The scripts are useful for setting up the environment for the tutorial and cleaning up after the tutorial.
 
-1. Add the bash script to the tutorial directory in the Killercoda repository. Refer to the [what-is-loki](../loki/what-is-loki/) tutorial for an example.
-2. Add the script to the desired step within the `index.json` file. Note that `foreground` scripts run in the foreground (seen in terminal), and `background` scripts run in the background (run in background thread). For example:
-   ```json
-   {
-      "title": "What is Loki?",
-      "description": "A sandbox enviroment to introduce Loki to new users.",
-      "details": {
-         "intro": {
-         "text": "intro.md",
-         "foreground": "script1.sh"
-         },
-         "steps": [
-         {
-            "text": "step1.md",
-            "foreground": "script2.sh"
-         }
-         ],
-         "finish": {
-         "text": "finished.md"
-         }
-      },
-      "backend": {
-         "imageid": "ubuntu"
-      }
-   }
+Scripts are another asset that needs to be maintained, so use them sparingly.
+A good example of using a script is to update the Docker Compose package before running the tutorial.
 
-   ```
+Use foreground scripts when you want to the user to see the script output.
+Use background scripts when you want to hide the output of the script.
 
-For extra assets, such as images or configuration files:
-1. Create a directory called `assets` in the tutorial directory.
-2. Add the assets to the `assets` directory.
-3. Add the mount path to the `index.json` file:
-   ```json
-   {
-      "title": "Grafana Basics",
-      "description": "In this demo learn how to install and configure Grafana",
-      "details": {
-         "intro": {
-         "text": "intro.md"
-         },
-         "steps": [],
-         "finish": {
-         "text": "finished.md"
-         },
-         "assets": {
-         "host01": [
-            {"file": "*", "target": "/education"}
-         ]
-         }
-      },
-      "backend": {
-         "imageid": "ubuntu"
-      }
-   }
-   ```
-   Refer to the [grafana-basics](../grafana/grafana-basics/index.json) tutorial for an example.
+### Create your script
+
+Since these scripts are primarily used for preparing the interactive environment, they are stored within the sandbox tutorial in the Killercoda repository. Make sure to run the transformer first to  create your tutorial before adding your script in this generated tutorial directory.
+
+Here is an example of a script that updates the Docker Compose package:
+
+```bash
+#!/bin/sh
+
+set -euf
+# shellcheck disable=SC3040
+(set -o pipefail 2> /dev/null) && set -o pipefail
+
+
+sudo install -m 0755 -d /etc/apt/keyrings
+sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
+sudo chmod a+r /etc/apt/keyrings/docker.asc
+
+ARCH="$(dpkg --print-architecture)"
+VERSION_CODENAME="$(source /etc/os-release && echo "${VERSION_CODENAME}")"
+readonly ARCH VERSION_CODENAME
+
+printf 'deb [arch=%s signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu %s stable' "${ARCH}" "${VERSION_CODENAME}" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+
+sudo apt-get update
+sudo apt-get install -y docker-compose-plugin && clear && echo "Setup complete. You may now begin the tutorial."
+```
+
+> [!TIP]
+> Add a message at the end of the script to inform the user that the setup is complete.
+> Due to an issue with how Killercoda runs the script, after an apt-get install command, the script will not continue to run. A work around is to use `&& <Next command>` to force the script to continue.
+
+### Add the script to the tutorial
+
+To add the script to the tutorial, you need to add the script to the `killercoda` metadata in the source file. 
+
+> [!NOTE]
+> The transformer tool only supports foreground and background scripts for the introduction and finish pages.
+
+The following example sets the foreground script for the introduction page to be `docker-compose-update.sh`:
+
+```yaml
+title: Quick start for Tempo
+menuTitle: Quick start for Tempo
+description: Use Docker to quickly view traces using K-6 and Tempo
+weight: 600
+killercoda:
+  title: Quick start for Tempo
+  description: Use Docker to quickly view traces using K-6 and Tempo
+  details:
+      intro:
+         foreground: docker-compose-update.sh
+  backend:
+    imageid: ubuntu
+```
+
+
+The following example sets the foreground script for the introduction page to be `docker-compose-cleanup.sh`:
+
+```yaml
+title: Quick start for Tempo
+menuTitle: Quick start for Tempo
+description: Use Docker to quickly view traces using K-6 and Tempo
+weight: 600
+killercoda:
+  title: Quick start for Tempo
+  description: Use Docker to quickly view traces using K-6 and Tempo
+  details:
+      finish:
+         background: docker-compose-cleanup.sh
+  backend:
+    imageid: ubuntu
+```

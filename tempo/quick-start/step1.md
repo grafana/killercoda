@@ -15,13 +15,19 @@
 1. Start the services defined in the docker-compose file:
 
    ```bash
-   docker-compose up -d
+   docker compose up -d
    ```{{exec}}
 
-1. Verify that the services are running using `docker-compose ps`{{copy}}. You should see something like:
+1. Verify that the services are running.
+
+   ```bash
+   docker compose ps
+   ```{{exec}}
+
+   You should see something like:
 
    ```console
-   docker-compose ps
+   docker compose ps
    NAME                 COMMAND                  SERVICE             STATUS              PORTS
    local-grafana-1      "/run.sh"                grafana             running             0.0.0.0:3000->3000/tcp
    local-k6-tracing-1   "/k6-tracing run /ex…"   k6-tracing          running

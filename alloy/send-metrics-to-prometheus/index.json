@@ -1,10 +1,10 @@
 {
-  "title": "Quick start for Tempo",
-  "description": "Use Docker to quickly view traces using K-6 and Tempo",
+  "title": "Use Grafana Alloy to send metrics to Prometheus",
+  "description": "Learn how to send metrics to Prometheus",
   "details": {
     "intro": {
       "text": "intro.md",
-      "foreground": "docker-compose-update.sh"
+      "foreground": "previous-tutorial-setup.sh"
     },
     "steps": [
       {
@@ -12,6 +12,12 @@
       },
       {
         "text": "step2.md"
+      },
+      {
+        "text": "step3.md"
+      },
+      {
+        "text": "step4.md"
       }
     ],
     "finish": {
