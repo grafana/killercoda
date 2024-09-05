@@ -108,4 +108,4 @@ sudo sed -i -e 's/CUSTOM_ARGS=""/CUSTOM_ARGS="--server.http.listen-addr=0.0.0.0:
 sudo systemctl enable alloy && \
 sudo systemctl start alloy.service && \
 clear && \
-echo "Alloy has been installed. You may now start the tutorial."
+echo "Installation script has now been completed. You may now begin the tutorial."
