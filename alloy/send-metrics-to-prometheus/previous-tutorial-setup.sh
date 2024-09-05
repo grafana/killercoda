@@ -92,6 +92,9 @@ echo "docker-compose.yml has been created."
 echo "$alloy_content" > config.alloy
 echo "config.alloy has been created."
 
+# Docker-compose up
+docker-compose up -d
+
 # Install Alloy
 sudo apt install gpg -y && \
 sudo mkdir -p /etc/apt/keyrings/ && \
