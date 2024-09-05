@@ -1,5 +1,6 @@
 {
     "items": [
-    { "path": "send-logs-to-loki", "title": "Use Grafana Alloy to send logs to Loki"}
+    { "path": "send-logs-to-loki", "title": "Use Grafana Alloy to send logs to Loki"},
+    { "path": "send-metrics-to-prometheus", "title": "Use Grafana Alloy to send metrics to Prometheus"}
     ]
 }
