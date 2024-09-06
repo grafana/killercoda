@@ -1,8 +1,17 @@
 package main
 
 import (
+	"bytes"
 	"fmt"
 	"regexp"
+
+	"golang.org/x/text/cases"
+	"golang.org/x/text/language"
+)
+
+var (
+	admonitionRegexp = regexp.MustCompile(`(?s){{[<%] * admonition +type="(?P<type>[^"]+)" *[%>]}}(?P<body>.+?){{[<%] */admonition *[%>]}}`)
+	docsIgnoreRegexp = regexp.MustCompile(`{{< *?/?docs/ignore *?>}}\n?`)
 )
 
 // Preprocessor processes raw Markdown source file bytes.
@@ -76,4 +85,55 @@ func (sp *SubstitutionPreprocessor) Process(src []byte) ([]byte, error) {
 	}
 
 	return src, nil
+}
+
+type AdmonitionPreprocessor struct{}
+
+func NewAdmonitionPreprocessor() *AdmonitionPreprocessor {
+	return &AdmonitionPreprocessor{}
+}
+
+func (ap *AdmonitionPreprocessor) Process(src []byte) ([]byte, error) {
+	return admonitionRegexp.ReplaceAllFunc(src, func(match []byte) []byte {
+		matches := admonitionRegexp.FindSubmatch(match)
+		typ := matches[admonitionRegexp.SubexpIndex("type")]
+		body := matches[admonitionRegexp.SubexpIndex("body")]
+
+		var b bytes.Buffer
+		b.Write([]byte("> **" + cases.Title(language.English).String(string(typ)) + ":**\n"))
+
+		prevLineEmpty := true
+		if len(body) > 0 {
+			lines := bytes.Split(bytes.TrimSpace(body), []byte("\n"))
+			for i, line := range lines {
+				if len(line) > 0 {
+					b.Write([]byte(">"))
+					b.Write([]byte(" "))
+					b.Write(line)
+					if i < len(lines)-1 {
+						b.Write([]byte("\n"))
+					}
+					prevLineEmpty = false
+				} else if !prevLineEmpty {
+					b.Write([]byte(">"))
+					if i < len(lines)-1 {
+						b.Write([]byte("\n"))
+					}
+					prevLineEmpty = true
+				}
+			}
+		}
+
+		return b.Bytes()
+	}), nil
+}
+
+type DocsIgnorePreprocessor struct{}
+
+func NewDocsIgnorePreprocessor() *DocsIgnorePreprocessor {
+	return &DocsIgnorePreprocessor{}
+}
+
+func (ap *DocsIgnorePreprocessor) Process(src []byte) ([]byte, error) {
+	return docsIgnoreRegexp.ReplaceAll(src, []byte{}), nil
 }

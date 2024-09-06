@@ -223,6 +223,29 @@ The transformer tool transforms some Grafana documentation syntax into equivalen
 
 The transformer tool transforms the following syntax:
 
+### `admonition` shortcode
+
+The tool transforms the [`admonition` shortcode](https://grafana.com/docs/writers-toolkit/write/shortcodes/#admonition) into a blockquote.
+
+The following Grafana documentation source:
+
+```markdown
+{{< admonition type="<TYPE>" >}}
+<FIRST PARAGRAPH>
+
+<SECOND PARAGRAPH>
+{{< /admontion >}}
+```
+
+becomes the following Killercoda Markdown:
+
+```markdown
+> **<TYPE>**:
+> <FIRST PARAGRAPH>
+>
+> <SECOND PARAGRAPH>
+```
+
 ### `figure` shortcode
 
 The tool transforms the [`figure` shortcode](https://grafana.com/docs/writers-toolkit/write/shortcodes/#figure) into an inline Markdown image.

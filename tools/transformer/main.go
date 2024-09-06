@@ -99,12 +99,12 @@ func transform(srcFilePath, dstDirPath string) error {
 		return fmt.Errorf("couldn't find metadata in source file front matter")
 	}
 
-	pp, err := NewSubstitutionPreprocessorFromMeta(meta)
+	sp, err := NewSubstitutionPreprocessorFromMeta(meta)
 	if err != nil {
 		return fmt.Errorf("couldn't create substitution preprocessor: %w", err)
 	}
 
-	pp.AddSubstitution(docsIgnoreRegexp, []byte(""))
+	pp := NewComposedPreprocessor(sp, NewAdmonitionPreprocessor(), NewDocsIgnorePreprocessor())
 
 	data, err = pp.Process(data)
 	if err != nil {
@@ -180,8 +180,6 @@ func transform(srcFilePath, dstDirPath string) error {
 
 	return errs
 }
-
-var docsIgnoreRegexp = regexp.MustCompile("{{< *?/?docs/ignore *?>}}\n?")
 
 func writeIndex(dstDirPath string, meta map[any]any, steps int, wroteIntro bool, wroteFinish bool) error {
 	index, err := killercoda.FromMeta(meta)

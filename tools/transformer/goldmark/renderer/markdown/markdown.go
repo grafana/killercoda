@@ -53,10 +53,16 @@ func isNewline(writee any) bool {
 	}
 }
 
-// write writes the current Markdown indentation prefix before dispatching writes for supported writees to the buf writer.
+// write writes the current Markdown prefix before dispatching writes for supported writees to the buf writer.
 func (r *Renderer) write(w util.BufWriter, writee any) {
-	if r.lastWrittenByte == '\n' && !isNewline(writee) {
-		_, _ = w.WriteString(strings.Repeat(" ", r.indent))
+	if r.lastWrittenByte == '\n' {
+		if isNewline(writee) {
+			// If we are writing newlines to separate paragraphs, we don't want trailing spaces.
+			// For example, if we are writing a blockquote paragraph newline, we want '>\n' instead of '> \n'.
+			w.WriteString(strings.TrimSpace(r.prefix))
+		} else {
+			w.WriteString(r.prefix)
+		}
 	}
 
 	switch writee := writee.(type) {
@@ -140,8 +146,16 @@ func WithKillercodaActions() interface {
 type Renderer struct {
 	Config
 
-	indent          int
+	prefix          string
 	lastWrittenByte byte
+}
+
+func (r *Renderer) pushPrefix(str string) {
+	r.prefix += str
+}
+
+func (r *Renderer) popPrefix(str string) {
+	r.prefix = strings.TrimSuffix(r.prefix, str)
 }
 
 // NewRenderer configures a new Goldmark renderer for Markdown.
@@ -149,7 +163,7 @@ func NewRenderer(opts ...Option) *Renderer {
 	renderer := &Renderer{
 		Config: NewConfig(),
 
-		indent:          0,
+		prefix:          "",
 		lastWrittenByte: 0,
 	}
 
