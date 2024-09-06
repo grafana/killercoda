@@ -68,6 +68,11 @@ jobs:
           "${GITHUB_WORKSPACE}/grafana/docs/sources/tutorials/create-alerts-with-logs/index.md"
           "${GITHUB_WORKSPACE}/killercoda/grafana/alerting-loki-logs"
         working-directory: killercoda/tools/transformer
+      - run: >
+          ./transformer
+          "${GITHUB_WORKSPACE}/alloy/docs/sources/tutorials/send-metrics-to-prometheus.md"
+          "${GITHUB_WORKSPACE}/killercoda/alloy/send-metrics-to-prometheus"
+        working-directory: killercoda/tools/transformer
       - run: ./scripts/manage-pr.bash
         env:
           GH_TOKEN: ${{ github.token }}
