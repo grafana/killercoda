@@ -8,33 +8,31 @@ import (
 )
 
 func (r *Renderer) renderBlockquote(w util.BufWriter, source []byte, node ast.Node, entering bool) (ast.WalkStatus, error) {
+	const prefix = "> "
 	if entering {
-		for c := node.FirstChild(); c != nil; c = c.NextSibling() {
-			for i := 0; i < c.Lines().Len(); i++ {
-				line := c.Lines().At(i)
-
-				r.write(w, "> ")
-				r.write(w, line.Value(source))
-			}
-		}
-
-		return ast.WalkSkipChildren, nil
+		r.write(w, prefix)
+		r.pushPrefix(prefix)
 	} else {
-		r.write(w, '\n')
+		r.popPrefix(prefix)
+		if node.NextSibling() != nil {
+			r.write(w, '\n')
+		}
 	}
 
 	return ast.WalkContinue, nil
 }
 
 func (r *Renderer) renderCodeBlock(w util.BufWriter, source []byte, node ast.Node, entering bool) (ast.WalkStatus, error) {
+	const indent = "    "
+
 	n := node.(*ast.CodeBlock)
 
 	if entering {
-		r.indent += 4
-		r.write(w, "    ")
+		r.write(w, indent)
+		r.pushPrefix(indent)
 		r.writeLines(w, source, n)
 	} else {
-		r.indent -= 4
+		r.popPrefix(indent)
 
 		if node.NextSibling() != nil {
 			r.write(w, '\n')
@@ -132,18 +130,16 @@ func (r *Renderer) renderList(w util.BufWriter, _ []byte, node ast.Node, enterin
 }
 
 func (r *Renderer) renderListItem(w util.BufWriter, _ []byte, node ast.Node, entering bool) (ast.WalkStatus, error) {
-	marker := "- "
-	indent := 2
+	marker, indent := "- ", "  "
 	if node.Parent().(*ast.List).IsOrdered() {
-		marker = "1. "
-		indent = 3
+		marker, indent = "1. ", "   "
 	}
 
 	if entering {
 		r.write(w, marker)
-		r.indent += indent
+		r.pushPrefix(indent)
 	} else {
-		r.indent -= indent
+		r.popPrefix(indent)
 
 		if node.NextSibling() != nil {
 			r.write(w, '\n')

@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bytes"
 	"fmt"
 	"net/url"
 	"os"
@@ -18,6 +19,8 @@ var (
 	errNoEndMarker            = fmt.Errorf("no matching end marker found for start marker")
 	versionSubstitutionRegexp = regexp.MustCompile(`<.+VERSION>`)
 	kvPairRegexp              = regexp.MustCompile(`([a-zA-Z_]+)=(?:"(.*?[^\\])"|([^ ].+?))`)
+	admonitionOpenRegexp      = regexp.MustCompile(`{{< admonition type="[^"]+?" >}}`)
+	admonitionCloseRegexp     = regexp.MustCompile(`{{< /admonition >}}`)
 )
 
 func isMarker(node ast.Node, source []byte, marker string) bool {
@@ -29,7 +32,7 @@ func isMarker(node ast.Node, source []byte, marker string) bool {
 
 	case *ast.HTMLBlock, *ast.Paragraph:
 		raw := rawText(node, source)
-		if strings.TrimSpace(raw) == marker {
+		if string(bytes.TrimSpace(raw)) == marker {
 			return true
 		}
 	}
@@ -37,17 +40,17 @@ func isMarker(node ast.Node, source []byte, marker string) bool {
 	return false
 }
 
-func rawText(node ast.Node, source []byte) string {
-	builder := &strings.Builder{}
+func rawText(node ast.Node, source []byte) []byte {
+	buf := &bytes.Buffer{}
 
 	if node.Type() == ast.TypeBlock {
 		for i := 0; i < node.Lines().Len(); i++ {
 			line := node.Lines().At(i)
-			builder.Write(line.Value(source))
+			buf.Write(line.Value(source))
 		}
 	}
 
-	return builder.String()
+	return buf.Bytes()
 }
 
 type ActionTransformer struct {
@@ -127,43 +130,20 @@ func (t *ActionTransformer) Transform(node *ast.Document, reader text.Reader, _ 
 	}
 }
 
-type AdmonitionTransformer struct{}
-
-func (t *AdmonitionTransformer) Extend(md goldmark.Markdown) {
-	md.Parser().AddOptions(
-		parser.WithASTTransformers(
-			util.Prioritized(t, 0)))
-}
-
-// Transform implements the parser.ASTTransformer interface and replaces all admonition shortcodes with blockquotes.
-func (t *AdmonitionTransformer) Transform(node *ast.Document, reader text.Reader, _ parser.Context) {
-	source := reader.Source()
-
-	err := ast.Walk(node, func(node ast.Node, entering bool) (ast.WalkStatus, error) {
-		if !entering {
-			return ast.WalkContinue, nil
-		}
-
-		if paragraph, ok := node.(*ast.Paragraph); ok {
-			raw := strings.TrimSpace(rawText(paragraph, source))
-
-			if strings.HasPrefix(raw, "{{<") && strings.HasSuffix(raw, ">}}") && strings.Contains(raw, "admonition") {
-				panic("TODO: implement")
-			}
-		}
-
-		return ast.WalkContinue, nil
-	})
-	if err != nil {
-		fmt.Fprintf(os.Stderr, "Error transforming AST: %v\n", err)
+func parseShortcodeArgs(text []byte) map[string]string {
+	args := make(map[string]string)
+	for _, match := range kvPairRegexp.FindAllSubmatch(text, -1) {
+		args[string(match[1])] = string(match[2])
 	}
+
+	return args
 }
 
 func isFigureShortcode(node ast.Node, source []byte) bool {
 	if paragraph, ok := node.(*ast.Paragraph); ok {
-		raw := strings.TrimSpace(rawText(paragraph, source))
+		raw := bytes.TrimSpace(rawText(paragraph, source))
 
-		return strings.HasPrefix(raw, "{{<") && strings.HasSuffix(raw, ">}}") && strings.Contains(raw, "figure")
+		return bytes.HasPrefix(raw, []byte("{{<")) && bytes.HasSuffix(raw, []byte(">}}")) && bytes.Contains(raw, []byte("figure"))
 	}
 
 	return false
@@ -211,12 +191,7 @@ func (t *FigureTransformer) Transform(node *ast.Document, reader text.Reader, _ 
 		}
 
 		if isFigureShortcode(node, source) {
-			raw := strings.TrimSpace(rawText(node, source))
-
-			args := make(map[string]string)
-			for _, match := range kvPairRegexp.FindAllStringSubmatch(raw, -1) {
-				args[match[1]] = match[2]
-			}
+			args := parseShortcodeArgs(bytes.TrimSpace(rawText(node, source)))
 
 			replacement := imageFromFigure(args)
 
