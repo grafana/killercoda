@@ -216,6 +216,29 @@ The end marker is:
 <!-- INTERACTIVE page <FILENAME> END -->
 ```
 
+## Transformations
+
+The Grafana documentation source uses some syntax that isn't supported by Killercoda.
+The transformer tool transforms some Grafana documentation syntax into equivalent Killercoda Markdown.
+
+The transformer tool transforms the following syntax:
+
+### `figure` shortcode
+
+The tool transforms the [`figure` shortcode](https://grafana.com/docs/writers-toolkit/write/shortcodes/#figure) into an inline Markdown image.
+
+The following Grafana documentation source:
+
+```markdown
+{{< figure src="<URL>" alt="<ALT TEXT" >}}
+```
+
+becomes the following Killercoda Markdown:
+
+```markdown
+![<ALT TEXT](URL)
+```
+
 ## Generate a tutorial
 
 <!-- vale Grafana.Timeless = NO -->
