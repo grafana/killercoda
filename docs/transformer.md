@@ -9,14 +9,14 @@ To use the transformer tool, you need to add Killercoda metadata to the source f
 You specify Killercoda tutorial metadata in the source file front matter as the value for the `killercoda` field.
 The tool uses the metadata to perform preprocessing on the source file and generate the Killercoda configuration files for the tutorial.
 
-| Field                                    | Type   | Description                                                                                                                                                          |
-| ---------------------------------------- | ------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `killercoda.backend.imageid`             | String | The name of the Killercoda environment's backend image. Supported values include `ubuntu`.                                                                           |
-| `killercoda.description`                 | String | The description displayed on the Killercoda website                                                                                                                  |
-| `killercoda.details.finish.text`         | String | The filename of the finish page Markdown source in the grafana/killercoda repository. A [finish directive](#finish) in the documentation source overrides this.      |
-| `killercoda.details.intro.text`          | String | The filename of the introduction page Markdown source in the grafana/killercoda repository. An [intro directive](#intro) in the documentation source overrides this. |
-| `killercoda.preprocessing.substitutions` | Array  | Substitute matches of a regular expression with a replacement. For more information, refer to [Substitutions](#substitutions).                                       |
-| `killercoda.title`                       | String | The title for the tutorial on the Killercoda website.                                                                                                                |
+| Field                                    | Type   | Description                                                                                                                                                            |
+| ---------------------------------------- | ------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `killercoda.backend.imageid`             | String | The name of the Killercoda environment's backend image. Supported values include `ubuntu`.                                                                             |
+| `killercoda.description`                 | String | The description displayed on the Killercoda website                                                                                                                    |
+| `killercoda.details.finish.text`         | String | The filename of the finish page Markdown source in the `grafana/killercoda` repository. A [finish directive](#finish) in the documentation source overrides this.      |
+| `killercoda.details.intro.text`          | String | The filename of the introduction page Markdown source in the `grafana/killercoda` repository. An [intro directive](#intro) in the documentation source overrides this. |
+| `killercoda.preprocessing.substitutions` | Array  | Substitute matches of a regular expression with a replacement. For more information, refer to [Substitutions](#substitutions).                                         |
+| `killercoda.title`                       | String | The title for the tutorial on the Killercoda website.                                                                                                                  |
 
 The following YAML demonstrates a number of the fields:
 
@@ -71,10 +71,16 @@ The end marker is:
 <!-- INTERACTIVE exec END -->
 ```
 
-> #### NOTE
+<!-- vale Grafana.Acronyms = NO -->
+<!-- Vale doesn't understand GitHub Flavored Markdown alert syntax -->
+
+> [!NOTE]
 >
 > By default, the tool makes `bash` fenced code blocks executable so you don't need `<!-- INTERACTIVE exec START/STOP -->` directives for bash code blocks.
 > You can override this behavior with the `<!-- INTERACTIVE copy START/STOP -->` directives which take precedence over the default behavior.
+
+<!-- vale Grafana.Acronyms = YES -->
+
 #### Examples
 
 ````markdown
@@ -115,9 +121,14 @@ The end marker is:
 <!-- INTERACTIVE copy END -->
 ```
 
+<!-- vale Grafana.Acronyms = NO -->
+<!-- Vale doesn't understand GitHub Flavored Markdown alert syntax -->
+
 > [!NOTE]
 > By default, the tool makes all fenced code blocks other than `bash` copyable so you don't need `<!-- INTERACTIVE copy START/STOP -->` directives for those code blocks.
 > You can override this behavior with the `<!-- INTERACTIVE exec START/STOP -->` directives which take precedence over the default behavior.
+
+<!-- vale Grafana.Acronyms = YES -->
 
 #### Examples
 
@@ -127,6 +138,7 @@ The end marker is:
 ```bash
 echo 'Hello, world!'
 ```
+
 <!-- INTERACTIVE copy END -->
 ````
 
@@ -141,7 +153,6 @@ echo 'Hello, world!'
 ````
 
 <!-- prettier-ignore-end -->
-
 
 ### Ignore
 
@@ -205,10 +216,37 @@ The end marker is:
 <!-- INTERACTIVE page <FILENAME> END -->
 ```
 
+## Transformations
+
+The Grafana documentation source uses some syntax that isn't supported by Killercoda.
+The transformer tool transforms some Grafana documentation syntax into equivalent Killercoda Markdown.
+
+The transformer tool transforms the following syntax:
+
+### `figure` shortcode
+
+The tool transforms the [`figure` shortcode](https://grafana.com/docs/writers-toolkit/write/shortcodes/#figure) into an inline Markdown image.
+
+The following Grafana documentation source:
+
+```markdown
+{{< figure src="<URL>" alt="<ALT TEXT" >}}
+```
+
+becomes the following Killercoda Markdown:
+
+```markdown
+![<ALT TEXT](URL)
+```
+
 ## Generate a tutorial
+
+<!-- vale Grafana.Timeless = NO -->
 
 You can generate a new tutorial from existing documentation using the transformer tool.
 After generation, a [GitHub Actions workflow](./.github/workflows/regenerate-tutorials) updates the tutorial when the documentation source changes.
+
+<!-- vale Grafana.Timeless = YES -->
 
 ### Before you begin
 
@@ -218,12 +256,12 @@ After generation, a [GitHub Actions workflow](./.github/workflows/regenerate-tut
 
 To generate a tutorial:
 
-1. In the source repository, check out a new branch.
+1. In the source repository, create a branch.
 
    Give the branch a name that reflects the planned changes.
    For example, `2024-06-killercoda-tutorial-for-loki-quickstart`.
 
-1. In the Killercoda repository, check out a new branch.
+1. In the Killercoda repository, create a branch.
 
    For convenience, name the branch the same as you did in the source repository.
 
@@ -293,7 +331,7 @@ To generate a tutorial:
 Foreground and background scripts are shell scripts that run during the introduction and finish pages of a tutorial.
 The scripts are useful for setting up the environment for the tutorial and cleaning up after the tutorial.
 
-Scripts are another asset that needs to be maintained, so use them sparingly.
+Scripts are another asset that you must maintain, so use them sparingly.
 A good example of using a script is to update the Docker Compose package before running the tutorial.
 
 Use foreground scripts when you want to the user to see the script output.
@@ -301,7 +339,8 @@ Use background scripts when you want to hide the output of the script.
 
 ### Create your script
 
-Since these scripts are primarily used for preparing the interactive environment, they are stored within the sandbox tutorial in the Killercoda repository. Make sure to run the transformer first to  create your tutorial before adding your script in this generated tutorial directory.
+Since these scripts are primarily used for preparing the interactive environment, they're stored within the sandbox tutorial in the Killercoda repository.
+Make sure to run the transformer first to create your tutorial before adding your script in this generated tutorial directory.
 
 Here is an example of a script that updates the Docker Compose package:
 
@@ -327,16 +366,27 @@ sudo apt-get update
 sudo apt-get install -y docker-compose-plugin && clear && echo "Setup complete. You may now begin the tutorial."
 ```
 
+<!-- vale Grafana.Acronyms = NO -->
+<!-- Vale doesn't understand GitHub Flavored Markdown alert syntax -->
+
 > [!TIP]
 > Add a message at the end of the script to inform the user that the setup is complete.
-> Due to an issue with how Killercoda runs the script, after an apt-get install command, the script will not continue to run. A work around is to use `&& <Next command>` to force the script to continue.
+> Due to an issue with how Killercoda runs the script, the script after `apt-get install` isn't run.
+> A work around is to use `&& <NEXT COMMAND>` to force the script to continue.
+
+<!-- vale Grafana.Acronyms = YES -->
 
 ### Add the script to the tutorial
 
-To add the script to the tutorial, you need to add the script to the `killercoda` metadata in the source file. 
+To add the script to the tutorial, you need to add the script to the `killercoda` metadata in the source file.
+
+<!-- vale Grafana.Acronyms = NO -->
+<!-- Vale doesn't understand GitHub Flavored Markdown alert syntax -->
 
 > [!NOTE]
 > The transformer tool only supports foreground and background scripts for the introduction and finish pages.
+
+<!-- vale Grafana.Acronyms = YES -->
 
 The following example sets the foreground script for the introduction page to be `docker-compose-update.sh`:
 
@@ -349,12 +399,11 @@ killercoda:
   title: Quick start for Tempo
   description: Use Docker to quickly view traces using K-6 and Tempo
   details:
-      intro:
-         foreground: docker-compose-update.sh
+    intro:
+      foreground: docker-compose-update.sh
   backend:
     imageid: ubuntu
 ```
-
 
 The following example sets the foreground script for the introduction page to be `docker-compose-cleanup.sh`:
 
@@ -367,8 +416,8 @@ killercoda:
   title: Quick start for Tempo
   description: Use Docker to quickly view traces using K-6 and Tempo
   details:
-      finish:
-         background: docker-compose-cleanup.sh
+    finish:
+      background: docker-compose-cleanup.sh
   backend:
     imageid: ubuntu
 ```
