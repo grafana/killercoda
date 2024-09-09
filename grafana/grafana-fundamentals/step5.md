@@ -32,6 +32,6 @@ Let’s generate an error, and analyze it with Explore.
 
 1. Click the log line that says `level=error msg="empty url"`{{copy}} to see more information about the error.
 
-   > **Note:** If you're in Live mode, clicking logs will not show more information about the error. Instead, stop and exit the live stream, then click the log line there.
+   > **Note:** If you’re in Live mode, clicking logs will not show more information about the error. Instead, stop and exit the live stream, then click the log line there.
 
 Logs are helpful for understanding what went wrong. Later in this tutorial, you’ll see how you can correlate logs with metrics from Prometheus to better understand the context of the error.
