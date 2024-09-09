@@ -201,7 +201,7 @@ To see the alert firing we can introduce an outage in the Grafana Mimir cluster:
 
 1. Abruptly terminate one of the three Grafana Mimir instances:
    ```bash
-   docker-compose kill mimir-3
+   docker compose kill mimir-3
    ```
 1. Open [Grafana Alerting](http://localhost:9000/alerting/list) and check out the state of the alert `MimirNotRunning`,
    which should switch to "Pending" state in about one minute and to "Firing" state after another minute. _Note: since we abruptly

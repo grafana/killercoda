@@ -31,7 +31,7 @@ To see the alert firing we can introduce an outage in the Grafana Mimir cluster:
 
 1. Abruptly terminate one of the three Grafana Mimir instances:
    ```bash
-   docker-compose kill mimir-3
+   docker compose kill mimir-3
    ```{{exec}}
 
 1. Open [Grafana Alerting]({{TRAFFIC_HOST1_9000}}/alerting/list) and check out the state of the alert `MimirNotRunning`{{copy}},
