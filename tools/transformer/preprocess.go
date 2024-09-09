@@ -161,6 +161,10 @@ func (ap *AdmonitionPreprocessor) Process(src []byte) ([]byte, error) {
 
 		for i, definition := range referenceLinkDefinitions {
 			replacement.Write([]byte("\n"))
+
+			for i := 0; i < observedIndentation; i++ {
+				replacement.Write([]byte(" "))
+			}
 			replacement.Write([]byte(definition))
 
 			if i == len(referenceLinkDefinitions)-1 {
