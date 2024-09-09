@@ -10,7 +10,7 @@ import (
 )
 
 var (
-	admonitionRegexp = regexp.MustCompile(`(?s){{[<%] * admonition +type="(?P<type>[^"]+)" *[%>]}}(?P<body>.+?){{[<%] */admonition *[%>]}}\n?`)
+	admonitionRegexp = regexp.MustCompile(`(?s){{[<%] * admonition +type="(?P<type>[^"]+)" *[%>]}}(?P<body>.+?){{[<%] */ *admonition *[%>]}}\n?`)
 	docsIgnoreRegexp = regexp.MustCompile(`{{< *?/?docs/ignore *?>}}\n?`)
 	// referenceLinkDefinitionRegexp is a regular expression that matches single line reference link definitions.
 	// https://spec.commonmark.org/0.31.2/#link-reference-definitions

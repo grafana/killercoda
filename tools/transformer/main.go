@@ -69,6 +69,7 @@ func writeFile(md goldmark.Markdown, dstDirPath, filename string, data []byte) e
 	if err != nil {
 		return fmt.Errorf("couldn't create intro file: %w", err)
 	}
+	defer out.Close()
 
 	if err := md.Renderer().Render(out, data, root); err != nil {
 		return fmt.Errorf("couldn't render intro output: %w", err)
@@ -109,6 +110,10 @@ func transform(srcFilePath, dstDirPath string) error {
 	data, err = pp.Process(data)
 	if err != nil {
 		return fmt.Errorf("couldn't process substitutions: %w", err)
+	}
+
+	if err := os.WriteFile(filepath.Join(dstDirPath, "preprocessed.md"), data, os.ModePerm); err != nil {
+		return fmt.Errorf("couldn't create intro file: %w", err)
 	}
 
 	var (
