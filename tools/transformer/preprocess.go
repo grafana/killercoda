@@ -10,7 +10,7 @@ import (
 )
 
 var (
-	admonitionRegexp = regexp.MustCompile(`(?s){{[<%] * admonition +type="(?P<type>[^"]+)" *[%>]}}(?P<body>.+?){{[<%] */admonition *[%>]}}`)
+	admonitionRegexp = regexp.MustCompile(`(?s){{[<%] * admonition +type="(?P<type>[^"]+)" *[%>]}}(?P<body>.+?){{[<%] */admonition *[%>]}}\n?`)
 	docsIgnoreRegexp = regexp.MustCompile(`{{< *?/?docs/ignore *?>}}\n?`)
 )
 
@@ -99,28 +99,46 @@ func (ap *AdmonitionPreprocessor) Process(src []byte) ([]byte, error) {
 		typ := matches[admonitionRegexp.SubexpIndex("type")]
 		body := matches[admonitionRegexp.SubexpIndex("body")]
 
-		var b bytes.Buffer
+		var b, tmp bytes.Buffer
 		b.Write([]byte("> **" + cases.Title(language.English).String(string(typ)) + ":**\n"))
 
-		prevLineEmpty := true
-		if len(body) > 0 {
-			lines := bytes.Split(bytes.TrimSpace(body), []byte("\n"))
-			for i, line := range lines {
-				if len(line) > 0 {
-					b.Write([]byte(">"))
-					b.Write([]byte(" "))
-					b.Write(line)
-					if i < len(lines)-1 {
-						b.Write([]byte("\n"))
-					}
-					prevLineEmpty = false
-				} else if !prevLineEmpty {
-					b.Write([]byte(">"))
-					if i < len(lines)-1 {
-						b.Write([]byte("\n"))
-					}
-					prevLineEmpty = true
+		defaultIndent := 0
+		newParagraph := true
+
+		lines := bytes.Split(body, []byte("\n"))
+		for i, line := range lines {
+			trimmed := bytes.TrimSpace(line)
+
+			if len(trimmed) > 0 {
+				indent := 0
+				for ; indent < len(line) && line[indent] == ' '; indent++ {
+					tmp.Write([]byte(" "))
 				}
+				defaultIndent = indent
+
+				tmp.Write([]byte(">"))
+				tmp.Write([]byte(" "))
+				tmp.Write(line[indent:])
+
+				if i < len(lines)-1 {
+					tmp.Write([]byte("\n"))
+				}
+
+				b.Write(tmp.Bytes())
+				tmp.Reset()
+
+				newParagraph = false
+
+				continue
+			}
+
+			if !newParagraph && i < len(lines)-1 {
+				for i := 0; i < defaultIndent; i++ {
+					tmp.Write([]byte(" "))
+				}
+				tmp.Write([]byte(">\n"))
+
+				newParagraph = true
 			}
 		}
 

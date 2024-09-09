@@ -110,7 +110,7 @@ Second paragraph.
 		assert.Equal(t, string(want), string(got))
 	})
 
-	t.Run("Note extra empty lines", func(t *testing.T) {
+	t.Run("Note with extra empty lines", func(t *testing.T) {
 		t.Parallel()
 
 		pp := NewAdmonitionPreprocessor()
@@ -129,6 +129,43 @@ Second paragraph.
 > This is a note.
 >
 > Second paragraph.
+`
+
+		got, err := pp.Process(src)
+		require.NoError(t, err)
+		assert.Equal(t, string(want), string(got))
+	})
+
+	t.Run("Indented note", func(t *testing.T) {
+		t.Parallel()
+
+		pp := NewAdmonitionPreprocessor()
+		src := []byte(`1. First step
+
+   {{< admonition type="note" >}}
+
+   This is a note.
+
+   Second paragraph.
+
+   {{< /admonition >}}
+
+2. Second step
+`)
+		want := `1. First step
+
+   > **Note:**
+   > This is a note.
+   >
+   > Second paragraph.
+
+2. Second step
+`
+
+		got, err := pp.Process(src)
+		require.NoError(t, err)
+		assert.Equal(t, string(want), string(got))
+	})
 `
 
 		got, err := pp.Process(src)
