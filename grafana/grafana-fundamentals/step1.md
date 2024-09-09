@@ -5,6 +5,7 @@ This tutorial uses a sample application to demonstrate some of the features in G
 In this step, you’ll set up the sample application, as well as supporting services, such as [Loki](https://grafana.com/oss/loki/).
 
 > **Note:** [Prometheus](https://prometheus.io/), a popular time series database (TSDB), has already been configured as a data source as part of this tutorial.
+
 1. Clone the [github.com/grafana/tutorial-environment](https://github.com/grafana/tutorial-environment) repository.
 
    ```bash

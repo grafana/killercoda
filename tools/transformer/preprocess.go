@@ -10,8 +10,11 @@ import (
 )
 
 var (
-	admonitionRegexp = regexp.MustCompile(`(?s){{[<%] * admonition +type="(?P<type>[^"]+)" *[%>]}}(?P<body>.+?){{[<%] */admonition *[%>]}}`)
+	admonitionRegexp = regexp.MustCompile(`(?s){{[<%] * admonition +type="(?P<type>[^"]+)" *[%>]}}(?P<body>.+?){{[<%] */ *admonition *[%>]}}\n?`)
 	docsIgnoreRegexp = regexp.MustCompile(`{{< *?/?docs/ignore *?>}}\n?`)
+	// referenceLinkDefinitionRegexp is a regular expression that matches single line reference link definitions.
+	// https://spec.commonmark.org/0.31.2/#link-reference-definitions
+	referenceLinkDefinitionRegexp = regexp.MustCompile(`^\[(?P<label>[^\]]+)\]: (?P<url>.+?)(?: "(?P<title>.+?)")?`)
 )
 
 // Preprocessor processes raw Markdown source file bytes.
@@ -95,36 +98,81 @@ func NewAdmonitionPreprocessor() *AdmonitionPreprocessor {
 
 func (ap *AdmonitionPreprocessor) Process(src []byte) ([]byte, error) {
 	return admonitionRegexp.ReplaceAllFunc(src, func(match []byte) []byte {
-		matches := admonitionRegexp.FindSubmatch(match)
-		typ := matches[admonitionRegexp.SubexpIndex("type")]
-		body := matches[admonitionRegexp.SubexpIndex("body")]
+		var (
+			matches = admonitionRegexp.FindSubmatch(match)
+			body    = matches[admonitionRegexp.SubexpIndex("body")]
+			typ     = matches[admonitionRegexp.SubexpIndex("type")]
+			// replacement is the buffer that will contain the final replacement.
+			// tmp is a buffer used to build the replacement line by line to compress multiple line breaks separating paragraphs into a single one.
+			replacement, tmp bytes.Buffer
+			// observedIndentation is the number of spaces of indentation observed in most recent line that contained at least one non-whitespace character.
+			observedIndentation int
+			// newParagraph is a flag that indicates whether the next line should be considered the start of a new paragraph.
+			newParagraph = true
+			// referenceLinkDefinitions are a set of list destinations found in the admonition body that are to be written after the block quote.
+			referenceLinkDefinitions []string
+		)
 
-		var b bytes.Buffer
-		b.Write([]byte("> **" + cases.Title(language.English).String(string(typ)) + ":**\n"))
+		// > **TYPE:**
+		replacement.Write([]byte("> **" + cases.Title(language.English).String(string(typ)) + ":**\n"))
 
-		prevLineEmpty := true
-		if len(body) > 0 {
-			lines := bytes.Split(bytes.TrimSpace(body), []byte("\n"))
-			for i, line := range lines {
-				if len(line) > 0 {
-					b.Write([]byte(">"))
-					b.Write([]byte(" "))
-					b.Write(line)
-					if i < len(lines)-1 {
-						b.Write([]byte("\n"))
-					}
-					prevLineEmpty = false
-				} else if !prevLineEmpty {
-					b.Write([]byte(">"))
-					if i < len(lines)-1 {
-						b.Write([]byte("\n"))
-					}
-					prevLineEmpty = true
+		lines := bytes.Split(body, []byte("\n"))
+		for i, line := range lines {
+			trimmed := bytes.TrimSpace(line)
+
+			if len(trimmed) > 0 {
+				if referenceLinkDefinitionRegexp.Match(trimmed) {
+					referenceLinkDefinitions = append(referenceLinkDefinitions, string(trimmed))
+
+					continue
 				}
+
+				indent := 0
+				for ; indent < len(line) && line[indent] == ' '; indent++ {
+					tmp.Write([]byte(" "))
+				}
+				observedIndentation = indent
+
+				tmp.Write([]byte(">"))
+				tmp.Write([]byte(" "))
+				tmp.Write(line[indent:])
+
+				if i < len(lines)-1 {
+					tmp.Write([]byte("\n"))
+				}
+
+				replacement.Write(tmp.Bytes())
+				tmp.Reset()
+
+				newParagraph = false
+
+				continue
+			}
+
+			if !newParagraph && i < len(lines)-1 {
+				for i := 0; i < observedIndentation; i++ {
+					tmp.Write([]byte(" "))
+				}
+				tmp.Write([]byte(">\n"))
+
+				newParagraph = true
 			}
 		}
 
-		return b.Bytes()
+		for i, definition := range referenceLinkDefinitions {
+			replacement.Write([]byte("\n"))
+
+			for i := 0; i < observedIndentation; i++ {
+				replacement.Write([]byte(" "))
+			}
+			replacement.Write([]byte(definition))
+
+			if i == len(referenceLinkDefinitions)-1 {
+				replacement.Write([]byte("\n"))
+			}
+		}
+
+		return replacement.Bytes()
 	}), nil
 }
 

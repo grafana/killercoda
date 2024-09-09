@@ -6,7 +6,8 @@ You add components to your `config.alloy`{{copy}} file to tell Alloy which metri
 
 The following steps build on the `config.alloy`{{copy}} file you created in the previous tutorial.
 
-> The interactive sandbox has a VSCode-like editor that allows you to access files and folders. To access this feature, click on the `Editor` tab. The editor also has a terminal that you can use to run commands. Since some commands assume you are within a specific directory, we recommend running the commands in `tab1`.
+> The interactive sandbox has a VSCode-like editor that allows you to access files and folders. To access this feature, click on the `Editor`{{copy}} tab. The editor also has a terminal that you can use to run commands. Since some commands assume you are within a specific directory, we recommend running the commands in `tab1`{{copy}}.
+
 ## First component: Scraping
 
 Paste the following component configuration at the top of your `config.alloy`{{copy}} file:
@@ -82,5 +83,6 @@ This final component creates a [`prometheus.remote_write`{{copy}}](https://grafa
 
 This completes the simple configuration pipeline.
 
-> The `basic_auth` is commented out because the local `docker-compose` stack doesn't require it. It's included in this example to show how you can configure authorization for other environments. For further authorization options, refer to the [`prometheus.remote_write`](https://grafana.com/docs/alloy/latest/reference/components/prometheus/prometheus.remote_write/) component documentation.
+> The `basic_auth`{{copy}} is commented out because the local `docker-compose`{{copy}} stack doesn’t require it. It’s included in this example to show how you can configure authorization for other environments. For further authorization options, refer to the [`prometheus.remote_write`{{copy}}](https://grafana.com/docs/alloy/latest/reference/components/prometheus/prometheus.remote_write/) component documentation.
+
 This connects directly to the Prometheus instance running in the Docker container.
