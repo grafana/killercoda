@@ -11,11 +11,3 @@ In this tutorial, you’ll:
 - Run Grafana to explore Grafana Mimir dashboards
 
 - Configure a testing recording rule and alert in Grafana Mimir
-
-## Prerequisites
-
-- Git
-
-- [Docker](https://docs.docker.com/) and [Docker Compose](https://docs.docker.com/compose/)
-
-- Availability of both ports `9000`{{copy}} and `9009`{{copy}} on your host machine

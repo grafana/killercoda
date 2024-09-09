@@ -11,4 +11,5 @@
    cd docs/sources/mimir/get-started/play-with-grafana-mimir/
    ```{{exec}}
 
-**Note**: the instructions in this tutorial assume that your working directory is `docs/sources/mimir/get-started/play-with-grafana-mimir/`{{copy}}.
+> **Note:**
+> The instructions in this tutorial assume that your working directory is `docs/sources/mimir/get-started/play-with-grafana-mimir/`{{copy}}.

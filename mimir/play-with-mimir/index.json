@@ -3,7 +3,8 @@
   "description": "Learn about Grafana Mimir, which provides distributed, horizontally scalable, and highly available long term storage for Prometheus.",
   "details": {
     "intro": {
-      "text": "intro.md"
+      "text": "intro.md",
+      "foreground": "docker-compose-update.sh"
     },
     "steps": [
       {

@@ -27,6 +27,9 @@ weight: 10
 killercoda:
   title: Play with Mimir
   description: Learn about Grafana Mimir, which provides distributed, horizontally scalable, and highly available long term storage for Prometheus.
+  details:
+    intro:
+      foreground: "docker-compose-update.sh"
   backend:
     imageid: ubuntu
 
@@ -43,13 +46,13 @@ In this tutorial, you'll:
 - Run Grafana to explore Grafana Mimir dashboards
 - Configure a testing recording rule and alert in Grafana Mimir
 
+<!-- INTERACTIVE ignore START -->
 ## Prerequisites
 
 - Git
 - [Docker](https://docs.docker.com/) and [Docker Compose](https://docs.docker.com/compose/)
 - Availability of both ports `9000` and `9009` on your host machine
 
-<!-- INTERACTIVE ignore START -->
 > **Tip:**
 > Alternatively, you can try out this example in our interactive learning environment: [Play with Mimir](https://killercoda.com/grafana-labs/course/mimir/play-with-mimir).
 >
@@ -74,7 +77,8 @@ In this tutorial, you'll:
    cd docs/sources/mimir/get-started/play-with-grafana-mimir/
    ```
 
-**Note**: the instructions in this tutorial assume that your working directory is `docs/sources/mimir/get-started/play-with-grafana-mimir/`.
+> **Note:**
+ > The instructions in this tutorial assume that your working directory is `docs/sources/mimir/get-started/play-with-grafana-mimir/`.
 
 <!-- INTERACTIVE page step1.md END -->
 
@@ -85,7 +89,7 @@ In this tutorial, you'll:
 Start running your local setup with the following Docker command:
 
 ```bash
-docker-compose up -d
+docker compose up -d
 ```
 
 This command starts:

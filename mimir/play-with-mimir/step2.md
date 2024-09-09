@@ -3,7 +3,7 @@
 Start running your local setup with the following Docker command:
 
 ```bash
-docker-compose up -d
+docker compose up -d
 ```{{exec}}
 
 This command starts:
