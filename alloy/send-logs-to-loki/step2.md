@@ -75,7 +75,4 @@ This Docker Compose file includes Loki and Prometheus configured as data sources
     docker-compose up -d
    ```{{exec}}
 
-> If you encounter the following error when you start your Docker container, `docker: 'compose' is not a docker command`{{copy}}, use the command `docker-compose up`{{copy}} to start your Docker container.
-> <!-- raw HTML omitted -->
-
 1. Open [http://localhost:3000]({{TRAFFIC_HOST1_3000}}) in your browser to access the Grafana UI.
