@@ -9,19 +9,21 @@ tooling offered by Grafana.
 1. Click **New alert rule**.
 
 1. Configure the alert rule:
-   1. Select **Mimir or Loki alert** in the top selector.
+   1. Type `MimirNotRunning`{{copy}} in the **Rule name** field.
 
    1. Choose **Mimir** in the **Select data source** field.
 
-   1. Type `up == 0`{{copy}} in the **Metrics browser** query field.
+   1. Type `count(up == 0)`{{copy}} in the **Metrics browser** query field. This will currently show `no data`{{copy}} since all instances are running.
 
-   1. Type `MimirNotRunning`{{copy}} in the **Rule name** field.
+1. Scroll down to **Set evaluation behavior**:
+   1. Select `New folder`{{copy}} and type `example-folder`{{copy}} in the **Folder name** field.
 
-   1. Select `example-namespace`{{copy}} in the **Namespace** field.
+   1. Select `New evaluation group`{{copy}} and type `example-group`{{copy}} in the **Group name** field. Set evaluation interval to `30s`{{copy}}.
 
-   1. Select `example-group`{{copy}} in the **Group** field.
+1. Scroll down to **Configure labels and notifications**:
+   1. Select the `Contract point`{{copy}} dropdown and choose `grafana-default-email`{{copy}}.
 
-   1. From the upper-right corner, click the **Save and exit** button.
+1. Click the **Save rule and exit** button.
 
 Your `MimirNotRunning`{{copy}} alert rule is now being created in Grafana Mimir ruler and is expected to fire when the number of
 Grafana Mimir instances is less than three. You can check its status by opening the [Grafana Alerting]({{TRAFFIC_HOST1_9000}}/alerting/list)
@@ -57,4 +59,4 @@ To resolve the alert and recover from the outage, restart the Grafana Mimir inst
    ```{{exec}}
 
 1. Open [Grafana Alerting]({{TRAFFIC_HOST1_9000}}/alerting/list) and check out the state of the alert `MimirNotRunning`{{copy}},
-   which should switch to “Normal” state in about one minute.
+   which should switch to “Normal” state in about 30 seconds.

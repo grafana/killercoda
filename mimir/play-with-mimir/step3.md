@@ -1,5 +1,8 @@
 # Explore Grafana Mimir dashboards
 
+> **Note:**
+> Sandbox users: If you’re using the interactive learning environment, you can access all links directly by clicking on them. This will redirect you to the VM’s localhost where the services are running.
+
 Open Grafana on your local host [`http://localhost:9000`{{copy}}]({{TRAFFIC_HOST1_9000}}) and view dashboards showing the status
 and health of your Grafana Mimir cluster. The dashboards query Grafana Mimir for the metrics they display.
 

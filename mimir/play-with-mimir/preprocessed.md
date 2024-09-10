@@ -108,7 +108,7 @@ This command starts:
   - A simple NGINX-based load balancer that exposes Grafana Mimir endpoints on the host
 
 The diagram below illustrates the relationship between these components:
-![Architecture diagram for this Grafana Mimir tutorial](tutorial-architecture.png)
+![Architecture diagram for this Grafana Mimir tutorial](/media/docs/mimir/tutorial-architecture.png)
 
 The following ports will be exposed on the host:
 
@@ -122,6 +122,9 @@ To learn more about the Grafana Mimir configuration, you can review the configur
 <!-- INTERACTIVE page step3.md START -->
 
 ## Explore Grafana Mimir dashboards
+
+> **Note:**
+> Sandbox users: If you're using the interactive learning environment, you can access all links directly by clicking on them. This will redirect you to the VM's localhost where the services are running.
 
 Open Grafana on your local host [`http://localhost:9000`](http://localhost:9000) and view dashboards showing the status
 and health of your Grafana Mimir cluster. The dashboards query Grafana Mimir for the metrics they display.
@@ -153,9 +156,8 @@ offered by Grafana.
 1. Open [Grafana Alerting](http://localhost:9000/alerting/list).
 2. Click **New recording rule**, which also allows you to configure recording rules.
 3. Configure the recording rule:
-   1. Select **Mimir or Loki recording rule** in the top selector.
+   1. Give the rule a name, such as `sum:up`.
    1. Choose **Mimir** in the **Select data source** field.
-   1. Type `sum:up` in the **Rule name** field.
    1. Choose **Code** in the **Builder | Code** field on the right.
    1. Type `sum(up)` in the **Metrics browser** query field.
    1. Type `example-namespace` in the **Namespace** field.
@@ -183,15 +185,18 @@ alerts to Grafana Mimir Alertmanager. In this section you're going to configure 
 tooling offered by Grafana.
 
 1. Open [Grafana Alerting](http://localhost:9000/alerting/list).
-2. Click **New alert rule**.
-3. Configure the alert rule:
-   1. Select **Mimir or Loki alert** in the top selector.
-   2. Choose **Mimir** in the **Select data source** field.
-   3. Type `up == 0` in the **Metrics browser** query field.
-   4. Type `MimirNotRunning` in the **Rule name** field.
-   5. Select `example-namespace` in the **Namespace** field.
-   6. Select `example-group` in the **Group** field.
-   7. From the upper-right corner, click the **Save and exit** button.
+1. Click **New alert rule**.
+1. Configure the alert rule:
+   1. Type `MimirNotRunning` in the **Rule name** field.
+   1. Choose **Mimir** in the **Select data source** field.
+   1. Type `count(up == 0)` in the **Metrics browser** query field. This will currently show `no data` since all instances are running.
+1. Scroll down to **Set evaluation behavior**:
+   1. Select `New folder` and type `example-folder` in the **Folder name** field.
+   1. Select `New evaluation group` and type `example-group` in the **Group name** field. Set evaluation interval to `30s`.
+1. Scroll down to **Configure labels and notifications**:
+   1. Select the `Contract point` dropdown and choose `grafana-default-email`. 
+1. Click the **Save rule and exit** button. 
+
 
 Your `MimirNotRunning` alert rule is now being created in Grafana Mimir ruler and is expected to fire when the number of
 Grafana Mimir instances is less than three. You can check its status by opening the [Grafana Alerting](http://localhost:9000/alerting/list)
@@ -203,7 +208,7 @@ To see the alert firing we can introduce an outage in the Grafana Mimir cluster:
    ```bash
    docker compose kill mimir-3
    ```
-1. Open [Grafana Alerting](http://localhost:9000/alerting/list) and check out the state of the alert `MimirNotRunning`,
+2. Open [Grafana Alerting](http://localhost:9000/alerting/list) and check out the state of the alert `MimirNotRunning`,
    which should switch to "Pending" state in about one minute and to "Firing" state after another minute. _Note: since we abruptly
    terminated a Mimir instance, Grafana Alerting UI may temporarily show an error when querying rules: the error will
    auto resolve shortly, as soon as Grafana Mimir internal health checking detects the terminated instance as unhealthy._
@@ -225,7 +230,7 @@ To resolve the alert and recover from the outage, restart the Grafana Mimir inst
    docker-compose start mimir-3
    ```
 2. Open [Grafana Alerting](http://localhost:9000/alerting/list) and check out the state of the alert `MimirNotRunning`,
-   which should switch to "Normal" state in about one minute.
+   which should switch to "Normal" state in about 30 seconds.
 
 <!-- INTERACTIVE page step5.md END -->
 

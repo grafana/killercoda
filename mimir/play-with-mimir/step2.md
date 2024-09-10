@@ -28,7 +28,7 @@ This command starts:
   - A simple NGINX-based load balancer that exposes Grafana Mimir endpoints on the host
 
 The diagram below illustrates the relationship between these components:
-![Architecture diagram for this Grafana Mimir tutorial](https://grafana.com/tutorial-architecture.png)
+![Architecture diagram for this Grafana Mimir tutorial](https://grafana.com/media/docs/mimir/tutorial-architecture.png)
 
 The following ports will be exposed on the host:
 

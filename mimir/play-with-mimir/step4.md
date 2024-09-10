@@ -9,11 +9,9 @@ offered by Grafana.
 1. Click **New recording rule**, which also allows you to configure recording rules.
 
 1. Configure the recording rule:
-   1. Select **Mimir or Loki recording rule** in the top selector.
+   1. Give the rule a name, such as `sum:up`{{copy}}.
 
    1. Choose **Mimir** in the **Select data source** field.
-
-   1. Type `sum:up`{{copy}} in the **Rule name** field.
 
    1. Choose **Code** in the **Builder | Code** field on the right.
 
