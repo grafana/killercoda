@@ -30,6 +30,10 @@ killercoda:
   details:
     intro:
       foreground: "docker-compose-update.sh"
+  preprocessing:
+    substitutions:
+      - regexp: 'https://grafana.com/media/docs/mimir/tutorial-architecture.png'
+        replacement: https://grafana.com/media/docs/mimir/https://grafana.com/media/docs/mimir/tutorial-architecture.png
   backend:
     imageid: ubuntu
 
@@ -57,8 +61,6 @@ In this tutorial, you'll:
 > Alternatively, you can try out this example in our interactive learning environment: [Play with Mimir](https://killercoda.com/grafana-labs/course/mimir/play-with-mimir).
 >
 > It's a fully configured environment with all the dependencies already installed.
->
-> ![Interactive](/media/docs/mimir/mimir-ile.png)
 <!-- INTERACTIVE ignore END -->
 
 <!-- INTERACTIVE page intro.md END -->
@@ -108,7 +110,7 @@ This command starts:
   - A simple NGINX-based load balancer that exposes Grafana Mimir endpoints on the host
 
 The diagram below illustrates the relationship between these components:
-![Architecture diagram for this Grafana Mimir tutorial](/media/docs/mimir/tutorial-architecture.png)
+![Architecture diagram for this Grafana Mimir tutorial](https://grafana.com/media/docs/mimir/tutorial-architecture.png)
 
 The following ports will be exposed on the host:
 
