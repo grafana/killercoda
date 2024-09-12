@@ -23,6 +23,10 @@ jobs:
             path: alloy
       - uses: actions/checkout@v4
         with:
+            repository: grafana/tempo
+            path: tempo
+      - uses: actions/checkout@v4
+        with:
           path: killercoda
       - uses: actions/setup-go@v5
         with:
@@ -72,6 +76,11 @@ jobs:
           ./transformer
           "${GITHUB_WORKSPACE}/alloy/docs/sources/tutorials/send-metrics-to-prometheus.md"
           "${GITHUB_WORKSPACE}/killercoda/alloy/send-metrics-to-prometheus"
+        working-directory: killercoda/tools/transformer
+      - run: >
+          ./transformer
+          "${GITHUB_WORKSPACE}/tempo/docs/sources/tempo/getting-started/docker-example.md"
+          "${GITHUB_WORKSPACE}/killercoda/tempo/quick-start"
         working-directory: killercoda/tools/transformer
       - run: ./scripts/manage-pr.bash
         env:
