@@ -74,7 +74,7 @@ jobs:
         working-directory: killercoda/tools/transformer
       - run: >
           ./transformer
-          "${GITHUB_WORKSPACE}/alloy/docs/sources/tutorials/send-metrics-to-Prometheus.md"
+          "${GITHUB_WORKSPACE}/alloy/docs/sources/tutorials/send-metrics-to-prometheus.md"
           "${GITHUB_WORKSPACE}/killercoda/alloy/send-metrics-to-prometheus"
         working-directory: killercoda/tools/transformer
       - run: >
