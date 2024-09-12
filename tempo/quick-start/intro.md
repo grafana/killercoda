@@ -6,8 +6,5 @@ Every example has a `docker-compose.yaml`{{copy}} manifest that includes all of 
 
 The Tempo examples running with Docker using docker-compose include a version of Tempo and a storage configuration suitable for testing or development.
 
-This quick start guide uses the `local`{{copy}} example running Tempo as a single binary (monolithic). Any data is stored locally in the `tempo-data`{{copy}} folder.
-To learn more, read the [local storage example README](https://github.com/grafana/tempo/blob/main/example/docker-compose/local).
-
 > **Tip:**
 > A setup script is running in the background to install the necessary dependencies. This should take no longer than 30 seconds. Your instance will be ready to use once you `Setup complete. You may now begin the tutorial`{{copy}}.
