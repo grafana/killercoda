@@ -1,7 +1,7 @@
 ---
 description: Learn how to get started with Pyroscope using a simple Ride share app.
 menuTitle: Ride share tutorial
-title: Rid share tutorial with Pyroscope
+title: Ride share tutorial with Pyroscope
 weight: 250
 killercoda:
   title: Ride share tutorial
@@ -234,7 +234,7 @@ If we scroll down to compare the two time periods side by side we can see that t
 <!-- INTERACTIVE page step4.md START -->
 
 > **Tip:**
-> Unfortunately, due to a bug within the Sandbox environment, the profile explorer app is currently unavailable. We are working on a fix and will update this tutorial once resolved. If you would like to try out the profile explorer app, you can run the example locally on your machine.
+> Unfortunately, due to a bug within the Sandbox environment, the profile explorer app is currently unavailable. We are working on a fix and will update this tutorial once resolved. If you would like to try out the profile explorer app, you can run the example locally on your machine. Or you can try out this example in [Grafana Play](https://play.grafana.org/a/grafana-pyroscope-app/profiles-explorer?searchText=&panelType=time-series&layout=grid&hideNoData=off&explorationType=labels&var-serviceName=pyroscope-rideshare-python&var-profileMetricId=process_cpu:cpu:nanoseconds:cpu:nanoseconds&var-dataSource=grafanacloud-profiles&var-groupBy=all&var-filters=)
 
 ## Integrating Pyroscope with Grafana
 
