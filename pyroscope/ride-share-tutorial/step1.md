@@ -3,7 +3,7 @@
 Clone the repository to your local machine:
 
 ```bash
-git clone https://github.com/grafana/pyroscope.git 
+git clone https://github.com/grafana/pyroscope.git && cd pyroscope
 ```{{exec}}
 
 Navigate to the tutorial directory:
