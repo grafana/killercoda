@@ -73,7 +73,7 @@ What is example will do is send mock-load to the 3 servers as well as their resp
 Clone the repository to your local machine:
 
 ```bash
-git clone https://github.com/grafana/pyroscope.git 
+git clone https://github.com/grafana/pyroscope.git && cd pyroscope
 ```
 
 Navigate to the tutorial directory:
@@ -232,6 +232,9 @@ If we scroll down to compare the two time periods side by side we can see that t
 <!-- INTERACTIVE page step3.md END -->
 
 <!-- INTERACTIVE page step4.md START -->
+
+> **Tip:**
+> Unfortunately, due to a bug within the Sandbox environment, the profile explorer app is currently unavailable. We are working on a fix and will update this tutorial once resolved. If you would like to try out the profile explorer app, you can run the example locally on your machine.
 
 ## Integrating Pyroscope with Grafana
 

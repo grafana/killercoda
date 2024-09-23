@@ -1,3 +1,6 @@
+> **Tip:**
+> Unfortunately, due to a bug within the Sandbox environment, the profile explorer app is currently unavailable. We are working on a fix and will update this tutorial once resolved. If you would like to try out the profile explorer app, you can run the example locally on your machine.
+
 # Integrating Pyroscope with Grafana
 
 As part of the `docker-compose.yml`{{copy}} file, we have included a Grafana container that’s pre-configured with the Pyroscope plugin:
