@@ -248,6 +248,37 @@ func TestFigureTransformer_Transform(t *testing.T) {
 
 		assert.Equal(t, want, b.String())
 	})
+
+	t.Run("multiple shortcodes", func(t *testing.T) {
+		t.Parallel()
+
+		b := &bytes.Buffer{}
+		w := bufio.NewWriter(b)
+		md := goldmark.New(goldmark.WithExtensions(&KillercodaExtension{
+			Transformers: []util.PrioritizedValue{},
+			AdditionalExtenders: []goldmark.Extender{
+				&FigureTransformer{},
+			},
+		}))
+
+		src := []byte(`{{< figure src="/media/docs/loki/grafana-query-builder-v2.png" >}}
+
+{{< figure src="/media/docs/loki/grafana-query-builder-v2.png" caption="Grafana Explore" >}}
+`)
+
+		root := md.Parser().Parse(text.NewReader(src))
+		require.NoError(t, md.Renderer().Render(w, src, root))
+
+		w.Flush()
+
+		want := `![](/media/docs/loki/grafana-query-builder-v2.png)
+
+![Grafana Explore](/media/docs/loki/grafana-query-builder-v2.png)
+`
+
+		assert.Equal(t, want, b.String())
+	})
+
 }
 
 func TestIgnoreTransformer_Transform(t *testing.T) {
