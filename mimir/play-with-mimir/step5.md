@@ -13,12 +13,12 @@ tooling offered by Grafana.
 
    1. Choose **Mimir** in the **Select data source** field.
 
-   1. Type `count(up == 0)`{{copy}} in the **Metrics browser** query field. This will currently show `no data`{{copy}} since all instances are running.
+   1. Type `count(up == 0)`{{copy}} in the **Metrics browser** query field. This currently shows `no data`{{copy}} since all instances are running.
 
 1. Scroll down to **Set evaluation behavior**:
    1. Select `New folder`{{copy}} and type `example-folder`{{copy}} in the **Folder name** field.
 
-   1. Select `New evaluation group`{{copy}} and type `example-group`{{copy}} in the **Group name** field. Set evaluation interval to `30s`{{copy}}.
+   1. Select `New evaluation group`{{copy}} and type `example-group`{{copy}} in the **Group name** field. Set the evaluation interval to `30s`{{copy}}.
 
 1. Scroll down to **Configure labels and notifications**:
    1. Select the `Contract point`{{copy}} dropdown and choose `grafana-default-email`{{copy}}.
