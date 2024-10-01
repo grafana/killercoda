@@ -2,11 +2,12 @@
 
 To configure Fluent Bit to receive logs from our application, we need to provide a configuration file. This configuration file will define the components and their relationships. We will build the entire observability pipeline within this configuration file.
 
-## Open your Code Editor and Locate the `fluent-bit.conf`{{copy}} file
+## Open your code editor and locate the `fluent-bit.conf`{{copy}} file
 
 Fluent Bit requires a configuration file to define the components and their relationships. The configuration file is written using Fluent Bit configuration syntax. We will build the entire observability pipeline within this configuration file. To start, we will open the `fluent-bit.conf`{{copy}} file in the code editor:
 
-> Note: Killercoda has an inbuilt Code editor which can be accessed via the `Editor` tab.
+> Note: Killercoda has an inbuilt Code editor which can be accessed via the `Editor`{{copy}} tab.
+
 1. Expand the `loki-fundamentals`{{copy}} directory in the file explorer of the `Editor`{{copy}} tab.
 
 1. Locate the `fluent-bit.conf`{{copy}} file in the top level directory, `loki-fundamentals'.
@@ -17,7 +18,7 @@ You will copy all of the configuration snippets into the `fluent-bit.conf`{{copy
 
 ## Receiving Fluent Bit protocal logs
 
-The first step is to configure Fluent Bit to receive logs from the Carnivorous Greenhouse application. Since the application is instrumented with Fluent Bit logging framework, it will send logs using the forward protocal (unique to Fluent Bit). We will use the `forward`{{copy}} input plugin to receive logs from the application.
+The first step is to configure Fluent Bit to receive logs from the Carnivorous Greenhouse application. Since the application is instrumented with Fluent Bit logging framework, it will send logs using the forward protocol (unique to Fluent Bit). We will use the `forward`{{copy}} input plugin to receive logs from the application.
 
 Now add the following configuration to the `fluent-bit.conf`{{copy}} file:
 
@@ -56,17 +57,17 @@ Add the following configuration to the `fluent-bit.conf`{{copy}} file:
 
 In this configuration:
 
-- `Name`{{copy}}: The name of the output plugin. In this case, we are using the `loki`{{copy}} output plugin.
+- `name`{{copy}}: The name of the output plugin. In this case, we are using the `loki`{{copy}} output plugin.
 
-- `Match`{{copy}}: The tag to match. In this case, we are matching all logs with the tag `service.**`{{copy}}.
+- `match`{{copy}}: The tag to match. In this case, we are matching all logs with the tag `service.**`{{copy}}.
 
-- `Host`{{copy}}: The hostname of the Loki service. In this case, we are using the hostname `loki`{{copy}}.
+- `host`{{copy}}: The hostname of the Loki service. In this case, we are using the hostname `loki`{{copy}}.
 
-- `Port`{{copy}}: The port of the Loki service. In this case, we are using port `3100`{{copy}}.
+- `port`{{copy}}: The port of the Loki service. In this case, we are using port `3100`{{copy}}.
 
-- `Labels`{{copy}}: Additional labels to add to the logs. In this case, we are adding the label `agent=fluent-bit`{{copy}}.
+- `labels`{{copy}}: Additional labels to add to the logs. In this case, we are adding the label `agent=fluent-bit`{{copy}}.
 
-- `Label_map_path`{{copy}}: The path to the label map file. In this case, we are using the file `logmap.json`{{copy}}.
+- `label_map_path`{{copy}}: The path to the label map file. In this case, we are using the file `logmap.json`{{copy}}.
 
 For more information on the `loki`{{copy}} output plugin, see the [Fluent Bit Loki documentation](https://docs.fluentbit.io/manual/pipeline/outputs/loki).
 
