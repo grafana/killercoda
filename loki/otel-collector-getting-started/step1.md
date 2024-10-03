@@ -14,14 +14,10 @@ In this step, we will set up our environment by cloning the repository that cont
    docker-compose -f loki-fundamentals/docker-compose.yml up -d 
    ```{{exec}}
 
-   This will spin up the following services:
+   To check the status of services we can run the following command:
 
-   ```console
-   ✔ Container loki-fundamentals-grafana-1          Started                                                        
-   ✔ Container loki-fundamentals-loki-1             Started                        
-   ✔ Container loki-fundamentals_otel-collector_1   Started
-   ```{{copy}}
+   ```bash
+   docker ps -a
+   ```{{exec}}
 
-   **Note:** The OpenTelemetry Collector container will show as `Stopped`{{copy}}. This is expected as we have provided an empty configuration file. We will update this file in the next step.
-
-Once we have finished configuring the OpenTelemetry Collector and sending logs to Loki, we will be able to view the logs in Grafana. To check if Grafana is up and running, navigate to the following URL: [http://localhost:3000]({{TRAFFIC_HOST1_3000}})
+After we’ve finished configuring the OpenTelemetry Collector and sending logs to Loki, we will be able to view the logs in Grafana. To check if Grafana is up and running, navigate to the following URL: [http://localhost:3000]({{TRAFFIC_HOST1_3000}})

@@ -186,16 +186,22 @@ func (t *FigureTransformer) Transform(node *ast.Document, reader text.Reader, _ 
 	source := reader.Source()
 
 	err := ast.Walk(node, func(node ast.Node, entering bool) (ast.WalkStatus, error) {
+		replacements := map[ast.Node]ast.Node{}
 		if !entering {
 			return ast.WalkContinue, nil
 		}
 
-		if isFigureShortcode(node, source) {
-			args := parseShortcodeArgs(bytes.TrimSpace(rawText(node, source)))
+		for child := node.FirstChild(); child != nil; child = child.NextSibling() {
+			if isFigureShortcode(child, source) {
+				args := parseShortcodeArgs(bytes.TrimSpace(rawText(child, source)))
+				replacement := imageFromFigure(args)
 
-			replacement := imageFromFigure(args)
+				replacements[child] = replacement
+			}
+		}
 
-			node.Parent().ReplaceChild(node.Parent(), node, replacement)
+		for child, replacement := range replacements {
+			node.ReplaceChild(node, child, replacement)
 		}
 
 		return ast.WalkContinue, nil

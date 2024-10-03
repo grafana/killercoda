@@ -1,0 +1,30 @@
+{
+  "title": "Ride share tutorial",
+  "description": "Learn how to get started with Pyroscope using a simple Ride share app.",
+  "details": {
+    "intro": {
+      "text": "intro.md",
+      "foreground": "docker-compose-update.sh"
+    },
+    "steps": [
+      {
+        "text": "step1.md"
+      },
+      {
+        "text": "step2.md"
+      },
+      {
+        "text": "step3.md"
+      },
+      {
+        "text": "step4.md"
+      }
+    ],
+    "finish": {
+      "text": "finish.md"
+    }
+  },
+  "backend": {
+    "imageid": "ubuntu"
+  }
+}

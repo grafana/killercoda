@@ -4,7 +4,7 @@ In this example, we configured the OpenTelemetry Collector to receive logs from 
 
 ## Back to Docs
 
-Head back to where you started from to continue with the Loki documentation: [Loki documentation](https://grafana.com/docs/loki/latest/send-data/otel)
+Head back to where you started from to continue with the [Loki documentation](https://grafana.com/docs/loki/latest/send-data/otel).
 
 # Further reading
 

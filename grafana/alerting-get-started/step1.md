@@ -1,20 +1,4 @@
-# Before you begin
-
-## Grafana Cloud users
-
-As a Grafana Cloud user, you don’t have to install anything.
-
-## Grafana OSS users
-
-In order to run a Grafana stack locally, ensure you have the following applications installed.
-
-- [Docker Compose](https://docs.docker.com/get-docker/) (included in Docker for Desktop for macOS and Windows)
-
-- [Git](https://git-scm.com/)
-
-### Set up the Grafana Stack (OSS users)
-
-To demonstrate the observation of data using the Grafana stack, download the files to your local machine.
+To demonstrate the observation of data using the Grafana stack, download and run the following files.
 
 1. Clone the [tutorial environment repository](https://www.github.com/grafana/tutorial-environment).
 

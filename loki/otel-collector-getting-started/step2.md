@@ -2,21 +2,21 @@
 
 To configure the Collector to ingest OpenTelemetry logs from our application, we need to provide a configuration file. This configuration file will define the components and their relationships. We will build the entire observability pipeline within this configuration file.
 
-## Open your Code Editor and Locate the `otel-config.yaml`{{copy}} file
+## Open your code editor and locate the `otel-config.yaml`{{copy}} file
 
-The configuration file is written using yaml configuration syntax.To start, we will open the `otel-config.yaml`{{copy}} file in the code editor:
+The configuration file is written using **YAML** configuration syntax. To start, we will open the `otel-config.yaml`{{copy}} file in the code editor:
 
 **Note: Killercoda has an inbuilt Code editor which can be accessed via the `Editor`{{copy}} tab.**
 
 1. Expand the `loki-fundamentals`{{copy}} directory in the file explorer of the `Editor`{{copy}} tab.
 
-1. Locate the `otel-config.yaml`{{copy}} file in the top level directory, `loki-fundamentals'.
+1. Locate the `otel-config.yaml`{{copy}} file in the top level directory, `loki-fundamentals`{{copy}}.
 
 1. Click on the `otel-config.yaml`{{copy}} file to open it in the code editor.
 
 You will copy all three of the following configuration snippets into the `otel-config.yaml`{{copy}} file.
 
-## Recive OpenTelemetry logs via gRPC and HTTP
+## Receive OpenTelemetry logs via gRPC and HTTP
 
 First, we will configure the OpenTelemetry receiver. `otlp:`{{copy}} accepts logs in the OpenTelemetry format via HTTP and gRPC. We will use this receiver to receive logs from the Carnivorous Greenhouse application.
 
@@ -41,9 +41,9 @@ In this configuration:
 
 - `protocols`{{copy}}: The list of protocols that the receiver supports. In this case, we are using `grpc`{{copy}} and `http`{{copy}}.
 
-- `grpc`{{copy}}: The gRPC protocol configuration. The receiver will accept logs via gRPC on `
+- `grpc`{{copy}}: The gRPC protocol configuration. The receiver will accept logs via gRPC on `4317`{{copy}}
 
-- `http`{{copy}}: The HTTP protocol configuration. The receiver will accept logs via HTTP on `
+- `http`{{copy}}: The HTTP protocol configuration. The receiver will accept logs via HTTP on `4318`{{copy}}
 
 - `endpoint`{{copy}}: The IP address and port number to listen on. In this case, we are listening on all IP addresses on port `4317`{{copy}} for gRPC and port `4318`{{copy}} for HTTP.
 
@@ -51,9 +51,7 @@ For more information on the `otlp`{{copy}} receiver configuration, see the [Open
 
 ## Create batches of logs using a OpenTelemetry Processor
 
-Next, we will configure a OpenTelemetry processor. `batch:`{{copy}} accepts telemetry data from other `otelcol`{{copy}} components and places them into batches. Batching improves the compression of data and reduces the number of outgoing network requests required to transmit data. This processor supports both size and time based batching.
-
-Now add the following configuration to the `otel-config.yaml`{{copy}} file:
+Next add the following configuration to the `otel-config.yaml`{{copy}} file:
 
 ```yaml
 # Processors
@@ -71,9 +69,7 @@ For more information on the `batch`{{copy}} processor configuration, see the [Op
 
 ## Export logs to Loki using a OpenTelemetry Exporter
 
-Lastly, we will configure the OpenTelemetry exporter. `otlphttp/logs:`{{copy}} accepts telemetry data from other `otelcol`{{copy}} components and writes them over the network using the OTLP HTTP protocol. We will use this exporter to send the logs to the Loki native OTLP endpoint.
-
-Now add the following configuration to the `otel-config.yaml`{{copy}} file:
+We will use the `otlphttp/logs`{{copy}} exporter to send the logs to the Loki native OTLP endpoint. Add the following configuration to the `otel-config.yaml`{{copy}} file:
 
 ```yaml
 # Exporters
@@ -124,7 +120,7 @@ In this configuration:
 
 ## Load the Configuration
 
-Before you load the configuration, into the OpenTelemetry Collector compare your configuration with the completed configuration below:
+Before you load the configuration into the OpenTelemetry Collector, compare your configuration with the completed configuration below:
 
 ```yaml
 # Receivers
