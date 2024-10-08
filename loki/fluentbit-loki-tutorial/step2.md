@@ -10,7 +10,7 @@ Fluent Bit requires a configuration file to define the components and their rela
 
 1. Expand the `loki-fundamentals`{{copy}} directory in the file explorer of the `Editor`{{copy}} tab.
 
-1. Locate the `fluent-bit.conf`{{copy}} file in the top level directory, `loki-fundamentals'.
+1. Locate the `fluent-bit.conf`{{copy}} file in the top level directory, `loki-fundamentals`{{copy}}.
 
 1. Click on the `fluent-bit.conf`{{copy}} file to open it in the code editor.
 

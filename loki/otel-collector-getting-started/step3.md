@@ -22,11 +22,11 @@ This will start the following services:
 
 Once started, you can access the Carnivorous Greenhouse application at [http://localhost:5005]({{TRAFFIC_HOST1_5005}}). Generate some logs by interacting with the application in the following ways:
 
-1. Create a user
+1. Create a user.
 
-1. Log in
+1. Log in.
 
-1. Create a few plants to monitor
+1. Create a few plants to monitor.
 
 1. Enable bug mode to activate the bug service. This will cause services to fail and generate additional logs.
 
