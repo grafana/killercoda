@@ -41,9 +41,9 @@ In this configuration:
 
 - `protocols`{{copy}}: The list of protocols that the receiver supports. In this case, we are using `grpc`{{copy}} and `http`{{copy}}.
 
-- `grpc`{{copy}}: The gRPC protocol configuration. The receiver will accept logs via gRPC on `4317`{{copy}}
+- `grpc`{{copy}}: The gRPC protocol configuration. The receiver will accept logs via gRPC on `4317`{{copy}}.
 
-- `http`{{copy}}: The HTTP protocol configuration. The receiver will accept logs via HTTP on `4318`{{copy}}
+- `http`{{copy}}: The HTTP protocol configuration. The receiver will accept logs via HTTP on `4318`{{copy}}.
 
 - `endpoint`{{copy}}: The IP address and port number to listen on. In this case, we are listening on all IP addresses on port `4317`{{copy}} for gRPC and port `4318`{{copy}} for HTTP.
 
