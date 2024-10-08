@@ -27,4 +27,4 @@ In this scenario, we have a microservices application called the Carnivorous Gre
 
 - **Database:** A database that stores user and plant data.
 
-Each service generates logs using the OpenTelemetry SDK and exports to the OpenTelemetry Collector in the OpenTelemetry format (OTLP). The collector then ingests the logs and sends them to Loki.
+Each service generates logs using the OpenTelemetry SDK and exports to the OpenTelemetry Collector in the OpenTelemetry format (OTLP). The Collector then ingests the logs and sends them to Loki.
