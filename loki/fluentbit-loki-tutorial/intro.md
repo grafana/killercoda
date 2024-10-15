@@ -4,7 +4,7 @@ In this tutorial, you will learn how to send logs to Loki using Fluent Bit. Flue
 
 ## Scenario
 
-In this scenario, we have a microservices application called the Carnivourse Greenhouse. This application consists of the following services:
+In this scenario, we have a microservices application called the Carnivorous Greenhouse. This application consists of the following services:
 
 - **User Service:** Manages user data and authentication for the application. Such as creating users and logging in.
 
@@ -20,4 +20,4 @@ In this scenario, we have a microservices application called the Carnivourse Gre
 
 - **Database:** A database that stores user and plant data.
 
-Each service has been instrumented with the fluent bit logging framework to generate logs. If you would like to learn more about how the Carnivorous Greenhouse application was instrumented with Fluent Bit, refer to the [Carnivorous Greenhouse repository](https://github.com/grafana/loki-fundamentals/blob/fluentbit-official/greenhouse/loggingfw.py).
+Each service has been instrumented with the Fluent Bit logging framework to generate logs. If you would like to learn more about how the Carnivorous Greenhouse application was instrumented with Fluent Bit, refer to the [Carnivorous Greenhouse repository](https://github.com/grafana/loki-fundamentals/blob/fluentbit-official/greenhouse/loggingfw.py).
