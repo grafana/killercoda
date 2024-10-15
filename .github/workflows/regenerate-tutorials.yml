@@ -27,6 +27,10 @@ jobs:
             path: tempo
       - uses: actions/checkout@v4
         with:
+            repository: grafana/mimir
+            path: mimir
+      - uses: actions/checkout@v4
+        with:
           path: killercoda
       - uses: actions/setup-go@v5
         with:
@@ -59,6 +63,11 @@ jobs:
         working-directory: killercoda/tools/transformer
       - run: >
           ./transformer
+          "${GITHUB_WORKSPACE}/loki/docs/sources/send-data/fluentbit/fluent-bit-loki-tutorial.md"
+          "${GITHUB_WORKSPACE}/killercoda/loki/fluentbit-loki-tutorial"
+        working-directory: killercoda/tools/transformer
+      - run: >
+          ./transformer
           "${GITHUB_WORKSPACE}/grafana/docs/sources/tutorials/alerting-get-started/index.md"
           "${GITHUB_WORKSPACE}/killercoda/grafana/alerting-get-started"
         working-directory: killercoda/tools/transformer
@@ -86,6 +95,11 @@ jobs:
           ./transformer
           "${GITHUB_WORKSPACE}/tempo/docs/sources/tempo/getting-started/docker-example.md"
           "${GITHUB_WORKSPACE}/killercoda/tempo/quick-start"
+        working-directory: killercoda/tools/transformer
+      - run: >
+          ./transformer
+          "${GITHUB_WORKSPACE}/mimir/docs/sources/mimir/get-started/play-with-grafana-mimir/index.md"
+          "${GITHUB_WORKSPACE}/killercoda/mimir/play-with-mimir"
         working-directory: killercoda/tools/transformer
       - run: ./scripts/manage-pr.bash
         env:
