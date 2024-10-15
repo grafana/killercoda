@@ -41,7 +41,7 @@ For more information on the `forward`{{copy}} input plugin, see the [Fluent Bit 
 
 ## Export logs to Loki using the official Loki output plugin
 
-Lastly, we will configure Fluent Bit to export logs to Loki using the official Loki output plugin. The Loki output plugin allows you to send logs or events to a Loki service. It supports data enrichment with Kubernetes labels, custom label keys and structured metadata.
+Lastly, we will configure Fluent Bit to export logs to Loki using the official Loki output plugin. The Loki output plugin allows you to send logs or events to a Loki service. It supports data enrichment with Kubernetes labels, custom label keys, and structured metadata.
 
 Add the following configuration to the `fluent-bit.conf`{{copy}} file:
 
