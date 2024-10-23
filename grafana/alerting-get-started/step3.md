@@ -1,6 +1,6 @@
 # Create an alert
 
-Next, we establish an [alert rule](ref:create-gm-alert-rule) within Grafana Alerting to notify us whenever alert rules are triggered and resolved.
+Next, we establish an [alert rule](https://grafana.com/docs/grafana/latest/alerting/alerting-rules/create-grafana-managed-rule/) within Grafana Alerting to notify us whenever alert rules are triggered and resolved.
 
 1. In Grafana, **navigate to Alerting** > **Alert rules**. Click on **New alert rule**.
 
