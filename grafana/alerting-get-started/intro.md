@@ -1,6 +1,6 @@
 # Get Started with Grafana Alerting - Part 1
 
-In this guide, we’ll walk you through the process of setting up your first alert in just a few minutes. You’ll witness your alert in action with real-time data, as well as sending alert notifications.
+In this guide, we walk you through the process of setting up your first alert in just a few minutes. You’ll witness your alert in action with real-time data, as well as sending alert notifications.
 
 In this tutorial you will:
 
