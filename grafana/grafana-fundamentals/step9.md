@@ -1,6 +1,6 @@
 # Create a contact point for Grafana-managed alert rules
 
-In this step, we’ll set up a new contact point. This contact point will use the _webhooks_ channel. In order to make this work, we also need an endpoint for our webhook channel to receive the alert notification. We will use [requestbin.com](https://requestbin.com) to quickly set up that test endpoint. This way we can make sure that our alert manager is actually sending a notification somewhere.
+In this step, we set up a new contact point. This contact point will use the _webhooks_ channel. In order to make this work, we also need an endpoint for our webhook channel to receive the alert notification. We will use [requestbin.com](https://requestbin.com) to quickly set up that test endpoint. This way we can make sure that our alert manager is actually sending a notification somewhere.
 
 1. Browse to [requestbin.com](https://requestbin.com).
 
