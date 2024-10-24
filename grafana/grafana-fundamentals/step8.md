@@ -24,4 +24,4 @@ The most basic alert rule consists of two parts:
 
 1. An _Alert rule_ - An Alert rule defines one or more _conditions_ that Grafana regularly evaluates. When these evaluations meet the rule’s criteria, the alert rule is triggered.
 
-To begin, let’s set up a webhook contact point. Once we have a usable endpoint, we’ll write an alert rule and trigger a notification.
+To begin, let’s set up a webhook contact point. Once we have a usable endpoint, we write an alert rule and trigger a notification.

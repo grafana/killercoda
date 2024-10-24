@@ -207,19 +207,19 @@ Optional: You can do a system service restart Alloy and load the configuration f
   sudo systemctl reload alloy
 ```
 
-  <!-- INTERACTIVE ignore START -->
-    {{< code >}}
+<!-- INTERACTIVE ignore START -->
+{{< code >}}
 
-    ```macos
-    brew services restart alloy
-    ```
+```macos
+brew services restart alloy
+```
 
-    ```linux
-    sudo systemctl reload alloy
-    ```
+```linux
+sudo systemctl reload alloy
+```
 
-    {{< /code >}}
-  <!-- INTERACTIVE ignore END -->
+{{< /code >}}
+<!-- INTERACTIVE ignore END -->
 
 <!-- INTERACTIVE page step2.md END -->
 
@@ -272,4 +272,3 @@ You have configured Alloy to collect and process metrics from your local host an
 [prometheus.scrape]: https://grafana.com/docs/alloy/latest/reference/components/prometheus/prometheus.scrape/
 [prometheus.relabel]: https://grafana.com/docs/alloy/latest/reference/components/prometheus/prometheus.relabel/
 [prometheus.remote_write]: https://grafana.com/docs/alloy/latest/reference/components/prometheus/prometheus.remote_write/
-
