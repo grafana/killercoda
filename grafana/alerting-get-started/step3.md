@@ -1,6 +1,6 @@
 # Create an alert
 
-Next, we’ll establish an [alert rule](http://grafana.com/docs/grafana/next/alerting/fundamentals/alert-rule-evaluation/) within Grafana Alerting to notify us whenever alert rules are triggered and resolved.
+Next, we establish an [alert rule](https://grafana.com/docs/grafana/latest/alerting/alerting-rules/create-grafana-managed-rule/) within Grafana Alerting to notify us whenever alert rules are triggered and resolved.
 
 1. In Grafana, **navigate to Alerting** > **Alert rules**. Click on **New alert rule**.
 
@@ -8,11 +8,9 @@ Next, we’ll establish an [alert rule](http://grafana.com/docs/grafana/next/ale
 
 ## Define query and alert condition
 
-In this section, we define queries, expressions (used to manipulate the data), and the condition that must be met for the alert to be triggered.
+In this section, we use the default options for Grafana-managed alert rule creation. The default options let us define the query, a expression (used to manipulate the data – the `WHEN`{{copy}} field in the UI), and the condition that must be met for the alert to be triggered (in default mode is the threshold).
 
 1. Select the **Prometheus** data source from the drop-down menu.
-
-1. In the Query editor, switch to **Code** mode by clicking the button at the right.
 
 1. Enter the following query:
 
@@ -22,19 +20,15 @@ In this section, we define queries, expressions (used to manipulate the data), a
 
    In Prometheus, `vector(1)`{{copy}} is a special type of PromQL query that generates a constant vector. This is useful in testing and query manipulation, where you might need a constant value for calculations or comparisons. This query will allow you to create an alert rule that will be always firing.
 
-1. Remove the ‘B’ **Reduce expression** (click the bin icon). The Reduce expression comes by default, and in this case, it is not needed since the queried data is already reduced. Note that the Threshold expression is now your **Alert condition**.
+1. In the **Alert condition** section:
 
-1. In the ‘C’ **Threshold expression**:
+   - Keep `Last`{{copy}} as the value for the reducer function (`WHEN`{{copy}}), and `0`{{copy}} as the threshold value. This is the value above which the alert rule should trigger.
 
-   - Change the **Input** to **‘A’** to select the data source.
-
-   - Enter `0`{{copy}} as the threshold value. This is the value above which the alert rule should trigger.
-
-1. Click **Preview** to run the queries.
+1. Click **Preview alert rule condition** to run the query.
 
    It should return a single sample with the value 1 at the current timestamp. And, since `1`{{copy}} is above `0`{{copy}}, the alert condition has been met, and the alert rule state is `Firing`{{copy}}.
 
-   ![A preview of a firing alert](https://grafana.com/media/docs/alerting/alerting-always-firing-alert.png)
+   ![A preview of a firing alert](https://grafana.com/media/docs/alerting/firing-alert-preview.png)
 
 ## Set evaluation behavior
 
