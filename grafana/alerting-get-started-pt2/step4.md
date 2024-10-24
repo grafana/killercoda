@@ -1,17 +1,19 @@
-# Create an alert rule that returns alert instances
+# Create notification policies
 
-The alert rule that you are about to create is meant to monitor web traffic page views. The objective is to explore what an alert instance is and how to leverage routing individual alert instances by using label matchers and notification policies.
+Create a notification policy if you want to handle metrics returned by alert rules separately by routing each alert instance to a specific contact point. In Grafana, click on the icon at the top left corner of the screen to access the navigation menu.
 
-## Add a data source
+1. Navigate to **Alerts & IRM > Alerting > Notification policies**.
 
-Grafana includes a [test data source](https://grafana.com/docs/grafana/latest/datasources/testdata/) that creates simulated time series data.
+1. In the Default policy, click **+ New child policy**.
 
-1. In Grafana navigate to **Connections > Add new connection**.
+1. In the field **Label** enter `device`{{copy}}, and in the field **Value** enter `desktop`{{copy}}.
 
-1. Search for **TestData**.
+1. From the **Contact point** drop-down, choose **Webhook**.
 
-1. Click **Add new data source**.
+   If you don’t have any contact points, add a [Contact point](https://grafana.com/tutorials/alerting-get-started/#create-a-contact-point).
 
-1. Click **Save & test**.
+1. Click **Save Policy**.
 
-   You should see a message confirming that the data source is working.
+   This new child policy routes alerts that match the label `device=desktop`{{copy}} to the Webhook contact point.
+
+1. **Repeat the steps above to create a second child policy** to match another alert instance. For labels use: `device=mobile`{{copy}}. Use the Webhook integration for the contact point. Alternatively, experiment by using a different Webhook endpoint or a [different integration](https://grafana.com/docs/grafana/latest/alerting/configure-notifications/manage-contact-points/#list-of-supported-integrations).

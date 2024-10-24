@@ -1,11 +1,25 @@
-# Alert instances
+To demonstrate the observation of data using the Grafana stack, download and run the following files.
 
-An [alert instance](https://grafana.com/docs/grafana/latest/alerting/fundamentals/#alert-instances) is an event that matches a metric returned by an alert rule query.
+1. Clone the [tutorial environment repository](https://www.github.com/grafana/tutorial-environment).
 
-Let’s consider a scenario where you’re monitoring website traffic using Grafana. You’ve set up an alert rule to trigger an alert instance if the number of page views exceeds a certain threshold (more than `1000`{{copy}} page views) within a specific time period, say, over the past `5`{{copy}} minutes.
+   ```
+   git clone https://github.com/grafana/tutorial-environment.git
+   ```{{exec}}
 
-If the query returns more than one time-series, each time-series represents a different metric or aspect being monitored. In this case, the alert rule is applied individually to each time-series.
+1. Change to the directory where you cloned the repository:
 
-![Screenshot displaying alert instances in the context of an alert rule, highlighting the specific alerts triggered by the rule and their respective statuses](https://grafana.com/media/docs/alerting/get-started-digram-instance-grey.png)
+   ```
+   cd tutorial-environment
+   ```{{exec}}
 
-In this scenario, each time-series is evaluated independently against the alert rule. It results in the creation of an alert instance for each time-series. The time-series corresponding to the desktop page views meets the threshold and, therefore, results in an alert instance in **Firing** state for which an alert notification is sent. The mobile alert instance state remains **Normal**.
+1. Run the Grafana stack:
+
+   ```bash
+   docker-compose up -d
+   ```{{exec}}
+
+   The first time you run `docker compose up -d`{{copy}}, Docker downloads all the necessary resources for the tutorial. This might take a few minutes, depending on your internet connection.
+
+   NOTE:
+
+   If you already have Grafana, Loki, or Prometheus running on your system, you might see errors, because the Docker image is trying to use ports that your local installations are already using. If this is the case, stop the services, then run the command again.

@@ -1,19 +1,13 @@
-# Create notification policies
+# Notification policies
 
-Create a notification policy if you want to handle metrics returned by alert rules separately by routing each alert instance to a specific contact point. In Grafana, click on the icon at the top left corner of the screen to access the navigation menu.
+[Notification policies](https://grafana.com/docs/grafana/latest/alerting/fundamentals/notifications/notification-policies/) route alerts to different communication channels, reducing alert noise and providing control over when and how alerts are sent. For example, you might use notification policies to ensure that critical alerts about server downtime are sent immediately to the on-call engineer. Another use case could be routing performance alerts to the development team for review and action.
 
-1. Navigate to **Alerts & IRM > Alerting > Notification policies**.
+Key Characteristics:
 
-1. In the Default policy, click **+ New child policy**.
+- Route alert notifications by matching alerts and policies with labels
 
-1. In the field **Label** enter `device`{{copy}}, and in the field **Value** enter `desktop`{{copy}}.
+- Manage when to send notifications
 
-1. From the **Contact point** drop-down, choose **Webhook**.
+![Screenshot illustrating the routing of alerts with notification policies, including the configuration and flow of alerts through different notification channels](https://grafana.com/media/docs/alerting/get-started-notification-policy-tree-combo.png)
 
-   If you don’t have any contact points, add a [Contact point](https://grafana.com/tutorials/alerting-get-started/#create-a-contact-point).
-
-1. Click **Save Policy**.
-
-   This new child policy routes alerts that match the label `device=desktop`{{copy}} to the Webhook contact point.
-
-1. **Repeat the steps above to create a second child policy** to match another alert instance. For labels use: `device=mobile`{{copy}}. Use the Webhook integration for the contact point. Alternatively, experiment by using a different Webhook endpoint or a [different integration](https://grafana.com/docs/grafana/latest/alerting/configure-notifications/manage-contact-points/#list-of-supported-integrations).
+In the above diagram, alert instances and notification policies are matched by labels. For instance, the label `team=operations`{{copy}} matches the alert instance “**Pod stuck in CrashLoop**” and “**Disk Usage -80%**” to child policies that send alert notifications to a particular contact point (<operations@grafana.com>).
