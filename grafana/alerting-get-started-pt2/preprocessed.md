@@ -183,6 +183,7 @@ Create a notification policy if you want to handle metrics returned by alert rul
 <!-- INTERACTIVE ignore END -->
 
 
+1. Visit [http://localhost:3000](http://localhost:3000), where Grafana should be running
 1. Navigate to **Alerts & IRM > Alerting > Notification policies**.
 1. In the Default policy, click **+ New child policy**.
 1. In the field **Label** enter `device`, and in the field **Value** enter `desktop`.

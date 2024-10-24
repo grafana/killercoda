@@ -2,6 +2,8 @@
 
 Create a notification policy if you want to handle metrics returned by alert rules separately by routing each alert instance to a specific contact point. In Grafana, click on the icon at the top left corner of the screen to access the navigation menu.
 
+1. Visit [http://localhost:3000]({{TRAFFIC_HOST1_3000}}), where Grafana should be running
+
 1. Navigate to **Alerts & IRM > Alerting > Notification policies**.
 
 1. In the Default policy, click **+ New child policy**.
