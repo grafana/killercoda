@@ -1,6 +1,6 @@
 # Get started with Grafana Alerting - Part 2
 
-This is part 2 of the [Get Started with Grafana Alerting tutorial](http://grafana.com/tutorials/alerting-get-started/).
+The Get started with Grafana Alerting tutorial Part 2 is a continuation of [Get started with Grafana Alerting tutorial Part 1](http://www.grafana.com/tutorials/alerting-get-started/).
 
 In this guide, we dig into more complex yet equally fundamental elements of Grafana Alerting: **alert instances** and **notification policies**.
 
