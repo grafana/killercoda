@@ -1,4 +1,4 @@
-# Get Started with Grafana Alerting - Part 1
+# Get started with Grafana Alerting - Part 1 of 2
 
 In this guide, we walk you through the process of setting up your first alert in just a few minutes. You’ll witness your alert in action with real-time data, as well as sending alert notifications.
 
@@ -10,4 +10,4 @@ In this tutorial you will:
 
 - Receive firing and resolved alert notifications in a public webhook.
 
-> Before you dive in, remember that you can [explore advanced topics like alert instances and notification routing](http://grafana.com/tutorials/alerting-get-started-pt2/) in the second part of this guide.
+> Once you have completed Part 1, don’t forget to explore the advanced but essential alerting topics in [Part 2 Alert instances and notification routing](http://www.grafana.com/tutorials/alerting-get-started-pt2/).

@@ -1,16 +1,16 @@
 # Clone the repository
 
-Clone the repository to your local machine:
+1. Clone the repository to your local machine:
 
-```bash
-git clone https://github.com/grafana/pyroscope.git && cd pyroscope
-```{{exec}}
+   ```bash
+   git clone https://github.com/grafana/pyroscope.git && cd pyroscope
+   ```{{exec}}
 
-Navigate to the tutorial directory:
+1. Navigate to the tutorial directory:
 
-```bash
-cd examples/language-sdk-instrumentation/python/rideshare/flask
-```{{exec}}
+   ```bash
+   cd examples/language-sdk-instrumentation/python/rideshare/flask
+   ```{{exec}}
 
 # Start the application
 
@@ -32,7 +32,7 @@ This may take a few minutes to download the required images and build the demo a
  ✔ Container flask-us-east-1 Started  
 ```{{copy}}
 
-(Optional) To verify the containers are running run:
+Optional: To verify the containers are running, run:
 
 ```bash
 docker ps -a

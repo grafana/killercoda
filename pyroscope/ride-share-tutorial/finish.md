@@ -1,6 +1,6 @@
 # Summary
 
-In this tutorial, you learned how to profile a simple “Ride Share” application using Pyroscope. You have learned some of the core instrumentation concepts such as tagging and how to use the Pyroscope UI to identify performance bottlenecks. You also learned how to integrate Pyroscope with Grafana to visualize the profile data.
+In this tutorial, you learned how to profile a simple “Ride Share” application using Pyroscope. You have learned some of the core instrumentation concepts such as tagging and how to use the Profile view of Grafana to identify performance bottlenecks.
 
 ## Next steps
 
