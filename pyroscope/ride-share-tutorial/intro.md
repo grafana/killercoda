@@ -1,16 +1,15 @@
 # Ride share tutorial with Pyroscope
 
-This tutorial demonstrates a basic use case of Pyroscope by profiling a “Ride Share” application. In this example, you will learn:
+This tutorial demonstrates a basic use case of Pyroscope by profiling a “Ride Share” application.
+In this example, you learn:
 
-- How a application is instrumented with Pyroscope. Including techniques for dynamically tagging functions.
+- How an application is instrumented with Pyroscope, including techniques for dynamically tagging functions.
 
-- View the resulting profile data in the Pyroscope UI.
+- How to view the resulting profile data in Grafana using the Profiles View.
 
-- Integrating Pyroscope with Grafana to visualize the profile data.
+- How to integrate Pyroscope with Grafana to visualize the profile data.
 
 ## Background
-
-![Getting started sample application](https://grafana.com/media/docs/pyroscope/ride-share-demo.gif)
 
 In this tutorial, you will profile a simple “Ride Share” application. The application is a Python Flask app that simulates a ride-sharing service. The app has three endpoints which are found in the `server.py`{{copy}} file:
 
@@ -30,7 +29,9 @@ To simulate a highly available and distributed system, the app is deployed on th
 
 This is simulated by running three instances of the server in Docker containers. Each server instance is tagged with the region it represents.
 
-In this scenario a load generator will send mock-load to the 3 servers as well as their respective endpoints. This will allow us to see how the application is performing per region and per vehicle type.
+![Getting started sample application](https://grafana.com/media/docs/pyroscope/ride-share-demo.gif)
+
+In this scenario, a load generator will send mock-load to the three servers as well as their respective endpoints. This lets you see how the application performs per region and per vehicle type.
 
 > **Tip:**
-> A setup script is running in the background to install the necessary dependencies. This should take no longer than 30 seconds. Your instance will be ready to use once you `Setup complete. You may now begin the tutorial`{{copy}}.
+> A setup script runs in the background to install the necessary dependencies. This should take no longer than 30 seconds. Your instance will be ready to use once you `Setup complete. You may now begin the tutorial`{{copy}}.
