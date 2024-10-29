@@ -45,8 +45,6 @@ You need to have the following prerequisites to complete this tutorial:
 
 ## Background
 
-
-
 In this tutorial, you will profile a simple "Ride Share" application. The application is a Python Flask app that simulates a ride-sharing service. The app has three endpoints which are found in the `server.py` file:
 
 - `/bike`    : calls the `order_bike(search_radius)` function to order a bike
@@ -114,9 +112,9 @@ docker ps -a
 
 <!-- INTERACTIVE page step2.md START -->
 
-## Accessing the Pyroscope UI
+## Accessing the Profile Explorer in Grafana
 
-Pyroscope includes a web-based UI that you can use to view the profile data. To access the Pyroscope UI, open a browser and navigate to [http://localhost:4040](http://localhost:4040).
+Grafana includes a Profiles Explorer that you can use to view the profile data. To access the Profiles Explorer, open a browser and navigate to [http://localhost:3000/a/grafana-pyroscope-app/profiles-explorer](http://localhost:3000/a/grafana-pyroscope-app/profiles-explorer).
 
 ### How tagging works
 
@@ -222,10 +220,7 @@ This looks to be caused by a mutex lock that is causing the function to block.
 
 <!-- INTERACTIVE page step4.md START -->
 
-> **Tip:**
-> Unfortunately, due to a bug within the Sandbox environment, the Explore Profiles app is currently unavailable. We are working on a fix and will update this tutorial once resolved. If you would like to try out Explore Profiles, you can run the example locally on your machine. Or you can try out this example in [Grafana Play](https://play.grafana.org/a/grafana-pyroscope-app/profiles-explorer?searchText=&panelType=time-series&layout=grid&hideNoData=off&explorationType=labels&var-serviceName=pyroscope-rideshare-python&var-profileMetricId=process_cpu:cpu:nanoseconds:cpu:nanoseconds&var-dataSource=grafanacloud-profiles&var-groupBy=all&var-filters=)
-
-## Integrating Pyroscope with Grafana
+## How was Pyroscope integrated with Grafana in this tutorial?
 
 The `docker-compose.yml` file includes a Grafana container that's pre-configured with the Pyroscope plugin:
     

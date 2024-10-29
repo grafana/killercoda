@@ -1,6 +1,6 @@
-# Accessing the Pyroscope UI
+# Accessing the Profile Explorer in Grafana
 
-Pyroscope includes a web-based UI that you can use to view the profile data. To access the Pyroscope UI, open a browser and navigate to [http://localhost:4040]({{TRAFFIC_HOST1_4040}}).
+Grafana includes a Profiles Explorer that you can use to view the profile data. To access the Profiles Explorer, open a browser and navigate to [http://localhost:3000/a/grafana-pyroscope-app/profiles-explorer]({{TRAFFIC_HOST1_3000}}/a/grafana-pyroscope-app/profiles-explorer).
 
 ## How tagging works
 
