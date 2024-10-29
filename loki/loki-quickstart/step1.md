@@ -55,5 +55,5 @@
 1. (Optional) You can check all the containers are running by running the following command:
 
    ```bash
-   docker ps -a 
+   docker ps -a
    ```{{exec}}

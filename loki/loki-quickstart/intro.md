@@ -15,7 +15,7 @@ The Docker Compose configuration runs the following components, each in its own 
 
 - **Loki write component**: which runs a Distributor and an Ingester.
 
-- **Loki backend component**: which runs an Index Gateway, Compactor, Ruler, Bloom Compactor (experimental), and Bloom Gateway (experimental).
+- **Loki backend component**: which runs an Index Gateway, Compactor, Ruler, Bloom Planner (experimental), Bloom Builder (experimental), and Bloom Gateway (experimental).
 
 - **Minio**: which Loki uses to store its index and chunks.
 
