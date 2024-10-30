@@ -1,6 +1,6 @@
 # Before you begin
 
-To demonstrate the observation of data using the Grafana stack, download the files to your local machine.
+To demonstrate the observation of data using the Grafana stack, download and run the following files.
 
 1. Download and save a Docker compose file to run Grafana, Loki and Promtail.
 

@@ -4,7 +4,7 @@ Next, we establish an [alert rule](https://grafana.com/docs/grafana/latest/alert
 
 1. In Grafana, **navigate to Alerting** > **Alert rules**. Click on **New alert rule**.
 
-1. Enter alert rule name for your alert rule. Make it short and descriptive as this will appear in your alert notification. For instance, **database-metrics**
+1. Enter alert rule name for your alert rule. Make it short and descriptive as this appears in your alert notification. For instance, **database-metrics**
 
 ## Define query and alert condition
 
@@ -20,7 +20,7 @@ In this section, we use the default options for Grafana-managed alert rule creat
    vector(1)
    ```{{copy}}
 
-   In Prometheus, `vector(1)`{{copy}} is a special type of PromQL query that generates a constant vector. This is useful in testing and query manipulation, where you might need a constant value for calculations or comparisons. This query will allow you to create an alert rule that will be always firing.
+   In Prometheus, `vector(1)`{{copy}} is a special type of PromQL query that generates a constant vector. This is useful in testing and query manipulation, where you might need a constant value for calculations or comparisons. This query allows you to create an alert rule that is always firing.
 
 1. In the **Alert condition** section:
 
@@ -44,11 +44,11 @@ The [alert rule evaluation](https://grafana.com/docs/grafana/latest/alerting/fun
 
 To set up the evaluation:
 
-1. In **Folder**, click **+ New folder** and enter a name. For example: _metric-alerts_. This folder will contain our alerts.
+1. In **Folder**, click **+ New folder** and enter a name. For example: _metric-alerts_. This folder contains our alerts.
 
-1. In the **Evaluation group**, repeat the above step to create a new evaluation group. We will name it _1m-evaluation_.
+1. In the **Evaluation group**, repeat the above step to create a new evaluation group. Name it _1m-evaluation_.
 
-1. Choose an **Evaluation interval** (how often the alert will be evaluated).
+1. Choose an **Evaluation interval** (how often the alert are evaluated).
    For example, every `1m`{{copy}} (1 minute).
 
 1. Set the pending period to, `0s`{{copy}} (zero seconds), so the alert rule fires the moment the condition is met.

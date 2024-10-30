@@ -2,7 +2,7 @@
 
 Alert rules allow you to identify problems in your system moments after they occur. By quickly identifying unintended changes in your system, you can minimize disruptions to your services.
 
-Grafana’s new alerting platform debuted with Grafana 8. A year later, with Grafana 9, it became the default alerting method. In this step we will create a Grafana-managed alert rule. Then we will trigger our new alert rule and send a test message to a dummy endpoint.
+Grafana’s new alerting platform debuted with Grafana 8. A year later, with Grafana 9, it became the default alerting method. In this step we create a Grafana-managed alert rule. Then we trigger our new alert rule and send a test message to a dummy endpoint.
 
 The most basic alert rule consists of two parts:
 

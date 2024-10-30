@@ -22,11 +22,11 @@ Now that Grafana knows how to notify us, it’s time to set up an alert rule:
 
 1. Keep `Last`{{copy}} as the value for the reducer function (`WHEN`{{copy}}), and `0.2`{{copy}} as the threshold value. This is the value above which the alert rule should trigger. [You can read more about queries and conditions here](https://grafana.com/docs/grafana/latest/alerting/fundamentals/alert-rules/queries-conditions/#expression-queries).
 
-1. In **Section 3**, in Folder, create a new folder, by clicking `New folder`{{copy}} and typing a name for the folder. This folder will contain our alert rules. For example: `fundamentals`{{copy}}. Then, click `create`{{copy}}.
+1. In **Section 3**, in Folder, create a new folder, by clicking `New folder`{{copy}} and typing a name for the folder. This folder contains our alert rules. For example: `fundamentals`{{copy}}. Then, click `create`{{copy}}.
 
-1. In the Evaluation group, repeat the above step to create a new one. We will name it `fundamentals`{{copy}} too.
+1. In the Evaluation group, repeat the above step to create a new one. Name it `fundamentals`{{copy}} too.
 
-1. Choose an Evaluation interval (how often the alert rule will be evaluated). For example, every `10s`{{copy}} (10 seconds).
+1. Choose an Evaluation interval (how often the alert rule are evaluated). For example, every `10s`{{copy}} (10 seconds).
 
 1. Set the pending period. This is the time that a condition has to be met until the alert instance enters in Firing state and a notification is sent. Enter `0s`{{copy}}. For the purposes of this tutorial, the evaluation interval is intentionally short. This makes it easier to test. This setting makes Grafana wait until an alert instance has fired for a given time before Grafana sends the notification.
 
@@ -42,7 +42,7 @@ We have now configured an alert rule and a contact point. Now let’s see if we 
 
 1. Add a new title and URL, repeatedly click the vote button, or refresh the page to generate a traffic spike.
 
-Once the query `sum(rate(tns_request_duration_seconds_count[5m])) by(route)`{{copy}} returns a value greater than `0.2`{{copy}} Grafana will trigger our alert rule. Browse to the Request Bin we created earlier and find the sent Grafana alert notification with details and metadata.
+Once the query `sum(rate(tns_request_duration_seconds_count[5m])) by(route)`{{copy}} returns a value greater than `0.2`{{copy}} Grafana triggers our alert rule. Browse to the Request Bin we created earlier and find the sent Grafana alert notification with details and metadata.
 
 Let’s see how we can configure this.
 
@@ -64,4 +64,4 @@ Let’s see how we can configure this.
 
    ![A panel in a Grafana dashboard with alerting and annotations configured](https://grafana.com/media/tutorials/grafana-alert-on-dashboard.png)
 
-> Check out our [advanced alerting tutorial](http://grafana.com/tutorials/alerting-get-started-pt2/) for more insights and tips.
+> In [Get started with Grafana Alerting - Part 2](http://www.grafana.com/tutorials/alerting-get-started-pt2/) you can advance your skills by exploring alert instances and notification routing.

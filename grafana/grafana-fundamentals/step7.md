@@ -2,7 +2,7 @@
 
 When things go bad, it often helps if you understand the context in which the failure occurred. Time of last deploy, system changes, or database migration can offer insight into what might have caused an outage. Annotations allow you to represent such events directly on your graphs.
 
-In the next part of the tutorial, we will simulate some common use cases that someone would add annotations for.
+In the next part of the tutorial, we simulate some common use cases that someone would add annotations for.
 
 1. To manually add an annotation, click anywhere in your graph, then click **Add annotation**.
    Note: you might need to save the dashboard first.
@@ -59,4 +59,4 @@ The log lines returned by your query are now displayed as annotations in the gra
 
 Being able to combine data from multiple data sources in one graph allows you to correlate information from both Prometheus and Loki.
 
-Annotations also work very well alongside alert rules. In the next and final section, we will set up an alert rules for our app `grafana.news`{{copy}} and then we will trigger it. This will provide a quick intro to our new Alerting platform.
+Annotations also work very well alongside alert rules. In the next and final section, we set up an alert rules for our app `grafana.news`{{copy}} and then we trigger it. This provides a quick intro to our new Alerting platform.
