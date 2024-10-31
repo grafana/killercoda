@@ -1,0 +1,41 @@
+{
+  "title": "Get started with Grafana Alerting - Part 2",
+  "description": "Learn to use alert instances and route notifications by labels to contacts, building on your alerting skills in Grafana for more advanced workflows — Part 2.",
+  "details": {
+    "intro": {
+      "text": "intro.md"
+    },
+    "steps": [
+      {
+        "text": "step1.md"
+      },
+      {
+        "text": "step2.md"
+      },
+      {
+        "text": "step3.md"
+      },
+      {
+        "text": "step4.md"
+      },
+      {
+        "text": "step5.md"
+      },
+      {
+        "text": "step6.md"
+      },
+      {
+        "text": "step7.md"
+      },
+      {
+        "text": "step8.md"
+      }
+    ],
+    "finish": {
+      "text": "finish.md"
+    }
+  },
+  "backend": {
+    "imageid": "ubuntu"
+  }
+}

@@ -12,6 +12,8 @@ In this section, we use the default options for Grafana-managed alert rule creat
 
 1. Select the **Prometheus** data source from the drop-down menu.
 
+1. In the Query editor, switch to **Code** mode by clicking the button on the right.
+
 1. Enter the following query:
 
    ```promql

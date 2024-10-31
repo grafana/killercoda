@@ -11,18 +11,18 @@ labels:
     - cloud
 tags:
   - beginner
-title: Get started with Grafana Alerting - Part 1
+title: Get started with Grafana Alerting - Part 1 of 2
 weight: 50
 killercoda:
-  title: Get started with Grafana Alerting - Part 1
-  description: Get started with Grafana Alerting by creating your first alert in just a few minutes. Learn how to set up an alert, send alert notifications to a public webhook, and generate sample data to observe your alert in action.
+  title: Get started with Grafana Alerting - Part 1 of 2
+  description: Get started with Grafana Alerting by creating your first alert rule, sending notifications to a webhook, and generating data to test it live — Part 1.
   backend:
     imageid: ubuntu
 ---
 
 <!-- INTERACTIVE page intro.md START -->
 
-# Get Started with Grafana Alerting - Part 1
+# Get started with Grafana Alerting - Part 1 of 2
 
 In this guide, we walk you through the process of setting up your first alert in just a few minutes. You'll witness your alert in action with real-time data, as well as sending alert notifications.
 
@@ -35,46 +35,40 @@ In this tutorial you will:
 <!-- INTERACTIVE ignore START -->
 
 > **Tip:**
-> Before you dive in, remember that you can [explore advanced topics like alert instances and notification routing](http://grafana.com/tutorials/alerting-get-started-pt2/) in the second part of this guide.
+> Once you have completed Part 1, don’t forget to explore the advanced but essential alerting topics in [Part 2 Alert instances and notification routing](http://www.grafana.com/tutorials/alerting-get-started-pt2/).
 
 <!-- INTERACTIVE ignore END -->
 
 
-> Before you dive in, remember that you can [explore advanced topics like alert instances and notification routing](http://grafana.com/tutorials/alerting-get-started-pt2/) in the second part of this guide.
+> Once you have completed Part 1, don’t forget to explore the advanced but essential alerting topics in [Part 2 Alert instances and notification routing](http://www.grafana.com/tutorials/alerting-get-started-pt2/).
 
 
 <!-- INTERACTIVE page intro.md END -->
 <!-- INTERACTIVE page step1.md START -->
 <!-- INTERACTIVE ignore START -->
 
-
-## Set up the Grafana stack
-
-
 ## Before you begin
 
 There are different ways you can follow along with this tutorial.
 
-### Grafana Cloud
+- **Grafana Cloud**
 
-As a Grafana Cloud user, you don't have to install anything. [Create your free account](http://grafana.com/auth/sign-up/create-user).
+  - As a Grafana Cloud user, you don't have to install anything. [Create your free account](http://www.grafana.com/auth/sign-up/create-user).
 
-Continue to [Create a contact point](#create-a-contact-point).
+  Continue to [Create a contact point](#create-a-contact-point).
 
-### Interactive learning environment
+- **Interactive learning environment**
 
-Alternatively, you can try out this example in our interactive learning environment: [Get started with Grafana Alerting](https://killercoda.com/grafana-labs/course/grafana/alerting-get-started/).
+  - Alternatively, you can [try out this example in our interactive learning environment](https://killercoda.com/grafana-labs/course/grafana/alerting-get-started/). It's a fully configured environment with all the dependencies already installed.
 
-It's a fully configured environment with all the dependencies already installed.
+- **Grafana OSS**
 
-### Grafana OSS
+  - If you opt to run a Grafana stack locally, ensure you have the following applications installed:
 
-If you opt to run a Grafana stack locally, ensure you have the following applications installed:
+  - [Docker Compose](https://docs.docker.com/get-docker/) (included in Docker for Desktop for macOS and Windows)
+  - [Git](https://git-scm.com/)
 
-- [Docker Compose](https://docs.docker.com/get-docker/) (included in Docker for Desktop for macOS and Windows)
-- [Git](https://git-scm.com/)
-
-#### Set up the Grafana stack (OSS users)
+### Set up the Grafana stack (OSS users)
 
 <!-- INTERACTIVE ignore END -->
 
@@ -142,7 +136,7 @@ To demonstrate the observation of data using the Grafana stack, download and run
 
 Besides being an open-source observability tool, Grafana has its own built-in alerting service. This means that you can receive notifications whenever there is an event of interest in your data, and even see these events graphed in your visualizations.
 
-In this step, we set up a new [contact point](https://grafana.com/docs/grafana/latest/alerting/configure-notifications/manage-contact-points/integrations/webhook-notifier/). This contact point will use the _webhooks_ integration. In order to make this work, we also need an endpoint for our webhook integration to receive the alert. We will use [Webhook.site](https://webhook.site/) to quickly set up that test endpoint. This way we can make sure that our alert is actually sending a notification somewhere.
+In this step, we set up a new contact point. This contact point will use the [webhook integration](https://grafana.com/docs/grafana/latest/alerting/configure-notifications/manage-contact-points/integrations/webhook-notifier/). In order to make this work, we also need an endpoint for our webhook integration to receive the alert. We will use [Webhook.site](https://webhook.site/) to quickly set up that test endpoint. This way we can make sure that our alert is actually sending a notification somewhere.
 
 1. In your browser, **sign in** to your Grafana Cloud account.
 
@@ -156,12 +150,12 @@ Your webhook endpoint is now waiting for the first request.
 Next, let's configure a contact point in Grafana's Alerting UI to send notifications to our webhook endpoint.
 
 1. Return to Grafana. In Grafana's sidebar, hover over the **Alerting** (bell) icon and then click **Contact points**.
-1. Click **+ Add contact point**.
+1. Click **+ Create contact point**.
 1. In **Name**, write **Webhook**.
 1. In **Integration**, choose **Webhook**.
 1. In **URL**, paste the endpoint to your webhook endpoint.
 1. Click **Test**, and then click **Send test notification** to send a test alert to your webhook endpoint.
-1. Navigate back to [Webhook.site](https://webhook.site/). On the left side, there's now a `POST /` entry. Click it to see what information Grafana sent.
+1. Navigate back to _Webhook.site_. On the left side, there's now a `POST /` entry. Click it to see what information Grafana sent.
 
    {{< figure src="/media/docs/alerting/alerting-webhook-detail.png" max-width="1200px" caption="A POST entry in Webhook.site" >}}
 
@@ -186,6 +180,7 @@ Next, we establish an [alert rule](https://grafana.com/docs/grafana/latest/alert
 In this section, we use the default options for Grafana-managed alert rule creation. The default options let us define the query, a expression (used to manipulate the data -- the `WHEN` field in the UI), and the condition that must be met for the alert to be triggered (in default mode is the threshold).
 
 1. Select the **Prometheus** data source from the drop-down menu.
+1. In the Query editor, switch to **Code** mode by clicking the button on the right.
 1. Enter the following query:
 
    ```promql
@@ -261,17 +256,17 @@ By incrementing the threshold, the condition is no longer met, and after the eva
 
 <!-- INTERACTIVE page finish.md START -->
 
-## Learn more
+## Learn more in [Grafana Alerting Part 2](http://www.grafana.com/tutorials/alerting-get-started-pt2/)
 
 <!-- INTERACTIVE ignore START -->
 
 > **Tip:**
-> Advance your skills by exploring [alert instances and notification routing](http://grafana.com/tutorials/alerting-get-started-pt2/) in Part 2 of your learning journey.
+> In [Get started with Grafana Alerting - Part 2](http://www.grafana.com/tutorials/alerting-get-started-pt2/) you can advance your skills by exploring alert instances and notification routing.
 
 <!-- INTERACTIVE ignore END -->
 
 
-Advance your skills by exploring [alert instances and notification routing](http://grafana.com/tutorials/alerting-get-started-pt2/) in Part 2 of your learning journey.
+In [Get started with Grafana Alerting - Part 2](http://www.grafana.com/tutorials/alerting-get-started-pt2/) you can advance your skills by exploring alert instances and notification routing.
 
 
 <!-- INTERACTIVE page finish.md END -->
