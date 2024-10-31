@@ -16,4 +16,5 @@ readonly ARCH VERSION_CODENAME
 printf 'deb [arch=%s signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu %s stable' "${ARCH}" "${VERSION_CODENAME}" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
 
 sudo apt-get update
-sudo apt-get install -y docker-compose-plugin python3.8-venv && clear && echo "Setup complete. You may now begin the tutorial."
+sudo add-apt-repository -y ppa:deadsnakes/ppa
+sudo apt-get install -y docker-compose-plugin python3.12 python3.12-venv && clear && echo "Setup complete. You may now begin the tutorial."

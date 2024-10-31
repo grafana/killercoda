@@ -23,7 +23,7 @@ Quest World runs as a python application our recommended way to install it is to
 1. Create a virtual environment
 
    ```bash
-   python3 -m venv .venv
+   python3.12 -m venv .venv
    ```{{exec}}
 
 1. Activate the virtual environment

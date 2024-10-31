@@ -32,7 +32,7 @@ Quest World is a text-based adventure game with an observability twist. In this 
 You can play Quest World in a sandbox environment. The online VM is pre-configured with all the necessary components to run the game. Click the button below to launch the VM and start playing.
 
 <div align="center">
-  <a href="https://example.com">
+  <a href="https://killercoda.com/grafana-labs/course/workshops/adventure">
     <img src="https://raw.githubusercontent.com/grafana/adventure/main/img/launch.png" alt="Quest" width="200"/>
   </a>
 </div>
@@ -68,7 +68,7 @@ Quest World runs as a python application our recommended way to install it is to
 1. Create a virtual environment
 
    ```bash
-   python3 -m venv .venv
+   python3.12 -m venv .venv
    ```
 
 2. Activate the virtual environment
