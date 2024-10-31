@@ -6,7 +6,7 @@
 
 - The game continues based on your inputs and choices.
 
-- This game involves checking Grafana dashboards to progress. You can access the Grafana dashboard at `http://localhost:3000`{{copy}}. Check the dashboard for hints and clues.
+- This game involves checking Grafana dashboards to progress. You can access the Grafana dashboard at [http://localhost:3000]({{TRAFFIC_HOST1_3000}}). Check the dashboard for hints and clues.
 
 ## Available Commands
 
