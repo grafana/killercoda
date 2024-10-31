@@ -4,7 +4,7 @@ Grafana Explore is a workflow for troubleshooting and data exploration. In this 
 
 > Ad-hoc queries are queries that are made interactively, with the purpose of exploring data. An ad-hoc query is commonly followed by another, more specific query.
 
-1. Click the menu icon and, in the sidebar, click **Explore**. A dropdown menu for the list of available data sources is on the upper-left side. The Prometheus data source will already be selected. If not, choose Prometheus.
+1. Click the menu icon and, in the sidebar, click **Explore**. A dropdown menu for the list of available data sources is on the upper-left side. The Prometheus data source should already be selected. If not, choose Prometheus.
 
 1. Confirm that you’re in code mode by checking the **Builder/Code** toggle at the top right corner of the query panel.
 

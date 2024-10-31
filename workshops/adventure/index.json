@@ -1,0 +1,24 @@
+{
+  "title": "Quest World",
+  "description": "A text-based adventure game with an observability twist",
+  "details": {
+    "intro": {
+      "text": "intro.md",
+      "foreground": "docker-compose-update.sh"
+    },
+    "steps": [
+      {
+        "text": "step1.md"
+      },
+      {
+        "text": "step2.md"
+      }
+    ],
+    "finish": {
+      "text": "finish.md"
+    }
+  },
+  "backend": {
+    "imageid": "ubuntu"
+  }
+}
