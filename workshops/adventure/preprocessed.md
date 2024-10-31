@@ -47,41 +47,47 @@ You can play Quest World in a sandbox environment. The online VM is pre-configur
 
 1. Clone the repository
 
-```bash
-git clone https://github.com/grafana/adventure.git
-```
+   ```bash
+   git clone https://github.com/grafana/adventure.git
+   ```
 
-2. Spin up the Observability Stack using Docker Compose
+1. Navigate to the `adventure` directory
 
-```bash
-docker-compose up -d
-```
+   ```bash
+   cd adventure
+   ```
+
+1. Spin up the Observability Stack using Docker Compose
+
+   ```bash
+   docker compose up -d
+   ```
 
 Quest World runs as a python application our recommended way to install it is to use a virtual environment.
 
 1. Create a virtual environment
 
-```bash
-python3 -m venv .venv
-```
+   ```bash
+   python3 -m venv .venv
+   ```
 
 2. Activate the virtual environment
 
-```bash
-source .venv/bin/activate
-```
+   ```bash
+   source .venv/bin/activate
+   ```
 
 3. Install the required dependencies
 
-```bash
-pip install -r requirements.txt
-```
+   ```bash
+   pip install -r requirements.txt
+   ```
 
 4. Run the application
 
-```bash
-python main.py
-```
+   ```bash
+   python main.py
+   ```
 
 <!-- INTERACTIVE page step1.md END -->
 
