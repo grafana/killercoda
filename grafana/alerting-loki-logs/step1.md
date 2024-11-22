@@ -5,7 +5,7 @@ To demonstrate the observation of data using the Grafana stack, download and run
 1. Download and save a Docker compose file to run Grafana, Loki and Promtail.
 
    ```bash
-   wget https://raw.githubusercontent.com/grafana/loki/v2.8.0/production/docker-compose.yaml -O docker-compose.yaml
+   wget https://raw.githubusercontent.com/grafana/loki/refs/heads/main/production/docker-compose.yaml -O docker-compose.yaml
    ```{{exec}}
 
 1. Run the Grafana stack.
