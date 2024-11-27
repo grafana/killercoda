@@ -1,6 +1,6 @@
 # LogCLI tutorial
 
-This [LogCLI](https://grafana.com/docs/loki/%3CVERSION%3E/query/logcli/) tutorial will walk you through the following concepts:
+This [LogCLI](https://grafana.com/docs/loki/latest/query/logcli/) tutorial will walk you through the following concepts:
 
 - Querying logs
 

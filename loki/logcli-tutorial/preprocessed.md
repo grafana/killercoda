@@ -18,7 +18,7 @@ killercoda:
 
 # LogCLI tutorial
 
-This [LogCLI](https://grafana.com/docs/loki/<VERSION>/query/logcli/) tutorial will walk you through the following concepts:
+This [LogCLI](https://grafana.com/docs/loki/<LOKI_VERSION>/query/logcli/) tutorial will walk you through the following concepts:
 
 * Querying logs
 * Meta Queries against your Loki instance
@@ -178,7 +178,14 @@ This will return a result similar to the following:
 
 ### Writing query results to a file
 
-Another useful feature of LogCLI is the ability to write the query results to a file. This can be useful for offloading the results of our inventory report.
+Another useful feature of LogCLI is the ability to write the query results to a file. This can be useful for offloading the results of our inventory report:
+
+First we need to create a directory to store the logs:
+```bash
+mkdir -p ./inventory
+```
+
+Next we can run the following query to write the logs to the `./inventory` directory:
 
 ```bash
   logcli query \
@@ -188,7 +195,6 @@ Another useful feature of LogCLI is the ability to write the query results to a 
      --parallel-max-workers="4" \
      --part-path-prefix="./inventory/inv" \
      --since=24h \
-     --forwards \
      '{service_name="Delivery World"}'
 ```
 

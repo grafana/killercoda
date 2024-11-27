@@ -71,7 +71,15 @@ This will return a result similar to the following:
 
 ## Writing query results to a file
 
-Another useful feature of LogCLI is the ability to write the query results to a file. This can be useful for offloading the results of our inventory report.
+Another useful feature of LogCLI is the ability to write the query results to a file. This can be useful for offloading the results of our inventory report:
+
+First we need to create a directory to store the logs:
+
+```bash
+mkdir -p ./inventory
+```{{exec}}
+
+Next we can run the following query to write the logs to the `./inventory`{{copy}} directory:
 
 ```bash
   logcli query \
@@ -81,7 +89,6 @@ Another useful feature of LogCLI is the ability to write the query results to a 
      --parallel-max-workers="4" \
      --part-path-prefix="./inventory/inv" \
      --since=24h \
-     --forwards \
      '{service_name="Delivery World"}'
 ```{{exec}}
 
