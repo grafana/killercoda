@@ -17,5 +17,4 @@ printf 'deb [arch=%s signed-by=/etc/apt/keyrings/docker.asc] https://download.do
 
 wget https://github.com/grafana/loki/releases/download/v3.3.0/logcli_3.3.0_amd64.deb && \
 sudo dpkg -i logcli_3.3.0_amd64.deb && \ 
-sudo apt-get update && \
-sudo apt-get install -y docker-compose-plugin && clear && echo "Setup complete. You may now begin the tutorial."
+sudo apt-get update && sudo apt-get install -y docker-compose-plugin && clear && echo "Setup complete. You may now begin the tutorial."
