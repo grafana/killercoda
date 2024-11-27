@@ -1,0 +1,30 @@
+{
+  "title": "LogCLI tutorial",
+  "description": "Learn how to use LogCLI to query logs in Grafana Loki.",
+  "details": {
+    "intro": {
+      "text": "intro.md",
+      "foreground": "setup.sh"
+    },
+    "steps": [
+      {
+        "text": "step1.md"
+      },
+      {
+        "text": "step2.md"
+      },
+      {
+        "text": "step3.md"
+      },
+      {
+        "text": "step4.md"
+      }
+    ],
+    "finish": {
+      "text": "finish.md"
+    }
+  },
+  "backend": {
+    "imageid": "ubuntu"
+  }
+}
