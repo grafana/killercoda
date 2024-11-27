@@ -15,6 +15,7 @@ readonly ARCH VERSION_CODENAME
 
 printf 'deb [arch=%s signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu %s stable' "${ARCH}" "${VERSION_CODENAME}" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
 
+sudo apt-get update && sudo apt-get install -y docker-compose-plugin && \
 wget https://github.com/grafana/loki/releases/download/v3.3.0/logcli_3.3.0_amd64.deb && \
 sudo dpkg -i logcli_3.3.0_amd64.deb && \ 
-sudo apt-get update && sudo apt-get install -y docker-compose-plugin && clear && echo "Setup complete. You may now begin the tutorial."
+clear && echo "Setup complete. You may now begin the tutorial."
