@@ -43,7 +43,7 @@ Copy and paste the following component configuration below the previous componen
   }
 ```{{copy}}
 
-This configuration creates a [loki.source.file](https://grafana.com/docs/alloy/latest/reference/components/loki/loki.source.file/) component named `log_scrape`{{copy}} which does the following:
+This configuration creates a [`loki.source.file`{{copy}}](https://grafana.com/docs/alloy/latest/reference/components/loki/loki.source.file/) component named `log_scrape`{{copy}} which does the following:
 
 - It connects to the `local_files`{{copy}} component as its source or target.
 
@@ -73,7 +73,7 @@ Copy and paste the following component configuration below the previous componen
 The `loki.process`{{copy}} component allows you to transform, filter, parse, and enrich log data.
 Within this component, you can define one or more processing stages to specify how you would like to process log entries before they’re stored or forwarded.
 
-This configuration creates a [loki.process](https://grafana.com/docs/alloy/latest/reference/components/loki/loki.process/) component named `filter_logs`{{copy}} which does the following:
+This configuration creates a [`loki.process`{{copy}}](https://grafana.com/docs/alloy/latest/reference/components/loki/loki.process/) component named `filter_logs`{{copy}} which does the following:
 
 - It receives scraped log entries from the default `log_scrape`{{copy}} component.
 
@@ -85,7 +85,7 @@ This configuration creates a [loki.process](https://grafana.com/docs/alloy/lates
 
 - It forwards the processed logs to the receiver of another component called `grafana_loki`{{copy}}.
 
-The [`loki.process`{{copy}} documentation](https://grafana.com/docs/alloy/latest/reference/components/loki/loki.process/) provides more comprehensive information on processing logs.
+The [`loki.process`{{copy}}](https://grafana.com/docs/alloy/latest/reference/components/loki/loki.process/) documentation provides more comprehensive information on processing logs.
 
 ## Fourth component: Write logs to Loki
 
