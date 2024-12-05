@@ -1,10 +1,10 @@
 {
-  "title": "Quick start for Tempo",
-  "description": "Use Docker to quickly view traces using K-6 and Tempo",
+  "title": "LogCLI tutorial",
+  "description": "Learn how to use LogCLI to query logs in Grafana Loki.",
   "details": {
     "intro": {
       "text": "intro.md",
-      "foreground": "docker-compose-update.sh"
+      "foreground": "setup.sh"
     },
     "steps": [
       {
@@ -15,6 +15,9 @@
       },
       {
         "text": "step3.md"
+      },
+      {
+        "text": "step4.md"
       }
     ],
     "finish": {

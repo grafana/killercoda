@@ -2,11 +2,11 @@
 
 Open [http://localhost:3000/explore/metrics/]({{TRAFFIC_HOST1_3000}}/explore/metrics/) to access the **Explore Metrics** feature in Grafana.
 
-From here you can visually explore the metrics that are being sent to Prometheus by Alloy.
+From here you can visually explore the metrics sent to Prometheus by Alloy.
 
 ![Explore Metrics App](https://grafana.com/media/docs/alloy/explore-metrics.png)
 
-You can also build promQL queries manually to explore the data further.
+You can also build PromQL queries manually to explore the data further.
 
 Open [http://localhost:3000/explore]({{TRAFFIC_HOST1_3000}}/explore) to access the **Explore** feature in Grafana.
 
