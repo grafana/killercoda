@@ -49,7 +49,7 @@ To complete this tutorial:
 
 <!-- INTERACTIVE ignore START -->
 > **Tip:**
-> Alternatively, you can try out this example in our interactive learning environment: [Sending metrics to Prometheus](https://killercoda.com/grafana-labs/course/alloy/send-metrics-to-prometheus).
+> Alternatively, you can try out this example in the interactive learning environment: [Sending metrics to Prometheus](https://killercoda.com/grafana-labs/course/alloy/send-metrics-to-prometheus).
 >
 > It's a fully configured environment with all the dependencies already installed.
 >
@@ -165,9 +165,11 @@ This connects directly to the Prometheus instance running in the Docker containe
 
 Copy your local `config.alloy` file into the default Alloy configuration file location.
 
+
 ```bash
 sudo cp config.alloy /etc/alloy/config.alloy
 ```
+
 <!-- INTERACTIVE ignore START -->
 {{< code >}}
 
@@ -178,6 +180,7 @@ sudo cp config.alloy $(brew --prefix)/etc/alloy/config.alloy
 ```linux
 sudo cp config.alloy /etc/alloy/config.alloy
 ```
+
 {{< /code >}}
 <!-- INTERACTIVE ignore END -->
 
@@ -192,20 +195,22 @@ curl -X POST http://localhost:12345/-/reload
 > This step uses the Alloy UI, on `localhost` port `12345`.
 > If you choose to run Alloy in a Docker container, make sure you use the `--server.http.listen-addr=0.0.0.0:12345` argument.
 >
-> If you don’t use this argument, the [debugging UI][debug] won’t be available outside of the Docker container.
+> If you don't use this argument, the [debugging UI][debug] won't be available outside of the Docker container.
 
 [debug]: https://grafana.com/docs/alloy/latest/troubleshoot/debug/#alloy-ui
 <!-- INTERACTIVE ignore END -->
 
 
-> This step uses the Alloy UI on `localhost` port `12345`. If you chose to run Alloy in a Docker container, make sure you use the `--server.http.listen-addr=` argument. If you don’t use this argument, the [debugging UI](https://grafana.com/docs/alloy/latest/troubleshoot/debug/#alloy-ui) won’t be available outside of the Docker container.
+> This step uses the Alloy UI on `localhost` port `12345`. If you chose to run Alloy in a Docker container, make sure you use the `--server.http.listen-addr=` argument. If you don't use this argument, the [debugging UI](https://grafana.com/docs/alloy/latest/troubleshoot/debug/#alloy-ui) won't be available outside of the Docker container.
 
 
 Optional: You can do a system service restart Alloy and load the configuration file:
 
+
 ```bash
   sudo systemctl reload alloy
 ```
+
 
 <!-- INTERACTIVE ignore START -->
 {{< code >}}
@@ -244,19 +249,17 @@ You can see that the components are healthy, and you are ready to explore the me
 
 Open [http://localhost:3000/explore/metrics/](http://localhost:3000/explore/metrics/) to access the **Explore Metrics** feature in Grafana.
 
-From here you can visually explore the metrics that are being sent to Prometheus by Alloy. 
+From here you can visually explore the metrics sent to Prometheus by Alloy.
 
 {{< figure src="/media/docs/alloy/explore-metrics.png" alt="Explore Metrics App" >}}
 
-You can also build promQL queries manually to explore the data further.
+You can also build PromQL queries manually to explore the data further.
 
 Open [http://localhost:3000/explore](http://localhost:3000/explore) to access the **Explore** feature in Grafana.
 
 Select Prometheus as the data source and click the **Metrics Browser** button to select the metric, labels, and values for your labels.
 
 Here you can see that metrics are flowing through to Prometheus as expected, and the end-to-end configuration was successful.
-
-
 
 <!-- INTERACTIVE page step4.md END -->
 
