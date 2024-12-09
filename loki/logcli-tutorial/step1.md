@@ -25,7 +25,7 @@ To connect LogCLI to the Loki instance, you need to set the `LOKI_ADDR`{{copy}} 
 export LOKI_ADDR=http://localhost:3100
 ```{{exec}}
 
-Lets now verify the connection by running the following command:
+Now let’s verify the connection by running the following command:
 
 ```bash
 logcli labels
@@ -40,4 +40,4 @@ service_name
 state
 ```{{copy}}
 
-This confirms that LogCLI is connected to the Loki instance and we now know that the logs contain the following labels: `package_size`{{copy}}, `service_name`{{copy}}, and `state`{{copy}}. Lets now run some queries against Loki to better understand our package logistics.
+This confirms that LogCLI is connected to the Loki instance and we now know that the logs contain the following labels: `package_size`{{copy}}, `service_name`{{copy}}, and `state`{{copy}}. Let’s now run some queries against Loki to better understand our package logistics.
