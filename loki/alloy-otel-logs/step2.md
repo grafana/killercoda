@@ -2,7 +2,7 @@
 
 To configure Alloy to ingest OpenTelemetry logs, we need to update the Alloy configuration file. To start, we will update the `config.alloy`{{copy}} file to include the OpenTelemetry logs configuration.
 
-## Open your Code Editor and Locate the `config.alloy`{{copy}} file
+## Open your code editor and locate the `config.alloy`{{copy}} file
 
 Grafana Alloy requires a configuration file to define the components and their relationships. The configuration file is written using Alloy configuration syntax. We will build the entire observability pipeline within this configuration file. To start, we will open the `config.alloy`{{copy}} file in the code editor:
 
@@ -43,7 +43,7 @@ In this configuration:
 
 For more information on the `otelcol.receiver.otlp`{{copy}} configuration, see the [OpenTelemetry Receiver OTLP documentation](https://grafana.com/docs/alloy/latest/reference/components/otelcol.receiver.otlp/).
 
-## Create batches of logs using a OpenTelemetry Processor
+## Create batches of logs using a OpenTelemetry processor
 
 Next, we will configure a OpenTelemetry processor. `otelcol.processor.batch`{{copy}} accepts telemetry data from other `otelcol`{{copy}} components and places them into batches. Batching improves the compression of data and reduces the number of outgoing network requests required to transmit data. This processor supports both size and time based batching.
 
@@ -63,7 +63,7 @@ In this configuration:
 
 For more information on the `otelcol.processor.batch`{{copy}} configuration, see the [OpenTelemetry Processor Batch documentation](https://grafana.com/docs/alloy/latest/reference/components/otelcol.processor.batch/).
 
-## Export logs to Loki using a OpenTelemetry Exporter
+## Export logs to Loki using a OpenTelemetry exporter
 
 Lastly, we will configure the OpenTelemetry exporter. `otelcol.exporter.otlphttp`{{copy}} accepts telemetry data from other `otelcol`{{copy}} components and writes them over the network using the OTLP HTTP protocol. We will use this exporter to send the logs to the Loki native OTLP endpoint.
 
