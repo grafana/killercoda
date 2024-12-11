@@ -18,6 +18,9 @@ killercoda:
         replacement: evaluate-loki_${1}_
   title: Loki Quickstart Demo
   description: This sandbox provides an online enviroment for testing the Loki quickstart demo.
+  details:
+    intro:
+      foreground: setup.sh
   backend:
     imageid: ubuntu
 ---
@@ -97,20 +100,10 @@ Before you start, you need to have the following installed on your local system:
 
    With `evaluate-loki` as the current working directory, start the demo environment using `docker compose`:
 
-   <!-- INTERACTIVE ignore START -->
-
    ```bash
    docker compose up -d
    ```
 
-   <!-- INTERACTIVE ignore END -->
-
-   
-   ```bash
-   docker-compose up -d
-   ```
-
-   
    At the end of the command, you should see something similar to the following:
 
    ```console

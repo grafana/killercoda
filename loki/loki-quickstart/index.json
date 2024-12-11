@@ -3,7 +3,8 @@
   "description": "This sandbox provides an online enviroment for testing the Loki quickstart demo.",
   "details": {
     "intro": {
-      "text": "intro.md"
+      "text": "intro.md",
+      "foreground": "setup.sh"
     },
     "steps": [
       {
