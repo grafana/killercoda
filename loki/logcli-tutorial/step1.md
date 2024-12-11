@@ -1,25 +1,25 @@
 # Setup
 
-To get started, we need to clone the [Alloy Scenario](https://github.com/grafana/alloy-scenarios) repository and spin up the mail-house example:
+To get started, we need to clone the [Alloy Scenario](https://github.com/grafana/alloy-scenarios) repository and start the mail-house example:
 
 1. Clone the repository:
    ```bash
    git clone https://github.com/grafana/alloy-scenarios.git
    ```{{exec}}
 
-1. Spin up the mail-house example:
+1. Start the mail-house example:
    ```bash
    docker compose -f alloy-scenarios/mail-house/docker-compose.yml up -d
    ```{{exec}}
 
-This will start the mail-house example and expose the Loki instance on [`http://localhost:3100`{{copy}}]({{TRAFFIC_HOST1_3100}}). We have also included a Grafana instance to verify the LogCLI results which can be accessed on [`http://localhost:3000`{{copy}}]({{TRAFFIC_HOST1_3000}}).
+This will start the mail-house example and expose the Loki instance at [`http://localhost:3100`{{copy}}]({{TRAFFIC_HOST1_3100}}). We have also included a Grafana instance to verify the LogCLI results which can be accessed at [http://localhost:3000]({{TRAFFIC_HOST1_3000}}).
 
 ## Connecting LogCLI to Loki
 
 To connect LogCLI to the Loki instance, you need to set the `LOKI_ADDR`{{copy}} environment variable:
 
 > **Tip:**
-> If you are running this example against your own Loki instance and have configured authentication, you will need to set the `LOKI_USERNAME`{{copy}} and `LOKI_PASSWORD`{{copy}} environment variables as well.
+> If you are running this example against your own Loki instance and have configured authentication, you will also need to set the `LOKI_USERNAME`{{copy}} and `LOKI_PASSWORD`{{copy}} environment variables.
 
 ```bash
 export LOKI_ADDR=http://localhost:3100
