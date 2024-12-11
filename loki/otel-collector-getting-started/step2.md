@@ -49,7 +49,7 @@ In this configuration:
 
 For more information on the `otlp`{{copy}} receiver configuration, see the [OpenTelemetry Receiver OTLP documentation](https://github.com/open-telemetry/opentelemetry-collector/blob/main/receiver/otlpreceiver/README.md).
 
-## Create batches of logs using a OpenTelemetry Processor
+## Create batches of logs using a OpenTelemetry processor
 
 Next add the following configuration to the `otel-config.yaml`{{copy}} file:
 
@@ -67,7 +67,7 @@ In this configuration:
 
 For more information on the `batch`{{copy}} processor configuration, see the [OpenTelemetry Processor Batch documentation](https://github.com/open-telemetry/opentelemetry-collector/blob/main/processor/batchprocessor/README.md).
 
-## Export logs to Loki using a OpenTelemetry Exporter
+## Export logs to Loki using a OpenTelemetry exporter
 
 We will use the `otlphttp/logs`{{copy}} exporter to send the logs to the Loki native OTLP endpoint. Add the following configuration to the `otel-config.yaml`{{copy}} file:
 
@@ -94,7 +94,7 @@ In this configuration:
 
 For more information on the `otlphttp/logs`{{copy}} exporter configuration, see the [OpenTelemetry Exporter OTLP HTTP documentation](https://github.com/open-telemetry/opentelemetry-collector/blob/main/exporter/otlphttpexporter/README.md)
 
-## Creating the Pipeline
+## Creating the pipeline
 
 Now that we have configured the receiver, processor, and exporter, we need to create a pipeline to connect these components. Add the following configuration to the `otel-config.yaml`{{copy}} file:
 
@@ -118,7 +118,7 @@ In this configuration:
 
 - `exporters`{{copy}}: The list of exporters to export telemetry data. In this case, we are using the `otlphttp/logs`{{copy}} component exporter we created earlier.
 
-## Load the Configuration
+## Load the configuration
 
 Before you load the configuration into the OpenTelemetry Collector, compare your configuration with the completed configuration below:
 

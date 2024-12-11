@@ -49,7 +49,7 @@ logcli query 'count_over_time({state="California"}| json | package_type= "Docume
 
 Instant metric queries are a subset of metric queries that return the value of the metric at a specific point in time. This can be useful for quickly understanding an aggregate state of the stored logs.
 
-For instance, we can use the following query to get the number of packages being sent from California at the current time:
+For instance, we can use the following query to get the number of packages sent from California in the last 5 minutes:
 
 ```bash
 logcli instant-query 'sum(count_over_time({state="California"}[5m]))'
@@ -92,4 +92,4 @@ Next we can run the following query to write the logs to the `./inventory`{{copy
      '{service_name="Delivery World"}'
 ```{{exec}}
 
-This will write all logs for the `service_name`{{copy}} `Delivery World`{{copy}} in the last 24 hours to the `./inventory`{{copy}} directory. The logs will be split into two files, each containing 12 hours of logs. Note that we do not need to specify `--limit`{{copy}} as this is overridden by the `--parallel-duration`{{copy}} flag. The `--forwards`{{copy}} flag will write the logs in ascending order.
+This will write all logs for the `service_name`{{copy}} `Delivery World`{{copy}} in the last 24 hours to the `./inventory`{{copy}} directory. The logs will be split into two files, each containing 12 hours of logs. Note that we do not need to specify `--limit`{{copy}} as this is overridden by the `--parallel-duration`{{copy}} flag.

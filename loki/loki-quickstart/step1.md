@@ -23,7 +23,7 @@
    With `evaluate-loki`{{copy}} as the current working directory, start the demo environment using `docker compose`{{copy}}:
 
    ```bash
-   docker-compose up -d
+   docker compose up -d
    ```{{exec}}
 
    At the end of the command, you should see something similar to the following:

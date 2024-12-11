@@ -2,7 +2,7 @@
 
 In this first step, we will configure Alloy to ingest raw Kafka logs. To do this, we will update the `config.alloy`{{copy}} file to include the Kafka logs configuration.
 
-## Open your Code Editor and Locate the `config.alloy`{{copy}} file
+## Open your code editor and locate the `config.alloy`{{copy}} file
 
 Grafana Alloy requires a configuration file to define the components and their relationships. The configuration file is written using Alloy configuration syntax. We will build the entire observability pipeline within this configuration file. To start, we will open the `config.alloy`{{copy}} file in the code editor:
 
@@ -16,7 +16,7 @@ Grafana Alloy requires a configuration file to define the components and their r
 
 You will copy all three of the following configuration snippets into the `config.alloy`{{copy}} file.
 
-## Source logs from kafka
+## Source logs from Kafka
 
 First, we will configure the Loki Kafka source. `loki.source.kafka`{{copy}} reads messages from Kafka using a consumer group and forwards them to other `loki.*`{{copy}} components.
 
