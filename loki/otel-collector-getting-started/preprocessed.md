@@ -14,12 +14,14 @@ killercoda:
     imageid: ubuntu
 ---
 
+<!-- vale Grafana.We = NO -->
 <!-- INTERACTIVE page intro.md START -->
 
 # Getting started with the OpenTelemetry Collector and Loki tutorial
 
 The OpenTelemetry Collector offers a vendor-agnostic implementation of how to receive, process, and export telemetry data. With the introduction of the OTLP endpoint in Loki, you can now send logs from applications instrumented with OpenTelemetry to Loki using the OpenTelemetry Collector in native OTLP format.
 In this example, we will teach you how to configure the OpenTelemetry Collector to receive logs in the OpenTelemetry format and send them to Loki using the OTLP HTTP protocol. This will involve configuring the following components in the OpenTelemetry Collector:
+
 - **OpenTelemetry Receiver:** This component will receive logs in the OpenTelemetry format via HTTP and gRPC.
 - **OpenTelemetry Processor:** This component will accept telemetry data from other `otelcol.*` components and place them into batches. Batching improves the compression of data and reduces the number of outgoing network requests required to transmit data.
 - **OpenTelemetry Exporter:** This component will accept telemetry data from other `otelcol.*` components and write them over the network using the OTLP HTTP protocol. We will use this exporter to send the logs to the Loki native OTLP endpoint.
@@ -72,7 +74,7 @@ In this step, we will set up our environment by cloning the repository that cont
     git clone -b microservice-otel-collector  https://github.com/grafana/loki-fundamentals.git
     ```
     <!-- INTERACTIVE exec END -->
-1.  Next we will spin up our observability stack using Docker Compose:
+1. Next we will spin up our observability stack using Docker Compose:
 
     <!-- INTERACTIVE ignore START -->
     ```bash
@@ -82,13 +84,14 @@ In this step, we will set up our environment by cloning the repository that cont
 
     
     <!-- INTERACTIVE exec START -->
-    ```bash 
+    ```bash
     docker-compose -f loki-fundamentals/docker-compose.yml up -d 
     ```
     <!-- INTERACTIVE exec END -->
 
     
     To check the status of services we can run the following command:
+
     ```bash
     docker ps -a
     ```
@@ -96,7 +99,6 @@ In this step, we will set up our environment by cloning the repository that cont
     > **Note:**
     > The OpenTelemetry Collector container will show as `Stopped` or `Exited (1) About a minute ago`. This is expected as we have provided an empty configuration file. We will update this file in the next step.
     <!-- INTERACTIVE ignore END -->
-
 
 After we've finished configuring the OpenTelemetry Collector and sending logs to Loki, we will be able to view the logs in Grafana. To check if Grafana is up and running, navigate to the following URL: [http://localhost:3000](http://localhost:3000)
 <!-- INTERACTIVE page step1.md END -->
@@ -112,6 +114,7 @@ To configure the Collector to ingest OpenTelemetry logs from our application, we
 The configuration file is written using **YAML** configuration syntax. To start, we will open the `otel-config.yaml` file in the code editor:
 
 **Note: Killercoda has an inbuilt Code editor which can be accessed via the `Editor` tab.**
+
 1. Expand the `loki-fundamentals` directory in the file explorer of the `Editor` tab.
 2. Locate the `otel-config.yaml` file in the top level directory, `loki-fundamentals`.
 3. Click on the `otel-config.yaml` file to open it in the code editor.
@@ -129,6 +132,7 @@ You will copy all three of the following configuration snippets into the `otel-c
 First, we will configure the OpenTelemetry receiver. `otlp:` accepts logs in the OpenTelemetry format via HTTP and gRPC. We will use this receiver to receive logs from the Carnivorous Greenhouse application.
 
 Now add the following configuration to the `otel-config.yaml` file:
+
 ```yaml
 # Receivers
 receivers:
@@ -141,6 +145,7 @@ receivers:
 ```
 
 In this configuration:
+
 - `receivers`: The list of receivers to receive telemetry data. In this case, we are using the `otlp` receiver.
 - `otlp`: The OpenTelemetry receiver that accepts logs in the OpenTelemetry format.
 - `protocols`: The list of protocols that the receiver supports. In this case, we are using `grpc` and `http`.
@@ -150,10 +155,10 @@ In this configuration:
 
 For more information on the `otlp` receiver configuration, see the [OpenTelemetry Receiver OTLP documentation](https://github.com/open-telemetry/opentelemetry-collector/blob/main/receiver/otlpreceiver/README.md).
 
-
-### Create batches of logs using a OpenTelemetry Processor
+### Create batches of logs using a OpenTelemetry processor
 
 Next add the following configuration to the `otel-config.yaml` file:
+
 ```yaml
 # Processors
 processors:
@@ -161,14 +166,16 @@ processors:
 ```
 
 In this configuration:
+
 - `processors`: The list of processors to process telemetry data. In this case, we are using the `batch` processor.
 - `batch`: The OpenTelemetry processor that accepts telemetry data from other `otelcol` components and places them into batches.
 
 For more information on the `batch` processor configuration, see the [OpenTelemetry Processor Batch documentation](https://github.com/open-telemetry/opentelemetry-collector/blob/main/processor/batchprocessor/README.md).
 
-### Export logs to Loki using a OpenTelemetry Exporter
+### Export logs to Loki using a OpenTelemetry exporter
 
 We will use the `otlphttp/logs` exporter to send the logs to the Loki native OTLP endpoint. Add the following configuration to the `otel-config.yaml` file:
+
 ```yaml
 # Exporters
 exporters:
@@ -177,7 +184,9 @@ exporters:
     tls:
       insecure: true
 ```
+
 In this configuration:
+
 - `exporters`: The list of exporters to export telemetry data. In this case, we are using the `otlphttp/logs` exporter.
 - `otlphttp/logs`: The OpenTelemetry exporter that accepts telemetry data from other `otelcol` components and writes them over the network using the OTLP HTTP protocol.
 - `endpoint`: The URL to send the telemetry data to. In this case, we are sending the logs to the Loki native OTLP endpoint at `http://loki:3100/otlp`.
@@ -186,9 +195,10 @@ In this configuration:
   
 For more information on the `otlphttp/logs` exporter configuration, see the [OpenTelemetry Exporter OTLP HTTP documentation](https://github.com/open-telemetry/opentelemetry-collector/blob/main/exporter/otlphttpexporter/README.md)
 
-### Creating the Pipeline
+### Creating the pipeline
 
 Now that we have configured the receiver, processor, and exporter, we need to create a pipeline to connect these components. Add the following configuration to the `otel-config.yaml` file:
+
 ```yaml
 # Pipelines
 service:
@@ -200,13 +210,13 @@ service:
 ```
 
 In this configuration:
+
 - `pipelines`: The list of pipelines to connect the receiver, processor, and exporter. In this case, we are using the `logs` pipeline but there is also pipelines for metrics, traces, and continuous profiling.
 - `receivers`: The list of receivers to receive telemetry data. In this case, we are using the `otlp` receiver component we created earlier.
 - `processors`: The list of processors to process telemetry data. In this case, we are using the `batch` processor component we created earlier.
 - `exporters`: The list of exporters to export telemetry data. In this case, we are using the `otlphttp/logs` component exporter we created earlier.
 
-
-### Load the Configuration
+### Load the configuration
 
 Before you load the configuration into the OpenTelemetry Collector, compare your configuration with the completed configuration below:
 
@@ -239,6 +249,7 @@ service:
       processors: [batch]
       exporters: [otlphttp/logs]
 ```
+
 Next, we need apply the configuration to the OpenTelemetry Collector. To do this, we will restart the OpenTelemetry Collector container:
 <!-- INTERACTIVE exec START -->
 ```bash
@@ -253,6 +264,7 @@ docker logs loki-fundamentals_otel-collector_1
 ```
 
 Within the logs, you should see the following message:
+
 ```console
 2024-08-02T13:10:25.136Z        info    service@v0.106.1/service.go:225 Everything is ready. Begin running and processing data.
 ```
@@ -291,7 +303,6 @@ docker compose -f loki-fundamentals/greenhouse/docker-compose-micro.yml up -d --
 <!-- INTERACTIVE ignore END -->
 
 
-
 <!-- INTERACTIVE exec START -->
 ```bash
 docker-compose -f loki-fundamentals/greenhouse/docker-compose-micro.yml up -d --build
@@ -300,6 +311,7 @@ docker-compose -f loki-fundamentals/greenhouse/docker-compose-micro.yml up -d --
 
 
 This will start the following services:
+
 ```console
  ✔ Container greenhouse-db-1                 Started                                                         
  ✔ Container greenhouse-websocket_service-1  Started 
@@ -319,7 +331,6 @@ Once started, you can access the Carnivorous Greenhouse application at [http://l
 
 Finally to view the logs in Loki, navigate to the Loki Logs Explore view in Grafana at [http://localhost:3000/a/grafana-lokiexplore-app/explore](http://localhost:3000/a/grafana-lokiexplore-app/explore).
 
-
 <!-- INTERACTIVE page step3.md END -->
 
 <!-- INTERACTIVE page finish.md START -->
@@ -329,9 +340,9 @@ Finally to view the logs in Loki, navigate to the Loki Logs Explore view in Graf
 In this example, we configured the OpenTelemetry Collector to receive logs from an example application and send them to Loki using the native OTLP endpoint. Make sure to also consult the Loki configuration file `loki-config.yaml` to understand how we have configured Loki to receive logs from the OpenTelemetry Collector.
 
 
-### Back to Docs
-Head back to where you started from to continue with the [Loki documentation](https://grafana.com/docs/loki/latest/send-data/otel).
+### Back to docs
 
+Head back to where you started from to continue with the [Loki documentation](https://grafana.com/docs/loki/latest/send-data/otel).
 
 
 ## Further reading
@@ -342,12 +353,11 @@ For more information on the OpenTelemetry Collector and the native OTLP endpoint
 - [How is native OTLP endpoint different from Loki Exporter](https://grafana.com/docs/loki/<LOKI_VERSION>/send-data/otel/native_otlp_vs_loki_exporter)
 - [OpenTelemetry Collector Configuration](https://opentelemetry.io/docs/collector/configuration/)
 
-
 ## Complete metrics, logs, traces, and profiling example
 
 If you would like to use a demo that includes Mimir, Loki, Tempo, and Grafana, you can use [Introduction to Metrics, Logs, Traces, and Profiling in Grafana](https://github.com/grafana/intro-to-mlt). `Intro-to-mltp` provides a self-contained environment for learning about Mimir, Loki, Tempo, and Grafana.
 
 The project includes detailed explanations of each component and annotated configurations for a single-instance deployment. Data from `intro-to-mltp` can also be pushed to Grafana Cloud.
 
-
 <!-- INTERACTIVE page finish.md END -->
+<!-- vale Grafana.We = YES -->

@@ -2,7 +2,7 @@
 
 In this example, we configured the OpenTelemetry Collector to receive logs from an example application and send them to Loki using the native OTLP endpoint. Make sure to also consult the Loki configuration file `loki-config.yaml`{{copy}} to understand how we have configured Loki to receive logs from the OpenTelemetry Collector.
 
-## Back to Docs
+## Back to docs
 
 Head back to where you started from to continue with the [Loki documentation](https://grafana.com/docs/loki/latest/send-data/otel).
 

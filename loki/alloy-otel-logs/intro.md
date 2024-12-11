@@ -10,7 +10,7 @@ Alloy natively supports receiving logs in the OpenTelemetry format. This allows 
 
 ## Scenario
 
-In this scenario, we have a microservices application called the Carnivourse Greenhouse. This application consists of the following services:
+In this scenario, we have a microservices application called the Carnivorous Greenhouse. This application consists of the following services:
 
 - **User Service:** Manages user data and authentication for the application. Such as creating users and logging in.
 
