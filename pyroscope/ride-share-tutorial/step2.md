@@ -1,11 +1,11 @@
-# Accessing the Profile Explorer in Grafana
+# Accessing Explore Profiles in Grafana
 
-Grafana includes a Profiles Explorer that you can use to view the profile data. To access the Profiles Explorer, open a browser and navigate to [http://localhost:3000/a/grafana-pyroscope-app/profiles-explorer]({{TRAFFIC_HOST1_3000}}/a/grafana-pyroscope-app/profiles-explorer).
+Grafana includes the [Explore Profiles](https://grafana.com/docs/grafana/latest/explore/simplified-exploration/profiles/) app that you can use to view profile data. To access Explore Profiles, open a browser and navigate to [http://localhost:3000/a/grafana-pyroscope-app/profiles-explorer]({{TRAFFIC_HOST1_3000}}/a/grafana-pyroscope-app/profiles-explorer).
 
 ## How tagging works
 
 In this example, the application is instrumented with Pyroscope using the Python SDK.
-The SDK allows you to tag functions with metadata that can be used to filter and group the profile data in the Pyroscope UI.
+The SDK allows you to tag functions with metadata that can be used to filter and group the profile data in the Explore Profiles.
 This example uses static and dynamic tagging.
 
 To start, let’s take a look at a static tag use case. Within the `server.py`{{copy}} file, find the Pyroscope configuration:
@@ -23,15 +23,15 @@ To start, let’s take a look at a static tag use case. Within the `server.py`{{
 ```{{copy}}
 
 This tag is considered static is because the tag is set at the start of the application and doesn’t change.
-In this case, it’s useful for grouping profiles on a per region basis, which lets yousee the performance of the application per region.
+In this case, it’s useful for grouping profiles on a per region basis, which lets you see the performance of the application per region.
 
-Open Grafana to see how this tag is used:
+1. Open Grafana using the following url: [http://localhost:3000/a/grafana-pyroscope-app/profiles-explorer]({{TRAFFIC_HOST1_3000}}/a/grafana-pyroscope-app/profiles-explorer).
 
-1. Open the Profile Explorer in Grafana UI, which can be accessed using the following url: [http://localhost:3000/a/grafana-pyroscope-app/profiles-explorer]({{TRAFFIC_HOST1_3000}}/a/grafana-pyroscope-app/profiles-explorer).
+1. In the main menu, select **Explore** > **Profiles**.
 
-1. Select on `Labels`{{copy}} in the `Exploration`{{copy}} path.
+1. Select  **Labels** in the **Exploration** path.
 
-1. Select the `region`{{copy}} tab in the `Group by labels`{{copy}} section.
+1. Select the **region** tab in the **Group by labels** section.
 
 You should now see a list of regions that the application is running in. You can see that `eu-north`{{copy}} is experiencing the most load.
 
@@ -54,12 +54,12 @@ This example uses `tag_wrapper`{{copy}} to tag the function with the vehicle typ
 Notice that the tag is dynamic as it changes based on the vehicle type.
 This is useful for grouping profiles on a per vehicle basis. Allowing us to see the performance of the application per vehicle type being requested.
 
-Use the Pyroscope UI to see how this tag is used:
+Use Explore Profiles to see how this tag is used:
 
-1. Open the Profile Explorer in Grafana UI, which can be accessed using the following url: [http://localhost:3000/a/grafana-pyroscope-app/profiles-explorer]({{TRAFFIC_HOST1_3000}}/a/grafana-pyroscope-app/profiles-explorer).
+1. Open Explore Profiles using the following url: [http://localhost:3000/a/grafana-pyroscope-app/profiles-explorer]({{TRAFFIC_HOST1_3000}}/a/grafana-pyroscope-app/profiles-explorer).
 
-1. Select on `Labels`{{copy}} in the `Exploration`{{copy}} path.
+1. Select on **Labels** in the **Exploration** path.
 
-1. Select the `vehicle`{{copy}} tab in the `Group by labels`{{copy}} section.
+1. In the **Group by labels** section, select the **vehicle** tab.
 
 You should now see a list of vehicle types that the application is using. You can see that `car`{{copy}} is experiencing the most load.

@@ -1,6 +1,6 @@
 # Queries against static log files
 
-In addition to querying logs from Loki, LogCLI also supports querying static log files. This can be useful for querying logs that are not stored in Loki using LogQL. Earlier in the tutorial we stored the logs in the `./inventory`{{copy}} directory. Lets run a similar query but pipe it into a log file:
+In addition to querying logs from Loki, LogCLI also supports querying static log files. This can be useful for querying logs that are not stored in Loki. Earlier in the tutorial we stored the logs in the `./inventory`{{copy}} directory. Lets run a similar query but pipe it into a log file:
 
 ```bash
   logcli query \
@@ -20,11 +20,11 @@ Next lets run a query against the static log file:
 cat ./inventory/complete.log |  logcli --stdin query '{service_name="Delivery World"} | json | package_status="critical"'
 ```{{exec}}
 
-Note that since we are querying a static log file labels are not automatically detected:
+Note that since we are querying a static log file, labels are not automatically detected:
 
 - `{service_name="Delivery World"}`{{copy}} is optional in this case but is recommended for clarity.
 
-- `json`{{copy}} is required to parse the log file as JSON. This allows us to extract the `package_status`{{copy}} field.
+- `json`{{copy}} is required to parse the log file as JSON. This lets us extract the `package_status`{{copy}} field.
 
 For example, suppose we try to query the log file without the `json`{{copy}} filter:
 

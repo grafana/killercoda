@@ -1,4 +1,4 @@
-# Meta Queries
+# Meta queries
 
 As site managers, it’s essential to maintain good data hygiene and ensure Loki operates efficiently. Understanding the labels and log volume in your logs plays a key role in this process. Beyond querying logs, LogCLI also supports meta queries on your Loki instance. Meta queries don’t return log data but provide insights into the structure of your logs and the performance of your queries. The following examples demonstrate some of the core meta queries we run internally to better understand how a Loki instance is performing.
 
@@ -47,9 +47,9 @@ package_size  3              15
 service_name  1              15
 ```{{copy}}
 
-## Detected Fields
+## Detected fields
 
-Another useful feature of LogCLI is the ability to detect fields in your logs. This can be useful for understanding the structure of your logs and the keys that are present. This will allow us to detect keys which could be promoted to labels and others to structured metadata.
+Another useful feature of LogCLI is the ability to detect fields in your logs. This can be useful for understanding the structure of your logs and the keys that are present. This will let us detect keys which could be promoted to labels or to structured metadata.
 
 ```bash
 logcli detected-fields --since 24h '{service_name="Delivery World"}'
@@ -58,22 +58,24 @@ logcli detected-fields --since 24h '{service_name="Delivery World"}'
 This will return a list of all the keys detected in our logs. The output will look similar to the following:
 
 ```console
-label: city             type: string    cardinality: 15
-label: detected_level   type: string    cardinality: 3
-label: note             type: string    cardinality: 7
-label: package_id       type: string    cardinality: 7136
-label: package_status   type: string    cardinality: 4
-label: package_type     type: string    cardinality: 5
-label: receiver_address type: string    cardinality: 6962
-label: receiver_name    type: string    cardinality: 100
-label: sender_address   type: string    cardinality: 6981
-label: sender_name      type: string    cardinality: 100
-label: timestamp        type: string    cardinality: 7438
+label: city                   type: string  cardinality: 15
+label: detected_level         type: string  cardinality: 3
+label: note                   type: string  cardinality: 7
+label: package_id             type: string  cardinality: 994
+label: package_size_extracted type: string  cardinality: 3
+label: package_status         type: string  cardinality: 4
+label: package_type           type: string  cardinality: 5
+label: receiver_address       type: string  cardinality: 991
+label: receiver_name          type: string  cardinality: 100
+label: sender_address         type: string  cardinality: 991
+label: sender_name            type: string  cardinality: 100
+label: state_extracted        type: string  cardinality: 5
+label: timestamp              type: string  cardinality: 1000
 ```{{copy}}
 
-You can now see why we opted to keep `package_id`{{copy}} in structured metadata and `package_size`{{copy}} as a label. Package ID has a high cardinality and is unique to each log entry, making it a good candidate for structured metadata since we potentially may need to query for it directly. Package size, on the other hand, has a low cardinality and is a good candidate for a label.
+You can now see why we opted to keep `package_id`{{copy}} in structured metadata and `package_size`{{copy}} as a label. Package ID has a high cardinality and is unique to each log entry, making it a good candidate for structured metadata since we potentially may need to query for it directly. Package size, on the other hand, has a low cardinality, making it a good candidate for a label.
 
-## Checking Query Performance
+## Checking query performance
 
 Another important aspect of keeping Loki healthy is to monitor the query performance. We can use LogCLI to check the query performance of our logs.
 

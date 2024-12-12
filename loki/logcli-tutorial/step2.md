@@ -4,7 +4,7 @@ As part of our role within the logistics company, we need to build a report on t
 
 ## Find all critical packages
 
-To find all critical packages in the last hour, we can run the following query:
+To find all critical packages in the last hour (the default lookback time), we can run the following query:
 
 ```bash
 logcli query '{service_name="Delivery World"} | package_status="critical"'
@@ -31,21 +31,63 @@ This will query all logs for the `package_status`{{copy}} `critical`{{copy}} in 
 logcli query --since 24h --limit 100 '{service_name="Delivery World"} | package_status="critical"' 
 ```{{exec}}
 
-## Metric Queries
+## Metric queries
 
-We can also use LogCLI to query logs based on metrics. For instance as part of the site report we want to count how many packages are being sent from California in the last 5 minutes. We can use the following query:
-
-```bash
-logcli query 'sum(count_over_time({state="California"}[5m]))'
-```{{exec}}
-
-Lets suppose we only want to know the number of packages of type `document`{{copy}} being sent from California in the last 5 minutes. We can use the following query:
+We can also use LogCLI to query logs based on metrics. For instance as part of the site report we want to count the total number of packages sent from California in the last 24 hours in 1 hour intervals. We can use the following query:
 
 ```bash
-logcli query 'count_over_time({state="California"}| json | package_type= "Documents" [5m])'
+logcli query --since 24h 'sum(count_over_time({state="California"}[1h]))'
 ```{{exec}}
 
-## Instant Metric Queries
+This will return a JSON object containing a list of timestamps (Unix format) and the number of packages sent from California in 1 hour intervals. Since we summing the count of logs over time, we will see the total number of logs steadily increase over time. The output will look similar to the following:
+
+```console
+[
+  {
+    "metric": {},
+    "values": [
+      [
+        1733913765,
+        "46"
+      ],
+      [
+        1733914110,
+        "114"
+      ],
+      [
+        1733914455,
+        "179"
+      ],
+      [
+        1733914800,
+        "250"
+      ],
+      [
+        1733915145,
+        "318"
+      ],
+      [
+        1733915490,
+        "392"
+      ],
+      [
+        1733915835,
+        "396"
+      ]
+    ]
+  }
+]
+```{{copy}}
+
+We can take this a step further and filter the logs based on the `package_type`{{copy}} label. For instance, we can count the number of documents sent from California in the last 24 hours in 1 hour intervals:
+
+```bash
+logcli query --since 24h  'sum(count_over_time({state="California"}| json | package_type= "Documents" [1h]))'
+```{{exec}}
+
+This will return a similar JSON object above but will only show a trend of the number of documents sent from California in 1 hour intervals.
+
+## Instant metric queries
 
 Instant metric queries are a subset of metric queries that return the value of the metric at a specific point in time. This can be useful for quickly understanding an aggregate state of the stored logs.
 
@@ -66,12 +108,12 @@ This will return a result similar to the following:
       "58"
     ]
   }
-]%
+]
 ```{{copy}}
 
 ## Writing query results to a file
 
-Another useful feature of LogCLI is the ability to write the query results to a file. This can be useful for offloading the results of our inventory report:
+Another useful feature of LogCLI is the ability to write the query results to a file. This can be useful for downloading the results of our inventory report:
 
 First we need to create a directory to store the logs:
 
