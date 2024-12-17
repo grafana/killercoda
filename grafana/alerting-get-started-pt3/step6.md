@@ -6,7 +6,7 @@ When the configured alert rule detects CPU usage higher than 75% across multiple
 
 As a result, our notification policy will route two notifications: one notification grouping the three alert instances from the `us-east`{{copy}} region and another grouping the two alert instances from the `us-west`{{copy}} region
 
-Gouped notifications example:
+Grouped notifications example:
 
 Webhook - US East
 

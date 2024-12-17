@@ -40,7 +40,7 @@ To follow the above example, we will create notification policies that route ale
 
    **Group by** consolidates alerts that share the same grouping label into a single notification. For example, all alerts with `region=us-west`{{copy}} will be combined into one notification, making it easier to manage and reducing alert fatigue.
 
-1. Set custom timin:
+1. Set custom timing:
 
    - Toggle **Override general timings**.
 
