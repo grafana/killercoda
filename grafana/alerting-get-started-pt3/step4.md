@@ -38,7 +38,7 @@ To follow the above example, we will create notification policies that route ale
 
    - **Group by**: `region`{{copy}}.
 
-   **Group by** consolidates alerts that share the same grouping label into a single notification. For example, all alerts with `region=us-west`{{copy}} will be combined into one notification, making it easier to manage and reducing alert fatigue.
+     **Group by** consolidates alerts that share the same grouping label into a single notification. For example, all alerts with `region=us-west`{{copy}} will be combined into one notification, making it easier to manage and reducing alert fatigue.
 
 1. Set custom timing:
 
@@ -46,11 +46,11 @@ To follow the above example, we will create notification policies that route ale
 
    - **Group interval**: `2m`{{copy}}. This ensures follow-up notifications for the same alert group will be sent at intervals of 2 minutes.
 
-   **Timing options** control how often notifications are sent and can help balance timely alerting with minimizing noise.
+     **Timing options** control how often notifications are sent and can help balance timely alerting with minimizing noise.
 
 1. Save and repeat:
 
    - Repeat for `region = us-east`{{copy}} with a different webhook or a different contact point.
 
-   **Note**: In Grafana, each label within a notification policy must have a unique key. If you attempt to add the same label key (e.g., region) with different values (us-west and us-east), only the last entry will be saved, and the previous one will be discarded. This is because labels are stored as associative arrays (maps), where each key must be unique.
-   For identical label keys use regex matchers (e.g., _region=~“us-west|us-east”_).
+     **Note**: In Grafana, each label within a notification policy must have a unique key. If you attempt to add the same label key (e.g., region) with different values (us-west and us-east), only the last entry will be saved, and the previous one will be discarded. This is because labels are stored as associative arrays (maps), where each key must be unique.
+     For identical label keys use regex matchers (e.g., _region=~“us-west|us-east”_).

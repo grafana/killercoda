@@ -14,11 +14,7 @@ Webhook - US East
 {
   "receiver": "webhook-us-east",
   "status": "firing",
-  "alerts": [
-    { "instance": "server-03" },
-    { "instance": "server-06" },
-    { "instance": "server-08" }
-  ]
+  "alerts": [{ "instance": "server-03" }, { "instance": "server-06" }, { "instance": "server-08" }]
 }
 ```{{copy}}
 
@@ -28,9 +24,6 @@ Webhook - US West
 {
   "receiver": "webhook-us-west",
   "status": "firing",
-  "alerts": [
-    { "instance": "server-02" },
-    { "instance": "server-07" }
-  ]
+  "alerts": [{ "instance": "server-02" }, { "instance": "server-07" }]
 }
 ```{{copy}}
