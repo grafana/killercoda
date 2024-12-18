@@ -268,14 +268,10 @@ To follow the above example, we will create notification policies that route ale
    These nested policies should route alert instances where the region label is either us-west or us-east.
 
    > **Note:**
-   > **Note**: In Grafana, each label within a notification policy must have a unique key. If you attempt to add the same label key (e.g., region) with different values (us-west and us-east), only the last entry will be saved, and the previous one will be discarded. This is because labels are stored as associative arrays (maps), where each key must be unique.
+   > **Note**: In Grafana, each label within a notification policy must have a unique key. If you attempt to add the same label key (e.g., region) with different values (us-west and us-east), only the last entry is saved, and the previous one is discarded. This is because labels are stored as associative arrays (maps), where each key must be unique.
    > For identical label keys use regex matchers (e.g., _region=~"us-west|us-east"_).
 
-   
-   > **Note**: In Grafana, each label within a notification policy must have a unique key. If you attempt to add the same label key (e.g., region) with different values (us-west and us-east), only the last entry will be saved, and the previous one will be discarded. This is because labels are stored as associative arrays (maps), where each key must be unique.
-   > For identical label keys use regex matchers (e.g., _region=~"us-west|us-east"_).
-
-      <!-- INTERACTIVE ignore END -->
+<!-- INTERACTIVE ignore END -->
 
 
 1. Visit [http://localhost:3000](http://localhost:3000), where Grafana should be running
