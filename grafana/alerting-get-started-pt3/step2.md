@@ -40,6 +40,6 @@ Alerts sharing the **same label values** are grouped together, and timing option
 
 For more details, see:
 
-- [Grouping Alerts](ref:alert-grouping)
+- [Grouping Alerts](https://grafana.com/docs/grafana/latest/alerting/fundamentals/notifications/group-alert-notifications/)
 
-- [Alert Labels](ref:alert-labels)
+- [Alert Labels](https://grafana.com/docs/grafana/latest/alerting/fundamentals/alert-rules/annotation-label/#label-types)
