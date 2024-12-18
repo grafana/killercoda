@@ -47,7 +47,7 @@ Grouping is configured by using labels in the notification policy that reference
 
 In this tutorial, you will:
 
-- Understand how alert rule grouping works.
+- Learn how alert rule grouping works.
 - Create a notification policy to handle grouping.
 - Define an alert rule for a real-world scenario.
 - Receive and review grouped alert notifications.
@@ -267,10 +267,15 @@ To follow the above example, we will create notification policies that route ale
 
    These nested policies should route alert instances where the region label is either us-west or us-east.
 
-   **Note**: In Grafana, each label within a notification policy must have a unique key. If you attempt to add the same label key (e.g., region) with different values (us-west and us-east), only the last entry will be saved, and the previous one will be discarded. This is because labels are stored as associative arrays (maps), where each key must be unique.
-   For identical label keys use regex matchers (e.g., _region=~"us-west|us-east"_).
+   > **Note:**
+   > **Note**: In Grafana, each label within a notification policy must have a unique key. If you attempt to add the same label key (e.g., region) with different values (us-west and us-east), only the last entry will be saved, and the previous one will be discarded. This is because labels are stored as associative arrays (maps), where each key must be unique.
+   > For identical label keys use regex matchers (e.g., _region=~"us-west|us-east"_).
 
-<!-- INTERACTIVE ignore END -->
+   
+   > **Note**: In Grafana, each label within a notification policy must have a unique key. If you attempt to add the same label key (e.g., region) with different values (us-west and us-east), only the last entry will be saved, and the previous one will be discarded. This is because labels are stored as associative arrays (maps), where each key must be unique.
+   > For identical label keys use regex matchers (e.g., _region=~"us-west|us-east"_).
+
+      <!-- INTERACTIVE ignore END -->
 
 
 1. Visit [http://localhost:3000](http://localhost:3000), where Grafana should be running
@@ -312,7 +317,7 @@ To follow the above example, we will create notification policies that route ale
 
    - Repeat for `region = us-east` with a different webhook or a different contact point.
 
-     **Note**: In Grafana, each label within a notification policy must have a unique key. If you attempt to add the same label key (e.g., region) with different values (us-west and us-east), only the last entry will be saved, and the previous one will be discarded. This is because labels are stored as associative arrays (maps), where each key must be unique.
+     **Note**: In Grafana, each label within a notification policy must have a unique key. If you attempt to add the same label key (e.g., region) with different values (us-west and us-east), only the last entry is saved, and the previous one is discarded. This is because labels are stored as associative arrays (maps), where each key must be unique.
      For identical label keys use regex matchers (e.g., _region=~"us-west|us-east"_).
 
 
@@ -323,12 +328,12 @@ To follow the above example, we will create notification policies that route ale
 
 In this section we configure an alert rule based on our application monitoring example.
 
-1. Go to **Alerting > Alert rules**.
+1. Navigate to **Alerting > Alert rules**.
 2. Click **New alert rule**.
 
 ### Enter an alert rule name
 
-Make it short and descriptive as this will appear in your alert notification. For instance, `High CPU usage - Multi-region`.
+Make it short and descriptive as this appears in your alert notification. For instance, `High CPU usage - Multi-region`.
 
 ### Define query and alert condition
 
@@ -336,7 +341,7 @@ In this section, we use the default options for Grafana-managed alert rule creat
 
 Grafana includes a [test data source](https://grafana.com/docs/grafana/latest/datasources/testdata/) that creates simulated time series data. This data source is included in the demo environment for this tutorial. If you're working in Grafana Cloud or your own local Grafana instance, you can add the data source through the **Connections** menu.
 
-1. Select **TestData** data source from the drop-down menu.
+1. From the drop-down menu, select **TestData** data source.
 1. From **Scenario** select **CSV Content**.
 1. Copy in the following CSV data:
 

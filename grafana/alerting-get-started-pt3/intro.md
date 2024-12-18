@@ -8,7 +8,7 @@ Grouping is configured by using labels in the notification policy that reference
 
 In this tutorial, you will:
 
-- Understand how alert rule grouping works.
+- Learn how alert rule grouping works.
 
 - Create a notification policy to handle grouping.
 
