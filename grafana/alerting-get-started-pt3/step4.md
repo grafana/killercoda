@@ -44,7 +44,7 @@ To follow the above example, we will create notification policies that route ale
 
    - Toggle **Override general timings**.
 
-   - **Group interval**: `2m`{{copy}}. This ensures follow-up notifications for the same alert group will be sent at intervals of 2 minutes.
+   - **Group interval**: `2m`{{copy}}. This ensures follow-up notifications for the same alert group will be sent at intervals of 2 minutes. While the default is 5 minutes, we chose 2 minutes here to provide faster feedback for demonstration purposes.
 
      **Timing options** control how often notifications are sent and can help balance timely alerting with minimizing noise.
 
