@@ -7,7 +7,7 @@ To discover this, you can use the **Flame graph** view:
 
 1. Select **Flame graph** from the **Exploration** path.
 
-1. Verify that  `flask-ride-sharing-app`{{copy}} is selected in the **Service** drop-down menu and `process_cpu/cpu`{{copy}} in the **Profile type** drop-down menu.
+1. Verify that  `ride-sharing-app`{{copy}} is selected in the **Service** drop-down menu and `process_cpu/cpu`{{copy}} in the **Profile type** drop-down menu.
 
 It should look something like this:
 
