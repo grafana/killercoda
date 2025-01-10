@@ -31,6 +31,10 @@ jobs:
             path: mimir
       - uses: actions/checkout@v4
         with:
+            repository: grafana/pyroscope
+            path: pyroscope
+      - uses: actions/checkout@v4
+        with:
           path: killercoda
       - uses: actions/setup-go@v5
         with:
@@ -68,6 +72,11 @@ jobs:
         working-directory: killercoda/tools/transformer
       - run: >
           ./transformer
+          "${GITHUB_WORKSPACE}/loki/docs/sources/query/logcli/logcli-tutorial.md"
+          "${GITHUB_WORKSPACE}/killercoda/loki/logcli-tutorial"
+        working-directory: killercoda/tools/transformer
+      - run: >
+          ./transformer
           "${GITHUB_WORKSPACE}/grafana/docs/sources/tutorials/alerting-get-started/index.md"
           "${GITHUB_WORKSPACE}/killercoda/grafana/alerting-get-started"
         working-directory: killercoda/tools/transformer
@@ -100,6 +109,11 @@ jobs:
           ./transformer
           "${GITHUB_WORKSPACE}/mimir/docs/sources/mimir/get-started/play-with-grafana-mimir/index.md"
           "${GITHUB_WORKSPACE}/killercoda/mimir/play-with-mimir"
+        working-directory: killercoda/tools/transformer
+      - run: >
+          ./transformer
+          "${GITHUB_WORKSPACE}/pyroscope/docs/sources/get-started/ride-share-tutorial.md"
+          "${GITHUB_WORKSPACE}/killercoda/pyroscope/ride-share-tutorial"
         working-directory: killercoda/tools/transformer
       - run: ./scripts/manage-pr.bash
         env:

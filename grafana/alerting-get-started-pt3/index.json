@@ -1,6 +1,6 @@
 {
-  "title": "Get started with Grafana Alerting - Part 1 of 3",
-  "description": "Get started with Grafana Alerting by creating your first alert rule, sending notifications to a webhook, and generating data to test it live — Part 1.",
+  "title": "Get started with Grafana Alerting - Part 3",
+  "description": "Learn how to group alert notifications effectively to reduce noise and streamline communication in Grafana Alerting — Part 3.",
   "details": {
     "intro": {
       "text": "intro.md"
@@ -17,6 +17,12 @@
       },
       {
         "text": "step4.md"
+      },
+      {
+        "text": "step5.md"
+      },
+      {
+        "text": "step6.md"
       }
     ],
     "finish": {

@@ -4,7 +4,7 @@ As part of our role within the logistics company, we need to build a report on t
 
 ## Find all critical packages
 
-To find all critical packages in the last hour (default lookback time), we can run the following query:
+To find all critical packages in the last hour (the default lookback time), we can run the following query:
 
 ```bash
 logcli query '{service_name="Delivery World"} | package_status="critical"'
@@ -31,7 +31,7 @@ This will query all logs for the `package_status`{{copy}} `critical`{{copy}} in 
 logcli query --since 24h --limit 100 '{service_name="Delivery World"} | package_status="critical"' 
 ```{{exec}}
 
-## Metric Queries
+## Metric queries
 
 We can also use LogCLI to query logs based on metrics. For instance as part of the site report we want to count the total number of packages sent from California in the last 24 hours in 1 hour intervals. We can use the following query:
 
@@ -87,7 +87,7 @@ logcli query --since 24h  'sum(count_over_time({state="California"}| json | pack
 
 This will return a similar JSON object above but will only show a trend of the number of documents sent from California in 1 hour intervals.
 
-## Instant Metric Queries
+## Instant metric queries
 
 Instant metric queries are a subset of metric queries that return the value of the metric at a specific point in time. This can be useful for quickly understanding an aggregate state of the stored logs.
 
