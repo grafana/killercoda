@@ -54,4 +54,8 @@ Now that you have the transformer built and you understand the basic meta syntax
     }
    ```{{copy}}
 
-   This will tell Killercoda where to find the course.
+   This will tell Killercoda where to find the course. This can be done via the inbuilt code editor in the Killercoda UI. Or you can use nano:
+
+   ```bash
+    nano new-courses/structure.json
+   ```{{exec}}
