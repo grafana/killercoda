@@ -293,10 +293,11 @@ Before you open a PR to the `killercoda` repository, you should test the course 
    ```
    
 1. Add the forked repository as a remote to your local repository:
-
+   <!-- INTERACTIVE copy START -->
    ```bash
    git remote add forked https://github.com/<USERNAME>/killercoda.git
    ```
+   <!-- INTERACTIVE copy END -->
 
 1. Add the changes to your forked repository:
 
@@ -307,9 +308,9 @@ Before you open a PR to the `killercoda` repository, you should test the course 
 
 1. Push the changes to your forked repository:
 
-  ```bash
+   ```bash
    git push forked my-new-course
-  ```
+   ```
 
 1. Create a Killercoda account: [https://killercoda.com/login](https://killercoda.com/login)
 
