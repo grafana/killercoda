@@ -12,7 +12,7 @@ Before you open a PR to the `killercoda`{{copy}} repository, you should test the
 
    ```bash
    git remote add forked https://github.com/<USERNAME>/killercoda.git
-   ```{{exec}}
+   ```{{copy}}
 
 1. Add the changes to your forked repository:
 
@@ -23,9 +23,9 @@ Before you open a PR to the `killercoda`{{copy}} repository, you should test the
 
 1. Push the changes to your forked repository:
 
-```bash
- git push forked my-new-course
-```{{exec}}
+   ```bash
+   git push forked my-new-course
+   ```{{exec}}
 
 1. Create a Killercoda account: [https://killercoda.com/login](https://killercoda.com/login)
 
