@@ -113,7 +113,20 @@ Here is a breakdown of the basic meta syntax. For more information on the meta s
 ## Metadata
 
 You specify Killercoda tutorial metadata in the source file front matter as the value for the `killercoda` field.
-The tool uses the metadata to perform preprocessing on the source file and generate the Killercoda configuration files for the tutorial. A table of the metadata fields can be found [here](https://github.com/grafana/killercoda/blob/staging/docs/transformer.md#metadata)                                                                                                               
+The tool uses the metadata to perform preprocessing on the source file and generate the Killercoda configuration files for the tutorial. A table of the metadata fields can be found [here](https://github.com/grafana/killercoda/blob/staging/docs/transformer.md#metadata) 
+
+<!-- INTERACTIVE ignore START -->
+
+| Field                                    | Type   | Description                                                                                                                                                            |
+| ---------------------------------------- | ------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `killercoda.backend.imageid`             | String | The name of the Killercoda environment's backend image. Supported values include `ubuntu`.                                                                             |
+| `killercoda.description`                 | String | The description displayed on the Killercoda website                                                                                                                    |
+| `killercoda.details.finish.text`         | String | The filename of the finish page Markdown source in the `grafana/killercoda` repository. A [finish directive](#finish) in the documentation source overrides this.      |
+| `killercoda.details.intro.text`          | String | The filename of the introduction page Markdown source in the `grafana/killercoda` repository. An [intro directive](#intro) in the documentation source overrides this. |
+| `killercoda.preprocessing.substitutions` | Array  | Substitute matches of a regular expression with a replacement. For more information, refer to [Substitutions](#substitutions).                                         |
+| `killercoda.title`                       | String | The title for the tutorial on the Killercoda website.                                                                                                                  |
+
+<!-- INTERACTIVE ignore END -->
 
 The following YAML demonstrates a number of the fields:
 
