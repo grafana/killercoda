@@ -6,7 +6,7 @@ Now that you have the repository cloned and Go installed, you can build the Sand
 
 To build the transformer:
 
-1. navigate to the `tools/transformer`{{copy}} directory:
+1. Navigate to the `tools/transformer`{{copy}} directory:
 
    ```bash
     cd tools/transformer
