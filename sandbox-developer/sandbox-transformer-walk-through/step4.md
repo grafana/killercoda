@@ -1,0 +1,57 @@
+# Use the Sandbox Transformer to create a course
+
+Now that you have the transformer built and you understand the basic meta syntax, you can use the Sandbox Transformer to turn a Markdown docs into a course. Lets use one of the examples in the `docs/examples`{{copy}} directory of the `killercoda`{{copy}} repository:
+
+1. Navigate back to the root of the `killercoda`{{copy}} repository:
+
+   ```bash
+   cd ../..
+   ```{{exec}}
+
+1. Make a new directory for your new courses:
+
+   ```bash
+   mkdir new-courses
+   ```{{exec}}
+
+   This is where your courses for a specific topic will live. You can create multiple courses in this directory.
+
+1. Create a new directory for your course:
+
+   ```bash
+   mkdir new-courses/new-course-1
+   ```{{exec}}
+
+1. We will also create a `structure.json`{{copy}} file more on this later:
+
+   ```bash
+   touch new-courses/structure.json
+   ```{{exec}}
+
+1. Its time to run the transformer on the example course:
+
+   ```bash
+   ./tools/transformer/transformer docs/examples/complete-docs-example.md new-courses/new-course-1
+   ```{{exec}}
+
+   This will transform the `complete-docs-example.md`{{copy}} file into a course in the `new-course-1`{{copy}} directory.
+
+1. Verify the course was created:
+
+   ```bash
+   ls new-courses/new-course-1
+   ```{{exec}}
+
+   You should see a number of files and directories created for the course.
+
+1. Finally, add the course to the `structure.json`{{copy}} file:
+
+   ```json
+    {
+        "items": [
+        { "path": "new-course-1", "title": "New Course 1" }
+        ]
+    }
+   ```{{copy}}
+
+   This will tell Killercoda where to find the course.
