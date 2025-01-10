@@ -1,6 +1,6 @@
 # Use the Sandbox Transformer to create a course
 
-Now that you have the transformer built and you understand the basic meta syntax, you can use the Sandbox Transformer to turn a Markdown docs into a course. Lets use one of the examples in the `docs/examples`{{copy}} directory of the `killercoda`{{copy}} repository:
+Now that you have the transformer built and you understand the basic meta syntax, you can use the Sandbox Transformer to turn Markdown docs into a course. Lets use one of the examples in the `docs/examples`{{copy}} directory of the `killercoda`{{copy}} repository:
 
 1. Navigate back to the root of the `killercoda`{{copy}} repository:
 
@@ -48,9 +48,9 @@ Now that you have the transformer built and you understand the basic meta syntax
 
    ```json
     {
-        "items": [
+      "items": [
         { "path": "new-course-1", "title": "New Course 1" }
-        ]
+      ]
     }
    ```{{copy}}
 
