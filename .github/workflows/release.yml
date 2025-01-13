@@ -28,15 +28,11 @@ jobs:
           mkdir -p ../../release
           GOOS=${{ matrix.os }} GOARCH=${{ matrix.arch }} go build -o ../../release/transformer-${{ matrix.os }}-${{ matrix.arch }}
         
-      - name: Archive build
-        run: |
-          zip -j release/transformer-${{ matrix.os }}-${{ matrix.arch }}.zip release/transformer-${{ matrix.os }}-${{ matrix.arch }}
-
       - name: Upload artifact
         uses: actions/upload-artifact@v3
         with:
           name: transformer-${{ matrix.os }}-${{ matrix.arch }}
-          path: release/transformer-${{ matrix.os }}-${{ matrix.arch }}.zip
+          path: release/transformer-${{ matrix.os }}-${{ matrix.arch }}
 
   release:
     needs: build-and-release
