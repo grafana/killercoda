@@ -12,6 +12,7 @@ import (
 	"path/filepath"
 	"regexp"
 
+	"github.com/grafana/killercoda/tools/transformer/goldmark/extension"
 	"github.com/grafana/killercoda/tools/transformer/killercoda"
 	"github.com/yuin/goldmark"
 	"github.com/yuin/goldmark/text"
@@ -91,7 +92,9 @@ func transform(srcFilePath, dstDirPath string) error {
 	md := goldmark.New(goldmark.WithExtensions(&KillercodaExtension{
 		Transformers:        DefaultKillercodaTransformers,
 		AdditionalExtenders: []goldmark.Extender{},
-	}))
+	},
+		extension.Table,
+	))
 
 	root := md.Parser().Parse(text.NewReader(data))
 
@@ -127,7 +130,9 @@ func transform(srcFilePath, dstDirPath string) error {
 			AdditionalExtenders: []goldmark.Extender{
 				&StepTransformer{StartMarker: pageIntroStartMarker, EndMarker: pageIntroEndMarker},
 			},
-		}))
+		},
+			extension.Table,
+		))
 
 		if err := writeFile(md, dstDirPath, "intro.md", data); err != nil {
 			return err
@@ -142,7 +147,9 @@ func transform(srcFilePath, dstDirPath string) error {
 			AdditionalExtenders: []goldmark.Extender{
 				&StepTransformer{StartMarker: pageFinishStartMarker, EndMarker: pageFinishEndMarker},
 			},
-		}))
+		},
+			extension.Table,
+		))
 
 		if err := writeFile(md, dstDirPath, "finish.md", data); err != nil {
 			return err
@@ -167,7 +174,9 @@ func transform(srcFilePath, dstDirPath string) error {
 				AdditionalExtenders: []goldmark.Extender{
 					&StepTransformer{StartMarker: startMarker, EndMarker: endMarker},
 				},
-			}))
+			},
+				extension.Table,
+			))
 
 			if err := writeFile(md, dstDirPath, fmt.Sprintf("step%d.md", i), data); err != nil {
 				errs = errors.Join(errs, err)
