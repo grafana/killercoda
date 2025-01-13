@@ -60,7 +60,7 @@ The Sandbox Transformer is written in Go, so you will need to have Go installed 
 
 ## Clone the repository
 
-First, you need to clone the repository to your local machine. You can do this by running the following command:
+You will also need to clone the repository to your local machine. You can do this by running the following command:
 
 ```bash
 git clone https://github.com/grafana/killercoda.git && cd killercoda

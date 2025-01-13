@@ -1,0 +1,32 @@
+name: Build and Release Transformer
+
+on:
+  push:
+    tags:
+      - 'v*' # Trigger the workflow when a tag matching 'v*' is pushed
+  workflow_dispatch: # Allows manual triggering
+
+jobs:
+  build-and-release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Go
+        uses: actions/setup-go@v4
+        with:
+          go-version: '1.23' # Adjust this based on the version you need
+
+      - name: Build transformer
+        run: |
+          cd tools/transformer
+          go build -o transformer
+
+      - name: Create release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: tools/transformer/transformer
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
