@@ -63,8 +63,7 @@ The end marker is:
 
 Exec directives tell the transform tool to make the contained fenced code block executable.
 
-> [!NOTE]
->
+> **Note:**
 > By default, the tool makes `bash`{{copy}} fenced code blocks executable so you don’t need `<!-- INTERACTIVE exec START/STOP -->`{{copy}} directives for bash code blocks.
 > You can override this behavior with the `<!-- INTERACTIVE copy START/STOP -->`{{copy}} directives which take precedence over the default behavior.
 

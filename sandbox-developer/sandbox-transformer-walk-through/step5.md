@@ -1,8 +1,8 @@
-# Testing the course
+# Test the course
 
 Before you open a PR to the `killercoda`{{copy}} repository, you should test the course to make sure it works as expected. The easiest way to do this is to run the course via your own Killercoda instance. To do this follow these steps:
 
-1. Fork the `killercoda`{{copy}} repository to your own GitHub account. This will provide you with a URL to your forked repository.
+1. [Fork the `killercoda`{{copy}} repository](https://github.com/grafana/killercoda/fork) to your own GitHub account. This will provide you with a URL to your forked repository.
 
    ```
    https://github.com/<USERNAME>/killercoda.git
@@ -29,6 +29,6 @@ Before you open a PR to the `killercoda`{{copy}} repository, you should test the
 
 1. Create a Killercoda account: [https://killercoda.com/login](https://killercoda.com/login)
 
-1. Then head to: [https://killercoda.com/creator/repository](https://killercoda.com/creator/repositor) and add your forked repository.
+1. Then head to: [https://killercoda.com/creator/repository](https://killercoda.com/creator/repository) and add your forked repository.
 
-1. Once saved, you should see your course in the list of courses. Click on the course to open it.
+1. After you save, you should see your course in the list of courses. Click on the course to open it.
