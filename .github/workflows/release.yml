@@ -26,6 +26,7 @@ jobs:
         run: |
           mkdir -p release
           GOOS=${{ matrix.os }} GOARCH=${{ matrix.arch }} go build -o release/transformer-${{ matrix.os }}-${{ matrix.arch }} tools/transformer
+        working-directory: ./tools/transformer
 
       - name: Archive build
         run: |
