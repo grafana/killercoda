@@ -42,6 +42,7 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           path: release
+          create_artifact_folder: false
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v1
