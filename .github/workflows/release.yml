@@ -9,7 +9,10 @@ on:
 jobs:
   build-and-release:
     runs-on: ubuntu-latest
-
+    strategy:
+      matrix:
+        os: [linux, darwin, windows] # Target operating systems
+        arch: [amd64, arm64] # Target architectures
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
@@ -21,12 +24,31 @@ jobs:
 
       - name: Build transformer
         run: |
-          cd tools/transformer
-          go build -o transformer
+          mkdir -p release
+          GOOS=${{ matrix.os }} GOARCH=${{ matrix.arch }} go build -o release/transformer-${{ matrix.os }}-${{ matrix.arch }} tools/transformer
 
-      - name: Create release
+      - name: Archive build
+        run: |
+          zip -j release/transformer-${{ matrix.os }}-${{ matrix.arch }}.zip release/transformer-${{ matrix.os }}-${{ matrix.arch }}
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: transformer-${{ matrix.os }}-${{ matrix.arch }}
+          path: release/transformer-${{ matrix.os }}-${{ matrix.arch }}.zip
+
+  release:
+    needs: build-and-release
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download build artifacts
+        uses: actions/download-artifact@v3
+        with:
+          path: release
+
+      - name: Create GitHub Release
         uses: softprops/action-gh-release@v1
         with:
-          files: tools/transformer/transformer
+          files: release/*
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

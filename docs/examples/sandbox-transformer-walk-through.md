@@ -14,9 +14,9 @@ killercoda:
 
 # Learn how to use the Sandbox Transformer
 
-The Sandbox Transformer is an experimental tool created by Grafana Labs to turn **Hugo Markdown** files into KillerCoda courses. This tool is still in development, but we`re excited to share it with you and get your feedback. In this tutorial, you will learn how to use the Sandbox Transformer to turn Hugo docs into a course.
+The Sandbox Transformer is an experimental tool created by Grafana Labs to turn **Hugo Markdown** files into Killercoda courses. This tool is still in development, but we're excited to share it with you and get your feedback. In this tutorial, you will learn how to use the Sandbox Transformer to turn Hugo docs into a course.
 
-> This tutorial will also work with basic Markdown files, however, there are certain Hugo specific features such as the document metadata which is required for the transformer to work. This my interfere with the rendering of the original Markdown file.
+> **Note:** This tutorial will also work with basic Markdown files, however, there are certain Hugo specific features such as the document metadata which is required for the transformer to work. This my interfere with the rendering of the original Markdown file.
 
 ## What you will learn
 
@@ -30,32 +30,16 @@ The Sandbox Transformer is an experimental tool created by Grafana Labs to turn 
 
 # Prerequisites
 
-In this section we will cover the prerequisites you need to have in place in order to build and run the Sandbox Transformer.
+In this section we will cover the prerequisites you need to have in place in order to download and run the Sandbox Transformer.
 
-## Install Go 
+## Download the transformer
 
-The Sandbox Transformer is written in Go, so you will need to have Go installed on your machine. You can download Go from the official website [here](https://golang.org/dl/). In this case we will install the Ubuntu package:
+The Sandbox Transformer is written in Go and is distributed as a binary. You may also build the transformer from source if you prefer.
 
-1. Download the Go package:
+1. Download the Transformer binary from the [releases page](https://github.com/grafana/killercoda/releases):
    
    ```bash
-   wget https://go.dev/dl/go1.23.4.linux-amd64.tar.gz
-   ```
-1. Remove old versions of Go and Install the package:
-   
-   ```bash
-   rm -rf /usr/local/go && tar -C /usr/local -xzf go1.23.4.linux-amd64.tar.gz
-   ```
-
-1. Add the Go binary to your PATH:
-   
-   ```bash
-   export PATH=$PATH:/usr/local/go/bin
-   ```
-1. Verify the installation:
-   
-   ```bash
-   go version
+   wget https://github.com/grafana/killercoda/releases/download/v0.1.0/transformer
    ```
 
 ## Clone the repository
