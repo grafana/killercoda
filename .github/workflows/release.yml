@@ -23,11 +23,11 @@ jobs:
           go-version: '1.23' # Adjust this based on the version you need
 
       - name: Build transformer
-        run: |
-          mkdir -p release
-          GOOS=${{ matrix.os }} GOARCH=${{ matrix.arch }} go build -o release/transformer-${{ matrix.os }}-${{ matrix.arch }} tools/transformer
         working-directory: ./tools/transformer
-
+        run: |
+          mkdir -p ../../release
+          GOOS=${{ matrix.os }} GOARCH=${{ matrix.arch }} go build -o ../../release/transformer-${{ matrix.os }}-${{ matrix.arch }}
+        
       - name: Archive build
         run: |
           zip -j release/transformer-${{ matrix.os }}-${{ matrix.arch }}.zip release/transformer-${{ matrix.os }}-${{ matrix.arch }}
