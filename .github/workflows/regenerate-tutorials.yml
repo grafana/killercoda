@@ -9,34 +9,41 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       # Check out all the repositories that contain documentation sources from which we generate tutorials.
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
         with:
-          repository: grafana/loki
           path: loki
-      - uses: actions/checkout@v4
+          persist-credentials: false
+          repository: grafana/loki
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
         with:
-          repository: grafana/grafana
           path: grafana
-      - uses: actions/checkout@v4
+          persist-credentials: false
+          repository: grafana/grafana
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
         with:
-            repository: grafana/alloy
-            path: alloy
-      - uses: actions/checkout@v4
+          path: alloy
+          persist-credentials: false
+          repository: grafana/alloy
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
         with:
-            repository: grafana/tempo
-            path: tempo
-      - uses: actions/checkout@v4
+          path: tempo
+          persist-credentials: false
+          repository: grafana/tempo
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
         with:
-            repository: grafana/mimir
-            path: mimir
-      - uses: actions/checkout@v4
+          path: mimir
+          persist-credentials: false
+          repository: grafana/mimir
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
         with:
-            repository: grafana/pyroscope
-            path: pyroscope
-      - uses: actions/checkout@v4
+          path: pyroscope
+          persist-credentials: false
+          repository: grafana/pyroscope
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
         with:
           path: killercoda
-      - uses: actions/setup-go@v5
+          persist-credentials: false
+      - uses: actions/setup-go@3041bf56c941b39c61721a86cd11f3bb1338122a # v5.2.0
         with:
           go-version-file: killercoda/tools/transformer/go.mod
       - run: go build ./
