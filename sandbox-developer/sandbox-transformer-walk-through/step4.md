@@ -1,61 +1,34 @@
-# Use the Sandbox Transformer to create a course
+# Test the course
 
-Now that you have the transformer built and you understand the basic meta syntax, you can use the Sandbox Transformer to turn Markdown docs into a course. Lets use one of the examples in the `docs/examples`{{copy}} directory of the `killercoda`{{copy}} repository:
+Before you open a PR to the `killercoda`{{copy}} repository, you should test the course to make sure it works as expected. The easiest way to do this is to run the course via your own Killercoda instance. To do this follow these steps:
 
-1. Navigate back to the root of the `killercoda`{{copy}} repository:
+1. [Fork the `killercoda`{{copy}}{{copy}} repository](https://github.com/grafana/killercoda/fork) to your own GitHub account. This will provide you with a URL to your forked repository.
 
-   ```bash
-   cd ../..
-   ```{{exec}}
-
-1. Make a new directory for your new courses:
-
-   ```bash
-   mkdir new-courses
-   ```{{exec}}
-
-   This is where your courses for a specific topic will live. You can create multiple courses in this directory.
-
-1. Create a new directory for your course:
-
-   ```bash
-   mkdir new-courses/new-course-1
-   ```{{exec}}
-
-1. We will also create a `structure.json`{{copy}} file more on this later:
-
-   ```bash
-   touch new-courses/structure.json
-   ```{{exec}}
-
-1. Its time to run the transformer on the example course:
-
-   ```bash
-   ./tools/transformer/transformer docs/examples/complete-docs-example.md new-courses/new-course-1
-   ```{{exec}}
-
-   This will transform the `complete-docs-example.md`{{copy}} file into a course in the `new-course-1`{{copy}} directory.
-
-1. Verify the course was created:
-
-   ```bash
-   ls new-courses/new-course-1
-   ```{{exec}}
-
-   You should see a number of files and directories created for the course.
-
-1. Finally, add the course to the `structure.json`{{copy}} file:
-
-   ```json
-    {
-      "items": [
-        { "path": "new-course-1", "title": "New Course 1" }
-      ]
-    }
+   ```
+   https://github.com/<USERNAME>/killercoda.git
    ```{{copy}}
 
-   This will tell Killercoda where to find the course. This can be done via the inbuilt code editor in the Killercoda UI. Or you can use nano:
+1. Add the forked repository as a remote to your local repository:
 
    ```bash
-    nano new-courses/structure.json
+   git remote add forked https://github.com/<USERNAME>/killercoda.git
+   ```{{copy}}
+
+1. Add the changes to your forked repository:
+
+   ```bash
+   git add .
+   git commit -m "Add new course"
    ```{{exec}}
+
+1. Push the changes to your forked repository:
+
+   ```bash
+   git push forked my-new-course
+   ```{{exec}}
+
+1. Create a Killercoda account: [https://killercoda.com/login](https://killercoda.com/login)
+
+1. Then head to: [https://killercoda.com/creator/repository](https://killercoda.com/creator/repository) and add your forked repository.
+
+1. After you save, you should see your course in the list of courses. Click on the course to open it.

@@ -14,9 +14,10 @@ killercoda:
 
 # Learn how to use the Sandbox Transformer
 
-The Sandbox Transformer is an experimental tool created by Grafana Labs to turn **Hugo Markdown** files into KillerCoda courses. This tool is still in development, but we`re excited to share it with you and get your feedback. In this tutorial, you will learn how to use the Sandbox Transformer to turn Hugo docs into a course.
+The Sandbox Transformer is an experimental tool created by Grafana Labs to turn **Hugo Markdown** files into Killercoda courses. This tool is still in development, but we're excited to share it with you and get your feedback. In this tutorial, you will learn how to use the Sandbox Transformer to turn Hugo docs into a course.
 
-> This tutorial will also work with basic Markdown files, however, there are certain Hugo specific features such as the document metadata which is required for the transformer to work. This my interfere with the rendering of the original Markdown file.
+> **Note:** This tutorial can also work with non-Hugo Markdown files but it requires that each file has certain [Hugo front matter metadata](https://gohugo.io/content-management/front-matter/).
+> This front matter may interfere with the rendering of the original Markdown file.
 
 ## What you will learn
 
@@ -30,37 +31,28 @@ The Sandbox Transformer is an experimental tool created by Grafana Labs to turn 
 
 # Prerequisites
 
-In this section we will cover the prerequisites you need to have in place in order to build and run the Sandbox Transformer.
+In this section we will cover the prerequisites you need to have in place in order to download and run the Sandbox Transformer.
 
-## Install Go 
+## Download the transformer
 
-The Sandbox Transformer is written in Go, so you will need to have Go installed on your machine. You can download Go from the official website [here](https://golang.org/dl/). In this case we will install the Ubuntu package:
+The Sandbox Transformer is written in Go and is distributed as a binary. You may also build the transformer from source if you prefer.
 
-1. Download the Go package:
+1. Download the Transformer binary from the [releases page](https://github.com/grafana/killercoda/releases):
    
    ```bash
-   wget https://go.dev/dl/go1.23.4.linux-amd64.tar.gz
-   ```
-1. Remove old versions of Go and Install the package:
-   
-   ```bash
-   rm -rf /usr/local/go && tar -C /usr/local -xzf go1.23.4.linux-amd64.tar.gz
+   wget https://github.com/grafana/killercoda/releases/download/v0.1.5/transformer-linux-amd64 -O transformer
    ```
 
-1. Add the Go binary to your PATH:
-   
+1. Make the binary executable:
+
    ```bash
-   export PATH=$PATH:/usr/local/go/bin
+   chmod +x transformer
    ```
-1. Verify the installation:
    
-   ```bash
-   go version
-   ```
 
 ## Clone the repository
 
-First, you need to clone the repository to your local machine. You can do this by running the following command:
+You will also need to clone the repository to your local machine. You can do this by running the following command:
 
 ```bash
 git clone https://github.com/grafana/killercoda.git && cd killercoda
@@ -74,33 +66,8 @@ git checkout -b my-new-course
 
 <!-- INTERACTIVE page step1.md END -->
 
+
 <!-- INTERACTIVE page step2.md START -->
-
-# Build the Sandbox Transformer
-
-Now that you have the repository cloned and Go installed, you can build the Sandbox Transformer.
-
-## Build the transformer
-
-To build the transformer: 
-
-1. navigate to the `tools/transformer` directory:
-   
-   ```bash
-    cd tools/transformer
-   ```
-
-2. Then run the following command:
-
-   ```bash
-   go build
-   ```
-
-This will create a binary file called `transformer` in the `tools/transformer` directory.
-
-<!-- INTERACTIVE page step2.md END -->
-
-<!-- INTERACTIVE page step3.md START -->
 
 # Learn the basic meta syntax
 
@@ -115,8 +82,6 @@ Here is a breakdown of the basic meta syntax. For more information on the meta s
 You specify Killercoda tutorial metadata in the source file front matter as the value for the `killercoda` field.
 The tool uses the metadata to perform preprocessing on the source file and generate the Killercoda configuration files for the tutorial. A table of the metadata fields can be found [here](https://github.com/grafana/killercoda/blob/staging/docs/transformer.md#metadata) 
 
-<!-- INTERACTIVE ignore START -->
-
 | Field                                    | Type   | Description                                                                                                                                                            |
 | ---------------------------------------- | ------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `killercoda.backend.imageid`             | String | The name of the Killercoda environment's backend image. Supported values include `ubuntu`.                                                                             |
@@ -125,8 +90,6 @@ The tool uses the metadata to perform preprocessing on the source file and gener
 | `killercoda.details.intro.text`          | String | The filename of the introduction page Markdown source in the `grafana/killercoda` repository. An [intro directive](#intro) in the documentation source overrides this. |
 | `killercoda.preprocessing.substitutions` | Array  | Substitute matches of a regular expression with a replacement. For more information, refer to [Substitutions](#substitutions).                                         |
 | `killercoda.title`                       | String | The title for the tutorial on the Killercoda website.                                                                                                                  |
-
-<!-- INTERACTIVE ignore END -->
 
 The following YAML demonstrates a number of the fields:
 
@@ -180,7 +143,7 @@ The end marker is:
 
 Exec directives tell the transform tool to make the contained fenced code block executable.
 
-> [!NOTE]
+> **Note:**
 >
 > By default, the tool makes `bash` fenced code blocks executable so you don't need `<!-- INTERACTIVE exec START/STOP -->` directives for bash code blocks.
 > You can override this behavior with the `<!-- INTERACTIVE copy START/STOP -->` directives which take precedence over the default behavior.
@@ -233,13 +196,13 @@ The end marker is:
 
 The best place to see how the meta syntax works is to look at the examples in the `docs/examples` directory of the `killercoda` repository. You can find examples of how to structure your markdown files and how to use the meta syntax to define the structure of your course.
 
-<!-- INTERACTIVE page step3.md END -->
+<!-- INTERACTIVE page step2.md END -->
 
-<!-- INTERACTIVE page step4.md START -->
+<!-- INTERACTIVE page step3.md START -->
 
 # Use the Sandbox Transformer to create a course
 
-Now that you have the transformer built and you understand the basic meta syntax, you can use the Sandbox Transformer to turn a Markdown docs into a course. Lets use one of the examples in the `docs/examples` directory of the `killercoda` repository:
+Now that you have the transformer built and you understand the basic meta syntax, you can use the Sandbox Transformer to turn Markdown docs into a course. Lets use one of the examples in the `docs/examples` directory of the `killercoda` repository:
 
 1. Navigate back to the root of the `killercoda` repository:
 
@@ -283,9 +246,9 @@ Now that you have the transformer built and you understand the basic meta syntax
 
    ```json
     {
-        "items": [
-        { "path": "new-course-1", "title": "New Course 1" }
-        ]
+     "items": [
+     { "path": "new-course-1", "title": "New Course 1" }
+     ]
     }
    ```
    This will tell Killercoda where to find the course. This can be done via the inbuilt code editor in the Killercoda UI. Or you can use nano:
@@ -295,16 +258,16 @@ Now that you have the transformer built and you understand the basic meta syntax
     ```
 
 
-<!-- INTERACTIVE page step4.md END -->
+<!-- INTERACTIVE page step3.md END -->
 
 
-<!-- INTERACTIVE page step5.md START -->
+<!-- INTERACTIVE page step4.md START -->
 
-# Testing the course
+# Test the course
 
 Before you open a PR to the `killercoda` repository, you should test the course to make sure it works as expected. The easiest way to do this is to run the course via your own Killercoda instance. To do this follow these steps:
 
-1. Fork the `killercoda` repository to your own GitHub account. This will provide you with a URL to your forked repository.
+1. [Fork the `killercoda`{{copy}} repository](https://github.com/grafana/killercoda/fork) to your own GitHub account. This will provide you with a URL to your forked repository.
    ```
    https://github.com/<USERNAME>/killercoda.git
    ```
@@ -330,12 +293,12 @@ Before you open a PR to the `killercoda` repository, you should test the course 
    ```
 
 1. Create a Killercoda account: [https://killercoda.com/login](https://killercoda.com/login)
+   
+1. Then head to: [https://killercoda.com/creator/repository](https://killercoda.com/creator/repository) and add your forked repository.
 
-1. Then head to: [https://killercoda.com/creator/repository](https://killercoda.com/creator/repositor) and add your forked repository.
+1. After you save, you should see your course in the list of courses. Click on the course to open it.
 
-1. Once saved, you should see your course in the list of courses. Click on the course to open it.
-
-<!-- INTERACTIVE page step5.md END -->
+<!-- INTERACTIVE page step4.md END -->
 
 <!-- INTERACTIVE page finish.md START -->
 

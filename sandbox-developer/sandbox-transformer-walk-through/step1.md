@@ -1,44 +1,32 @@
 # Prerequisites
 
-In this section we will cover the prerequisites you need to have in place in order to build and run the Sandbox Transformer.
+In this section we will cover the prerequisites you need to have in place in order to download and run the Sandbox Transformer.
 
-## Install Go
+## Download the transformer
 
-The Sandbox Transformer is written in Go, so you will need to have Go installed on your machine. You can download Go from the official website [here](https://golang.org/dl/). In this case we will install the Ubuntu package:
+The Sandbox Transformer is written in Go and is distributed as a binary. You may also build the transformer from source if you prefer.
 
-1. Download the Go archive:
+1. Download the Transformer binary from the [releases page](https://github.com/grafana/killercoda/releases):
 
    ```bash
-   wget https://go.dev/dl/go1.23.4.linux-amd64.tar.gz
+   wget https://github.com/grafana/killercoda/releases/download/v0.1.5/transformer-linux-amd64 -O transformer
    ```{{exec}}
 
-1. Remove old versions of Go and extract the archive:
+1. Make the binary executable:
 
    ```bash
-   rm -rf /usr/local/go && tar -C /usr/local -xzf go1.23.4.linux-amd64.tar.gz
-   ```{{exec}}
-
-1. Add the Go binary install location to your `PATH` environment variable:
-
-   ```bash
-   export PATH=$PATH:/usr/local/go/bin
-   ```{{exec}}
-
-1. Verify the installation:
-
-   ```bash
-   go version
+   chmod +x transformer
    ```{{exec}}
 
 ## Clone the repository
 
-First, you need to clone the repository to your local machine. You can do this by running the following command:
+You will also need to clone the repository to your local machine. You can do this by running the following command:
 
 ```bash
 git clone https://github.com/grafana/killercoda.git && cd killercoda
 ```{{exec}}
 
-It's best practise to create a new branch for each new course you create. You can do this by running the following command:
+Its best practise to create a new branch for each new course you create. You can do this by running the following command:
 
 ```bash
 git checkout -b my-new-course
