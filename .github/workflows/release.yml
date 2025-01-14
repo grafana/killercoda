@@ -15,10 +15,10 @@ jobs:
         arch: [amd64, arm64] # Target architectures
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Set up Go
-        uses: actions/setup-go@v4
+        uses: actions/setup-go@v5
         with:
           go-version: '1.23' # Adjust this based on the version you need
 
@@ -29,7 +29,7 @@ jobs:
           GOOS=${{ matrix.os }} GOARCH=${{ matrix.arch }} go build -o ../../release/transformer-${{ matrix.os }}-${{ matrix.arch }}
         
       - name: Upload artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: transformer-${{ matrix.os }}-${{ matrix.arch }}
           path: release/transformer-${{ matrix.os }}-${{ matrix.arch }}
@@ -39,14 +39,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Download build artifacts
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           path: release
-          create_artifact_folder: false
 
       - name: Create GitHub Release
-        uses: softprops/action-gh-release@v1
+        uses: softprops/action-gh-release@v2
         with:
-          files: release/*
+          files: release/**
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
