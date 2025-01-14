@@ -2,16 +2,16 @@
 
 Now that you have the transformer built and you understand the basic meta syntax, you can use the Sandbox Transformer to turn Markdown docs into a course. Lets use one of the examples in the `docs/examples`{{copy}} directory of the `killercoda`{{copy}} repository:
 
-1. Navigate back to the root of the `killercoda`{{copy}} repository:
+1. Navigate out of the `killercoda`{{copy}} repository:
 
    ```bash
-   cd ../..
+   cd ../
    ```{{exec}}
 
 1. Make a new directory for your new courses:
 
    ```bash
-   mkdir new-courses
+   mkdir killercoda/new-courses
    ```{{exec}}
 
    This is where your courses for a specific topic will live. You can create multiple courses in this directory.
@@ -19,19 +19,19 @@ Now that you have the transformer built and you understand the basic meta syntax
 1. Create a new directory for your course:
 
    ```bash
-   mkdir new-courses/new-course-1
+   mkdir killercoda/new-courses/new-course-1
    ```{{exec}}
 
 1. We will also create a `structure.json`{{copy}} file more on this later:
 
    ```bash
-   touch new-courses/structure.json
+   touch killercoda/new-courses/structure.json
    ```{{exec}}
 
 1. Its time to run the transformer on the example course:
 
    ```bash
-   ./tools/transformer/transformer docs/examples/complete-docs-example.md new-courses/new-course-1
+   ./transformer killercoda/docs/examples/complete-docs-example.md killercoda/new-courses/new-course-1
    ```{{exec}}
 
    This will transform the `complete-docs-example.md`{{copy}} file into a course in the `new-course-1`{{copy}} directory.
@@ -39,7 +39,7 @@ Now that you have the transformer built and you understand the basic meta syntax
 1. Verify the course was created:
 
    ```bash
-   ls new-courses/new-course-1
+   ls killercoda/new-courses/new-course-1
    ```{{exec}}
 
    You should see a number of files and directories created for the course.
@@ -57,5 +57,5 @@ Now that you have the transformer built and you understand the basic meta syntax
    This will tell Killercoda where to find the course. This can be done via the inbuilt code editor in the Killercoda UI. Or you can use nano:
 
    ```bash
-    nano new-courses/structure.json
+    nano killercoda/new-courses/structure.json
    ```{{exec}}

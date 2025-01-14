@@ -8,6 +8,12 @@ Before you open a PR to the `killercoda`{{copy}} repository, you should test the
    https://github.com/<USERNAME>/killercoda.git
    ```{{copy}}
 
+1. change back to the `killercoda`{{copy}} repository:
+
+   ```bash
+   cd killercoda
+   ```{{exec}}
+
 1. Add the forked repository as a remote to your local repository:
 
    ```bash
