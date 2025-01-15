@@ -12,11 +12,11 @@ Without a notification template, the alert messages would include the default Gr
 
 1. Click **+ Add notification template group**.
 
-1. Enter a name. E.g _instance-cpu-summary_.
+1. Enter a name. E.g `instance-cpu-summary`{{copy}}.
 
 1. From the **Add example** dropdown menu, choose `Print firing and resolved alerts`{{copy}}.
 
-This template prints out alert instances into two sections: **firing alerts** and **resolved alerts**, and includes only the key details for each. In addition it adds our summary and description annotations.
+This template prints out alert instances into two sections: **firing alerts** and **resolved alerts**, and includes only the key details for each. In addition, it adds our summary and description annotations.
 
 ```
 {{- /* Example displaying firing and resolved alerts separately in the notification. */ -}}
@@ -38,6 +38,8 @@ This template prints out alert instances into two sections: **firing alerts** an
 {{ end -}}
 ```{{copy}}
 
+Note: Your notification template name (`{{define "<NAME>"}}`{{copy}}) must be unique. You cannot have two templates with the same name in the same notification template group or in different notification template groups.
+
 Here’s a breakdown of the template:
 
 - `{{ define "custom.firing_and_resolved_alerts" -}}`{{copy}} section: Displays the number of resolved alerts and their summaries, using the `alert.summary_and_description`{{copy}} template to include the summary, status, and description for each alert.
@@ -48,7 +50,7 @@ Here’s a breakdown of the template:
 
 In the **Preview** area, you can see a sample of how the notification would look. Since we’ve already created our alert rule, you can take it a step further by previewing how an actual alert instance from your rule would appear in the notification.
 
-1. To do that, click **Edit payload**.
+1. Click **Edit payload**.
 
 1. Click **Use existing alert instance**.
 
