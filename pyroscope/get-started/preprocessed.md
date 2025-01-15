@@ -32,7 +32,7 @@ Every example has a `docker-compose.yml` manifest that includes all of the optio
 For more information on the different ways to deploy Pyroscope, see [Pyroscope deployment modes]({{< relref "../reference-pyroscope-architecture/deployment-modes/index.md" >}}).
 
 {{< youtube id="XL2yTCPy2e0" >}}
-<!-- INTERACTIVE ignore END-->
+<!-- INTERACTIVE ignore END -->
 
 For more information on the different ways to deploy Pyroscope, see [Pyroscope deployment modes]({{< relref "../reference-pyroscope-architecture/deployment-modes/index.md" >}}).
 
