@@ -1,5 +1,7 @@
 {
     "items": [
-    { "path": "ride-share-tutorial", "title": "Ride share tutorial"}
+    { "path": "ride-share-tutorial", "title": "Ride share tutorial"},
+    { "path": "get-started", "title": "Get started with Pyroscope"}
+
     ]
 }

@@ -1,0 +1,1 @@
+When you have completed the tasks in this getting started guide, you can create dashboard panels using the newly configured Pyroscope data source. For more information on working with dashboards with Grafana, refer to [Panels and visualizations](https://grafana.com/docs/grafana/latest/panels-visualizations/) in the Grafana documentation.
