@@ -18,15 +18,31 @@ killercoda:
 
 Choose one of the following options to get started with Pyroscope:
 
+<!-- INTERACTIVE ignore START -->
 The **written tutorial** below provides a series of imperative commands to start a single Pyroscope process, or [monolith]({{< relref "../reference-pyroscope-architecture/deployment-modes/index.md#monolithic-mode" >}}), which is designed for users getting started with the project.
+<!-- INTERACTIVE ignore EMD -->
 
-You can also use [`multiple examples`](https://github.com/grafana/pyroscope/tree/main/examples) to help you quickly get started using Pyroscope and Grafana.
+The **written tutorial** below provides a series of imperative commands to start a single Pyroscope process, or [monolith](https://grafana.com/docs/pyroscope/latest/reference-pyroscope-architecture/deployment-modes/#monolithic-mode), which is designed for users getting started with the project.
+
+You can also use [multiple examples](https://github.com/grafana/pyroscope/tree/main/examples) to help you quickly get started using Pyroscope and Grafana.
 
 Every example has a `docker-compose.yml` manifest that includes all of the options needed to explore profiling data in Grafana, including resource configuration and profiling data generation.
 
+<!-- INTERACTIVE ignore START -->
 For more information on the different ways to deploy Pyroscope, see [Pyroscope deployment modes]({{< relref "../reference-pyroscope-architecture/deployment-modes/index.md" >}}).
 
 {{< youtube id="XL2yTCPy2e0" >}}
+<!-- INTERACTIVE ignore END-->
+
+For more information on the different ways to deploy Pyroscope, see [Pyroscope deployment modes]({{< relref "../reference-pyroscope-architecture/deployment-modes/index.md" >}}).
+
+[Getting started with Pyroscope: Intro to continuous profiling](https://www.youtube.com/watch?v=XL2yTCPy2e0&t=358s)
+
+<div style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden">
+   <iframe src="https://www.youtube.com/embed/videoseries?si=ueLa_QEXz20IWnGt&amp;list=PLDGkOdUX1Ujo27m6qiTPPCpFHVfyKq9jT" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen>
+   </iframe>
+</div>
+
 
 <!-- INTERACTIVE page intro.md END -->
 <!-- INTERACTIVE page step1.md START -->
@@ -84,13 +100,25 @@ Verify that you have installed [Docker](https://docs.docker.com/engine/install/)
       ```bash
       curl localhost:4040/ready
       ```
+<!-- INTERACTIVE ignore START -->
+1. Configure Pyroscope to scrape profiles.
+
+    By default, Pyroscope is configured to scrape itself.
+    To collect more profiles, you must either instrument your application with an SDK or use Grafana Alloy.
+    
+    To learn more about language integrations and the Pyroscope agent, refer to [Pyroscope Agent]({{< relref "../configure-client/_index.md" >}}).
+   
+
+    https://grafana.com/docs/pyroscope/latest/configure-client/
+<!-- INTERACTIVE ignore END-->
 
 1. Configure Pyroscope to scrape profiles.
 
     By default, Pyroscope is configured to scrape itself.
     To collect more profiles, you must either instrument your application with an SDK or use Grafana Alloy.
+    
+    To learn more about language integrations and the Pyroscope agent, refer to [Pyroscope Agent](https://grafana.com/docs/pyroscope/latest/configure-client/).
 
-    To learn more about language integrations and the Pyroscope agent, refer to [Pyroscope Agent]({{< relref "../configure-client/_index.md" >}}).
 
 <!-- INTERACTIVE page step3.md END -->
 <!-- INTERACTIVE page step4.md START -->
