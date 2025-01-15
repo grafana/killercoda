@@ -20,7 +20,7 @@ Choose one of the following options to get started with Pyroscope:
 
 <!-- INTERACTIVE ignore START -->
 The **written tutorial** below provides a series of imperative commands to start a single Pyroscope process, or [monolith]({{< relref "../reference-pyroscope-architecture/deployment-modes/index.md#monolithic-mode" >}}), which is designed for users getting started with the project.
-<!-- INTERACTIVE ignore EMD -->
+<!-- INTERACTIVE ignore END -->
 
 The **written tutorial** below provides a series of imperative commands to start a single Pyroscope process, or [monolith](https://grafana.com/docs/pyroscope/latest/reference-pyroscope-architecture/deployment-modes/#monolithic-mode), which is designed for users getting started with the project.
 
