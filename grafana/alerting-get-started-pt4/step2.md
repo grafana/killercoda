@@ -1,16 +1,16 @@
 # How templating works
 
-In Grafana, you can use [templates](ref:templates) to dynamically pull in specific data about the alert rule. This results in more flexible and informative alert notification messages. You can template either alert rule labels and annotations, or notification templates. Both use the Go template language.
+In Grafana, you can use [templates](https://grafana.com/docs/grafana/latest/alerting/fundamentals/templates/) to dynamically pull in specific data about the alert rule. This results in more flexible and informative alert notification messages. You can template either alert rule labels and annotations, or notification templates. Both use the Go template language.
 
 ![How templating works](https://grafana.com/media/docs/alerting/how-notification-templates-works.png)
 
 ## Templating alert rule labels and annotations
 
-[Labels and annotations](ref:template-labels-annotations) are key fields where templates are applied. One of the main advantages of using templating in annotations is the ability to incorporate dynamic data from queries, allowing alerts to reflect real-time information relevant to the triggered condition. By using templating in annotations, you can customize the content of each alert instance, such as including instance names and metric values, so the notification becomes more informative.
+[Labels and annotations](https://grafana.com/docs/grafana/latest/alerting/alerting-rules/templates/) are key fields where templates are applied. One of the main advantages of using templating in annotations is the ability to incorporate dynamic data from queries, allowing alerts to reflect real-time information relevant to the triggered condition. By using templating in annotations, you can customize the content of each alert instance, such as including instance names and metric values, so the notification becomes more informative.
 
 ## Notification templates
 
-The real power of templating lies in how it helps you format notifications with dynamic alert data. [Notification templates](ref:template-notifications) let you pull in details from annotations to create clear and consistent messages. They also make it simple to reuse the same format across different contact points, saving time and effort.
+The real power of templating lies in how it helps you format notifications with dynamic alert data. [Notification templates](https://grafana.com/docs/grafana/latest/alerting/configure-notifications/template-notifications/) let you pull in details from annotations to create clear and consistent messages. They also make it simple to reuse the same format across different contact points, saving time and effort.
 
 Notification templates allow you to customize how information is presented in each notification. For example, you can use templates to organize and format details about firing or resolved alerts, making it easier for recipients to understand the status of each alert at a glance—all within a single notification.
 

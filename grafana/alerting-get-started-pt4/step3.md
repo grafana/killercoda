@@ -1,6 +1,6 @@
 # Step 1: Template labels and annotations
 
-Now that we’ve introduced how templating works, let’s move on to the next step, where we guide you through creating an alert rule with a summary and description annotation, incorporating CPU usage and instance names, which we later use in our notification template.
+Now that we’ve introduced how templating works, let’s move on to the next step. We guide you through creating an alert rule with a summary and description annotation. In doing so, we incorporate CPU usage and instance names, which we later use in our notification template.
 
 ## Create an alert rule
 
@@ -16,13 +16,13 @@ Now that we’ve introduced how templating works, let’s move on to the next st
 
    - Click **+ New alert rule**.
 
-   - Enter an **alert rule name**. High CPU usage
+   - Enter an **alert rule name**. Name it `High CPU usage`{{copy}}
 
 1. **Define query an alert condition** section:
 
    - Select TestData data source from the drop-down menu.
 
-     [TestData](https://grafana.com/docs/grafana/latest/datasources/testdata/) is included in the demo environment. If you’re working in Grafana Cloud or your own local Grafana instance, you can add the data source through the Connections menu
+     [TestData](https://grafana.com/docs/grafana/latest/datasources/testdata/) is included in the demo environment. If you’re working in Grafana Cloud or your own local Grafana instance, you can add the data source through the Connections menu.
 
    - From **Scenario** select **CSV Content**.
 
@@ -80,7 +80,7 @@ Now that we’ve introduced how templating works, let’s move on to the next st
      {{- "\t" -}} Usage: {{ index $values "A"}}%{{- "\n" -}}
      ```{{copy}}
 
-     This template automatically adds the instance name (from the [$labels](ref:template-labels-annotations-ref-labels-variable) data) and its current CPU usage (from [$values[“A”]](ref:template-labels-annotations-ref-values-variable)) into the alert summary. `\t`{{copy}}: Adds a tab space between the instance name and the value. And, `\n`{{copy}}: Inserts a new line after the value.
+     This template automatically adds the instance name (from the [$labels](https://grafana.com/docs/grafana/latest/alerting/alerting-rules/templates/reference/#labels) data) and its current CPU usage (from [$values[“A”]](https://grafana.com/docs/grafana/latest/alerting/alerting-rules/templates/reference/#values)) into the alert summary. `\t`{{copy}}: Adds a tab space between the instance name and the value. And, `\n`{{copy}}: Inserts a new line after the value.
 
      Output example:
 

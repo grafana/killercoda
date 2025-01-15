@@ -6,10 +6,10 @@ To deepen your understanding of Grafana’s templating, explore the following re
 
 - **Overview of the functions and operators used in templates**:
 
-  - [Notification template language](ref:template-notifications-lang)
+  - [Notification template language](https://grafana.com/docs/grafana/latest/alerting/configure-notifications/template-notifications/language/)
 
-  - [Alert rule template language](ref:template-labels-annotations-lang)
+  - [Alert rule template language](https://grafana.com/docs/grafana/latest/alerting/alerting-rules/templates/language/)
 
-- [**Notification template reference**](ref:template-notifications-ref): Lists the data available for use in notification templates and explores specific functions.
+- [**Notification template reference**](https://grafana.com/docs/grafana/latest/alerting/configure-notifications/template-notifications/reference/): Lists the data available for use in notification templates and explores specific functions.
 
-- [**Alert rule template reference**](ref:template-labels-annotations-ref): Covers the specifics of creating dynamic labels and annotations for alert rules using elements such as variables and functions.
+- [**Alert rule template reference**](https://grafana.com/docs/grafana/latest/alerting/alerting-rules/templates/reference/): Covers the specifics of creating dynamic labels and annotations for alert rules using elements such as variables and functions.

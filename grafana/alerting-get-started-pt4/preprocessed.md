@@ -50,7 +50,7 @@ refs:
       destination: /docs/grafana-cloud/alerting-and-irm/alerting/alerting-rules/templates/language/
   template-notifications:
     - pattern: /docs/grafana/
-      destination: /docs/grafana/<GRAFANA_VERSION>/alerting/configure-notifications/template-notifications//
+      destination: /docs/grafana/<GRAFANA_VERSION>/alerting/configure-notifications/template-notifications/
     - pattern: /docs/grafana-cloud/
       destination: /docs/grafana-cloud/alerting-and-irm/alerting/configure-notifications/template-notifications/
   template-notifications-ref:
@@ -180,17 +180,17 @@ To demonstrate the observation of data using the Grafana stack, download and run
 
 ## How templating works
 
-In Grafana, you can use [templates](ref:templates) to dynamically pull in specific data about the alert rule. This results in more flexible and informative alert notification messages. You can template either alert rule labels and annotations, or notification templates. Both use the Go template language.
+In Grafana, you can use [templates](https://grafana.com/docs/grafana/latest/alerting/fundamentals/templates/) to dynamically pull in specific data about the alert rule. This results in more flexible and informative alert notification messages. You can template either alert rule labels and annotations, or notification templates. Both use the Go template language.
 
 {{< figure src="/media/docs/alerting/how-notification-templates-works.png" max-width="1200px" caption="How templating works" >}}
 
 ### Templating alert rule labels and annotations
 
-[Labels and annotations](ref:template-labels-annotations) are key fields where templates are applied. One of the main advantages of using templating in annotations is the ability to incorporate dynamic data from queries, allowing alerts to reflect real-time information relevant to the triggered condition. By using templating in annotations, you can customize the content of each alert instance, such as including instance names and metric values, so the notification becomes more informative.
+[Labels and annotations](https://grafana.com/docs/grafana/latest/alerting/alerting-rules/templates/) are key fields where templates are applied. One of the main advantages of using templating in annotations is the ability to incorporate dynamic data from queries, allowing alerts to reflect real-time information relevant to the triggered condition. By using templating in annotations, you can customize the content of each alert instance, such as including instance names and metric values, so the notification becomes more informative.
 
 ### Notification templates
 
-The real power of templating lies in how it helps you format notifications with dynamic alert data. [Notification templates](ref:template-notifications) let you pull in details from annotations to create clear and consistent messages. They also make it simple to reuse the same format across different contact points, saving time and effort.
+The real power of templating lies in how it helps you format notifications with dynamic alert data. [Notification templates](https://grafana.com/docs/grafana/latest/alerting/configure-notifications/template-notifications/) let you pull in details from annotations to create clear and consistent messages. They also make it simple to reuse the same format across different contact points, saving time and effort.
 
 Notification templates allow you to customize how information is presented in each notification. For example, you can use templates to organize and format details about firing or resolved alerts, making it easier for recipients to understand the status of each alert at a glance—all within a single notification.
 
@@ -203,7 +203,7 @@ This approach is helpful when you want to reduce notification noise, especially 
 
 ## Step 1: Template labels and annotations
 
-Now that we've introduced how templating works, let’s move on to the next step, where we guide you through creating an alert rule with a summary and description annotation, incorporating CPU usage and instance names, which we later use in our notification template.
+Now that we've introduced how templating works, let’s move on to the next step. We guide you through creating an alert rule with a summary and description annotation. In doing so, we incorporate CPU usage and instance names, which we later use in our notification template.
 
 ### Create an alert rule
 
@@ -215,12 +215,12 @@ Now that we've introduced how templating works, let’s move on to the next step
 1. Create an alert rule that includes a summary and description annotation:
    - Navigate to **Alerts & IRM > Alerting > Alert rules**.
    - Click **+ New alert rule**.
-   - Enter an **alert rule name**. High CPU usage
+   - Enter an **alert rule name**. Name it `High CPU usage`
 1. **Define query an alert condition** section:
 
    - Select TestData data source from the drop-down menu.
 
-     [TestData](https://grafana.com/docs/grafana/latest/datasources/testdata/) is included in the demo environment. If you’re working in Grafana Cloud or your own local Grafana instance, you can add the data source through the Connections menu
+     [TestData](https://grafana.com/docs/grafana/latest/datasources/testdata/) is included in the demo environment. If you’re working in Grafana Cloud or your own local Grafana instance, you can add the data source through the Connections menu.
 
    - From **Scenario** select **CSV Content**.
    - Copy in the following CSV data:
@@ -272,7 +272,7 @@ Now that we've introduced how templating works, let’s move on to the next step
      {{- "\t" -}} Usage: {{ index $values "A"}}%{{- "\n" -}}
      ```
 
-     This template automatically adds the instance name (from the [$labels](ref:template-labels-annotations-ref-labels-variable) data) and its current CPU usage (from [$values["A"]](ref:template-labels-annotations-ref-values-variable)) into the alert summary. `\t`: Adds a tab space between the instance name and the value. And, `\n`: Inserts a new line after the value.
+     This template automatically adds the instance name (from the [$labels](https://grafana.com/docs/grafana/latest/alerting/alerting-rules/templates/reference/#labels) data) and its current CPU usage (from [$values["A"]](https://grafana.com/docs/grafana/latest/alerting/alerting-rules/templates/reference/#values)) into the alert summary. `\t`: Adds a tab space between the instance name and the value. And, `\n`: Inserts a new line after the value.
 
      Output example:
 
@@ -305,10 +305,10 @@ Without a notification template, the alert messages would include the default Gr
 1. Navigate to **Alerts & IRM** > **Alerting** > **Contact point**s.
 1. Select the **Notification Templates** tab.
 1. Click **+ Add notification template group**.
-1. Enter a name. E.g _instance-cpu-summary_.
+1. Enter a name. E.g `instance-cpu-summary`.
 1. From the **Add example** dropdown menu, choose `Print firing and resolved alerts`.
 
-This template prints out alert instances into two sections: **firing alerts** and **resolved alerts**, and includes only the key details for each. In addition it adds our summary and description annotations.
+This template prints out alert instances into two sections: **firing alerts** and **resolved alerts**, and includes only the key details for each. In addition, it adds our summary and description annotations.
 
 ```
 {{- /* Example displaying firing and resolved alerts separately in the notification. */ -}}
@@ -330,6 +330,14 @@ This template prints out alert instances into two sections: **firing alerts** an
 {{ end -}}
 ```
 
+Note: Your notification template name (`{{define "<NAME>"}}`) must be unique. You cannot have two templates with the same name in the same notification template group or in different notification template groups.
+
+<!-- INTERACTIVE ignore START -->
+
+> **Note:**
+> Your notification template name (`{{define "<NAME>"}}`) must be unique. You cannot have two templates with the same name in the same notification template group or in different notification template groups.
+<!-- INTERACTIVE ignore END -->
+
 Here’s a breakdown of the template:
 
 - `{{ define "custom.firing_and_resolved_alerts" -}}` section: Displays the number of resolved alerts and their summaries, using the `alert.summary_and_description` template to include the summary, status, and description for each alert.
@@ -338,7 +346,7 @@ Here’s a breakdown of the template:
 
 In the **Preview** area, you can see a sample of how the notification would look. Since we’ve already created our alert rule, you can take it a step further by previewing how an actual alert instance from your rule would appear in the notification.
 
-1. To do that, click **Edit payload**.
+1. Click **Edit payload**.
 1. Click **Use existing alert instance**.
 
    You should see our alert rule listed on the left.
@@ -393,10 +401,10 @@ To deepen your understanding of Grafana’s templating, explore the following re
 
 - **Overview of the functions and operators used in templates**:
 
-  - [Notification template language](ref:template-notifications-lang)
-  - [Alert rule template language](ref:template-labels-annotations-lang)
+  - [Notification template language](https://grafana.com/docs/grafana/latest/alerting/configure-notifications/template-notifications/language/)
+  - [Alert rule template language](https://grafana.com/docs/grafana/latest/alerting/alerting-rules/templates/language/)
 
-- [**Notification template reference**](ref:template-notifications-ref): Lists the data available for use in notification templates and explores specific functions.
-- [**Alert rule template reference**](ref:template-labels-annotations-ref): Covers the specifics of creating dynamic labels and annotations for alert rules using elements such as variables and functions.
+- [**Notification template reference**](https://grafana.com/docs/grafana/latest/alerting/configure-notifications/template-notifications/reference/): Lists the data available for use in notification templates and explores specific functions.
+- [**Alert rule template reference**](https://grafana.com/docs/grafana/latest/alerting/alerting-rules/templates/reference/): Covers the specifics of creating dynamic labels and annotations for alert rules using elements such as variables and functions.
 
 <!-- INTERACTIVE page finish.md END -->
