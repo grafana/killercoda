@@ -49,6 +49,8 @@ jobs:
       - run: go build ./
         working-directory: killercoda/tools/transformer
       - run: ./scripts/check-out-branch.bash
+        env:
+          GH_TOKEN: ${{ github.token }}
         shell: bash
         working-directory: killercoda
       # Run the transformer on all documentation sources.
@@ -86,6 +88,21 @@ jobs:
           ./transformer
           "${GITHUB_WORKSPACE}/grafana/docs/sources/tutorials/alerting-get-started/index.md"
           "${GITHUB_WORKSPACE}/killercoda/grafana/alerting-get-started"
+        working-directory: killercoda/tools/transformer
+      - run: >
+          ./transformer
+          "${GITHUB_WORKSPACE}/grafana/docs/sources/tutorials/alerting-get-started-pt2/index.md"
+          "${GITHUB_WORKSPACE}/killercoda/grafana/alerting-get-started-pt2"
+        working-directory: killercoda/tools/transformer
+      - run: >
+          ./transformer
+          "${GITHUB_WORKSPACE}/grafana/docs/sources/tutorials/alerting-get-started-pt3/index.md"
+          "${GITHUB_WORKSPACE}/killercoda/grafana/alerting-get-started-pt3"
+        working-directory: killercoda/tools/transformer
+      - run: >
+          ./transformer
+          "${GITHUB_WORKSPACE}/grafana/docs/sources/tutorials/alerting-get-started-pt4/index.md"
+          "${GITHUB_WORKSPACE}/killercoda/grafana/alerting-get-started-pt4"
         working-directory: killercoda/tools/transformer
       - run: >
           ./transformer
