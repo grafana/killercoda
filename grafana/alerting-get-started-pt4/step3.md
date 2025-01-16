@@ -76,7 +76,7 @@ Now that we’ve introduced how templating works, let’s move on to the next st
 
      ```go
      {{- "\n" -}}
-     Instance: {{ index $labels "instance" }} 
+     Instance: {{ index $labels "instance" }}
      {{- "\t" -}} Usage: {{ index $values "A"}}%{{- "\n" -}}
      ```{{copy}}
 
