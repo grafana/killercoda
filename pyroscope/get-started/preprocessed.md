@@ -34,14 +34,7 @@ For more information on the different ways to deploy Pyroscope, see [Pyroscope d
 {{< youtube id="XL2yTCPy2e0" >}}
 <!-- INTERACTIVE ignore END -->
 
-For more information on the different ways to deploy Pyroscope, see [Pyroscope deployment modes]({{< relref "../reference-pyroscope-architecture/deployment-modes/index.md" >}}).
-
-[Getting started with Pyroscope: Intro to continuous profiling](https://www.youtube.com/watch?v=XL2yTCPy2e0&t=358s)
-
-<div style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden">
-   <iframe src="https://www.youtube.com/embed/videoseries?si=ueLa_QEXz20IWnGt&amp;list=PLDGkOdUX1Ujo27m6qiTPPCpFHVfyKq9jT" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen>
-   </iframe>
-</div>
+For more information on the different ways to deploy Pyroscope, see [Getting started with Pyroscope: Intro to continuous profiling](https://www.youtube.com/watch?v=XL2yTCPy2e0&t=358s)
 
 
 <!-- INTERACTIVE page intro.md END -->
