@@ -49,6 +49,8 @@ jobs:
       - run: go build ./
         working-directory: killercoda/tools/transformer
       - run: ./scripts/check-out-branch.bash
+        env:
+          GH_TOKEN: ${{ github.token }}
         shell: bash
         working-directory: killercoda
       # Run the transformer on all documentation sources.
