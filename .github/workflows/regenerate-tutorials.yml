@@ -89,6 +89,21 @@ jobs:
         working-directory: killercoda/tools/transformer
       - run: >
           ./transformer
+          "${GITHUB_WORKSPACE}/grafana/docs/sources/tutorials/alerting-get-started-pt2/index.md"
+          "${GITHUB_WORKSPACE}/killercoda/grafana/alerting-get-started-pt2"
+        working-directory: killercoda/tools/transformer
+      - run: >
+          ./transformer
+          "${GITHUB_WORKSPACE}/grafana/docs/sources/tutorials/alerting-get-started-pt3/index.md"
+          "${GITHUB_WORKSPACE}/killercoda/grafana/alerting-get-started-pt3"
+        working-directory: killercoda/tools/transformer
+      - run: >
+          ./transformer
+          "${GITHUB_WORKSPACE}/grafana/docs/sources/tutorials/alerting-get-started-pt4/index.md"
+          "${GITHUB_WORKSPACE}/killercoda/grafana/alerting-get-started-pt4"
+        working-directory: killercoda/tools/transformer
+      - run: >
+          ./transformer
           "${GITHUB_WORKSPACE}/alloy/docs/sources/tutorials/send-logs-to-loki.md"
           "${GITHUB_WORKSPACE}/killercoda/alloy/send-logs-to-loki"
         working-directory: killercoda/tools/transformer
