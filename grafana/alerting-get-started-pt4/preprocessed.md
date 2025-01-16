@@ -268,7 +268,7 @@ Now that we've introduced how templating works, let’s move on to the next step
 
      ```go
      {{- "\n" -}}
-     Instance: {{ index $labels "instance" }} 
+     Instance: {{ index $labels "instance" }}
      {{- "\t" -}} Usage: {{ index $values "A"}}%{{- "\n" -}}
      ```
 
@@ -336,6 +336,7 @@ Note: Your notification template name (`{{define "<NAME>"}}`) must be unique. Yo
 
 > **Note:**
 > Your notification template name (`{{define "<NAME>"}}`) must be unique. You cannot have two templates with the same name in the same notification template group or in different notification template groups.
+
 <!-- INTERACTIVE ignore END -->
 
 Here’s a breakdown of the template:

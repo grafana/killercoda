@@ -10,10 +10,10 @@ labels:
     - cloud
 tags:
   - beginner
-title: Get started with Grafana Alerting - Part 2
+title: Get started with Grafana Alerting - Part 2 of 4
 weight: 50
 killercoda:
-  title: Get started with Grafana Alerting - Part 2
+  title: Get started with Grafana Alerting - Part 2 of 4
   description: Learn to use alert instances and route notifications by labels to contacts, building on your alerting skills in Grafana for more advanced workflows — Part 2.
   backend:
     imageid: ubuntu
@@ -21,7 +21,7 @@ killercoda:
 
 <!-- INTERACTIVE page intro.md START -->
 
-# Get started with Grafana Alerting - Part 2
+# Get started with Grafana Alerting - Part 2 of 4
 
 The Get started with Grafana Alerting tutorial Part 2 is a continuation of [Get started with Grafana Alerting tutorial Part 1](http://www.grafana.com/tutorials/alerting-get-started/).
 
@@ -128,6 +128,7 @@ To demonstrate the observation of data using the Grafana stack, download and run
    
 <!-- INTERACTIVE page step1.md END -->
 <!-- INTERACTIVE page step2.md START -->
+
 ## Alert instances
 
 An [alert instance](https://grafana.com/docs/grafana/latest/alerting/fundamentals/#alert-instances) is an event that matches a metric returned by an alert rule query.
@@ -139,8 +140,10 @@ If the query returns more than one time-series, each time-series represents a di
 {{< figure alt="Screenshot displaying alert instances in the context of an alert rule, highlighting the specific alerts triggered by the rule and their respective statuses" src="/media/docs/alerting/alert-instance-flow.jpg" max-width="1200px" caption="Alert Instances in the Context of an Alert Rule" >}}
 
 In this scenario, each time-series is evaluated independently against the alert rule. It results in the creation of an alert instance for each time-series. The time-series corresponding to the desktop page views meets the threshold and, therefore, results in an alert instance in **Firing** state for which an alert notification is sent. The mobile alert instance state remains **Normal**.
+
 <!-- INTERACTIVE page step2.md END -->
 <!-- INTERACTIVE page step3.md START -->
+
 ## Notification policies
 
 [Notification policies](https://grafana.com/docs/grafana/latest/alerting/fundamentals/notifications/notification-policies/) route alerts to different communication channels, reducing alert noise and providing control over when and how alerts are sent. For example, you might use notification policies to ensure that critical alerts about server downtime are sent immediately to the on-call engineer. Another use case could be routing performance alerts to the development team for review and action.
@@ -153,18 +156,20 @@ Key Characteristics:
 {{< figure alt="Screenshot illustrating the routing of alerts with notification policies, including the configuration and flow of alerts through different notification channels" src="/media/docs/alerting/get-started-notification-policy-tree-combo.png" max-width="1200px" caption="Routing of alerts with notification policies" >}}
 
 In the above diagram, alert instances and notification policies are matched by labels. For instance, the label `team=operations` matches the alert instance “**Pod stuck in CrashLoop**” and “**Disk Usage -80%**” to child policies that send alert notifications to a particular contact point (operations@grafana.com).
+
 <!-- INTERACTIVE page step3.md END -->
 <!-- INTERACTIVE page step4.md START -->
 
 ## Create notification policies
 
-Create a notification policy if you want to handle metrics returned by alert rules separately by routing each alert instance to a specific contact point. In Grafana, click on the icon at the top left corner of the screen to access the navigation menu.
+Create a notification policy if you want to handle metrics returned by alert rules separately by routing each alert instance to a specific contact point.
 
 <!-- INTERACTIVE ignore START -->
 
 1. In your browser, **sign in** to your Grafana Cloud account.
 
    OSS and interactive learning environment users: To log in, navigate to [http://localhost:3000](http://localhost:3000), where Grafana should be running.
+
 1. Navigate to **Alerts & IRM > Alerting > Notification policies**.
 1. In the Default policy, click **+ New child policy**.
 1. In the field **Label** enter `device`, and in the field **Value** enter `desktop`.
@@ -194,6 +199,7 @@ Create a notification policy if you want to handle metrics returned by alert rul
 
 1. **Repeat the steps above to create a second child policy** to match another alert instance. For labels use: `device=mobile`. Use the Webhook integration for the contact point. Alternatively, experiment by using a different Webhook endpoint or a [different integration](https://grafana.com/docs/grafana/latest/alerting/configure-notifications/manage-contact-points/#list-of-supported-integrations).
 
+
 <!-- INTERACTIVE page step4.md END -->
 <!-- INTERACTIVE page step5.md START -->
 
@@ -201,21 +207,12 @@ Create a notification policy if you want to handle metrics returned by alert rul
 
 The alert rule that you are about to create is meant to monitor web traffic page views. The objective is to explore what an alert instance is and how to leverage routing individual alert instances by using label matchers and notification policies.
 
-### Add a data source
+   <!-- INTERACTIVE page step5.md END -->
+   <!-- INTERACTIVE page step6.md START -->
 
-Grafana includes a [test data source](https://grafana.com/docs/grafana/latest/datasources/testdata/) that creates simulated time series data.
-
-1. In Grafana navigate to **Connections > Add new connection**.
-1. Search for **TestData**.
-1. Click **Add new data source**.
-1. Click **Save & test**.
-
-   You should see a message confirming that the data source is working.
-<!-- INTERACTIVE page step5.md END -->
-<!-- INTERACTIVE page step6.md START -->
 ### Create an alert rule
 
-1. Navigate to **Alerting > Alert rules**.
+1. Navigate to **Alerts & IRM > Alerting > Alert rules**.
 1. Click **New alert rule**.
 
 ### Enter an alert rule name
@@ -226,9 +223,10 @@ Make it short and descriptive as this will appear in your alert notification. Fo
 
 In this section, we use the default options for Grafana-managed alert rule creation. The default options let us define the query, a expression (used to manipulate the data -- the `WHEN` field in the UI), and the condition that must be met for the alert to be triggered (in default mode is the threshold).
 
+Grafana includes a [test data source](https://grafana.com/docs/grafana/latest/datasources/testdata/) that creates simulated time series data. This data source is included in the demo environment for this tutorial. If you're working in Grafana Cloud or your own local Grafana instance, you can add the data source through the **Connections** menu.
+
 1. Select **TestData** data source from the drop-down menu.
 1. From **Scenario** select **CSV Content**.
-1. In the Query editor, switch to **Code** mode by clicking the button on the right.
 1. Copy in the following CSV data:
 
    ```
@@ -242,7 +240,8 @@ In this section, we use the default options for Grafana-managed alert rule creat
 1. In the **Alert condition** section:
 
    - Keep `Last` as the value for the reducer function (`WHEN`), and `1000` as the threshold value. This is the value above which the alert rule should trigger.
-1. Click **Preview** to run the queries.
+
+1. Click **Preview alert rule condition** to run the queries.
 
 It should return two series.`desktop` in Firing state, and `mobile` in Normal state. The values `1`, and `0` mean that the condition is either `true` or `false`.
 
@@ -250,18 +249,22 @@ It should return two series.`desktop` in Firing state, and `mobile` in Normal st
 
 <!-- INTERACTIVE page step6.md END -->
 <!-- INTERACTIVE page step7.md START -->
+
+### Add folders and labels
+
+1. In **Folder**, click **+ New folder** and enter a name. For example: `web-traffic-alerts` . This folder contains our alert rules.
+
 ### Set evaluation behavior
 
 In the [life cycle](http://grafana.com/docs/grafana/next/alerting/fundamentals/alert-rule-evaluation/) of alert instances, when an alert condition (threshold) is not met, the alert instance state is **Normal**. Similarly, when the condition is breached (for longer than the pending period, which in this tutorial will be 0), the alert instance state switches back to **Alerting**, which means that the alert rule state is **Firing**, and a notification is sent.
 
 To set up evaluation behavior:
 
-1. In **Folder**, click **+ New folder** and enter a name. For example: `web-traffic-alerts`. This folder will contain our alerts.
-1. In the **Evaluation group**, repeat the above step to create a new evaluation group. We will name it `1m` (referring to “1 minute”).
-1. Choose an Evaluation interval (how often the alert will be evaluated). Choose `1m`.
-1. Set the pending period to `0s` (zero seconds), so the alert rule fires the moment the condition is met.
+1. In **Evaluation group and interval**, repeat the above step to create a new evaluation group. Name it `1m` (referring to “1 minute”).
+1. Choose an **Evaluation interval** (how often the alert will be evaluated). Choose `1m`.
+1. Set the **pending period** to `0s` (zero seconds), so the alert rule fires the moment the condition is met.
 
-### Configure labels and notifications
+### Configure notifications
 
 In this section, you can select how you want to route your alert instances. Since we want to route by notification policy, we need to ensure that the labels match the alert instance.
 
@@ -283,6 +286,7 @@ In this section, you can select how you want to route your alert instances. Sinc
 1. Click **Save rule and exit**.
 
 Now that we have set up the alert rule, it’s time to check the alert notification.
+
 <!-- INTERACTIVE page step7.md END -->
 <!-- INTERACTIVE page step8.md START -->
 
@@ -305,6 +309,17 @@ In this tutorial, you have learned how Grafana Alerting can route individual ale
 
 If you run into any problems, you are welcome to post questions in our [Grafana Community forum](https://community.grafana.com/).
 
-Enjoy your monitoring!
+## Learn more in [Grafana Alerting Part 3](http://www.grafana.com/tutorials/alerting-get-started-pt3/)
+
+<!-- INTERACTIVE ignore START -->
+
+> **Tip:**
+> In [Get started with Grafana Alerting - Part 3](http://www.grafana.com/tutorials/alerting-get-started-pt3/) you learn how to group alert notifications effectively.
+
+<!-- INTERACTIVE ignore END -->
+
+
+In [Get started with Grafana Alerting - Part 3](http://www.grafana.com/tutorials/alerting-get-started-pt3/) you learn how to group alert notifications effectively.
+
 
 <!-- INTERACTIVE page finish.md END -->

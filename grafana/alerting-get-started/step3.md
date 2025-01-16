@@ -2,7 +2,7 @@
 
 Next, we establish an [alert rule](https://grafana.com/docs/grafana/latest/alerting/alerting-rules/create-grafana-managed-rule/) within Grafana Alerting to notify us whenever alert rules are triggered and resolved.
 
-1. In Grafana, **navigate to Alerting** > **Alert rules**. Click on **New alert rule**.
+1. In Grafana, navigate to **Alerts & IRM > Alerting > Alert rules**. Click on **New alert rule**.
 
 1. Enter alert rule name for your alert rule. Make it short and descriptive as this appears in your alert notification. For instance, **database-metrics**
 
@@ -24,6 +24,10 @@ Grafana includes a [test data source](https://grafana.com/docs/grafana/latest/da
 
    ![A preview of a firing alert](https://grafana.com/media/docs/alerting/random-walk-firing-alert-rule.png)
 
+## Add folders and labels
+
+1. In **Folder**, click **+ New folder** and enter a name. For example: `metric-alerts`{{copy}} . This folder contains our alert rules.
+
 ## Set evaluation behavior
 
 The [alert rule evaluation](https://grafana.com/docs/grafana/latest/alerting/fundamentals/alert-rules/rule-evaluation/) defines the conditions under which an alert rule triggers, based on the following settings:
@@ -36,16 +40,14 @@ The [alert rule evaluation](https://grafana.com/docs/grafana/latest/alerting/fun
 
 To set up the evaluation:
 
-1. In **Folder**, click **+ New folder** and enter a name. For example: _metric-alerts_. This folder contains our alerts.
-
-1. In the **Evaluation group**, repeat the above step to create a new evaluation group. Name it _1m-evaluation_.
+1. In the **Evaluation group and interval**, repeat the above step to create a new evaluation group. Name it _1m-evaluation_.
 
 1. Choose an **Evaluation interval** (how often the alert are evaluated).
    For example, every `1m`{{copy}} (1 minute).
 
-1. Set the pending period to, `0s`{{copy}} (zero seconds), so the alert rule fires the moment the condition is met.
+1. Set the **pending period** to, `0s`{{copy}} (zero seconds), so the alert rule fires the moment the condition is met.
 
-## Configure labels and notifications
+## Configure notifications
 
 Choose the contact point where you want to receive your alert notifications.
 

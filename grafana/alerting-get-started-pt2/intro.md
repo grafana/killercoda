@@ -1,4 +1,4 @@
-# Get started with Grafana Alerting - Part 2
+# Get started with Grafana Alerting - Part 2 of 4
 
 The Get started with Grafana Alerting tutorial Part 2 is a continuation of [Get started with Grafana Alerting tutorial Part 1](http://www.grafana.com/tutorials/alerting-get-started/).
 
