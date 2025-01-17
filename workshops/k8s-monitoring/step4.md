@@ -1,4 +1,4 @@
-# Step 5: Deploy the Kubernetes Monitoring Helm
+# Step 6: Deploy the Kubernetes Monitoring Helm
 
 The Kubernetes Monitoring Helm chart is used for gathering, scraping, and forwarding Kubernetes telemetry data to a Grafana Stack. This includes the ability to collect; metrics, logs, traces & continuous profiling data. The scope of this tutorial is to deploy the Kubernetes Monitoring Helm chart to collect pod logs and Kubernetes events.
 

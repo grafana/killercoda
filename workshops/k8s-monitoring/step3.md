@@ -1,16 +1,18 @@
-# Step 3: Deploy Loki
+# Step 4: Deploy Loki
 
 Grafana Loki will be used to store our collected logs. In this tutorial we will deploy Loki with a minimal footprint and use the default storage backend provided by the Loki Helm (MinIO). As mentioned earlier, it is recommended to use a more production-ready storage backend like S3, GCS, or Azure Blob Storage for production use cases.
+
+> **Note**: Due to the resource constraints of the Kubernetes cluster running in the playground, we are deploying Loki using a custom values file. This values file reduces the resource requirements of Loki. This turns off features such as; cache, Loki Canary, and runs Loki with limited resources.
 
 To deploy Loki run the following command:
 
 ```bash
-helm install --values loki-values.yml loki grafana/loki -n meta
+helm install --values killercoda/loki-values.yml loki grafana/loki -n meta
 ```{{exec}}
 
 This command will deploy Loki in the `meta`{{copy}} namespace. The command also includes a `values`{{copy}} file that specifies the configuration for Loki. For more details on how to configure the Loki Helm refer to the Loki Helm [documentation](https://grafana.com/docs/loki/latest/setup/install/helm).
 
-# Step 4: Deploy Grafana
+# Step 5: Deploy Grafana
 
 Next, we will deploy Grafana to visualize the logs stored in Loki. The deployment of the Grafana Helm chart is similar to the Loki Helm chart. To deploy Grafana run the following command:
 
@@ -22,7 +24,7 @@ This command will deploy Grafana in the `meta`{{copy}} namespace. As before the 
 
 1. `adminUser`{{copy}} & `adminPassword`{{copy}}: These are the credentials you will use to log in to Grafana. The values are `admin`{{copy}} and `adminadminadmin`{{copy}} respectively. The recommended practice is to either use a Kubernetes secret or allow Grafana to generate a password for you. For more details on how to configure the Grafana Helm refer to the Grafana Helm [documentation](https://grafana.com/docs/grafana/latest/installation/helm/).
 
-1. `datasources`{{copy}}: This section of the configuration allows for the definition of datasources that Grafana will use. In this tutorial, we will define a datasource for Loki. The datasource is defined as follows:
+1. `datasources`{{copy}}: This section of the configuration allows for the definition of data sources that Grafana will use. In this tutorial, we will define a data source for Loki. The datasource is defined as follows:
 
 ```yaml
 datasources:

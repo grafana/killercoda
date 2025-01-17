@@ -1,4 +1,4 @@
-# Step 8: Adding a sample application to `prod`{{copy}}
+# Step 9: Adding a sample application to `prod`{{copy}}
 
 Lastly, lets deploy a sample application to the `prod`{{copy}} namespace that will generate logs. To deploy the sample application run the following command:
 
@@ -11,8 +11,8 @@ This will deploy a default version of Grafana Tempo to the `prod`{{copy}} namesp
 Once deployed lets expose Grafana once more:
 
 ```bash
-export POD_NAME=$(kubectl get pods --namespace prod -l "app.kubernetes.io/name=grafana,app.kubernetes.io/instance=grafana" -o jsonpath="{.items[0].metadata.name}") && \
-kubectl --namespace prod port-forward $POD_NAME 3000
+export POD_NAME=$(kubectl get pods --namespace meta -l "app.kubernetes.io/name=grafana,app.kubernetes.io/instance=grafana" -o jsonpath="{.items[0].metadata.name}") && \
+kubectl --namespace meta port-forward $POD_NAME 3000 --address 0.0.0.0
 ```{{exec}}
 
 and navigate to [http://localhost:3000/a/grafana-lokiexplore-app]({{TRAFFIC_HOST1_3000}}/a/grafana-lokiexplore-app) to view Grafana Tempo logs.
