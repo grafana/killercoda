@@ -267,7 +267,7 @@ Now that you have the transformer built and you understand the basic meta syntax
 
 Before you open a PR to the `killercoda` repository, you should test the course to make sure it works as expected. The easiest way to do this is to run the course via your own Killercoda instance. To do this follow these steps:
 
-1. [Fork the `killercoda`{{copy}} repository](https://github.com/grafana/killercoda/fork) to your own GitHub account. This will provide you with a URL to your forked repository.
+1. [Fork the killercoda repository](https://github.com/grafana/killercoda/fork) to your own GitHub account. This will provide you with a URL to your forked repository.
    ```
    https://github.com/<USERNAME>/killercoda.git
    ```
