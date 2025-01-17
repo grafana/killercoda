@@ -2,9 +2,7 @@
 
 ## Notification Policy
 
-[Notification policies](ref:notification-policies) group alert instances and route notifications to specific contact points.
-
-To follow the above example, we will create notification policies that route alert instances based on the `region`{{copy}} label to specific contact points. This setup ensures that alerts for a given region are consolidated into a single notification. Additionally, we will fine-tune the **timing settings** for each region by overriding the default parent policy, allowing more granular control over when notifications are sent.
+Following the above example, [notification policies](ref:notification-policies) are created to route alert instances, which have a region label, to a specific contact point. The goal is to receive one consolidated notification per region. To demonstrate how grouping works, alert notifications for the East Coast team are not grouped. Regarding timing, a specific schedule is defined for that region. This setup overrides the parent’s settings to fine-tune the behavior for specific labels (i.e., regions).
 
 1. Visit [http://localhost:3000]({{TRAFFIC_HOST1_3000}}), where Grafana should be running
 

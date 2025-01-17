@@ -2,7 +2,7 @@
 
 In this section we configure an alert rule based on our application monitoring example.
 
-1. Navigate to **Alerting > Alert rules**.
+1. Navigate to **Alerts & IRM > Alerting > Alert rules**.
 
 1. Click **New alert rule**.
 
@@ -52,23 +52,23 @@ Grafana includes a [test data source](https://grafana.com/docs/grafana/latest/da
 
    ![Preview of a query returning alert instances.](https://grafana.com/media/docs/alerting/regions-alert-instance-preview.png)
 
+## Add folders and labels
+
+1. In **Folder**, click **+ New folder** and enter a name. For example: `Multi-region alerts`{{copy}} . This folder contains our alert rules.
+
 ## Set evaluation behavior
 
 Every alert rule is assigned to an evaluation group. You can assign the alert rule to an existing evaluation group or create a new one.
 
-1. In **Folder**, click **+ New folder** and enter a name. For example: `Multi-region CPU alerts`{{copy}}. This folder contains our alert rules.
-
-1. In the **Evaluation group**, repeat the above step to create a new evaluation group. Name it `Multi-region CPU group`{{copy}}.
+1. In the **Evaluation group and interval**, repeat the above step to create a new evaluation group. Name it `Multi-region group`{{copy}}.
 
 1. Choose an **Evaluation interval** (how often the alert are evaluated). Choose `1m`{{copy}}.
 
-   The evaluation interval of 1 minute allows Grafana to detect changes quickly, while the longer **Group wait** (from our notification policy) and **Group interval** (inherited from the Default notification policy) allow for efficient grouping of alerts and minimize unnecessary notifications.
+1. Set the **pending period** to `0s`{{copy}} (zero seconds), so the alert rule fires the moment the condition is met (this minimizes the waiting time for the demonstration).
 
-1. Set the pending period to `0s`{{copy}} (zero seconds), so the alert rule fires the moment the condition is met (this minimizes the waiting time for the demonstration).
+## Configure notifications
 
-## Configure labels and notifications
-
-Choose the notification policy where you want to receive your alert notifications.
+Select who should receive a notification when an alert rule fires.
 
 1. Select **Use notification policy**.
 
@@ -76,6 +76,30 @@ Choose the notification policy where you want to receive your alert notification
 
    ![Preview of alert instance routing with the region label matcher](https://grafana.com/media/docs/alerting/region-notification-policy-routing-preview.png)
 
-   The preview shows that the region label from our data source is successfully matching the notification policies that we created earlier thanks to the label matcher that we configured.
+   The preview should show that the region label from our data source is successfully matching the notification policies that we created earlier thanks to the label matcher that we configured.
 
 1. Click **Save rule and exit**.
+
+## Create a second alert rule
+
+Repeat the steps above to create a second alert rule that alerts on high memory usage.
+
+1. Duplicate the alert rule by clicking on **More > Duplicate**.
+
+1. Name it `High Memory usage - Multi-region`{{copy}}.
+
+1. Use the below CSV data to simulate a data source returning memory usage.
+
+   ```
+   region,memory-usage,service,instance
+   us-west,42,cache-server-1,server-09
+   us-west,88,cache-server-1,server-10
+   us-east,74,api-server-1,server-11
+   us-east,90,api-server-1,server-12
+   us-west,53,analytics-server-1,server-13
+   us-east,81,analytics-server-2,server-14
+   us-west,77,analytics-server-1,server-15
+   us-east,94,analytics-server-2,server-16
+   ```{{copy}}
+
+1. Click Save rule and exit.

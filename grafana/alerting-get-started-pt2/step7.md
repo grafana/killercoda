@@ -1,18 +1,20 @@
+# Add folders and labels
+
+1. In **Folder**, click **+ New folder** and enter a name. For example: `web-traffic-alerts`{{copy}} . This folder contains our alert rules.
+
 # Set evaluation behavior
 
 In the [life cycle](http://grafana.com/docs/grafana/next/alerting/fundamentals/alert-rule-evaluation/) of alert instances, when an alert condition (threshold) is not met, the alert instance state is **Normal**. Similarly, when the condition is breached (for longer than the pending period, which in this tutorial will be 0), the alert instance state switches back to **Alerting**, which means that the alert rule state is **Firing**, and a notification is sent.
 
 To set up evaluation behavior:
 
-1. In **Folder**, click **+ New folder** and enter a name. For example: `web-traffic-alerts`{{copy}}. This folder will contain our alerts.
+1. In **Evaluation group and interval**, repeat the above step to create a new evaluation group. Name it `1m`{{copy}} (referring to “1 minute”).
 
-1. In the **Evaluation group**, repeat the above step to create a new evaluation group. We will name it `1m`{{copy}} (referring to “1 minute”).
+1. Choose an **Evaluation interval** (how often the alert will be evaluated). Choose `1m`{{copy}}.
 
-1. Choose an Evaluation interval (how often the alert will be evaluated). Choose `1m`{{copy}}.
+1. Set the **pending period** to `0s`{{copy}} (zero seconds), so the alert rule fires the moment the condition is met.
 
-1. Set the pending period to `0s`{{copy}} (zero seconds), so the alert rule fires the moment the condition is met.
-
-# Configure labels and notifications
+# Configure notifications
 
 In this section, you can select how you want to route your alert instances. Since we want to route by notification policy, we need to ensure that the labels match the alert instance.
 
