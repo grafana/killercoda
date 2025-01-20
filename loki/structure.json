@@ -11,6 +11,7 @@
     { "path": "intro-to-logging-fluentd-fluentbit", "title": "Configuring Fluentd and Fluent bit to send logs to Loki."},
     { "path": "otel-collector-getting-started", "title": "Getting started with the OpenTelemetry Collector and Loki tutorial"},
     { "path": "fluentbit-loki-tutorial", "title": "Sending logs to Loki using Fluent Bit tutorial"},
-    { "path": "logcli-tutorial", "title": "LogCLI tutorial"}
+    { "path": "logcli-tutorial", "title": "LogCLI tutorial"},
+    { "path": "k8s-monitoring", "title": "Kubernetes Monitoring with Loki"}
     ]
 }
