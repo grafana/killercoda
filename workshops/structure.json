@@ -1,6 +1,5 @@
 {
     "items": [
-    { "path": "adventure", "title": "Quest World a text based adventure"},
-    { "path": "k8s-monitoring", "title": "Kubernetes Monitoring with Loki"}
+    { "path": "adventure", "title": "Quest World a text based adventure"}
     ]
 }
