@@ -1,6 +1,6 @@
 # Step 9: Adding a sample application to `prod`{{copy}}
 
-Lastly, lets deploy a sample application to the `prod`{{copy}} namespace that will generate logs. To deploy the sample application run the following command:
+Lastly, lets deploy a sample application to the `prod`{{copy}} namespace that will generate some logs. To deploy the sample application run the following command:
 
 ```bash
 helm install tempo grafana/tempo-distributed -n prod
@@ -16,3 +16,5 @@ kubectl --namespace meta port-forward $POD_NAME 3000 --address 0.0.0.0
 ```{{exec}}
 
 and navigate to [http://localhost:3000/a/grafana-lokiexplore-app]({{TRAFFIC_HOST1_3000}}/a/grafana-lokiexplore-app) to view Grafana Tempo logs.
+
+![Label view of Tempo logs](https://grafana.com/media/docs/loki/k8s-logs-tempo.png)
