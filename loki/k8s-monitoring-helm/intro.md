@@ -1,4 +1,4 @@
-# Kubernetes Monitoring with Loki
+# Kubernetes Monitoring Helm
 
 One of the primary use cases for Loki is to collect and store logs from your [Kubernetes cluster](https://kubernetes.io/docs/concepts/overview/). These logs fall into three categories:
 
