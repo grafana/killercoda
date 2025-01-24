@@ -31,12 +31,3 @@ Before you begin, you will need the following:
 - [kubectl](https://kubernetes.io/docs/tasks/tools/) installed on your local machine.
 
 - [helm](https://helm.sh/docs/intro/install/) installed on your local machine.
-
-> **Tip:**
-> Alternatively, you can try out this example in our interactive learning environment: [Kubernetes Monitoring with Loki](https://killercoda.com/grafana-labs/course/loki/k8s-monitoring).
->
-> It’s a fully configured environment with all the dependencies already installed.
->
-> ![Interactive](https://grafana.com/media/docs/loki/loki-ile.svg)
->
-> Provide feedback, report bugs, and raise issues in the [Grafana Killercoda repository](https://github.com/grafana/killercoda).

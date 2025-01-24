@@ -38,6 +38,7 @@ Before you begin, you will need the following:
 * [kubectl](https://kubernetes.io/docs/tasks/tools/) installed on your local machine.
 * [helm](https://helm.sh/docs/intro/install/) installed on your local machine.
 
+<!-- INTERACTIVE ignore START -->
 > **Tip:**
 > Alternatively, you can try out this example in our interactive learning environment: [Kubernetes Monitoring with Loki](https://killercoda.com/grafana-labs/course/loki/k8s-monitoring).
 >
@@ -46,6 +47,8 @@ Before you begin, you will need the following:
 > ![Interactive](/media/docs/loki/loki-ile.svg)
 >
 > Provide feedback, report bugs, and raise issues in the [Grafana Killercoda repository](https://github.com/grafana/killercoda).
+
+<!-- INTERACTIVE ignore END -->
 
 <!-- INTERACTIVE page intro.md END -->
 <!-- INTERACTIVE page step1.md START -->
@@ -96,9 +99,11 @@ Grafana Loki will be used to store our collected logs. In this tutorial we will 
 
 To deploy Loki run the following command:
 
+<!-- INTERACTIVE ignore START -->
 ```bash
 helm install --values loki-values.yml loki grafana/loki -n meta
 ```
+<!-- INTERACTIVE ignore END -->
 
 ```bash
 helm install --values killercoda/loki-values.yml loki grafana/loki -n meta
@@ -222,6 +227,7 @@ kubectl --namespace meta port-forward $POD_NAME 3000 --address 0.0.0.0
 > **Tip:**
 > This will make your terminal unusable until you stop the port-forwarding process. To do this, press `Ctrl + C`.
 
+
 This command will port-forward the Grafana service to your local machine on port `3000`. You can access Grafana by navigating to [http://localhost:3000](http://localhost:3000) in your browser. The default credentials are `admin` and `adminadminadmin`.  One of the first places you should visit is Explore Logs which will provide a no-code view of the logs being stored in Loki:
 
 [http://localhost:3000/a/grafana-lokiexplore-app](http://localhost:3000/a/grafana-lokiexplore-app)
@@ -241,6 +247,7 @@ kubectl --namespace meta port-forward $POD_NAME 12345 --address 0.0.0.0
 
 > **Tip:**
 > This will make your terminal unusable until you stop the port-forwarding process. To do this, press `Ctrl + C`.
+
 
 This command will port-forward the Alloy service to your local machine on port `12345`. You can access the Alloy UI by navigating to [http://localhost:12345](http://localhost:12345) in your browser.
 
