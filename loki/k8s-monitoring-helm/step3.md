@@ -1,4 +1,4 @@
-# Step 4: Deploy Loki
+# Deploy Loki
 
 Grafana Loki will be used to store our collected logs. In this tutorial we will deploy Loki with a minimal footprint and use the default storage backend provided by the Loki Helm chart, MinIO.
 
@@ -12,7 +12,7 @@ helm install --values killercoda/loki-values.yml loki grafana/loki -n meta
 
 This command will deploy Loki in the `meta`{{copy}} namespace. The command also includes a `values`{{copy}} file that specifies the configuration for Loki. For more details on how to configure the Loki Helm chart refer to the Loki Helm [documentation](https://grafana.com/docs/loki/latest/setup/install/helm).
 
-# Step 5: Deploy Grafana
+# Deploy Grafana
 
 Next we will deploy Grafana to the `meta`{{copy}} namespace. You will use Grafana to visualize the logs stored in Loki. To deploy Grafana run the following command:
 

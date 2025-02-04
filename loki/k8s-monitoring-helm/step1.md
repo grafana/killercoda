@@ -1,4 +1,4 @@
-# Step 1: Create the `meta`{{copy}} and `prod`{{copy}} namespaces
+# Create the `meta`{{copy}} and `prod`{{copy}} namespaces
 
 The K8s Monitoring Helm chart will monitor two namespaces: `meta`{{copy}} and `prod`{{copy}}:
 

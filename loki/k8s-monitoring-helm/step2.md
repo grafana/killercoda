@@ -1,4 +1,4 @@
-# Step 2: Add the Grafana Helm repository
+# Add the Grafana Helm repository
 
 All three Helm charts (Loki, Grafana, and the Kubernetes Monitoring Helm) are available in the Grafana Helm repository. Add the Grafana Helm repository by running the following command:
 
@@ -8,7 +8,7 @@ helm repo add grafana https://grafana.github.io/helm-charts && helm repo update
 
 As well as adding the repo to our local helm list, we also run `helm repo update`{{copy}} to ensure you have the latest version of the charts.
 
-# Step 3: Clone the tutorial repository
+# Clone the tutorial repository
 
 Clone the tutorial repository by running the following command:
 

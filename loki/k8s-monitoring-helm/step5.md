@@ -1,4 +1,4 @@
-# Step 7: Accessing Grafana
+# Accessing Grafana
 
 To access Grafana, you will need to port-forward the Grafana service to your local machine. To do this, run the following command:
 
@@ -19,7 +19,7 @@ One of the first places you should visit is Explore Logs which lets you automati
 
 ![Explore Logs view of K8s logs](https://grafana.com/media/docs/loki/k8s-logs-explore-logs.png)
 
-# Step 8 (Optional): View the Alloy UI
+# (Optional): View the Alloy UI
 
 The Kubernetes Monitoring Helm chart deploys Grafana Alloy to collect and forward telemetry data from the Kubernetes cluster. The Helm is designed to abstract you from creating an Alloy configuration file. However if you would like to understand the pipeline you can view the Alloy UI. To access the Alloy UI, you will need to port-forward the Alloy service to your local machine. To do this, run the following command:
 
