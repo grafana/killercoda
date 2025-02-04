@@ -6,7 +6,7 @@ The K8s Monitoring Helm chart will monitor two namespaces: `meta`{{copy}} and `p
 
 - `prod`{{copy}} namespace: This namespace will be used to deploy the sample application that will generate logs.
 
-Create the `meta`{{copy}} and `prod`{{copy}} namespaces by running the following commands:
+Create the `meta`{{copy}} and `prod`{{copy}} namespaces by running the following command:
 
 ```bash
 kubectl create namespace meta && kubectl create namespace prod

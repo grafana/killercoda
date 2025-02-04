@@ -1,6 +1,5 @@
 {
     "items": [
-    { "path": "adventure", "title": "Quest World a text based adventure"},
-    { "path": "k8s-monitoring", "title": "Why team Faro Mimir Loki should win"}
+    { "path": "adventure", "title": "Quest World a text based adventure"}
     ]
 }

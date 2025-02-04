@@ -1,8 +1,8 @@
 # Step 4: Deploy Loki
 
-Grafana Loki will be used to store our collected logs. In this tutorial we will deploy Loki with a minimal footprint and use the default storage backend provided by the Loki Helm (MinIO).
+Grafana Loki will be used to store our collected logs. In this tutorial we will deploy Loki with a minimal footprint and use the default storage backend provided by the Loki Helm chart, MinIO.
 
-> **Note**: Due to the resource constraints of the Kubernetes cluster running in the playground, we are deploying Loki using a custom values file. This values file reduces the resource requirements of Loki. This turns off features such as; cache, Loki Canary, and runs Loki with limited resources. This can take up to **1 minute** to complete.
+> **Note**: Due to the resource constraints of the Kubernetes cluster running in the playground, we are deploying Loki using a custom values file. This values file reduces the resource requirements of Loki. This turns off features such as cache and Loki Canary, and runs Loki with limited resources. This can take up to **1 minute** to complete.
 
 To deploy Loki run the following command:
 
@@ -10,21 +10,21 @@ To deploy Loki run the following command:
 helm install --values killercoda/loki-values.yml loki grafana/loki -n meta
 ```{{exec}}
 
-This command will deploy Loki in the `meta`{{copy}} namespace. The command also includes a `values`{{copy}} file that specifies the configuration for Loki. For more details on how to configure the Loki Helm refer to the Loki Helm [documentation](https://grafana.com/docs/loki/latest/setup/install/helm).
+This command will deploy Loki in the `meta`{{copy}} namespace. The command also includes a `values`{{copy}} file that specifies the configuration for Loki. For more details on how to configure the Loki Helm chart refer to the Loki Helm [documentation](https://grafana.com/docs/loki/latest/setup/install/helm).
 
 # Step 5: Deploy Grafana
 
-Next we will deploy Grafana to the meta namespace. Grafana will be used to visualize the logs stored in Loki. To deploy Grafana run the following command:
+Next we will deploy Grafana to the `meta`{{copy}} namespace. You will use Grafana to visualize the logs stored in Loki. To deploy Grafana run the following command:
 
 ```bash
 helm install --values grafana-values.yml grafana grafana/grafana --namespace meta
 ```{{exec}}
 
-As before the command also includes a `values`{{copy}} file that specifies the configuration for Grafana. There are two important configurations attributes to take note of:
+As before the command also includes a `values`{{copy}} file that specifies the configuration for Grafana. There are two important configuration attributes to take note of:
 
-1. `adminUser`{{copy}} & `adminPassword`{{copy}}: These are the credentials you will use to log in to Grafana. The values are `admin`{{copy}} and `adminadminadmin`{{copy}} respectively. The recommended practice is to either use a Kubernetes secret or allow Grafana to generate a password for you. For more details on how to configure the Grafana Helm refer to the Grafana Helm [documentation](https://grafana.com/docs/grafana/latest/installation/helm/).
+1. `adminUser`{{copy}} & `adminPassword`{{copy}}: These are the credentials you will use to log in to Grafana. The values are `admin`{{copy}} and `adminadminadmin`{{copy}} respectively. The recommended practice is to either use a Kubernetes secret or allow Grafana to generate a password for you. For more details on how to configure the Grafana Helm chart, refer to the Grafana Helm [documentation](https://grafana.com/docs/grafana/latest/installation/helm/).
 
-1. `datasources`{{copy}}: This section of the configuration allows for the definition of data sources that Grafana will use. In this tutorial, we will define a data source for Loki. The data source is defined as follows:
+1. `datasources`{{copy}}: This section of the configuration lets you define the data sources that Grafana should use. In this tutorial, you will define a Loki data source. The data source is defined as follows:
 
    ```yaml
     datasources:

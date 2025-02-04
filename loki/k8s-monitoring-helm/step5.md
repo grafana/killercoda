@@ -8,9 +8,9 @@ kubectl --namespace meta port-forward $POD_NAME 3000 --address 0.0.0.0
 ```{{exec}}
 
 > **Tip:**
-> This will make your terminal unusable until you stop the port-forwarding process. To do this, press `Ctrl + C`{{copy}}.
+> This will make your terminal unusable until you stop the port-forwarding process. To stop the process, press `Ctrl + C`{{copy}}.
 
-This command will port-forward the Grafana service to your local machine on port `3000`{{copy}}. You can access Grafana by navigating to [http://localhost:3000]({{TRAFFIC_HOST1_3000}}) in your browser. The default credentials are `admin`{{copy}} and `adminadminadmin`{{copy}}.  One of the first places you should visit is Explore Logs which will provide a no-code view of the logs being stored in Loki:
+This command will port-forward the Grafana service to your local machine on port `3000`{{copy}}. You can access Grafana by navigating to [http://localhost:3000]({{TRAFFIC_HOST1_3000}}) in your browser. The default credentials are `admin`{{copy}} and `adminadminadmin`{{copy}}.  One of the first places you should visit is Explore Logs which lets you automatically visualize and explore your logs without having to write queries:
 
 [http://localhost:3000/a/grafana-lokiexplore-app]({{TRAFFIC_HOST1_3000}}/a/grafana-lokiexplore-app)
 
@@ -26,7 +26,7 @@ kubectl --namespace meta port-forward $POD_NAME 12345 --address 0.0.0.0
 ```{{exec}}
 
 > **Tip:**
-> This will make your terminal unusable until you stop the port-forwarding process. To do this, press `Ctrl + C`{{copy}}.
+> This will make your terminal unusable until you stop the port-forwarding process. To stop the process, press `Ctrl + C`{{copy}}.
 
 This command will port-forward the Alloy service to your local machine on port `12345`{{copy}}. You can access the Alloy UI by navigating to [http://localhost:12345]({{TRAFFIC_HOST1_12345}}) in your browser.
 
