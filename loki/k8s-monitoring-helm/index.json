@@ -1,5 +1,5 @@
 {
-  "title": "Kubernetes Monitoring with Loki",
+  "title": "Kubernetes Monitoring Helm",
   "description": "Learn how to collect and store logs from your Kubernetes cluster using Loki.",
   "details": {
     "intro": {

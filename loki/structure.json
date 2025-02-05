@@ -12,6 +12,6 @@
     { "path": "otel-collector-getting-started", "title": "Getting started with the OpenTelemetry Collector and Loki tutorial"},
     { "path": "fluentbit-loki-tutorial", "title": "Sending logs to Loki using Fluent Bit tutorial"},
     { "path": "logcli-tutorial", "title": "LogCLI tutorial"},
-    { "path": "k8s-monitoring", "title": "Kubernetes Monitoring with Loki"}
+    { "path": "k8s-monitoring-helm", "title": "Kubernetes Monitoring Helm"}
     ]
 }

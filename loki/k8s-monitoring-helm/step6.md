@@ -1,6 +1,6 @@
-# Step 9: Adding a sample application to `prod`{{copy}}
+# Adding a sample application to `prod`{{copy}}
 
-Lastly, lets deploy a sample application to the `prod`{{copy}} namespace that will generate some logs. To deploy the sample application run the following command:
+Finally, lets deploy a sample application to the `prod`{{copy}} namespace that will generate some logs. To deploy the sample application run the following command:
 
 ```bash
 helm install tempo grafana/tempo-distributed -n prod

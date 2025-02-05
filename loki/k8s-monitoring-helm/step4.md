@@ -1,6 +1,6 @@
-# Step 6: Deploy the Kubernetes Monitoring Helm
+# Deploy the Kubernetes Monitoring Helm chart
 
-The Kubernetes Monitoring Helm chart is used for gathering, scraping, and forwarding Kubernetes telemetry data to a Grafana Stack. This includes the ability to collect; metrics, logs, traces & continuous profiling data. The scope of this tutorial is to deploy the Kubernetes Monitoring Helm chart to collect pod logs and Kubernetes events.
+The Kubernetes Monitoring Helm chart is used for gathering, scraping, and forwarding Kubernetes telemetry data to a Grafana stack. This includes the ability to collect metrics, logs, traces, and continuous profiling data. The scope of this tutorial is to deploy the Kubernetes Monitoring Helm chart to collect pod logs and Kubernetes events.
 
 To deploy the Kubernetes Monitoring Helm chart run the following command:
 
@@ -35,6 +35,9 @@ podLogs:
   enabled: true
   gatherMethod: kubernetesApi
   collector: alloy-logs
+  labelsToKeep: ["app_kubernetes_io_name","container","instance","job","level","namespace","service_name","service_namespace","deployment_environment","deployment_environment_name"]
+  structuredMetadata:
+    pod: pod  # Set structured metadata "pod" from label "pod"
   namespaces:
     - meta
     - prod
@@ -60,10 +63,14 @@ To break down the configuration file:
 
 - Define the cluster name as `meta-monitoring-tutorial`{{copy}}. This a static label that will be attached to all logs collected by the Kubernetes Monitoring Helm chart.
 
-- Define a destination named `loki`{{copy}} that will be used to forward logs to Loki. The `url`{{copy}} attribute specifies the URL of the Loki gateway. **If you choose to deploy Loki in a different namespace or in a different location entirley, you will need to update the `url`{{copy}} attribute accordingly.**
+- Define a destination named `loki`{{copy}} that will be used to forward logs to Loki. The `url`{{copy}} attribute specifies the URL of the Loki gateway. **If you choose to deploy Loki in a different namespace or in a different location entirely, you will need to update the `url`{{copy}} attribute accordingly.**
 
 - Enable the collection of cluster events and pod logs:
   - `collector`{{copy}}: specifies which collector to use to collect logs. In this case, we are using the `alloy-logs`{{copy}} collector.
+
+  - `labelsToKeep`{{copy}}: specifies the labels to keep when collecting logs. Note this does not drop logs. This is useful when you do not want to apply a high cardanility label. In this case we have removed `pod`{{copy}} from the labels to keep.
+
+  - `structuredMetadata`{{copy}}: specifies the structured metadata to collect. In this case, we are setting the structured metadata `pod`{{copy}} so we can retain the pod name for querying. Though it does not need to be indexed as a label.zw
 
   - `namespaces`{{copy}}: specifies the namespaces to collect logs from. In this case, we are collecting logs from the `meta`{{copy}} and `prod`{{copy}} namespaces.
 
