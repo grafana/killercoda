@@ -6,7 +6,7 @@ All three Helm charts (Loki, Grafana, and the Kubernetes Monitoring Helm) are av
 helm repo add grafana https://grafana.github.io/helm-charts && helm repo update
 ```{{exec}}
 
-As well as adding the repo to our local helm list, we also run `helm repo update`{{copy}} to ensure you have the latest version of the charts.
+As well as adding the repo to your local helm list, you should also run `helm repo update`{{copy}} to ensure you have the latest version of the charts.
 
 # Clone the tutorial repository
 
@@ -22,4 +22,4 @@ Then change directories to the `alloy-scenarios/k8s/logs`{{copy}} directory:
 cd alloy-scenarios/k8s/logs
 ```{{exec}}
 
-**The rest of this tutorial assumes you are in this directory.**
+**The rest of this tutorial assumes you are in the `alloy-scenarios/k8s/logs`{{copy}} directory.**
