@@ -18,6 +18,6 @@ In the provided demo setup, you’re monitoring:
 
 - Memory Consumption.
 
-You have a mixture of critical alerts (e.g., CPU usage over 75%) and warning alerts (e.g., memory usage over 60%).
+You have a mixture of critical alerts (e.g., CPU usage over `75%`{{copy}}) and warning alerts (e.g., memory usage over `60%`{{copy}}).
 
 At times, you also have scheduled maintenance windows, where you might temporarily suppress certain alerts during planned downtime.

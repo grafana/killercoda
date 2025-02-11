@@ -18,7 +18,7 @@ Make it short and descriptive as this will appear in your alert notification. Fo
 
 1. In the query section, enter the following query:
 
-   ** switch to Code mode if not already selected **
+   ** switch to **Code** mode if not already selected **
 
    ```
    flask_app_cpu_usage{}

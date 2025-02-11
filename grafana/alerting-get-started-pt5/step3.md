@@ -28,9 +28,11 @@ The time-series visualization supports alert rules to provide more context in th
 
    - In the query area, copy and paste the following PromQL query:
 
-     ```promql
-     flask_app_cpu_usage{environment="prod"}
-     ```{{copy}}
+   ** switch to **Code** mode if not already selected **
+
+   ```promql
+   flask_app_cpu_usage{environment="prod"}
+   ```{{copy}}
 
    - Click **Run queries**.
 
@@ -50,5 +52,6 @@ The time-series visualization supports alert rules to provide more context in th
 
      Both metrics return labels that we’ll use later to link alert instances with the appropriate routing. These labels help define how alerts are routed based on their environment or other criteria.
 
-1. Click Save dashboard.
+1. Click **Save dashboard**.
+
    We have our time-series panel ready. Feel free to combine metrics with labels such as `environment = “staging”`{{copy}}.

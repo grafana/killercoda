@@ -12,7 +12,7 @@ Notification policies route alert instances to contact points via label matchers
 
    - **Operator**: `=`{{copy}}.
 
-   - **Value**: `prod`{{copy}}.
+   - **Value**: `production`{{copy}}.
 
    - This label matches alert rules where the environment label is `prod`{{copy}}.
 
