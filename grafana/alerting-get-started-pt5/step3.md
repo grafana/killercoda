@@ -6,7 +6,9 @@ The time-series visualization supports alert rules to provide more context in th
 
 1. Log in to Grafana:
 
-   Navigate to [http://localhost:3000]({{TRAFFIC_HOST1_3000}}), where Grafana should be running.
+   - Navigate to [http://localhost:3000]({{TRAFFIC_HOST1_3000}}), where Grafana should be running.
+
+   - Username and password: `admin`{{copy}}
 
 1. Create a time series panel:
 
