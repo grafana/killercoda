@@ -17,13 +17,13 @@ To demonstrate the observation of data using the Grafana stack, download and run
 1. Build the Grafana stack:
 
    ```bash
-   docker compose build
+   docker-compose build
    ```{{exec}}
 
 1. Bring up the containers:
 
    ```bash
-   docker compose up –d
+   docker-compose up -d
    ```{{exec}}
 
    The first time you run `docker compose up -d`{{copy}}, Docker downloads all the necessary resources for the tutorial. This might take a few minutes, depending on your internet connection.

@@ -68,14 +68,46 @@ To demonstrate the observation of data using the Grafana stack, download and run
    ```
 
 1. Build the Grafana stack:
-   ```bash
+
+   <!-- INTERACTIVE ignore START -->
+
+   ```
    docker compose build
    ```
-1. Bring up the containers:
+
+   <!-- INTERACTIVE ignore END -->
+
+   
+   <!-- INTERACTIVE exec START -->
 
    ```bash
-   docker compose up –d
+   docker-compose build
    ```
+
+   <!-- INTERACTIVE exec END -->
+
+   
+
+1. Bring up the containers:
+
+    <!-- INTERACTIVE ignore START -->
+
+   ```
+   docker compose up -d
+   ```
+
+   <!-- INTERACTIVE ignore END -->
+
+   
+   <!-- INTERACTIVE exec START -->
+
+   ```bash
+   docker-compose up -d
+   ```
+
+   <!-- INTERACTIVE exec END -->
+
+   
 
    The first time you run `docker compose up -d`, Docker downloads all the necessary resources for the tutorial. This might take a few minutes, depending on your internet connection.
 
