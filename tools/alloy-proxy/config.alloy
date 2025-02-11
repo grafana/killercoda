@@ -2,8 +2,8 @@ loki.write "local" {
     endpoint {
         url = "https://logs-prod-021.grafana.net/loki/api/v1/push"
         basic_auth {
-            username = "$LOKI_USERNAME"
-            password = "$LOKI_PASSWORD"
+            username = "$GRAFANA_CLOUD_USER"
+            password = "$GRAFANA_CLOUD_PASSWORD"
         }
     }
 }
