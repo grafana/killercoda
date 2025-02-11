@@ -5,6 +5,7 @@
         { "path": "alerting-get-started-pt2", "title": "Get started with Grafana Alerting - Part 2"},
        { "path": "alerting-get-started-pt3", "title": "Get started with Grafana Alerting - Part 3"},
        { "path": "alerting-get-started-pt4", "title": "Get started with Grafana Alerting - Part 4"},
+       { "path": "alerting-get-started-pt5", "title": "Get started with Grafana Alerting - Part 5"},
 	      { "path": "alerting-loki-logs", "title": "Create alert rules with logs"},
         { "path": "grafana-fundamentals", "title": "Grafana Fundamentals"},
         { "path": "fo11y", "title": "Frontend Observability"}
