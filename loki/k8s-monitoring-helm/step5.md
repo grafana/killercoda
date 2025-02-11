@@ -1,36 +1,85 @@
-# Accessing Grafana
+# Deploy the Kubernetes Monitoring Helm chart
 
-To access Grafana, you will need to port-forward the Grafana service to your local machine. To do this, run the following command:
+The Kubernetes Monitoring Helm chart is used for gathering, scraping, and forwarding Kubernetes telemetry data to a Grafana stack. This includes the ability to collect metrics, logs, traces, and continuous profiling data. The scope of this tutorial is to deploy the Kubernetes Monitoring Helm chart to collect pod logs and Kubernetes events.
 
-```bash
-export POD_NAME=$(kubectl get pods --namespace meta -l "app.kubernetes.io/name=grafana,app.kubernetes.io/instance=grafana" -o jsonpath="{.items[0].metadata.name}") && \
-kubectl --namespace meta port-forward $POD_NAME 3000 --address 0.0.0.0
-```{{exec}}
-
-> **Tip:**
-> This will make your terminal unusable until you stop the port-forwarding process. To stop the process, press `Ctrl + C`{{copy}}.
-
-This command will port-forward the Grafana service to your local machine on port `3000`{{copy}}.
-
-You can now access Grafana by navigating to [http://localhost:3000]({{TRAFFIC_HOST1_3000}}) in your browser. The default credentials are `admin`{{copy}} and `adminadminadmin`{{copy}}.
-
-One of the first places you should visit is Explore Logs which lets you automatically visualize and explore your logs without having to write queries:
-[http://localhost:3000/a/grafana-lokiexplore-app]({{TRAFFIC_HOST1_3000}}/a/grafana-lokiexplore-app)
-
-![Explore Logs view of K8s logs](https://grafana.com/media/docs/loki/k8s-logs-explore-logs.png)
-
-# (Optional): View the Alloy UI
-
-The Kubernetes Monitoring Helm chart deploys Grafana Alloy to collect and forward telemetry data from the Kubernetes cluster. The Helm is designed to abstract you from creating an Alloy configuration file. However if you would like to understand the pipeline you can view the Alloy UI. To access the Alloy UI, you will need to port-forward the Alloy service to your local machine. To do this, run the following command:
+To deploy the Kubernetes Monitoring Helm chart run the following command:
 
 ```bash
-export POD_NAME=$(kubectl get pods --namespace meta -l "app.kubernetes.io/name=alloy-logs,app.kubernetes.io/instance=k8s" -o jsonpath="{.items[0].metadata.name}") && \
-kubectl --namespace meta port-forward $POD_NAME 12345 --address 0.0.0.0
+helm install --values ./k8s-monitoring-values.yml k8s grafana/k8s-monitoring -n meta 
 ```{{exec}}
 
-> **Tip:**
-> This will make your terminal unusable until you stop the port-forwarding process. To stop the process, press `Ctrl + C`{{copy}}.
+Within the configuration file `k8s-monitoring-values.yml`{{copy}} we have defined the following:
 
-This command will port-forward the Alloy service to your local machine on port `12345`{{copy}}. You can access the Alloy UI by navigating to [http://localhost:12345]({{TRAFFIC_HOST1_12345}}) in your browser.
+```yaml
+---
+cluster:
+  name: meta-monitoring-tutorial
 
-![Grafana Alloy UI](https://grafana.com/media/docs/loki/k8s-logs-alloy-ui.png)
+destinations:
+  - name: loki
+    type: loki
+    url: http://loki-gateway.meta.svc.cluster.local/loki/api/v1/push
+
+
+clusterEvents:
+  enabled: true
+  collector: alloy-logs
+  namespaces:
+    - meta
+    - prod
+
+nodeLogs:
+  enabled: false
+
+podLogs:
+  enabled: true
+  gatherMethod: kubernetesApi
+  collector: alloy-logs
+  labelsToKeep: ["app_kubernetes_io_name","container","instance","job","level","namespace","service_name","service_namespace","deployment_environment","deployment_environment_name"]
+  structuredMetadata:
+    pod: pod  # Set structured metadata "pod" from label "pod"
+  namespaces:
+    - meta
+    - prod
+
+# Collectors
+alloy-singleton:
+  enabled: false
+
+alloy-metrics:
+  enabled: false
+
+alloy-logs:
+  enabled: true
+  # Required when using the Kubernetes API to pod logs
+  alloy:
+    mounts:
+      varlog: false
+    clustering:
+      enabled: true
+
+alloy-profiles:
+  enabled: false
+
+alloy-receiver:
+  enabled: false
+```{{copy}}
+
+To break down the configuration file:
+
+- Define the cluster name as `meta-monitoring-tutorial`{{copy}}. This a static label that will be attached to all logs collected by the Kubernetes Monitoring Helm chart.
+
+- Define a destination named `loki`{{copy}} that will be used to forward logs to Loki. The `url`{{copy}} attribute specifies the URL of the Loki gateway. **If you choose to deploy Loki in a different namespace or in a different location entirely, you will need to update the `url`{{copy}} attribute accordingly.**
+
+- Enable the collection of cluster events and pod logs:
+  - `collector`{{copy}}: specifies which collector to use to collect logs. In this case, we are using the `alloy-logs`{{copy}} collector.
+
+  - `labelsToKeep`{{copy}}: specifies the labels to keep when collecting logs. Note this does not drop logs. This is useful when you do not want to apply a high cardanility label. In this case we have removed `pod`{{copy}} from the labels to keep.
+
+  - `structuredMetadata`{{copy}}: specifies the structured metadata to collect. In this case, we are setting the structured metadata `pod`{{copy}} so we can retain the pod name for querying. Though it does not need to be indexed as a label.zw
+
+  - `namespaces`{{copy}}: specifies the namespaces to collect logs from. In this case, we are collecting logs from the `meta`{{copy}} and `prod`{{copy}} namespaces.
+
+- Disable the collection of node logs for the purpose of this tutorial as it requires the mounting of `/var/log/journal`{{copy}}. This is out of scope for this tutorial.
+
+- Lastly, define the role of the collector. The Kubernetes Monitoring Helm chart will deploy only what you need and nothing more. In this case, we are telling the Helm chart to only deploy Alloy with the capability to collect logs. If you need to collect K8s metrics, traces, or continuous profiling data, you can enable the respective collectors.
