@@ -1,6 +1,6 @@
 FROM grafana/alloy:latest
 
-COPY config.yml /etc/alloy/config.yml
+COPY config.alloy /etc/alloy/config.alloy 
 
 # Port for the loki_push_api
 EXPOSE 9999
