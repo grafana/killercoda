@@ -1,0 +1,38 @@
+{
+  "title": "Get started with Grafana Alerting - Part 5",
+  "description": "Learn how to dinamically route alerts and link them to dashboards  — Part 5.",
+  "details": {
+    "intro": {
+      "text": "intro.md"
+    },
+    "steps": [
+      {
+        "text": "step1.md"
+      },
+      {
+        "text": "step2.md"
+      },
+      {
+        "text": "step3.md"
+      },
+      {
+        "text": "step4.md"
+      },
+      {
+        "text": "step5.md"
+      },
+      {
+        "text": "step6.md"
+      },
+      {
+        "text": "step7.md"
+      }
+    ],
+    "finish": {
+      "text": "finish.md"
+    }
+  },
+  "backend": {
+    "imageid": "ubuntu"
+  }
+}
