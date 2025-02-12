@@ -1,5 +1,6 @@
 {
     "items": [
-    { "path": "adventure", "title": "Quest World a text based adventure"}
+    { "path": "adventure", "title": "Quest World a text based adventure"},
+    { "path": "send-logs-to-loki", "title": "Use Grafana Alloy to send logs to Loki"}
     ]
 }
