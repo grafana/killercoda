@@ -28,11 +28,11 @@ The time-series visualization supports alert rules to provide more context in th
 
    - In the query area, copy and paste the following PromQL query:
 
-   ** switch to **Code** mode if not already selected **
+     ** switch to **Code** mode if not already selected **
 
-   ```promql
-   flask_app_cpu_usage{environment="prod"}
-   ```{{copy}}
+     ```promql
+     flask_app_cpu_usage{environment="prod"}
+     ```{{copy}}
 
    - Click **Run queries**.
 

@@ -87,7 +87,6 @@ To demonstrate the observation of data using the Grafana stack, download and run
    <!-- INTERACTIVE exec END -->
 
    
-
 1. Bring up the containers:
 
     <!-- INTERACTIVE ignore START -->
@@ -108,7 +107,6 @@ To demonstrate the observation of data using the Grafana stack, download and run
    <!-- INTERACTIVE exec END -->
 
    
-
    The first time you run `docker compose up -d`, Docker downloads all the necessary resources for the tutorial. This might take a few minutes, depending on your internet connection.
 
  <!-- INTERACTIVE ignore START -->
@@ -175,7 +173,7 @@ The time-series visualization supports alert rules to provide more context in th
 
    - In the query area, copy and paste the following PromQL query:
 
-    ** switch to **Code** mode if not already selected **
+     ** switch to **Code** mode if not already selected **
 
      ```promql
      flask_app_cpu_usage{environment="prod"}
