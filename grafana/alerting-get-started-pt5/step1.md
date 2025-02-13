@@ -1,6 +1,6 @@
 # Set up the Grafana stack
 
-To demonstrate the observation of data using the Grafana stack, download and run the following files.
+To observe data using the Grafana stack, download and run the following files.
 
 1. Clone the [tutorial environment repository](https://github.com/tonypowa/grafana-prometheus-alerting-demo.git).
 
