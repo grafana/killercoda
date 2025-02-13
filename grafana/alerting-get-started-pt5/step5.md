@@ -6,11 +6,11 @@ Follow these steps to manually create alert rules and link them to a visualizati
 
 1. Navigate to **Alerts & IRM > Alerting > Alert rules** from the Grafana sidebar.
 
-1. Click **+ New alert** rule to create a new alert.
+1. Click **+ New alert rule** rule to create a new alert.
 
 ## Enter alert rule name
 
-Make it short and descriptive as this will appear in your alert notification. For instance, `CPU usage`{{copy}} .
+Make it short and descriptive, as this will appear in your alert notification. For instance, `CPU usage`{{copy}} .
 
 ## Define query and alert condition
 

@@ -48,9 +48,9 @@ The time-series visualization supports alert rules to provide more context in th
      flask_app_memory_usage{environment="prod"}
      ```{{copy}}
 
-     ![Time-series panel displaying CPU and memory usage metrics in production.](https://grafana.com/media/docs/alerting/time-series_cpu_mem_usage_metrics.png)
+   ![Time-series panel displaying CPU and memory usage metrics in production.](https://grafana.com/media/docs/alerting/time-series_cpu_mem_usage_metrics.png)
 
-     Both metrics return labels that we’ll use later to link alert instances with the appropriate routing. These labels help define how alerts are routed based on their environment or other criteria.
+   Both metrics return labels that we’ll use later to link alert instances with the appropriate routing. These labels help define how alerts are routed based on their environment or other criteria.
 
 1. Click **Save dashboard**.
 
