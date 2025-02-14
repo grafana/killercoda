@@ -5,7 +5,7 @@ Now that we’ve set up notification policies, we can demonstrate how to mute al
 Mute timings are useful for suppressing alerts with certain labels during maintenance windows or weekends.
 
 1. Navigate to **Alerts & IRM > Alerting > Notification Policies**.
-   - Enter a name. E.g., `Planned downtime`{{copy}} , or `Non-business hours`{{copy}}.
+   - Enter a name, e.g. `Planned downtime`{{copy}} or `Non-business hours`{{copy}}.
 
    - Select **Sat** and **Sun**, to apply the mute timing to all Saturdays and Sundays.
 
