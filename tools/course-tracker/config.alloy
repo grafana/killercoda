@@ -1,22 +1,16 @@
-loki.write "local" {
+loki.write "proxy" {
     endpoint {
-        url = "https://logs-prod-021.grafana.net/loki/api/v1/push"
-        basic_auth {
-            username = "$GRAFANA_CLOUD_USER"
-            password = "$GRAFANA_CLOUD_PASSWORD"
-        }
+        url = "https://alloy-proxy-93209135917.us-central1.run.app/loki/api/v1/push"
     }
 }
 
-loki.source.api "loki_push_api" {
-    http {
-        listen_address = "0.0.0.0"
-        listen_port = 9999
-    }
-    forward_to = [
-        loki.write.local.receiver,
-    ]
-    labels = {
-        forwarded = "true",
-    }
-}
+ local.file_match "local_files" {
+     path_targets = [{"__path__" = "/root/.bash_history"}]
+     sync_period = "5s"
+ }
+
+loki.source.file "log_scrape" {
+    targets    = local.file_match.local_files.targets
+    forward_to = [loki.write.proxy.receiver]
+    tail_from_end = true
+  }
