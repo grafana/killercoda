@@ -11,6 +11,18 @@ loki.write "proxy" {
 
 loki.source.file "log_scrape" {
     targets    = local.file_match.local_files.targets
-    forward_to = [loki.write.proxy.receiver]
+    forward_to = [loki.process.annotate.receiver]
     tail_from_end = true
   }
+
+loki.process "annotate" {
+
+forward_to = [loki.write.proxy.receiver]
+
+stage.static_labels {
+    values = {
+      user = sys.env("VM_UUID"),
+    }
+}
+
+}
