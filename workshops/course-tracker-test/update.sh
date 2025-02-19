@@ -52,5 +52,6 @@ echo "Enabling and starting the service..."
 sudo systemctl daemon-reload
 sudo systemctl enable "$SERVICE_NAME"
 sudo systemctl start "$SERVICE_NAME"
+export PROMPT_COMMAND='history -a'
 
 echo "Service $SERVICE_NAME has been installed and started successfully."
