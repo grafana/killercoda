@@ -17,12 +17,13 @@ loki.source.file "log_scrape" {
 
 loki.process "annotate" {
 
-forward_to = [loki.write.proxy.receiver]
-
 stage.static_labels {
     values = {
       user = sys.env("VM_UUID"),
+      course = sys.env("COURSE"),
     }
 }
+
+forward_to = [loki.write.proxy.receiver]
 
 }

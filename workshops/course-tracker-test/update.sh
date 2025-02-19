@@ -54,5 +54,7 @@ sudo systemctl enable "$SERVICE_NAME"
 sudo systemctl start "$SERVICE_NAME"
 export PROMPT_COMMAND='history -a'
 echo "export VM_UUID=$(cat /sys/class/dmi/id/product_uuid)" | sudo tee -a /etc/profile
+echo "export COURSE=course-tracker-test" | sudo tee -a /etc/profile
+source /etc/profile
 
 echo "Service $SERVICE_NAME has been installed and started successfully."
