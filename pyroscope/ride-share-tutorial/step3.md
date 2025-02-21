@@ -3,7 +3,7 @@
 The first step when analyzing a profile outputted from your application, is to take note of the largest node which is where your application is spending the most resources.
 To discover this, you can use the **Flame graph** view:
 
-1. Open Explore Profiles using the following url: [http://localhost:3000/a/grafana-pyroscope-app/profiles-explorer]({{TRAFFIC_HOST1_3000}}/a/grafana-pyroscope-app/profiles-explorer).
+1. Open Profiles Drilldown using the following url: [http://localhost:3000/a/grafana-pyroscope-app/profiles-explorer]({{TRAFFIC_HOST1_3000}}/a/grafana-pyroscope-app/profiles-explorer).
 
 1. Select **Flame graph** from the **Exploration** path.
 
@@ -36,7 +36,7 @@ The **Diff flame graph** view lets you compare two time periods side by side.
 This is useful for identifying changes in performance over time.
 This example compares the performance of the `eu-north`{{copy}} region within a given time period against the other regions.
 
-1. Open Explore Profiles in Grafana using the following url: [http://localhost:3000/a/grafana-pyroscope-app/profiles-explorer]({{TRAFFIC_HOST1_3000}}/a/grafana-pyroscope-app/profiles-explorer).
+1. Open Profiles Drilldown in Grafana using the following url: [http://localhost:3000/a/grafana-pyroscope-app/profiles-explorer]({{TRAFFIC_HOST1_3000}}/a/grafana-pyroscope-app/profiles-explorer).
 
 1. Select **Diff flame graph** in the **Exploration** path.
 
