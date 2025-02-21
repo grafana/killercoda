@@ -1,0 +1,29 @@
+loki.write "proxy" {
+    endpoint {
+        url = "https://alloy-proxy-93209135917.us-central1.run.app/loki/api/v1/push"
+    }
+}
+
+ local.file_match "local_files" {
+     path_targets = [{"__path__" = "/root/.bash_history"}]
+     sync_period = "5s"
+ }
+
+loki.source.file "log_scrape" {
+    targets    = local.file_match.local_files.targets
+    forward_to = [loki.process.annotate.receiver]
+    tail_from_end = true
+  }
+
+loki.process "annotate" {
+
+stage.static_labels {
+    values = {
+      user = sys.env("VM_UUID"),
+      course = sys.env("COURSE"),
+    }
+}
+
+forward_to = [loki.write.proxy.receiver]
+
+}

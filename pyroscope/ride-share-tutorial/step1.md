@@ -26,10 +26,10 @@ This may take a few minutes to download the required images and build the demo a
  ✔ Network flask_default  Created
  ✔ Container flask-ap-south-1  Started
  ✔ Container flask-grafana-1  Started
- ✔ Container flask-pyroscope-1  Started     
- ✔ Container flask-load-generator-1 Started 
- ✔ Container flask-eu-north-1 Started       
- ✔ Container flask-us-east-1 Started  
+ ✔ Container flask-pyroscope-1  Started
+ ✔ Container flask-load-generator-1 Started
+ ✔ Container flask-eu-north-1 Started
+ ✔ Container flask-us-east-1 Started
 ```{{copy}}
 
 Optional: To verify the containers are running, run:

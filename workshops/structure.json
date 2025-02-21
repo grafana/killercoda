@@ -1,5 +1,6 @@
 {
     "items": [
-    { "path": "adventure", "title": "Quest World a text based adventure"}
+    { "path": "adventure", "title": "Quest World a text based adventure"},
+    { "path": "course-tracker-test", "title": "Testing Course Tracker"}
     ]
 }
