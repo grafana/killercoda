@@ -1,6 +1,6 @@
 # Log into Grafana and explore metrics in Prometheus
 
-Open [http://localhost:3000/explore/metrics/]({{TRAFFIC_HOST1_3000}}/explore/metrics/) to access the **Explore Metrics** feature in Grafana.
+Open [http://localhost:3000/explore/metrics/]({{TRAFFIC_HOST1_3000}}/explore/metrics/) to access the **Metrics Drilldown** feature in Grafana.
 
 From here you can visually explore the metrics sent to Prometheus by Alloy.
 
