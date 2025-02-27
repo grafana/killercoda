@@ -55,7 +55,7 @@ Description=Course Monitor Service
 After=network.target
 
 [Service]
-ExecStart=$BIN_DIR/$BINARY_NAME run /etc/$CONFIG_NAME
+ExecStart=$BIN_DIR/$BINARY_NAME \$CUSTOM_ARGS run /etc/$CONFIG_NAME
 Restart=always
 User=root
 WorkingDirectory=$BIN_DIR
@@ -64,7 +64,7 @@ StandardError=journal
 LimitNOFILE=65536
 Environment=VM_UUID=$VM_UUID
 Environment=COURSE=$COURSE
-CUSTOM_ARGS="--server.http.listen-addr=0.0.0.0:12346"
+Environment='CUSTOM_ARGS=--server.http.listen-addr=0.0.0.0:12346'
 
 [Install]
 WantedBy=multi-user.target
@@ -78,4 +78,4 @@ sudo systemctl enable "$SERVICE_NAME"
 sudo systemctl start "$SERVICE_NAME"
 export PROMPT_COMMAND='history -a'
 
-echo "Service $SERVICE_NAME has been installed and started successfully." && clear && echo "Setup complete. You may now begin the tutorial."
+echo "Service $SERVICE_NAME has been installed and started successfully." && /root && clear && echo "Setup complete. You may now begin the tutorial."
