@@ -10,6 +10,7 @@ CONFIG_NAME="config.alloy"
 DOWNLOAD_URL="https://github.com/grafana/alloy/releases/download/v1.6.1/alloy-linux-amd64.zip"
 CONFIG_URL="https://raw.githubusercontent.com/grafana/killercoda/refs/heads/staging/tools/course-tracker/config.alloy"
 SERVICE_FILE="/etc/systemd/system/${SERVICE_NAME}.service"
+CUSTOM_ARGS="--server.http.listen-addr=0.0.0.0:12346"
 
 set -euf
 # shellcheck disable=SC3040
@@ -55,7 +56,7 @@ Description=Course Monitor Service
 After=network.target
 
 [Service]
-ExecStart=$BIN_DIR/$BINARY_NAME \$CUSTOM_ARGS run /etc/$CONFIG_NAME
+ExecStart=$BIN_DIR/$BINARY_NAME $CUSTOM_ARGS run /etc/$CONFIG_NAME
 Restart=always
 User=root
 WorkingDirectory=$BIN_DIR
@@ -64,7 +65,6 @@ StandardError=journal
 LimitNOFILE=65536
 Environment=VM_UUID=$VM_UUID
 Environment=COURSE=$COURSE
-Environment='CUSTOM_ARGS=--server.http.listen-addr=0.0.0.0:12346'
 
 [Install]
 WantedBy=multi-user.target
@@ -78,4 +78,4 @@ sudo systemctl enable "$SERVICE_NAME"
 sudo systemctl start "$SERVICE_NAME"
 export PROMPT_COMMAND='history -a'
 
-echo "Service $SERVICE_NAME has been installed and started successfully." && /root && clear && echo "Setup complete. You may now begin the tutorial."
+echo "Service $SERVICE_NAME has been installed and started successfully." && cd /root && clear && echo "Setup complete. You may now begin the tutorial."
