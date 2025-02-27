@@ -1,6 +1,8 @@
 #!/bin/bash
 
 # Define variables
+COURSE="course-tracker-test"
+VM_UUID=$(cat /sys/class/dmi/id/product_uuid)
 BIN_DIR="/usr/local/bin"
 SERVICE_NAME="course-monitor"
 BINARY_NAME="alloy-linux-amd64"
@@ -42,8 +44,8 @@ WorkingDirectory=$BIN_DIR
 StandardOutput=journal
 StandardError=journal
 LimitNOFILE=65536
-Environment=VM_UUID=$(cat /sys/class/dmi/id/product_uuid)
-Environment=COURSE=course-tracker-test
+Environment=VM_UUID=$VM_UUID
+Environment=COURSE=$COURSE
 
 [Install]
 WantedBy=multi-user.target

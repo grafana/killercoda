@@ -1,3 +1,4 @@
+// Receives Logss over HTTP
 loki.write "local" {
     endpoint {
         url = "https://logs-prod-021.grafana.net/loki/api/v1/push"
@@ -19,4 +20,25 @@ loki.source.api "loki_push_api" {
     labels = {
         forwarded = "true",
     }
+}
+
+// Receives metrics over HTTP
+prometheus.receive_http "api" {
+  http {
+    listen_address = "0.0.0.0"
+    listen_port = 9998
+  }
+  forward_to = [prometheus.remote_write.local.receiver]
+}
+
+// Send metrics to a locally running Mimir.
+prometheus.remote_write "local" {
+  endpoint {
+    url = "https://prometheus-prod-36-prod-us-west-0.grafana.net/api/prom/push"
+
+    basic_auth {
+        username = sys.env("GRAFANA-CLOUD-USERNAME-METRICS")
+        password = sys.env("GRAFANA_CLOUD_PASSWORD")
+    }
+  }
 }
