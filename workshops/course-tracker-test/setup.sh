@@ -64,6 +64,7 @@ StandardError=journal
 LimitNOFILE=65536
 Environment=VM_UUID=$VM_UUID
 Environment=COURSE=$COURSE
+CUSTOM_ARGS="--server.http.listen-addr=0.0.0.0:12346"
 
 [Install]
 WantedBy=multi-user.target
