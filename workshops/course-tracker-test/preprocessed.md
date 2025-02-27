@@ -63,7 +63,7 @@ Before you start, you need to have the following installed on your local system:
 1. Clone the Loki fundamentals repository and checkout the getting-started branch:
 
      ```bash
-     git checkout https://github.com/grafana/loki-fundamentals.git -b getting-started
+     git clone https://github.com/grafana/loki-fundamentals.git -b getting-started
      ```
 
 1. Change to the `loki-fundamentals` directory:

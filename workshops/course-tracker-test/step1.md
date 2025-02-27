@@ -8,7 +8,7 @@
 1. Clone the Loki fundamentals repository and checkout the getting-started branch:
 
    ```bash
-   git checkout https://github.com/grafana/loki-fundamentals.git -b getting-started
+   git clone https://github.com/grafana/loki-fundamentals.git -b getting-started
    ```{{exec}}
 
 1. Change to the `loki-fundamentals`{{copy}} directory:

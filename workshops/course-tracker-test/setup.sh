@@ -11,6 +11,24 @@ DOWNLOAD_URL="https://github.com/grafana/alloy/releases/download/v1.6.1/alloy-li
 CONFIG_URL="https://raw.githubusercontent.com/grafana/killercoda/refs/heads/staging/tools/course-tracker/config.alloy"
 SERVICE_FILE="/etc/systemd/system/${SERVICE_NAME}.service"
 
+set -euf
+# shellcheck disable=SC3040
+(set -o pipefail 2> /dev/null) && set -o pipefail
+
+
+sudo install -m 0755 -d /etc/apt/keyrings
+sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
+sudo chmod a+r /etc/apt/keyrings/docker.asc
+
+ARCH="$(dpkg --print-architecture)"
+VERSION_CODENAME="$(source /etc/os-release && echo "${VERSION_CODENAME}")"
+readonly ARCH VERSION_CODENAME
+
+printf 'deb [arch=%s signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu %s stable' "${ARCH}" "${VERSION_CODENAME}" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+
+sudo apt-get update
+sudo apt-get install -y docker-compose-plugin
+
 # Create a temporary directory for the download
 TMP_DIR=$(mktemp -d)
 cd "$TMP_DIR" || exit 1
@@ -59,4 +77,4 @@ sudo systemctl enable "$SERVICE_NAME"
 sudo systemctl start "$SERVICE_NAME"
 export PROMPT_COMMAND='history -a'
 
-echo "Service $SERVICE_NAME has been installed and started successfully."
+echo "Service $SERVICE_NAME has been installed and started successfully." && clear && echo "Setup complete. You may now begin the tutorial."
