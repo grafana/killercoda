@@ -1,33 +1,68 @@
-# Step 3: Start the Carnivorous Greenhouse
+# Collect Logs from a sample application
 
-In this step, we will start the Carnivorous Greenhouse application. To start the application, run the following command:
+Currently, the Loki stack is collecting logs about itself. To provide a more realistic example, you can deploy a sample application that generates logs. The sample application is called **The Carnivourous Greenhouse**, a microservices application that allows users to login and simulate a greenhouse with carnivorous plants to monitor. The application consists of seven services:
 
-**Note: This docker-compose file relies on the `loki-fundamentals_loki`{{copy}} docker network. If you have not started the observability stack, you will need to start it first.**
+- **User Service:** Manages user data and authentication for the application. Such as creating users and logging in.
 
-```bash
-docker-compose -f loki-fundamentals/greenhouse/docker-compose-micro.yml up -d --build
-```{{exec}}
+- **Plant Service:** Manages the creation of new plants and updates other services when a new plant is created.
 
-This will start the following services:
+- **Simulation Service:** Generates sensor data for each plant.
 
-```console
- ✔ Container greenhouse-db-1                 Started                                                         
- ✔ Container greenhouse-websocket_service-1  Started 
- ✔ Container greenhouse-bug_service-1        Started
- ✔ Container greenhouse-user_service-1       Started
- ✔ Container greenhouse-plant_service-1      Started
- ✔ Container greenhouse-simulation_service-1 Started
- ✔ Container greenhouse-main_app-1           Started
-```{{copy}}
+- **WebSocket Service:** Manages the websocket connections for the application.
 
-Once started, you can access the Carnivorous Greenhouse application at [http://localhost:5005]({{TRAFFIC_HOST1_5005}}). Generate some logs by interacting with the application in the following ways:
+- **Bug Service:** A service that when enabled, randomly causes services to fail and generate additional logs.
 
-1. Create a user.
+- **Main App:** The main application that ties all the services together.
 
-1. Log in.
+- **Database:** A database that stores user and plant data.
 
-1. Create a few plants to monitor.
+The architecture of the application is shown below:
 
-1. Enable bug mode to activate the bug service. This will cause services to fail and generate additional logs.
+![Getting started sample application](https://grafana.com/media/docs/loki/get-started-architecture.png)
 
-Finally to view the logs in Loki, navigate to the Loki Logs Explore view in Grafana at [http://localhost:3000/a/grafana-lokiexplore-app/explore]({{TRAFFIC_HOST1_3000}}/a/grafana-lokiexplore-app/explore).
+To deploy the sample application, follow these steps:
+
+1. With `loki-fundamentals`{{copy}} as the current working directory, deploy the sample application using Docker Compose:
+
+   ```bash
+   docker compose -f greenhouse/docker-compose-micro.yml up -d --build  
+   ```{{exec}}
+
+   > **Note:**
+   > This may take a few minutes to complete since the images for the sample application need to be built. Go grab a coffee and come back.
+
+   Once the command completes, you should see something similar to the following:
+
+   ```console
+     ✔ bug_service                                Built     0.0s 
+     ✔ main_app                                   Built     0.0s 
+     ✔ plant_service                              Built     0.0s 
+     ✔ simulation_service                         Built     0.0s 
+     ✔ user_service                               Built     0.0s 
+     ✔ websocket_service                          Built     0.0s 
+     ✔ Container greenhouse-websocket_service-1   Started   0.7s 
+     ✔ Container greenhouse-db-1                  Started   0.7s 
+     ✔ Container greenhouse-user_service-1        Started   0.8s 
+     ✔ Container greenhouse-bug_service-1         Started   0.8s 
+     ✔ Container greenhouse-plant_service-1       Started   0.8s 
+     ✔ Container greenhouse-simulation_service-1  Started   0.7s 
+     ✔ Container greenhouse-main_app-1            Started   0.7s
+   ```{{copy}}
+
+1. To verify the sample application is running, open a browser and navigate to [http://localhost:5005]({{TRAFFIC_HOST1_5005}}). You should see the login page for the Carnivorous Greenhouse application.
+
+   ![Getting started sample application](https://grafana.com/media/docs/loki/get-started-login.png)
+
+   Now that the sample application is running, run some actions in the application to generate logs. Here is a list of actions:
+
+   - **Create a user:** Click **Sign Up** and create a new user. Add a username and password and click **Sign Up**.
+
+   - **Login:** Use the username and password you created to login. Add the username and password and click **Login**.
+
+   - **Create a plant:** Once logged in, give your plant a name, select a plant type and click **Add Plant**. Do this a few times if you like.
+
+Your greenhouse should look something like this:
+
+![Greenhouse Dashboard](https://grafana.com/media/docs/loki/get-started-greenhouse.png)
+
+Now that you have generated some logs, you can view them in Grafana. To do this, navigate to [http://localhost:3000/a/grafana-lokiexplore-app]({{TRAFFIC_HOST1_3000}}/a/grafana-lokiexplore-app). You should see the Grafana Logs Drilldown page.

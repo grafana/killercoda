@@ -1,363 +1,520 @@
 ---
-title: Getting started with the OpenTelemetry Collector and Loki tutorial
-menuTitle: OTel Collector tutorial
-description: A Tutorial configuring the OpenTelemetry Collector to send OpenTelemetry logs to Loki
-weight: 300
+title: Quickstart to run Loki locally
+menuTitle: Loki quickstart
+weight: 200
+description: How to deploy Loki locally using Docker Compose.
 killercoda:
-  title: Getting started with the OpenTelemetry Collector and Loki tutorial
-  description: A Tutorial configuring the OpenTelemetry Collector to send OpenTelemetry logs to Loki
-  preprocessing:
-    substitutions:
-      - regexp: loki-fundamentals_otel-collector_1
-        replacement: loki-fundamentals_otel-collector_1
+  comment: |
+    The killercoda front matter and the HTML comments that start '<!-- INTERACTIVE ' are used by a transformation tool that converts this Markdown source into a Killercoda tutorial.
+
+    You can find the tutorial in https://github.com/grafana/killercoda/tree/staging/loki/loki-quickstart.
+
+    Changes to this source file affect the Killercoda tutorial.
+
+    For more information about the transformation tool, refer to https://github.com/grafana/killercoda/blob/staging/docs/transformer.md.
+  title: Loki Quickstart Demo
+  
+  description: This sandbox provides an online enviroment for testing the Loki quickstart demo.
+  details:
+    intro:
+      foreground: setup.sh
   backend:
-    imageid: ubuntu
+    imageid: ubuntu-rapid
 ---
-
-<!-- vale Grafana.We = NO -->
 <!-- INTERACTIVE page intro.md START -->
+# Quickstart to run Loki locally
 
-# Getting started with the OpenTelemetry Collector and Loki tutorial
+This quick start guide will walk you through deploying Loki in [single binary mode](https://grafana.com/docs/loki/<LOKI_VERSION>/get-started/deployment-modes/#monolithic-mode) using Docker Compose. Grafana Loki is only one component of the Grafana observability stack for logs. In this tutorial we will refer to this stack as the **Loki stack**. The Loki stack consists of the following components:
 
-The OpenTelemetry Collector offers a vendor-agnostic implementation of how to receive, process, and export telemetry data. With the introduction of the OTLP endpoint in Loki, you can now send logs from applications instrumented with OpenTelemetry to Loki using the OpenTelemetry Collector in native OTLP format.
-In this example, we will teach you how to configure the OpenTelemetry Collector to receive logs in the OpenTelemetry format and send them to Loki using the OTLP HTTP protocol. This will involve configuring the following components in the OpenTelemetry Collector:
+{{< figure max-width="100%" src="/media/docs/loki/getting-started-loki-stack-3.png" caption="Loki Stack" alt="Loki Stack" >}}
 
-- **OpenTelemetry Receiver:** This component will receive logs in the OpenTelemetry format via HTTP and gRPC.
-- **OpenTelemetry Processor:** This component will accept telemetry data from other `otelcol.*` components and place them into batches. Batching improves the compression of data and reduces the number of outgoing network requests required to transmit data.
-- **OpenTelemetry Exporter:** This component will accept telemetry data from other `otelcol.*` components and write them over the network using the OTLP HTTP protocol. We will use this exporter to send the logs to the Loki native OTLP endpoint.
+* **Loki**: A log aggregation system to store the collected logs. For more information on what Loki is, see [Loki overview](https://grafana.com/docs/loki/<LOKI_VERSION>/get-started/overview/).
+* **Alloy**: Grafana Alloy is an open source telemtry collector for metrics, logs, traces and continuous profiles. In this quickstart guide Grafana Alloy has been configured to tail logs from all docker containers and forward them to Loki.
+* **Grafana**: Grafana is an open-source platform for monitoring and observability. Grafana will be used to query and vizualize on the logs stored in Loki.
 
 <!-- INTERACTIVE ignore START -->
+## Before you begin
 
-## Dependencies
-
-Before you begin, ensure you have the following to run the demo:
-
-- Docker
-- Docker Compose
+Before you start, you need to have the following installed on your local system:
+- Install [Docker](https://docs.docker.com/install)
+- Install [Docker Compose](https://docs.docker.com/compose/install)
 
 > **Tip:**
-> Alternatively, you can try out this example in our interactive learning environment: [Getting started with the OpenTelemetry Collector and Loki tutorial](https://killercoda.com/grafana-labs/course/loki/otel-collector-getting-started).
+> Alternatively, you can try out this example in our interactive learning environment: [Loki Quickstart Sandbox](https://killercoda.com/grafana-labs/course/loki/loki-quickstart).
 >
 > It's a fully configured environment with all the dependencies already installed.
 >
 > ![Interactive](/media/docs/loki/loki-ile.svg)
 >
-> Provide feedback, report bugs, and raise issues for the tutorial in the [Grafana Killercoda repository](https://github.com/grafana/killercoda).
-
+> Provide feedback, report bugs, and raise issues in the [Grafana Killercoda repository](https://github.com/grafana/killercoda).
 <!-- INTERACTIVE ignore END -->
-
-## Scenario
-
-In this scenario, we have a microservices application called the Carnivorous Greenhouse. This application consists of the following services:
-
-- **User Service:** Manages user data and authentication for the application. Such as creating users and logging in.
-- **Plant Service:** Manages the creation of new plants and updates other services when a new plant is created.
-- **Simulation Service:** Generates sensor data for each plant.
-- **Websocket Service:** Manages the websocket connections for the application.
-- **Bug Service:** A service that when enabled, randomly causes services to fail and generate additional logs.
-- **Main App:** The main application that ties all the services together.
-- **Database:** A database that stores user and plant data.
-
-Each service generates logs using the OpenTelemetry SDK and exports to the OpenTelemetry Collector in the OpenTelemetry format (OTLP). The Collector then ingests the logs and sends them to Loki.
 
 <!-- INTERACTIVE page intro.md END -->
 
 <!-- INTERACTIVE page step1.md START -->
 
-## Step 1: Environment setup
+## Install the Loki stack
 
-In this step, we will set up our environment by cloning the repository that contains our demo application and spinning up our observability stack using Docker Compose.
+> **Note:**
+> This quickstart assumes you are running Linux or MacOS. Windows users can follow the same steps using [WSL](https://learn.microsoft.com/en-us/windows/wsl/install).
 
-1. To get started, clone the repository that contains our demo application:
-    <!-- INTERACTIVE exec START -->
-    ```bash
-    git clone -b microservice-otel-collector  https://github.com/grafana/loki-fundamentals.git
-    ```
-    <!-- INTERACTIVE exec END -->
-1. Next we will spin up our observability stack using Docker Compose:
+**To install Loki locally, follow these steps:**
 
-    <!-- INTERACTIVE ignore START -->
-    ```bash
-    docker compose -f loki-fundamentals/docker-compose.yml up -d
-    ```
-    <!-- INTERACTIVE ignore END -->
+1. Clone the Loki fundamentals repository and checkout the getting-started branch:
 
-    
-    <!-- INTERACTIVE exec START -->
-    ```bash
-    docker-compose -f loki-fundamentals/docker-compose.yml up -d 
-    ```
-    <!-- INTERACTIVE exec END -->
+     ```bash
+     git checkout https://github.com/grafana/loki-fundamentals.git -b getting-started
+     ```
 
-    
-    To check the status of services we can run the following command:
+1. Change to the `loki-fundamentals` directory:
 
-    ```bash
-    docker ps -a
-    ```
-    <!-- INTERACTIVE ignore START -->
-    > **Note:**
-    > The OpenTelemetry Collector container will show as `Stopped` or `Exited (1) About a minute ago`. This is expected as we have provided an empty configuration file. We will update this file in the next step.
-    <!-- INTERACTIVE ignore END -->
+     ```bash
+     cd loki-fundamentals
+     ```
 
-After we've finished configuring the OpenTelemetry Collector and sending logs to Loki, we will be able to view the logs in Grafana. To check if Grafana is up and running, navigate to the following URL: [http://localhost:3000](http://localhost:3000)
+1. With `loki-fundamentals` as the current working directory deploy Loki, Alloy and Grafana using Docker Compose:
+
+     ```bash
+     docker compose up -d
+     ```
+      At the end of the command, you should see something similar to the following:
+
+      ```console
+       ✔ Container loki-fundamentals-grafana-1  Started  0.3s 
+       ✔ Container loki-fundamentals-loki-1     Started  0.3s 
+       ✔ Container loki-fundamentals-alloy-1    Started  0.4s
+      ```
+
+With the Loki stack running, you can now verify component is up and running:
+
+* **Alloy**: Open a browser and navigate to [http://localhost:12345/graph](http://localhost:12345/graph). You should see the Alloy UI.
+* **Grafana**: Open a browser and navigate to [http://localhost:3000](http://localhost:3000). You should see the Grafana home page.
+* **Loki**: Open a browser and navigate to [http://localhost:3100/metrics](http://localhost:3100/metrics). You should see the Loki metrics page.
+
 <!-- INTERACTIVE page step1.md END -->
 
 <!-- INTERACTIVE page step2.md START -->
 
-## Step 2: Configuring the OpenTelemetry Collector
+Since Grafana Alloy is configured to tail logs from all docker containers, Loki should already be receiving logs. The best place to verify this is using the Grafana Drilldown Logs feature. To do navigate to [http://localhost:3000/a/grafana-lokiexplore-app](http://localhost:3000/a/grafana-lokiexplore-app). You should see the Grafana Logs Drilldown page.
 
-To configure the Collector to ingest OpenTelemetry logs from our application, we need to provide a configuration file. This configuration file will define the components and their relationships. We will build the entire observability pipeline within this configuration file.
+{{< figure max-width="100%" src="/media/docs/loki/get-started-drill-down.png" caption="Getting started sample application" alt="Grafana Drilldown" >}}
 
-### Open your code editor and locate the `otel-config.yaml` file
+If you have only the getting started demo deployed in your docker environment, you should see three containers and their logs; `loki-fundamentals-alloy-1`, `loki-fundamentals-grafana-1` and `loki-fundamentals-loki-1`. Click **Show Logs** within the `loki-fundamentals-loki-1` container to drill down into the logs for that container.
 
-The configuration file is written using **YAML** configuration syntax. To start, we will open the `otel-config.yaml` file in the code editor:
+{{< figure max-width="100%" src="/media/docs/loki/get-started-drill-down-container.png" caption="Getting started sample application" alt="Grafana Drilldown Service View" >}}
 
-**Note: Killercoda has an inbuilt Code editor which can be accessed via the `Editor` tab.**
-
-1. Expand the `loki-fundamentals` directory in the file explorer of the `Editor` tab.
-2. Locate the `otel-config.yaml` file in the top level directory, `loki-fundamentals`.
-3. Click on the `otel-config.yaml` file to open it in the code editor.
-
-<!-- INTERACTIVE ignore START -->
-1. Open the `loki-fundamentals` directory in a code editor of your choice.
-1. Locate the `otel-config.yaml` file in the `loki-fundamentals` directory (Top level directory).
-1. Click on the `otel-config.yaml` file to open it in the code editor.
-<!-- INTERACTIVE ignore END -->
-
-You will copy all three of the following configuration snippets into the `otel-config.yaml` file.
-
-### Receive OpenTelemetry logs via gRPC and HTTP
-
-First, we will configure the OpenTelemetry receiver. `otlp:` accepts logs in the OpenTelemetry format via HTTP and gRPC. We will use this receiver to receive logs from the Carnivorous Greenhouse application.
-
-Now add the following configuration to the `otel-config.yaml` file:
-
-```yaml
-# Receivers
-receivers:
-  otlp:
-    protocols:
-      grpc:
-        endpoint: 0.0.0.0:4317
-      http:
-        endpoint: 0.0.0.0:4318
-```
-
-In this configuration:
-
-- `receivers`: The list of receivers to receive telemetry data. In this case, we are using the `otlp` receiver.
-- `otlp`: The OpenTelemetry receiver that accepts logs in the OpenTelemetry format.
-- `protocols`: The list of protocols that the receiver supports. In this case, we are using `grpc` and `http`.
-- `grpc`: The gRPC protocol configuration. The receiver will accept logs via gRPC on `4317`.
-- `http`: The HTTP protocol configuration. The receiver will accept logs via HTTP on `4318`.
-- `endpoint`: The IP address and port number to listen on. In this case, we are listening on all IP addresses on port `4317` for gRPC and port `4318` for HTTP.
-
-For more information on the `otlp` receiver configuration, see the [OpenTelemetry Receiver OTLP documentation](https://github.com/open-telemetry/opentelemetry-collector/blob/main/receiver/otlpreceiver/README.md).
-
-### Create batches of logs using a OpenTelemetry processor
-
-Next add the following configuration to the `otel-config.yaml` file:
-
-```yaml
-# Processors
-processors:
-  batch:
-```
-
-In this configuration:
-
-- `processors`: The list of processors to process telemetry data. In this case, we are using the `batch` processor.
-- `batch`: The OpenTelemetry processor that accepts telemetry data from other `otelcol` components and places them into batches.
-
-For more information on the `batch` processor configuration, see the [OpenTelemetry Processor Batch documentation](https://github.com/open-telemetry/opentelemetry-collector/blob/main/processor/batchprocessor/README.md).
-
-### Export logs to Loki using a OpenTelemetry exporter
-
-We will use the `otlphttp/logs` exporter to send the logs to the Loki native OTLP endpoint. Add the following configuration to the `otel-config.yaml` file:
-
-```yaml
-# Exporters
-exporters:
-  otlphttp/logs:
-    endpoint: "http://loki:3100/otlp"
-    tls:
-      insecure: true
-```
-
-In this configuration:
-
-- `exporters`: The list of exporters to export telemetry data. In this case, we are using the `otlphttp/logs` exporter.
-- `otlphttp/logs`: The OpenTelemetry exporter that accepts telemetry data from other `otelcol` components and writes them over the network using the OTLP HTTP protocol.
-- `endpoint`: The URL to send the telemetry data to. In this case, we are sending the logs to the Loki native OTLP endpoint at `http://loki:3100/otlp`.
-- `tls`: The TLS configuration for the exporter. In this case, we are setting `insecure` to `true` to disable TLS verification.
-- `insecure`: Disables TLS verification. This is set to `true` as we are using an insecure connection.
-  
-For more information on the `otlphttp/logs` exporter configuration, see the [OpenTelemetry Exporter OTLP HTTP documentation](https://github.com/open-telemetry/opentelemetry-collector/blob/main/exporter/otlphttpexporter/README.md)
-
-### Creating the pipeline
-
-Now that we have configured the receiver, processor, and exporter, we need to create a pipeline to connect these components. Add the following configuration to the `otel-config.yaml` file:
-
-```yaml
-# Pipelines
-service:
-  pipelines:
-    logs:
-      receivers: [otlp]
-      processors: [batch]
-      exporters: [otlphttp/logs]
-```
-
-In this configuration:
-
-- `pipelines`: The list of pipelines to connect the receiver, processor, and exporter. In this case, we are using the `logs` pipeline but there is also pipelines for metrics, traces, and continuous profiling.
-- `receivers`: The list of receivers to receive telemetry data. In this case, we are using the `otlp` receiver component we created earlier.
-- `processors`: The list of processors to process telemetry data. In this case, we are using the `batch` processor component we created earlier.
-- `exporters`: The list of exporters to export telemetry data. In this case, we are using the `otlphttp/logs` component exporter we created earlier.
-
-### Load the configuration
-
-Before you load the configuration into the OpenTelemetry Collector, compare your configuration with the completed configuration below:
-
-```yaml
-# Receivers
-receivers:
-  otlp:
-    protocols:
-      grpc:
-        endpoint: 0.0.0.0:4317
-      http:
-        endpoint: 0.0.0.0:4318
-        
-# Processors
-processors:
-  batch:
-
-# Exporters
-exporters:
-  otlphttp/logs:
-    endpoint: "http://loki:3100/otlp"
-    tls:
-      insecure: true
-      
-# Pipelines
-service:
-  pipelines:
-    logs:
-      receivers: [otlp]
-      processors: [batch]
-      exporters: [otlphttp/logs]
-```
-
-Next, we need apply the configuration to the OpenTelemetry Collector. To do this, we will restart the OpenTelemetry Collector container:
-<!-- INTERACTIVE exec START -->
-```bash
-docker restart loki-fundamentals_otel-collector_1
-```
-<!-- INTERACTIVE exec END -->
-
-This will restart the OpenTelemetry Collector container with the new configuration. You can check the logs of the OpenTelemetry Collector container to see if the configuration was loaded successfully:
-<!-- INTERACTIVE exec START -->
-```bash
-docker logs loki-fundamentals_otel-collector_1
-```
-
-Within the logs, you should see the following message:
-
-```console
-2024-08-02T13:10:25.136Z        info    service@v0.106.1/service.go:225 Everything is ready. Begin running and processing data.
-```
-
-## Stuck? Need help?
-
-If you get stuck or need help creating the configuration, you can copy and replace the entire `otel-config.yaml` using the completed configuration file:
-
-<!-- INTERACTIVE exec START -->
-```bash
-cp loki-fundamentals/completed/otel-config.yaml loki-fundamentals/otel-config.yaml
-docker restart loki-fundamentals_otel-collector_1
-```
-<!-- INTERACTIVE exec END -->
+We will not cover the rest of the Grafana Drilldown Log features in this quickstart guide. For more information on how to use the Grafana Drilldown Logs feature, see [Drilldown Logs](https://grafana.com/docs/grafana/latest/explore/simplified-exploration/logs/get-started/).
 
 <!-- INTERACTIVE page step2.md END -->
 
 <!-- INTERACTIVE page step3.md START -->
 
-## Step 3: Start the Carnivorous Greenhouse
+## Collect Logs from a sample application
 
-In this step, we will start the Carnivorous Greenhouse application. To start the application, run the following command:
-<!-- INTERACTIVE ignore START -->
-> **Note:**
-> This docker-compose file relies on the `loki-fundamentals_loki` docker network. If you have not started the observability stack, you will need to start it first.
-<!-- INTERACTIVE ignore END -->
+Currently, the Loki stack is collecting logs about itself. To provide a more realistic example, you can deploy a sample application that generates logs. The sample application is called **The Carnivourous Greenhouse**, a microservices application that allows users to login and simulate a greenhouse with carnivorous plants to monitor. The application consists of seven services:
+- **User Service:** Manages user data and authentication for the application. Such as creating users and logging in.
+- **Plant Service:** Manages the creation of new plants and updates other services when a new plant is created.
+- **Simulation Service:** Generates sensor data for each plant.
+- **WebSocket Service:** Manages the websocket connections for the application.
+- **Bug Service:** A service that when enabled, randomly causes services to fail and generate additional logs.
+- **Main App:** The main application that ties all the services together.
+- **Database:** A database that stores user and plant data.
 
+The architecture of the application is shown below:
 
-**Note: This docker-compose file relies on the `loki-fundamentals_loki` docker network. If you have not started the observability stack, you will need to start it first.**
+{{< figure max-width="100%" src="/media/docs/loki/get-started-architecture.png" caption="Getting started sample application" alt="Getting started sample application" >}}
 
+To deploy the sample application, follow these steps:
 
-<!-- INTERACTIVE ignore START -->
-```bash
-docker compose -f loki-fundamentals/greenhouse/docker-compose-micro.yml up -d --build 
-```
-<!-- INTERACTIVE ignore END -->
+1. With `loki-fundamentals` as the current working directory, deploy the sample application using Docker Compose:
 
+     ```bash
+     docker compose -f greenhouse/docker-compose-micro.yml up -d --build  
+     ```
+     > **Note:**
+     > This may take a few minutes to complete since the images for the sample application need to be built. Go grab a coffee and come back.
 
-<!-- INTERACTIVE exec START -->
-```bash
-docker-compose -f loki-fundamentals/greenhouse/docker-compose-micro.yml up -d --build
-```
-<!-- INTERACTIVE exec END -->
+     Once the command completes, you should see something similar to the following:
 
+     ```console
+       ✔ bug_service                                Built     0.0s 
+       ✔ main_app                                   Built     0.0s 
+       ✔ plant_service                              Built     0.0s 
+       ✔ simulation_service                         Built     0.0s 
+       ✔ user_service                               Built     0.0s 
+       ✔ websocket_service                          Built     0.0s 
+       ✔ Container greenhouse-websocket_service-1   Started   0.7s 
+       ✔ Container greenhouse-db-1                  Started   0.7s 
+       ✔ Container greenhouse-user_service-1        Started   0.8s 
+       ✔ Container greenhouse-bug_service-1         Started   0.8s 
+       ✔ Container greenhouse-plant_service-1       Started   0.8s 
+       ✔ Container greenhouse-simulation_service-1  Started   0.7s 
+       ✔ Container greenhouse-main_app-1            Started   0.7s
+     ```
 
-This will start the following services:
+1. To verify the sample application is running, open a browser and navigate to [http://localhost:5005](http://localhost:5005). You should see the login page for the Carnivorous Greenhouse application.
 
-```console
- ✔ Container greenhouse-db-1                 Started                                                         
- ✔ Container greenhouse-websocket_service-1  Started 
- ✔ Container greenhouse-bug_service-1        Started
- ✔ Container greenhouse-user_service-1       Started
- ✔ Container greenhouse-plant_service-1      Started
- ✔ Container greenhouse-simulation_service-1 Started
- ✔ Container greenhouse-main_app-1           Started
-```
+   {{< figure max-width="100%" src="/media/docs/loki/get-started-login.png" caption="Getting started sample application" alt="Getting started sample application" >}}
 
-Once started, you can access the Carnivorous Greenhouse application at [http://localhost:5005](http://localhost:5005). Generate some logs by interacting with the application in the following ways:
+   Now that the sample application is running, run some actions in the application to generate logs. Here is a list of actions:
+   - **Create a user:** Click **Sign Up** and create a new user. Add a username and password and click **Sign Up**.
+   - **Login:** Use the username and password you created to login. Add the username and password and click **Login**.
+   - **Create a plant:** Once logged in, give your plant a name, select a plant type and click **Add Plant**. Do this a few times if you like.
 
-1. Create a user.
-1. Log in.
-1. Create a few plants to monitor.
-1. Enable bug mode to activate the bug service. This will cause services to fail and generate additional logs.
+  Your greenhouse should look something like this:
 
-Finally to view the logs in Loki, navigate to the Loki Logs Explore view in Grafana at [http://localhost:3000/a/grafana-lokiexplore-app/explore](http://localhost:3000/a/grafana-lokiexplore-app/explore).
+  {{< figure max-width="100%" src="/media/docs/loki/get-started-greenhouse.png" caption="Greenhouse Dashboard" alt="Greenhouse Dashboard" >}} 
+
+  Now that you have generated some logs, you can view them in Grafana. To do this, navigate to [http://localhost:3000/a/grafana-lokiexplore-app](http://localhost:3000/a/grafana-lokiexplore-app). You should see the Grafana Logs Drilldown page.
 
 <!-- INTERACTIVE page step3.md END -->
 
+<!-- INTERACTIVE page step4.md START -->
+
+## Querying Logs
+
+At this point, you have viewed logs using the Grafana Drilldown Logs feature. In many cases this will provide you with all the information you need. However, we can also manually query Loki to ask more advanced questions about the logs. This can be done via the **Grafana Explore**.
+
+1. Open a browser and navigate to [http://localhost:3000](http://localhost:3000) to open Grafana.
+
+1. From the Grafana main menu, click the **Explore** icon (1) to open the Explore tab.
+
+   To learn more about Explore, refer to the [Explore](https://grafana.com/docs/grafana/latest/explore/) documentation.
+
+   {{< figure src="/media/docs/loki/grafana-query-builder-v2.png" caption="Grafana Explore" alt="Grafana Explore" >}}
+
+1. From the menu in the dashboard header, select the Loki data source (2).
+
+   This displays the Loki query editor.
+
+   In the query editor you use the Loki query language, [LogQL](https://grafana.com/docs/loki/<LOKI_VERSION>/query/), to query your logs.
+   To learn more about the query editor, refer to the [query editor documentation](https://grafana.com/docs/grafana/latest/datasources/loki/query-editor/).
+
+1. The Loki query editor has two modes (3):
+
+   - [Builder mode](https://grafana.com/docs/grafana/latest/datasources/loki/query-editor/#builder-mode), which provides a visual query designer.
+   - [Code mode](https://grafana.com/docs/grafana/latest/datasources/loki/query-editor/#code-mode), which provides a feature-rich editor for writing LogQL queries.
+
+   Next we’ll walk through a few simple queries using both the builder and code views.
+
+1. Click **Code** (3) to work in Code mode in the query editor.
+
+   Here are some sample queries to get you started using LogQL. After copying any of these queries into the query editor, click **Run Query** (4) to execute the query.
+
+   1. View all the log lines which have the container label `greenhouse-main_app-1`:
+      <!-- INTERACTIVE copy START -->
+      ```bash
+      {container="greenhouse-main_app-1"}
+      ```
+      <!-- INTERACTIVE copy END -->
+      In Loki, this is a log stream.
+
+      Loki uses [labels](https://grafana.com/docs/loki/<LOKI_VERSION>/get-started/labels/) as metadata to describe log streams.
+
+      Loki queries always start with a label selector.
+      In the previous query, the label selector is `{container="greenhouse-main_app-1"}`.
+
+      <!-- INTERACTIVE copy END -->
+   2. Find all the log lines in the `{container="greenhouse-main_app-1"}` stream that contain the string `POST`:
+      <!-- INTERACTIVE copy START -->
+      ```bash
+      {container="greenhouse-main_app-1"} |= `POST`
+      ```
+      <!-- INTERACTIVE copy END -->
+
+<!-- INTERACTIVE page step4.md END -->
+
+<!-- INTERACTIVE page step5.md START -->
+
+### Extracting Attributes from Logs
+
+Loki by design does not force log lines into a specific schema format. Whether you are using JSON, key-value pairs, or plain text, Logfmt, or any other format, Loki ingests these logs lines as a stream of characters. The sample application we are using stores logs in [Logfmt](https://brandur.org/logfmt) format:
+<!-- INTERACTIVE copy START -->
+```bash
+ts=2025-02-21 16:09:42,176 level=INFO line=97 msg="192.168.65.1 - - [21/Feb/2025 16:09:42] "GET /static/style.css HTTP/1.1" 304 -"
+```
+<!-- INTERACTIVE copy END -->
+When querying Loki, you can pipe the result of the label selector through a formatter. This extracts attributes from the log line for further processing. For example lets pipe `{container="greenhouse-main_app-1"}` through the `logfmt` formatter to extract the `level` and `line` attributes:
+<!-- INTERACTIVE copy START -->
+```bash
+{container="greenhouse-main_app-1"} | logfmt
+```
+<!-- INTERACTIVE copy END -->
+When you now expand a log line in the query result, you will see the extracted attributes.
+
+**Before we move on** to the next section, let's generate some error logs. To do this, enable the bug service in the sample application. This is done by setting the `Toggle Error Mode` to `On` in the Carnivorous Greenhouse application. This will cause the bug service to randomly cause services to fail.
+
+### Advanced and Metrics Queries
+
+Now that are sample application is failing, we can query Loki to find the error logs. Lets start by parsing the logs to extract the `level` attribute and then filter for logs with a `level` of `ERROR`:
+<!-- INTERACTIVE copy START -->
+```bash
+{container="greenhouse-plant_service-1"} | logfmt | level="ERROR"
+```
+<!-- INTERACTIVE copy END -->
+This query will return all the logs from the `greenhouse-plant_service-1` container that have a `level` attribute of `ERROR`. You can further refine this query by filtering for a specific code line:
+<!-- INTERACTIVE copy START -->
+```bash
+{container="greenhouse-plant_service-1"} | logfmt | level="ERROR", line="58"
+```
+<!-- INTERACTIVE copy END -->
+This query will return all the logs from the `greenhouse-plant_service-1` container that have a `level` attribute of `ERROR` and a `line` attribute of `58`.
+
+LogQL also supports metrics queries. Metrics are useful for abstracting the raw log data into a more manageable form. For example, you can use metrics to count the number of logs per second that have a specific attribute:
+<!-- INTERACTIVE copy START -->
+```bash
+sum(rate({container="greenhouse-plant_service-1"} | logfmt | level=`ERROR` [$__auto]))
+```
+<!-- INTERACTIVE copy END -->
+
+Another example is to get the top 10 services producing the highest rate of errors:
+<!-- INTERACTIVE copy START -->
+```bash
+topk(10,sum(rate({level="error"} | logfmt [5m])) by (service_name))
+```
+<!-- INTERACTIVE copy END -->
+> **Note:**
+> `service_name` is a label created by Loki when no service name is provided in the log line. It will use the container name as the service name. A list of all labels can be found in [Labels](https://grafana.com/docs/loki/latest/get-started/labels/#default-labels-for-all-users).
+
+Lastly, lets take a look at the total log throughput of each container in our production environment:
+<!-- INTERACTIVE copy START -->
+```bash
+sum by (service_name) (rate({env="production"} | logfmt [$__auto]))
+```
+<!-- INTERACTIVE copy END -->
+This is made possible by the `service_name` label and the `env` label that we have added to our log lines.
+
+<!-- INTERACTIVE page step5.md END -->
+
+<!-- INTERACTIVE page step6.md START -->
+
+## A look under the hood
+
+At this point you will have a running Loki Stack and a sample application generating logs. You have also queried Loki using the Grafana Explore. 
+In this next section we will take a look under the hood to understand how the Loki stack has been configured to collect logs, the Loki configuration file, and how the Loki datasource has been configured in Grafana.
+
+### Grafana Alloy configuration
+
+Grafana Alloy is collecting logs from all the docker containers and forwarding them to Loki. 
+It needs a configuration file to know which logs to collect and where to forward them to. Within the `loki-fundamentals` directory, you will find a file called `config.alloy`:
+
+```alloy
+// This component is responsible for disovering new containers within the docker environment
+discovery.docker "getting_started" {
+	host             = "unix:///var/run/docker.sock"
+	refresh_interval = "5s"
+}
+
+// This component is responsible for relabeling the discovered containers
+discovery.relabel "getting_started" {
+	targets = []
+
+	rule {
+		source_labels = ["__meta_docker_container_name"]
+		regex         = "/(.*)"
+		target_label  = "container"
+	}
+}
+
+// This component is responsible for collecting logs from the discovered containers
+loki.source.docker "getting_started" {
+	host             = "unix:///var/run/docker.sock"
+	targets          = discovery.docker.getting_started.targets
+	forward_to       = [loki.process.getting_started.receiver]
+	relabel_rules    = discovery.relabel.getting_started.rules
+	refresh_interval = "5s"
+}
+
+// This component is responsible for processing the logs (In this case adding static labels)
+loki.process "getting_started" {
+    stage.static_labels {
+    values = {
+      env = "production",
+    }
+}
+    forward_to = [loki.write.getting_started.receiver]
+}
+
+// This component is responsible for writing the logs to Loki
+loki.write "getting_started" {
+	endpoint {
+		url       = "http://loki:3100/loki/api/v1/push"
+	}
+}
+
+// Enables the ability to view logs in the Alloy UI in realtime
+livedebugging {
+  enabled = true
+}
+```
+This configuration file can be viewed visually via the Alloy UI at [http://localhost:12345/graph](http://localhost:12345/graph).
+
+{{< figure max-width="100%" src="/media/docs/loki/getting-started-alloy-ui.png" caption="Alloy UI" alt="Alloy UI" >}}
+
+In this view you can see the components of the Alloy configuration file and how they are connected:
+* **discovery.docker**: This component queries the metadata of the docker enviroment via the docker socket and discovers new containers, aswell as providing metdata about the containers.
+* **discovery.relabel**: This component converts a metadata (`__meta_docker_container_name`) label into a Loki label (`container`).
+* **loki.source.docker**: This component collects logs from the discovered containers and forwards them to the next component. It requests the metadata from the `discovery.docker` component and applies the relabeling rules from the `discovery.relabel` component.
+* **loki.process**: This component provides stages for log transformation and extraction. In this case it adds a static label `env=production` to all logs.
+* **loki.write**: This component writes the logs to Loki. It forwards the logs to the Loki endpoint `http://loki:3100/loki/api/v1/push`.
+
+<!-- INTERACTIVE page step6.md END -->
+
+<!-- INTERACTIVE page step7.md START -->
+
+### View Logs in realtime
+
+Grafana Alloy provides inbuilt realtime log viewer. This allows you to view current log entries and how they are being transformed via specific components of the pipeline. 
+To view live debugging mode open a browser tab and navigate to: [http://localhost:12345/debug/loki.process.getting_started](http://localhost:12345/debug/loki.process.getting_started).
+
+## Loki Configuration
+
+Grafana Loki requires a configuration file to define how it should run. Within the `loki-fundamentals` directory, you will find a file called `loki-config.yaml`:
+
+```yaml
+auth_enabled: false
+
+server:
+  http_listen_port: 3100
+  grpc_listen_port: 9096
+  log_level: info
+  grpc_server_max_concurrent_streams: 1000
+
+common:
+  instance_addr: 127.0.0.1
+  path_prefix: /tmp/loki
+  storage:
+    filesystem:
+      chunks_directory: /tmp/loki/chunks
+      rules_directory: /tmp/loki/rules
+  replication_factor: 1
+  ring:
+    kvstore:
+      store: inmemory
+
+query_range:
+  results_cache:
+    cache:
+      embedded_cache:
+        enabled: true
+        max_size_mb: 100
+
+limits_config:
+  metric_aggregation_enabled: true
+  allow_structured_metadata: true
+  volume_enabled: true
+  retention_period: 24h   # 24h
+
+schema_config:
+  configs:
+    - from: 2020-10-24
+      store: tsdb
+      object_store: filesystem
+      schema: v13
+      index:
+        prefix: index_
+        period: 24h
+
+pattern_ingester:
+  enabled: true
+  metric_aggregation:
+    loki_address: localhost:3100
+
+ruler:
+  enable_alertmanager_discovery: true
+  enable_api: true
+  
+frontend:
+  encoding: protobuf
+
+compactor:
+  working_directory: /tmp/loki/retention
+  delete_request_store: filesystem
+  retention_enabled: true
+```
+To summarize the configuration file:
+* **auth_enabled**: This is set to false, meaning Loki does not a tennent ID for ingest or query.
+* **server**: Defines the ports Loki listens on, the log level, and the maximum number of concurrent grpc streams.
+* **common**:  Defines the common configuration for Loki. This includes the instance address, storage configuration, replication factor, and ring configuration.
+* **query_range**: This is defined to tell Loki to use inbuilt caching for query results. In production environments of Loki this is handled by a seperate cache service such as memcached.
+* **limits_config**: Defines the global limits for all Loki tennents. This includes enabling specific features such as metric aggregation and structured metadata.
+* **schema_config**: Defines the schema configuration for Loki. This includes the schema version, the object store, and the index configuration.
+* **pattern_ingester**: Enables pattern ingesters which are used to discover log patterns. Mostly used by Grafana Drilldown Logs.
+* **ruler**: Enables the ruler component of Loki. This is used to create alerts based on log queries.
+* **frontend**: Defines the encoding format for the frontend. In this case it is set to protobuf.
+* **compactor**: Defines the compactor configuration. Used to compact the index and mange chunk retention.
+
+The above configuration file is a basic configuration file for Loki. For more advanced configuration options, refer to the [Loki Configuration](https://grafana.com/docs/loki/<LOKI_VERSION>/configuration/) documentation.
+
+<!-- INTERACTIVE page step7.md END -->
+
+<!-- INTERACTIVE page step8.md START -->
+
+### Grafana Loki Datasource
+
+The final piece of the puzzle is the Grafana Loki datasource. This is used by Grafana to connect to Loki and query the logs. Grafana has multiple ways to define a datasource;
+* **Direct**: This is where you define the datasource in the Grafana UI.
+* **Provisioning**: This is where you define the datasource in a configuration file and have Grafana automatically create the datasource.
+* **API**: This is where you use the Grafana API to create the datasource.
+
+In this case we are using the provisioning method. Instead of mounting the Grafana configuration directory, we have defined the datasource in the `docker-compose.yml` file:
+
+```yaml 
+  grafana:
+    image: grafana/grafana:latest
+    environment:
+      - GF_FEATURE_TOGGLES_ENABLE=grafanaManagedRecordingRules
+      - GF_AUTH_ANONYMOUS_ORG_ROLE=Admin
+      - GF_AUTH_ANONYMOUS_ENABLED=true
+      - GF_AUTH_BASIC_ENABLED=false
+    ports:
+      - 3000:3000/tcp
+    entrypoint:
+       - sh
+       - -euc
+       - |
+         mkdir -p /etc/grafana/provisioning/datasources
+         cat <<EOF > /etc/grafana/provisioning/datasources/ds.yaml
+         apiVersion: 1
+         datasources:
+         - name: Loki
+           type: loki
+           access: proxy
+           orgId: 1
+           url: 'http://loki:3100'
+           basicAuth: false
+           isDefault: true
+           version: 1
+           editable: true 
+         EOF
+         /run.sh
+    networks:
+      - loki
+```
+Within the entrypoint section of the `docker-compose.yml` file, we have defined a file called `run.sh` this runs on startup and creates the datasource configuration file `ds.yaml` in the Grafana provisioning directory. 
+This file defines the Loki datasource and tells Grafana to use it. Since Loki is running in the same docker network as Grafana, we can use the service name `loki` as the URL.
+
+<!-- INTERACTIVE page step8.md END -->
+
 <!-- INTERACTIVE page finish.md START -->
 
-## Summary
-
-In this example, we configured the OpenTelemetry Collector to receive logs from an example application and send them to Loki using the native OTLP endpoint. Make sure to also consult the Loki configuration file `loki-config.yaml` to understand how we have configured Loki to receive logs from the OpenTelemetry Collector.
-
+## What next?
 
 ### Back to docs
+Head back to where you started from to continue with the Loki documentation: [Loki documentation](https://grafana.com/docs/loki/latest/get-started/quick-start/).
 
-Head back to where you started from to continue with the [Loki documentation](https://grafana.com/docs/loki/latest/send-data/otel).
+You have completed the Loki Quickstart demo. So where to go next? Here are a few suggestions:
+* **Deploy:** Loki can be deployed in multiple ways. For production usecases we recommend deploying Loki via the [Helm chart](https://grafana.com/docs/loki/<LOKI_VERSION>/setup/install/helm/).
+* **Send Logs:** In this example we used Grafana Alloy to collect and send logs to Loki. However there are many other methods you can use depending upon your needs. For more information see [Ingesting logs](https://grafana.com/docs/loki/next/send-data/).
+* **Query Logs:** LogQL is an extensive query language for logs and contains many tools to improve log retrival and generate insights. For more information see [LogQL](https://grafana.com/docs/loki/<LOKI_VERSION>/query/).
+* **Alert:** Lastly you can use the ruler component of Loki to create alerts based on log queries. For more information see [Alerting](https://grafana.com/docs/loki/<LOKI_VERSION>/alert/).
 
+### Complete metrics, logs, traces, and profiling example
 
-## Further reading
+If you would like to run a demonstration environment that includes Mimir, Loki, Tempo, and Grafana, you can use [Introduction to Metrics, Logs, Traces, and Profiling in Grafana](https://github.com/grafana/intro-to-mlt).
+It's a self-contained environment for learning about Mimir, Loki, Tempo, and Grafana.
 
-For more information on the OpenTelemetry Collector and the native OTLP endpoint of Loki, refer to the following resources:
-
-- [Loki OTLP endpoint](https://grafana.com/docs/loki/<LOKI_VERSION>/send-data/otel/)
-- [How is native OTLP endpoint different from Loki Exporter](https://grafana.com/docs/loki/<LOKI_VERSION>/send-data/otel/native_otlp_vs_loki_exporter)
-- [OpenTelemetry Collector Configuration](https://opentelemetry.io/docs/collector/configuration/)
-
-## Complete metrics, logs, traces, and profiling example
-
-If you would like to use a demo that includes Mimir, Loki, Tempo, and Grafana, you can use [Introduction to Metrics, Logs, Traces, and Profiling in Grafana](https://github.com/grafana/intro-to-mlt). `Intro-to-mltp` provides a self-contained environment for learning about Mimir, Loki, Tempo, and Grafana.
-
-The project includes detailed explanations of each component and annotated configurations for a single-instance deployment. Data from `intro-to-mltp` can also be pushed to Grafana Cloud.
+The project includes detailed explanations of each component and annotated configurations for a single-instance deployment.
+You can also push the data from the environment to [Grafana Cloud](https://grafana.com/cloud/).
 
 <!-- INTERACTIVE page finish.md END -->
-<!-- vale Grafana.We = YES -->

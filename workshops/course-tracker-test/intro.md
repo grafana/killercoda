@@ -1,30 +1,11 @@
-# Getting started with the OpenTelemetry Collector and Loki tutorial
+# Quickstart to run Loki locally
 
-The OpenTelemetry Collector offers a vendor-agnostic implementation of how to receive, process, and export telemetry data. With the introduction of the OTLP endpoint in Loki, you can now send logs from applications instrumented with OpenTelemetry to Loki using the OpenTelemetry Collector in native OTLP format.
-In this example, we will teach you how to configure the OpenTelemetry Collector to receive logs in the OpenTelemetry format and send them to Loki using the OTLP HTTP protocol. This will involve configuring the following components in the OpenTelemetry Collector:
+This quick start guide will walk you through deploying Loki in [single binary mode](https://grafana.com/docs/loki/latest/get-started/deployment-modes/#monolithic-mode) using Docker Compose. Grafana Loki is only one component of the Grafana observability stack for logs. In this tutorial we will refer to this stack as the **Loki stack**. The Loki stack consists of the following components:
 
-- **OpenTelemetry Receiver:** This component will receive logs in the OpenTelemetry format via HTTP and gRPC.
+![Loki Stack](https://grafana.com/media/docs/loki/getting-started-loki-stack-3.png)
 
-- **OpenTelemetry Processor:** This component will accept telemetry data from other `otelcol.*`{{copy}} components and place them into batches. Batching improves the compression of data and reduces the number of outgoing network requests required to transmit data.
+- **Loki**: A log aggregation system to store the collected logs. For more information on what Loki is, see [Loki overview](https://grafana.com/docs/loki/latest/get-started/overview/).
 
-- **OpenTelemetry Exporter:** This component will accept telemetry data from other `otelcol.*`{{copy}} components and write them over the network using the OTLP HTTP protocol. We will use this exporter to send the logs to the Loki native OTLP endpoint.
+- **Alloy**: Grafana Alloy is an open source telemtry collector for metrics, logs, traces and continuous profiles. In this quickstart guide Grafana Alloy has been configured to tail logs from all docker containers and forward them to Loki.
 
-## Scenario
-
-In this scenario, we have a microservices application called the Carnivorous Greenhouse. This application consists of the following services:
-
-- **User Service:** Manages user data and authentication for the application. Such as creating users and logging in.
-
-- **Plant Service:** Manages the creation of new plants and updates other services when a new plant is created.
-
-- **Simulation Service:** Generates sensor data for each plant.
-
-- **Websocket Service:** Manages the websocket connections for the application.
-
-- **Bug Service:** A service that when enabled, randomly causes services to fail and generate additional logs.
-
-- **Main App:** The main application that ties all the services together.
-
-- **Database:** A database that stores user and plant data.
-
-Each service generates logs using the OpenTelemetry SDK and exports to the OpenTelemetry Collector in the OpenTelemetry format (OTLP). The Collector then ingests the logs and sends them to Loki.
+- **Grafana**: Grafana is an open-source platform for monitoring and observability. Grafana will be used to query and vizualize on the logs stored in Loki.
