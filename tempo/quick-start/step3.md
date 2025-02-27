@@ -1,6 +1,6 @@
-# Explore Traces plugin
+# Traces Drilldown plugin
 
-The [Explore Traces](https://grafana.com/docs/grafana/latest/explore/simplified-exploration/traces/) plugin offers an opinionated non query-based approach to exploring traces. Lets take a look at some of its key features and panels.
+The [Traces Drilldown](https://grafana.com/docs/grafana/latest/explore/simplified-exploration/traces/) plugin offers an opinionated non query-based approach to exploring traces. Lets take a look at some of its key features and panels.
 
 1. Open a browser and navigate to [http://localhost:3000/a/grafana-exploretraces-app]({{TRAFFIC_HOST1_3000}}/a/grafana-exploretraces-app).
 
@@ -8,7 +8,7 @@ The [Explore Traces](https://grafana.com/docs/grafana/latest/explore/simplified-
 
 This updated panel view looks like this:
 
-![Explore Traces panel](https://grafana.com/media/docs/tempo/explore-spans-error-view.png)
+![Traces Drilldown panel](https://grafana.com/media/docs/tempo/explore-spans-error-view.png)
 
 Breakdown of the view:
 
@@ -36,4 +36,4 @@ Drilling into the `shop-backend`{{copy}} span, you can see that the `place-artic
 
 ![Span View panel](https://grafana.com/media/docs/tempo/slow-trace-root-cause-2.png)
 
-If you would like to dive deeper into the Explore Traces plugin and its panel concepts, refer to the [Explore Traces Concepts](https://grafana.com/docs/grafana/latest/explore/simplified-exploration/traces/concepts/).
+If you would like to dive deeper into the Traces Drilldown plugin and its panel concepts, refer to the [Traces Drilldown Concepts](https://grafana.com/docs/grafana/latest/explore/simplified-exploration/traces/concepts/).

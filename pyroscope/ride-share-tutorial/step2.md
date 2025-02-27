@@ -1,11 +1,11 @@
-# Accessing Explore Profiles in Grafana
+# Accessing Profiles Drilldown in Grafana
 
-Grafana includes the [Explore Profiles](https://grafana.com/docs/grafana/latest/explore/simplified-exploration/profiles/) app that you can use to view profile data. To access Explore Profiles, open a browser and navigate to [http://localhost:3000/a/grafana-pyroscope-app/profiles-explorer]({{TRAFFIC_HOST1_3000}}/a/grafana-pyroscope-app/profiles-explorer).
+Grafana includes the [Profiles Drilldown](https://grafana.com/docs/grafana/latest/explore/simplified-exploration/profiles/) app that you can use to view profile data. To access Profiles Drilldown, open a browser and navigate to [http://localhost:3000/a/grafana-pyroscope-app/profiles-explorer]({{TRAFFIC_HOST1_3000}}/a/grafana-pyroscope-app/profiles-explorer).
 
 ## How tagging works
 
 In this example, the application is instrumented with Pyroscope using the Python SDK.
-The SDK allows you to tag functions with metadata that can be used to filter and group the profile data in the Explore Profiles.
+The SDK allows you to tag functions with metadata that can be used to filter and group the profile data in the Profiles Drilldown.
 This example uses static and dynamic tagging.
 
 To start, let’s take a look at a static tag use case. Within the `server.py`{{copy}} file, find the Pyroscope configuration:
@@ -54,9 +54,9 @@ This example uses `tag_wrapper`{{copy}} to tag the function with the vehicle typ
 Notice that the tag is dynamic as it changes based on the vehicle type.
 This is useful for grouping profiles on a per vehicle basis. Allowing us to see the performance of the application per vehicle type being requested.
 
-Use Explore Profiles to see how this tag is used:
+Use Profiles Drilldown to see how this tag is used:
 
-1. Open Explore Profiles using the following url: [http://localhost:3000/a/grafana-pyroscope-app/profiles-explorer]({{TRAFFIC_HOST1_3000}}/a/grafana-pyroscope-app/profiles-explorer).
+1. Open Profiles Drilldown using the following url: [http://localhost:3000/a/grafana-pyroscope-app/profiles-explorer]({{TRAFFIC_HOST1_3000}}/a/grafana-pyroscope-app/profiles-explorer).
 
 1. Select on **Labels** in the **Exploration** path.
 
