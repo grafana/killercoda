@@ -1,9 +1,4 @@
-# View Logs in realtime
-
-Grafana Alloy provides inbuilt realtime log viewer. This allows you to view current log entries and how they are being transformed via specific components of the pipeline.
-To view live debugging mode open a browser tab and navigate to: [http://localhost:12345/debug/loki.process.getting_started]({{TRAFFIC_HOST1_12345}}/debug/loki.process.getting_started).
-
- Loki Configuration
+# Loki Configuration
 
 Grafana Loki requires a configuration file to define how it should run. Within the `loki-fundamentals`{{copy}} directory, you will find a file called `loki-config.yaml`{{copy}}:
 
@@ -71,7 +66,7 @@ compactor:
 
 To summarize the configuration file:
 
-- **auth_enabled**: This is set to false, meaning Loki does not a tennent ID for ingest or query.
+- **auth_enabled**: This is set to false, meaning Loki does not need a [tennent ID](https://grafana.com/docs/loki/latest/operations/multi-tenancy/) for ingest or query.
 
 - **server**: Defines the ports Loki listens on, the log level, and the maximum number of concurrent grpc streams.
 
@@ -79,11 +74,11 @@ To summarize the configuration file:
 
 - **query_range**: This is defined to tell Loki to use inbuilt caching for query results. In production environments of Loki this is handled by a seperate cache service such as memcached.
 
-- **limits_config**: Defines the global limits for all Loki tennents. This includes enabling specific features such as metric aggregation and structured metadata.
+- **limits_config**: Defines the global limits for all Loki tennents. This includes enabling specific features such as metric aggregation and structured metadata. Limits can be defined on a per tennent basis, however this is considered an advanced configuration and for most usecases the global limits are sufficient.
 
 - **schema_config**: Defines the schema configuration for Loki. This includes the schema version, the object store, and the index configuration.
 
-- **pattern_ingester**: Enables pattern ingesters which are used to discover log patterns. Mostly used by Grafana Drilldown Logs.
+- **pattern_ingester**: Enables pattern ingesters which are used to discover log patterns. Mostly used by Grafana Logs Drilldown.
 
 - **ruler**: Enables the ruler component of Loki. This is used to create alerts based on log queries.
 

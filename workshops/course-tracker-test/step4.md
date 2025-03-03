@@ -1,6 +1,6 @@
 # Querying Logs
 
-At this point, you have viewed logs using the Grafana Drilldown Logs feature. In many cases this will provide you with all the information you need. However, we can also manually query Loki to ask more advanced questions about the logs. This can be done via the **Grafana Explore**.
+At this point, you have viewed logs using the Grafana Logs Drilldown feature. In many cases this will provide you with all the information you need. However, we can also manually query Loki to ask more advanced questions about the logs. This can be done via the **Grafana Explore**.
 
 1. Open a browser and navigate to [http://localhost:3000]({{TRAFFIC_HOST1_3000}}) to open Grafana.
 
@@ -23,13 +23,13 @@ At this point, you have viewed logs using the Grafana Drilldown Logs feature. In
 
    - [Code mode](https://grafana.com/docs/grafana/latest/datasources/loki/query-editor/#code-mode), which provides a feature-rich editor for writing LogQL queries.
 
-   Next we’ll walk through a few simple queries using both the builder and code views.
+   Next we’ll walk through a few queries using the code view.
 
 1. Click **Code** (3) to work in Code mode in the query editor.
 
    Here are some sample queries to get you started using LogQL. After copying any of these queries into the query editor, click **Run Query** (4) to execute the query.
 
-   1. View all the log lines which have the container label `greenhouse-main_app-1`{{copy}}:
+   1. View all the log lines which have the `container`{{copy}} label value `greenhouse-main_app-1`{{copy}}:
 
       ```bash
       {container="greenhouse-main_app-1"}
@@ -45,5 +45,5 @@ At this point, you have viewed logs using the Grafana Drilldown Logs feature. In
    1. Find all the log lines in the `{container="greenhouse-main_app-1"}`{{copy}} stream that contain the string `POST`{{copy}}:
 
       ```bash
-      {container="greenhouse-main_app-1"} |= `POST`
+      {container="greenhouse-main_app-1"} |= "POST"
       ```{{copy}}

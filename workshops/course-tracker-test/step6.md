@@ -1,6 +1,6 @@
 # A look under the hood
 
-At this point you will have a running Loki Stack and a sample application generating logs. You have also queried Loki using the Grafana Explore.
+At this point you will have a running Loki Stack and a sample application generating logs. You have also queried Loki using Grafana Logs Drilldown and Grafana Explore.
 In this next section we will take a look under the hood to understand how the Loki stack has been configured to collect logs, the Loki configuration file, and how the Loki datasource has been configured in Grafana.
 
 ## Grafana Alloy configuration
@@ -73,3 +73,8 @@ In this view you can see the components of the Alloy configuration file and how 
 - **loki.process**: This component provides stages for log transformation and extraction. In this case it adds a static label `env=production`{{copy}} to all logs.
 
 - **loki.write**: This component writes the logs to Loki. It forwards the logs to the Loki endpoint `http://loki:3100/loki/api/v1/push`{{copy}}.
+
+## View Logs in realtime
+
+Grafana Alloy provides inbuilt realtime log viewer. This allows you to view current log entries and how they are being transformed via specific components of the pipeline.
+To view live debugging mode open a browser tab and navigate to: [http://localhost:12345/debug/loki.process.getting_started]({{TRAFFIC_HOST1_12345}}/debug/loki.process.getting_started).

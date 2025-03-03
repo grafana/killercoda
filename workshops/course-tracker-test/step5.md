@@ -1,10 +1,20 @@
 # Extracting Attributes from Logs
 
-Loki by design does not force log lines into a specific schema format. Whether you are using JSON, key-value pairs, or plain text, Logfmt, or any other format, Loki ingests these logs lines as a stream of characters. The sample application we are using stores logs in [Logfmt](https://brandur.org/logfmt) format:
+Loki by design does not force log lines into a specific schema format. Whether you are using JSON, key-value pairs, plain text, Logfmt, or any other format, Loki ingests these logs lines as a stream of characters. The sample application we are using stores logs in [Logfmt](https://brandur.org/logfmt) format:
 
 ```bash
 ts=2025-02-21 16:09:42,176 level=INFO line=97 msg="192.168.65.1 - - [21/Feb/2025 16:09:42] "GET /static/style.css HTTP/1.1" 304 -"
 ```{{copy}}
+
+To break this down:
+
+- `ts=2025-02-21 16:09:42,176`{{copy}} is the timestamp of the log line.
+
+- `level=INFO`{{copy}} is the log level.
+
+- `line=97`{{copy}} is the line number in the code.
+
+- `msg="192.168.65.1 - - [21/Feb/2025 16:09:42] "GET /static/style.css HTTP/1.1" 304 -"`{{copy}} is the log message.
 
 When querying Loki, you can pipe the result of the label selector through a formatter. This extracts attributes from the log line for further processing. For example lets pipe `{container="greenhouse-main_app-1"}`{{copy}} through the `logfmt`{{copy}} formatter to extract the `level`{{copy}} and `line`{{copy}} attributes:
 
@@ -14,11 +24,12 @@ When querying Loki, you can pipe the result of the label selector through a form
 
 When you now expand a log line in the query result, you will see the extracted attributes.
 
-**Before we move on** to the next section, let’s generate some error logs. To do this, enable the bug service in the sample application. This is done by setting the `Toggle Error Mode`{{copy}} to `On`{{copy}} in the Carnivorous Greenhouse application. This will cause the bug service to randomly cause services to fail.
+> **Tip:**
+> **Before we move on** to the next section, let’s generate some error logs. To do this, enable the bug service in the sample application. This is done by setting the `Toggle Error Mode`{{copy}} to `On`{{copy}} in the Carnivorous Greenhouse application. This will cause the bug service to randomly cause services to fail.
 
 # Advanced and Metrics Queries
 
-Now that are sample application is failing, we can query Loki to find the error logs. Lets start by parsing the logs to extract the `level`{{copy}} attribute and then filter for logs with a `level`{{copy}} of `ERROR`{{copy}}:
+With Error Mode enabled the bug service will start causing services to fail, in these next few LogQL examples we will track down some of these errors.  Lets start by parsing the logs to extract the `level`{{copy}} attribute and then filter for logs with a `level`{{copy}} of `ERROR`{{copy}}:
 
 ```bash
 {container="greenhouse-plant_service-1"} | logfmt | level="ERROR"
@@ -32,10 +43,12 @@ This query will return all the logs from the `greenhouse-plant_service-1`{{copy}
 
 This query will return all the logs from the `greenhouse-plant_service-1`{{copy}} container that have a `level`{{copy}} attribute of `ERROR`{{copy}} and a `line`{{copy}} attribute of `58`{{copy}}.
 
-LogQL also supports metrics queries. Metrics are useful for abstracting the raw log data into a more manageable form. For example, you can use metrics to count the number of logs per second that have a specific attribute:
+LogQL also supports metrics queries. Metrics are useful for abstracting the raw log data aggregating attributes into numeric values. This allows you to utilise more visualization options in Grafana as well as generate alerts on your logs.
+
+For example, you can use a metric query to count the number of logs per second that have a specific attribute:
 
 ```bash
-sum(rate({container="greenhouse-plant_service-1"} | logfmt | level=`ERROR` [$__auto]))
+sum(rate({container="greenhouse-plant_service-1"} | logfmt | level="ERROR" [$__auto]))
 ```{{copy}}
 
 Another example is to get the top 10 services producing the highest rate of errors:

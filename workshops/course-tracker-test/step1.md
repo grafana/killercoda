@@ -1,9 +1,6 @@
-# Install the Loki stack
+# Deploy the Loki stack
 
-> **Note:**
-> This quickstart assumes you are running Linux or MacOS. Windows users can follow the same steps using [WSL](https://learn.microsoft.com/en-us/windows/wsl/install).
-
-**To install Loki locally, follow these steps:**
+**To deploy the Loki stack locally, follow these steps:**
 
 1. Clone the Loki fundamentals repository and checkout the getting-started branch:
 
@@ -23,7 +20,7 @@
    docker compose up -d
    ```{{exec}}
 
-   At the end of the command, you should see something similar to the following:
+   After running the command, you should see a similar output:
 
    ```console
     ✔ Container loki-fundamentals-grafana-1  Started  0.3s 
@@ -31,7 +28,7 @@
     ✔ Container loki-fundamentals-alloy-1    Started  0.4s
    ```{{copy}}
 
-With the Loki stack running, you can now verify component is up and running:
+With the Loki stack running, you can now verify each component is up and running:
 
 - **Alloy**: Open a browser and navigate to [http://localhost:12345/graph]({{TRAFFIC_HOST1_12345}}/graph). You should see the Alloy UI.
 

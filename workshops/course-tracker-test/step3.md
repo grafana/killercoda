@@ -14,11 +14,11 @@ Currently, the Loki stack is collecting logs about itself. To provide a more rea
 
 - **Main App:** The main application that ties all the services together.
 
-- **Database:** A database that stores user and plant data.
+- **Database:** A Postgres database that stores user and plant data.
 
 The architecture of the application is shown below:
 
-![Getting started sample application](https://grafana.com/media/docs/loki/get-started-architecture.png)
+![Sample Microservice Architecture](https://grafana.com/media/docs/loki/get-started-architecture.png)
 
 To deploy the sample application, follow these steps:
 
@@ -31,7 +31,7 @@ To deploy the sample application, follow these steps:
    > **Note:**
    > This may take a few minutes to complete since the images for the sample application need to be built. Go grab a coffee and come back.
 
-   Once the command completes, you should see something similar to the following:
+   Once the command completes, you should see a similar output:
 
    ```console
      ✔ bug_service                                Built     0.0s 
@@ -51,7 +51,7 @@ To deploy the sample application, follow these steps:
 
 1. To verify the sample application is running, open a browser and navigate to [http://localhost:5005]({{TRAFFIC_HOST1_5005}}). You should see the login page for the Carnivorous Greenhouse application.
 
-   ![Getting started sample application](https://grafana.com/media/docs/loki/get-started-login.png)
+   ![Greenhouse Home Page](https://grafana.com/media/docs/loki/get-started-login.png)
 
    Now that the sample application is running, run some actions in the application to generate logs. Here is a list of actions:
 
@@ -65,4 +65,4 @@ Your greenhouse should look something like this:
 
 ![Greenhouse Dashboard](https://grafana.com/media/docs/loki/get-started-greenhouse.png)
 
-Now that you have generated some logs, you can view them in Grafana. To do this, navigate to [http://localhost:3000/a/grafana-lokiexplore-app]({{TRAFFIC_HOST1_3000}}/a/grafana-lokiexplore-app). You should see the Grafana Logs Drilldown page.
+Now that you have generated some logs, you can return to the Grafana Logs Drilldown page [http://localhost:3000/a/grafana-lokiexplore-app]({{TRAFFIC_HOST1_3000}}/a/grafana-lokiexplore-app). You should see 7 new services such as `greenhouse-main_app-1`{{copy}}, `greenhouse-plant_service-1`{{copy}}, `greenhouse-user_service-1`{{copy}}, etc.

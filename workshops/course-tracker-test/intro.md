@@ -4,8 +4,8 @@ This quick start guide will walk you through deploying Loki in [single binary mo
 
 ![Loki Stack](https://grafana.com/media/docs/loki/getting-started-loki-stack-3.png)
 
+- **Alloy**: [Grafana Alloy](https://grafana.com/docs/alloy/latest/) is an open source telemetry collector for metrics, logs, traces and continuous profiles. In this quickstart guide Grafana Alloy has been configured to tail logs from all docker containers and forward them to Loki.
+
 - **Loki**: A log aggregation system to store the collected logs. For more information on what Loki is, see [Loki overview](https://grafana.com/docs/loki/latest/get-started/overview/).
 
-- **Alloy**: Grafana Alloy is an open source telemtry collector for metrics, logs, traces and continuous profiles. In this quickstart guide Grafana Alloy has been configured to tail logs from all docker containers and forward them to Loki.
-
-- **Grafana**: Grafana is an open-source platform for monitoring and observability. Grafana will be used to query and vizualize on the logs stored in Loki.
+- **Grafana**: [Grafana](https://grafana.com/docs/grafana/latest/) is an open-source platform for monitoring and observability. Grafana will be used to query and vizualize on the logs stored in Loki.
