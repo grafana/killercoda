@@ -16,7 +16,6 @@ set -euf
 # shellcheck disable=SC3040
 (set -o pipefail 2> /dev/null) && set -o pipefail
 
-
 sudo install -m 0755 -d /etc/apt/keyrings
 sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
 sudo chmod a+r /etc/apt/keyrings/docker.asc
@@ -78,4 +77,5 @@ sudo systemctl enable "$SERVICE_NAME"
 sudo systemctl start "$SERVICE_NAME"
 export PROMPT_COMMAND='history -a'
 
-echo "Service $SERVICE_NAME has been installed and started successfully." && cd /root && clear && echo "Setup complete. You may now begin the tutorial."
+echo "Service $SERVICE_NAME has been installed and started successfully." && cd /root && \
+clear && echo "Setup complete. You may now begin the tutorial."
