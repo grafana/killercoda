@@ -84,7 +84,7 @@ And finally, add the following configuration to the `config.alloy`{{copy}} file:
 ```alloy
 loki.write "http" {
   endpoint {
-    url = "http://loki:3100/loki/api/v1/push"
+    url = "http://<loki-addr>:3100/otlp/v1/logs"
   }
 }
 ```{{copy}}
