@@ -68,7 +68,7 @@ Finally, add the following configuration to the `config.alloy`{{copy}} file:
 ```alloy
 otelcol.exporter.otlphttp "default" {
   client {
-    endpoint = "http://<loki-addr>:3100/otlp/v1/logs"
+    endpoint = "http://loki:3100/otlp"
   }
 }
 ```{{copy}}
