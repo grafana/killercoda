@@ -136,7 +136,7 @@ helm install --values grafana-values.yml grafana grafana/grafana --namespace met
 
 As before, the command also includes a `values` file that specifies the configuration for Grafana. There are two important configuration attributes to take note of:
 
-1. `adminUser` and `adminPassword`: These are the credentials you will use to log in to Grafana. The values are `admin` and `adminadminadmin` respectively. The recommended practice is to either use a Kubernetes secret or allow Grafana to generate a password for you. For more details on how to configure the Grafana Helm chart, refer to the Grafana Helm [documentation](https://grafana.com/docs/grafana/latest/installation/helm/).
+1. `adminUser` and `adminPassword`: These are the credentials you will use to log in to Grafana. The values are `admin` and `adminadminadmin` respectively. The recommended practice is to either use a Kubernetes secret or allow Grafana to generate a password for you. For more details on how to configure the Grafana Helm chart, refer to the Grafana Helm [documentation](https://grafana.com/docs/grafana/<GRAFANA_VERSION>/installation/helm/).
 
 2. `datasources`: This section of the configuration lets you define the data sources that Grafana should use. In this tutorial, you will define a Loki data source. The data source is defined as follows:
 
@@ -163,12 +163,12 @@ As before, the command also includes a `values` file that specifies the configur
 
 ## Deploy the Kubernetes Monitoring Helm chart
 
-The Kubernetes Monitoring Helm chart is used for gathering, scraping, and forwarding Kubernetes telemetry data to a Grafana stack. This includes the ability to collect metrics, logs, traces, and continuous profiling data. The scope of this tutorial is to deploy the Kubernetes Monitoring Helm chart to collect pod logs and Kubernetes events. 
+The Kubernetes Monitoring Helm chart is used for gathering, scraping, and forwarding Kubernetes telemetry data to a Grafana stack. This includes the ability to collect metrics, logs, traces, and continuous profiling data. The scope of this tutorial is to deploy the Kubernetes Monitoring Helm chart to collect pod logs and Kubernetes events.
 
 To deploy the Kubernetes Monitoring Helm chart run the following command:
 
 ```bash
-helm install --values ./k8s-monitoring-values.yml k8s grafana/k8s-monitoring -n meta 
+helm install --values ./k8s-monitoring-values.yml k8s grafana/k8s-monitoring -n meta
 ```
 Within the configuration file `k8s-monitoring-values.yml` we have defined the following:
 
@@ -254,20 +254,20 @@ kubectl --namespace meta port-forward $POD_NAME 3000 --address 0.0.0.0
 > **Tip:**
 > This will make your terminal unusable until you stop the port-forwarding process. To stop the process, press `Ctrl + C`.
 
-This command will port-forward the Grafana service to your local machine on port `3000`. 
+This command will port-forward the Grafana service to your local machine on port `3000`.
 
-You can now access Grafana by navigating to [http://localhost:3000](http://localhost:3000) in your browser. The default credentials are `admin` and `adminadminadmin`. 
+You can now access Grafana by navigating to [http://localhost:3000](http://localhost:3000) in your browser. The default credentials are `admin` and `adminadminadmin`.
 
-One of the first places you should visit is Explore Logs which lets you automatically visualize and explore your logs without having to write queries:
+One of the first places you should visit is Logs Drilldown which lets you automatically visualize and explore your logs without having to write queries:
 [http://localhost:3000/a/grafana-lokiexplore-app](http://localhost:3000/a/grafana-lokiexplore-app)
 
-{{< figure max-width="100%" src="/media/docs/loki/k8s-logs-explore-logs.png" caption="Explore Logs view of K8s logs" alt="Explore Logs view of K8s logs" >}}
+{{< figure max-width="100%" src="/media/docs/loki/k8s-logs-explore-logs.png" caption="Logs Drilldown view of K8s logs" alt="Logs Drilldown view of K8s logs" >}}
 
 <!-- INTERACTIVE page step6.md END -->
 
 <!-- INTERACTIVE page step7.md START -->
 
-## (Optional): View the Alloy UI
+## (Optional) View the Alloy UI
 
 The Kubernetes Monitoring Helm chart deploys Grafana Alloy to collect and forward telemetry data from the Kubernetes cluster. The Helm chart is designed to abstract you away from creating an Alloy configuration file. However if you would like to understand the pipeline you can view the Alloy UI. To access the Alloy UI, you will need to port-forward the Alloy service to your local machine. To do this, run the following command:
 
@@ -315,8 +315,8 @@ and navigate to [http://localhost:3000/a/grafana-lokiexplore-app](http://localho
 
 In this tutorial, you learned how to deploy Loki, Grafana, and the Kubernetes Monitoring Helm chart to collect and store logs from a Kubernetes cluster. We have deployed a minimal test version of each of these Helm charts to demonstrate how quickly you can get started with Loki. It is now worth exploring each of these Helm charts in more detail to understand how to scale them to meet your production needs:
 
-* [Loki Helm chart](https://grafana.com/docs/loki/latest/setup/install/helm/)
-* [Grafana Helm chart](https://grafana.com/docs/grafana/latest/installation/helm/)
+* [Loki Helm chart](https://grafana.com/docs/loki/<LOKI_VERSION>/setup/install/helm/)
+* [Grafana Helm chart](https://grafana.com/docs/grafana/<GRAFANA_VERSION>/installation/helm/)
 * [Kubernetes Monitoring Helm chart](https://grafana.com/docs/grafana-cloud/monitor-infrastructure/kubernetes-monitoring/)
 
 

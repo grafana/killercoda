@@ -14,7 +14,7 @@ This command will port-forward the Grafana service to your local machine on port
 
 You can now access Grafana by navigating to [http://localhost:3000]({{TRAFFIC_HOST1_3000}}) in your browser. The default credentials are `admin`{{copy}} and `adminadminadmin`{{copy}}.
 
-One of the first places you should visit is Explore Logs which lets you automatically visualize and explore your logs without having to write queries:
+One of the first places you should visit is Logs Drilldown which lets you automatically visualize and explore your logs without having to write queries:
 [http://localhost:3000/a/grafana-lokiexplore-app]({{TRAFFIC_HOST1_3000}}/a/grafana-lokiexplore-app)
 
-![Explore Logs view of K8s logs](https://grafana.com/media/docs/loki/k8s-logs-explore-logs.png)
+![Logs Drilldown view of K8s logs](https://grafana.com/media/docs/loki/k8s-logs-explore-logs.png)
