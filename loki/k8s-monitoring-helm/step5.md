@@ -5,7 +5,7 @@ The Kubernetes Monitoring Helm chart is used for gathering, scraping, and forwar
 To deploy the Kubernetes Monitoring Helm chart run the following command:
 
 ```bash
-helm install --values ./k8s-monitoring-values.yml k8s grafana/k8s-monitoring -n meta 
+helm install --values ./k8s-monitoring-values.yml k8s grafana/k8s-monitoring -n meta
 ```{{exec}}
 
 Within the configuration file `k8s-monitoring-values.yml`{{copy}} we have defined the following:
