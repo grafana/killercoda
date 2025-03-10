@@ -1,6 +1,6 @@
-# Querying Logs
+# Querying logs
 
-At this point, you have viewed logs using the Grafana Logs Drilldown feature. In many cases this will provide you with all the information you need. However, we can also manually query Loki to ask more advanced questions about the logs. This can be done via the **Grafana Explore**.
+At this point, you have viewed logs using the Grafana Logs Drilldown feature. In many cases this will provide you with all the information you need. However, we can also manually query Loki to ask more advanced questions about the logs. This can be done via **Grafana Explore**.
 
 1. Open a browser and navigate to [http://localhost:3000]({{TRAFFIC_HOST1_3000}}) to open Grafana.
 

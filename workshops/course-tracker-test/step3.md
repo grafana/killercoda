@@ -1,4 +1,4 @@
-# Collect Logs from a sample application
+# Collect logs from a sample application
 
 Currently, the Loki stack is collecting logs about itself. To provide a more realistic example, you can deploy a sample application that generates logs. The sample application is called **The Carnivourous Greenhouse**, a microservices application that allows users to login and simulate a greenhouse with carnivorous plants to monitor. The application consists of seven services:
 
@@ -14,7 +14,7 @@ Currently, the Loki stack is collecting logs about itself. To provide a more rea
 
 - **Main App:** The main application that ties all the services together.
 
-- **Database:** A Postgres database that stores user and plant data.
+- **Database:** A PostgreSQL database that stores user and plant data.
 
 The architecture of the application is shown below:
 
@@ -55,14 +55,14 @@ To deploy the sample application, follow these steps:
 
    Now that the sample application is running, run some actions in the application to generate logs. Here is a list of actions:
 
-   - **Create a user:** Click **Sign Up** and create a new user. Add a username and password and click **Sign Up**.
+   1. **Create a user:** Click **Sign Up** and create a new user. Add a username and password and click **Sign Up**.
 
-   - **Login:** Use the username and password you created to login. Add the username and password and click **Login**.
+   1. **Login:** Use the username and password you created to login. Add the username and password and click **Login**.
 
-   - **Create a plant:** Once logged in, give your plant a name, select a plant type and click **Add Plant**. Do this a few times if you like.
+   1. **Create a plant:** Once logged in, give your plant a name, select a plant type and click **Add Plant**. Do this a few times if you like.
 
 Your greenhouse should look something like this:
 
 ![Greenhouse Dashboard](https://grafana.com/media/docs/loki/get-started-greenhouse.png)
 
-Now that you have generated some logs, you can return to the Grafana Logs Drilldown page [http://localhost:3000/a/grafana-lokiexplore-app]({{TRAFFIC_HOST1_3000}}/a/grafana-lokiexplore-app). You should see 7 new services such as `greenhouse-main_app-1`{{copy}}, `greenhouse-plant_service-1`{{copy}}, `greenhouse-user_service-1`{{copy}}, etc.
+Now that you have generated some logs, you can return to the Grafana Logs Drilldown page [http://localhost:3000/a/grafana-lokiexplore-app]({{TRAFFIC_HOST1_3000}}/a/grafana-lokiexplore-app). You should see seven new services such as `greenhouse-main_app-1`{{copy}}, `greenhouse-plant_service-1`{{copy}}, `greenhouse-user_service-1`{{copy}}, etc.

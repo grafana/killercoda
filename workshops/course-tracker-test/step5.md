@@ -1,4 +1,4 @@
-# Extracting Attributes from Logs
+# Extracting attributes from logs
 
 Loki by design does not force log lines into a specific schema format. Whether you are using JSON, key-value pairs, plain text, Logfmt, or any other format, Loki ingests these logs lines as a stream of characters. The sample application we are using stores logs in [Logfmt](https://brandur.org/logfmt) format:
 
@@ -60,7 +60,7 @@ topk(10,sum(rate({level="error"} | logfmt [5m])) by (service_name))
 > **Note:**
 > `service_name`{{copy}} is a label created by Loki when no service name is provided in the log line. It will use the container name as the service name. A list of all labels can be found in [Labels](https://grafana.com/docs/loki/latest/get-started/labels/#default-labels-for-all-users).
 
-Lastly, lets take a look at the total log throughput of each container in our production environment:
+Finally, lets take a look at the total log throughput of each container in our production environment:
 
 ```bash
 sum by (service_name) (rate({env="production"} | logfmt [$__auto]))

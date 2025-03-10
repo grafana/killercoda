@@ -14,7 +14,7 @@
    cd loki-fundamentals
    ```{{exec}}
 
-1. With `loki-fundamentals`{{copy}} as the current working directory deploy Loki, Alloy and Grafana using Docker Compose:
+1. With `loki-fundamentals`{{copy}} as the current working directory deploy Loki, Alloy, and Grafana using Docker Compose:
 
    ```bash
    docker compose up -d

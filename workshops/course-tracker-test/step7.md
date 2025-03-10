@@ -66,15 +66,15 @@ compactor:
 
 To summarize the configuration file:
 
-- **auth_enabled**: This is set to false, meaning Loki does not need a [tennent ID](https://grafana.com/docs/loki/latest/operations/multi-tenancy/) for ingest or query.
+- **auth_enabled**: This is set to false, meaning Loki does not need a [tenant ID](https://grafana.com/docs/loki/latest/operations/multi-tenancy/) for ingest or query.
 
-- **server**: Defines the ports Loki listens on, the log level, and the maximum number of concurrent grpc streams.
+- **server**: Defines the ports Loki listens on, the log level, and the maximum number of concurrent gRPC streams.
 
 - **common**:  Defines the common configuration for Loki. This includes the instance address, storage configuration, replication factor, and ring configuration.
 
 - **query_range**: This is defined to tell Loki to use inbuilt caching for query results. In production environments of Loki this is handled by a seperate cache service such as memcached.
 
-- **limits_config**: Defines the global limits for all Loki tennents. This includes enabling specific features such as metric aggregation and structured metadata. Limits can be defined on a per tennent basis, however this is considered an advanced configuration and for most usecases the global limits are sufficient.
+- **limits_config**: Defines the global limits for all Loki tenants. This includes enabling specific features such as metric aggregation and structured metadata. Limits can be defined on a per tenant basis, however this is considered an advanced configuration and for most use cases the global limits are sufficient.
 
 - **schema_config**: Defines the schema configuration for Loki. This includes the schema version, the object store, and the index configuration.
 
@@ -82,7 +82,7 @@ To summarize the configuration file:
 
 - **ruler**: Enables the ruler component of Loki. This is used to create alerts based on log queries.
 
-- **frontend**: Defines the encoding format for the frontend. In this case it is set to protobuf.
+- **frontend**: Defines the encoding format for the frontend. In this case it is set to `protobuf`{{copy}}.
 
 - **compactor**: Defines the compactor configuration. Used to compact the index and mange chunk retention.
 

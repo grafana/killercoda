@@ -44,4 +44,4 @@ In this case we are using the provisioning method. Instead of mounting the Grafa
 ```{{copy}}
 
 Within the entrypoint section of the `docker-compose.yml`{{copy}} file, we have defined a file called `run.sh`{{copy}} this runs on startup and creates the datasource configuration file `ds.yaml`{{copy}} in the Grafana provisioning directory.
-This file defines the Loki datasource and tells Grafana to use it. Since Loki is running in the same docker network as Grafana, we can use the service name `loki`{{copy}} as the URL.
+This file defines the Loki datasource and tells Grafana to use it. Since Loki is running in the same Docker network as Grafana, we can use the service name `loki`{{copy}} as the URL.
