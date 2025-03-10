@@ -86,6 +86,11 @@ jobs:
         working-directory: killercoda/tools/transformer
       - run: >
           ./transformer
+          "${GITHUB_WORKSPACE}/loki/docs/sources/send-data/k8s-monitoring-helm/_index.md"
+          "${GITHUB_WORKSPACE}/killercoda/loki/k8s-monitoring-helm"
+        working-directory: killercoda/tools/transformer
+      - run: >
+          ./transformer
           "${GITHUB_WORKSPACE}/grafana/docs/sources/tutorials/alerting-get-started/index.md"
           "${GITHUB_WORKSPACE}/killercoda/grafana/alerting-get-started"
         working-directory: killercoda/tools/transformer
