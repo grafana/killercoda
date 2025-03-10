@@ -1,10 +1,10 @@
 {
-  "title": "Getting started with the OpenTelemetry Collector and Loki tutorial",
-  "description": "A Tutorial configuring the OpenTelemetry Collector to send OpenTelemetry logs to Loki",
+  "title": "Loki Quickstart Demo",
+  "description": "This sandbox provides an online enviroment for testing the Loki quickstart demo.",
   "details": {
     "intro": {
       "text": "intro.md",
-      "foreground": "update.sh"
+      "foreground": "setup.sh"
     },
     "steps": [
       {
@@ -15,6 +15,21 @@
       },
       {
         "text": "step3.md"
+      },
+      {
+        "text": "step4.md"
+      },
+      {
+        "text": "step5.md"
+      },
+      {
+        "text": "step6.md"
+      },
+      {
+        "text": "step7.md"
+      },
+      {
+        "text": "step8.md"
       }
     ],
     "finish": {
