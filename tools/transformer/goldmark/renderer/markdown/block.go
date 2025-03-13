@@ -155,10 +155,6 @@ func (r *Renderer) renderListItem(w util.BufWriter, _ []byte, node ast.Node, ent
 		r.pushPrefix(indent)
 	} else {
 		r.popPrefix(indent)
-
-		if node.NextSibling() != nil {
-			r.write(w, '\n')
-		}
 	}
 
 	return ast.WalkContinue, nil
