@@ -116,7 +116,17 @@ func (r *Renderer) renderRawHTML(w util.BufWriter, source []byte, node ast.Node,
 		return ast.WalkSkipChildren, nil
 	}
 
-	r.write(w, "<!-- raw HTML omitted -->")
+	if r.Unsafe {
+		n := node.(*ast.RawHTML)
+		l := n.Segments.Len()
+
+		for i := 0; i < l; i++ {
+			segment := n.Segments.At(i)
+			r.secureWrite(w, segment.Value(source))
+		}
+	} else {
+		r.write(w, "<!-- raw HTML omitted -->")
+	}
 
 	return ast.WalkSkipChildren, nil
 }
@@ -144,6 +154,7 @@ func (r *Renderer) renderText(w util.BufWriter, source []byte, node ast.Node, en
 	value := segment.Value(source)
 
 	r.write(w, value)
+
 	if n.HardLineBreak() {
 		r.write(w, "\n\n")
 	} else if n.SoftLineBreak() {

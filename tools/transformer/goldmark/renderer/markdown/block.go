@@ -105,10 +105,25 @@ func (r *Renderer) renderHTMLBlock(w util.BufWriter, source []byte, node ast.Nod
 	n := node.(*ast.HTMLBlock)
 
 	if entering {
-		r.write(w, "<!-- raw HTML omitted -->\n")
+		if r.Unsafe {
+			l := n.Lines().Len()
+
+			for i := 0; i < l; i++ {
+				line := n.Lines().At(i)
+				r.secureWrite(w, line.Value(source))
+			}
+		} else {
+			r.write(w, "<!-- raw HTML omitted -->\n")
+		}
 	} else {
 		if n.HasClosure() {
-			r.write(w, "<!-- raw HTML omitted -->\n")
+			if r.Unsafe {
+				closure := n.ClosureLine
+
+				r.secureWrite(w, closure.Value(source))
+			} else {
+				r.write(w, "<!-- raw HTML omitted -->\n")
+			}
 		}
 
 		if n.NextSibling() != nil {
