@@ -1,7 +1,7 @@
 # A look under the hood
 
 At this point you will have a running Loki Stack and a sample application generating logs. You have also queried Loki using Grafana Logs Drilldown and Grafana Explore.
-In this next section we will take a look under the hood to understand how the Loki stack has been configured to collect logs, the Loki configuration file, and how the Loki datasource has been configured in Grafana.
+In this next section we will take a look under the hood to understand how the Loki Stack has been configured to collect logs, the Loki configuration file, and how the Loki datasource has been configured in Grafana.
 
 ## Grafana Alloy configuration
 
@@ -48,7 +48,7 @@ loki.process "getting_started" {
 // This component is responsible for writing the logs to Loki
 loki.write "getting_started" {
 	endpoint {
-		url       = "http://loki:3100/loki/api/v1/push"
+		url  = "http://loki:3100/loki/api/v1/push"
 	}
 }
 
@@ -64,7 +64,7 @@ This configuration file can be viewed visually via the Alloy UI at [http://local
 
 In this view you can see the components of the Alloy configuration file and how they are connected:
 
-- **discovery.docker**: This component queries the metadata of the docker enviroment via the docker socket and discovers new containers, aswell as providing metdata about the containers.
+- **discovery.docker**: This component queries the metadata of the docker environment via the docker socket and discovers new containers, as well as providing metadata about the containers.
 
 - **discovery.relabel**: This component converts a metadata (`__meta_docker_container_name`{{copy}}) label into a Loki label (`container`{{copy}}).
 
@@ -76,5 +76,5 @@ In this view you can see the components of the Alloy configuration file and how 
 
 ## View Logs in realtime
 
-Grafana Alloy provides inbuilt realtime log viewer. This allows you to view current log entries and how they are being transformed via specific components of the pipeline.
+Grafana Alloy provides a built-in real time log viewer. This allows you to view current log entries and how they are being transformed via specific components of the pipeline.
 To view live debugging mode open a browser tab and navigate to: [http://localhost:12345/debug/loki.process.getting_started]({{TRAFFIC_HOST1_12345}}/debug/loki.process.getting_started).

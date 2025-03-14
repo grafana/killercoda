@@ -31,7 +31,7 @@ At this point, you have viewed logs using the Grafana Logs Drilldown feature. In
 
    1. View all the log lines which have the `container`{{copy}} label value `greenhouse-main_app-1`{{copy}}:
 
-      ```bash
+      ```logql
       {container="greenhouse-main_app-1"}
       ```{{copy}}
 
@@ -44,6 +44,6 @@ At this point, you have viewed logs using the Grafana Logs Drilldown feature. In
 
    1. Find all the log lines in the `{container="greenhouse-main_app-1"}`{{copy}} stream that contain the string `POST`{{copy}}:
 
-      ```bash
+      ```logql
       {container="greenhouse-main_app-1"} |= "POST"
       ```{{copy}}

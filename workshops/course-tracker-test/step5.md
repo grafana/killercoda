@@ -18,26 +18,26 @@ To break this down:
 
 When querying Loki, you can pipe the result of the label selector through a formatter. This extracts attributes from the log line for further processing. For example lets pipe `{container="greenhouse-main_app-1"}`{{copy}} through the `logfmt`{{copy}} formatter to extract the `level`{{copy}} and `line`{{copy}} attributes:
 
-```bash
+```logql
 {container="greenhouse-main_app-1"} | logfmt
 ```{{copy}}
 
 When you now expand a log line in the query result, you will see the extracted attributes.
 
 > **Tip:**
-> **Before we move on** to the next section, let’s generate some error logs. To do this, enable the bug service in the sample application. This is done by setting the `Toggle Error Mode`{{copy}} to `On`{{copy}} in the Carnivorous Greenhouse application. This will cause the bug service to randomly cause services to fail.
+> Before we move on to the next section, let’s generate some error logs. To do this, enable the bug service in the sample application. This is done by setting the `Toggle Error Mode`{{copy}} to `On`{{copy}} in the Carnivorous Greenhouse application. This will cause the bug service to randomly cause services to fail.
 
 # Advanced and Metrics Queries
 
 With Error Mode enabled the bug service will start causing services to fail, in these next few LogQL examples we will track down some of these errors.  Lets start by parsing the logs to extract the `level`{{copy}} attribute and then filter for logs with a `level`{{copy}} of `ERROR`{{copy}}:
 
-```bash
+```logql
 {container="greenhouse-plant_service-1"} | logfmt | level="ERROR"
 ```{{copy}}
 
 This query will return all the logs from the `greenhouse-plant_service-1`{{copy}} container that have a `level`{{copy}} attribute of `ERROR`{{copy}}. You can further refine this query by filtering for a specific code line:
 
-```bash
+```logql
 {container="greenhouse-plant_service-1"} | logfmt | level="ERROR", line="58"
 ```{{copy}}
 
@@ -47,23 +47,23 @@ LogQL also supports metrics queries. Metrics are useful for abstracting the raw 
 
 For example, you can use a metric query to count the number of logs per second that have a specific attribute:
 
-```bash
+```logql
 sum(rate({container="greenhouse-plant_service-1"} | logfmt | level="ERROR" [$__auto]))
 ```{{copy}}
 
 Another example is to get the top 10 services producing the highest rate of errors:
 
-```bash
+```logql
 topk(10,sum(rate({level="error"} | logfmt [5m])) by (service_name))
 ```{{copy}}
 
 > **Note:**
-> `service_name`{{copy}} is a label created by Loki when no service name is provided in the log line. It will use the container name as the service name. A list of all labels can be found in [Labels](https://grafana.com/docs/loki/latest/get-started/labels/#default-labels-for-all-users).
+> `service_name`{{copy}} is a label created by Loki when no service name is provided in the log line. It will use the container name as the service name. A list of all automatically generated labels can be found in [Labels](https://grafana.com/docs/loki/latest/get-started/labels/#default-labels-for-all-users).
 
 Finally, lets take a look at the total log throughput of each container in our production environment:
 
-```bash
+```logql
 sum by (service_name) (rate({env="production"} | logfmt [$__auto]))
 ```{{copy}}
 
-This is made possible by the `service_name`{{copy}} label and the `env`{{copy}} label that we have added to our log lines.
+This is made possible by the `service_name`{{copy}} label and the `env`{{copy}} label that we have added to our log lines. Note that `env`{{copy}} is a static label that we added to all log lines as they are processed by Alloy.

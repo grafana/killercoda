@@ -66,13 +66,13 @@ compactor:
 
 To summarize the configuration file:
 
-- **auth_enabled**: This is set to false, meaning Loki does not need a [tenant ID](https://grafana.com/docs/loki/latest/operations/multi-tenancy/) for ingest or query.
+- **auth_enabled**: This is set to false, meaning Loki does not need a [tenant ID](https://grafana.com/docs/loki/latest/operations/multi-tenancy/) for ingest or query. Note that this is not recommended for production environments. When deploying the Loki helm chart, this is set to true by default.
 
 - **server**: Defines the ports Loki listens on, the log level, and the maximum number of concurrent gRPC streams.
 
 - **common**:  Defines the common configuration for Loki. This includes the instance address, storage configuration, replication factor, and ring configuration.
 
-- **query_range**: This is defined to tell Loki to use inbuilt caching for query results. In production environments of Loki this is handled by a seperate cache service such as memcached.
+- **query_range**: This is configured to tell Loki to use inbuilt caching for query results. In production environments of Loki this is handled by a separate cache service such as memcached.
 
 - **limits_config**: Defines the global limits for all Loki tenants. This includes enabling specific features such as metric aggregation and structured metadata. Limits can be defined on a per tenant basis, however this is considered an advanced configuration and for most use cases the global limits are sufficient.
 

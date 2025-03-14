@@ -1,6 +1,6 @@
-# Deploy the Loki stack
+# Deploy the Loki Stack
 
-**To deploy the Loki stack locally, follow these steps:**
+**To deploy the Loki Stack locally, follow these steps:**
 
 1. Clone the Loki fundamentals repository and checkout the getting-started branch:
 
@@ -28,10 +28,10 @@
     ✔ Container loki-fundamentals-alloy-1    Started  0.4s
    ```{{copy}}
 
-With the Loki stack running, you can now verify each component is up and running:
+1. With the Loki stack running, you can now verify each component is up and running:
 
-- **Alloy**: Open a browser and navigate to [http://localhost:12345/graph]({{TRAFFIC_HOST1_12345}}/graph). You should see the Alloy UI.
+   - **Alloy**: Open a browser and navigate to [http://localhost:12345/graph]({{TRAFFIC_HOST1_12345}}/graph). You should see the Alloy UI.
 
-- **Grafana**: Open a browser and navigate to [http://localhost:3000]({{TRAFFIC_HOST1_3000}}). You should see the Grafana home page.
+   - **Grafana**: Open a browser and navigate to [http://localhost:3000]({{TRAFFIC_HOST1_3000}}). You should see the Grafana home page.
 
-- **Loki**: Open a browser and navigate to [http://localhost:3100/metrics]({{TRAFFIC_HOST1_3100}}/metrics). You should see the Loki metrics page.
+   - **Loki**: Open a browser and navigate to [http://localhost:3100/metrics]({{TRAFFIC_HOST1_3100}}/metrics). You should see the Loki metrics page.
