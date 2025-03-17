@@ -45,6 +45,7 @@ func (r *Renderer) renderCodeSpan(w util.BufWriter, source []byte, node ast.Node
 	}
 
 	r.write(w, '`')
+
 	if r.Config.KillercodaActions {
 		if _, ok := node.AttributeString("data-killercoda-copy"); ok {
 			r.write(w, "{{copy}}")
@@ -54,19 +55,18 @@ func (r *Renderer) renderCodeSpan(w util.BufWriter, source []byte, node ast.Node
 	return ast.WalkContinue, nil
 }
 
+// renderEmphasis renders emphasis.
+// Correctly rendering emphasis is a lot more complicated that this function.
+// https://spec.commonmark.org/0.31.2/#emphasis-and-strong-emphasis
 func (r *Renderer) renderEmphasis(w util.BufWriter, source []byte, node ast.Node, entering bool) (ast.WalkStatus, error) {
 	n := node.(*ast.Emphasis)
-
 	delim := "_"
+
 	if n.Level == 2 {
 		delim = "**"
 	}
 
-	if entering {
-		r.write(w, delim)
-	} else {
-		r.write(w, delim)
-	}
+	r.write(w, delim)
 
 	return ast.WalkContinue, nil
 }
@@ -85,6 +85,7 @@ func (r *Renderer) renderImage(w util.BufWriter, source []byte, node ast.Node, e
 			r.write(w, n.Title)
 			r.write(w, "\"")
 		}
+
 		r.write(w, ')')
 	}
 
@@ -105,6 +106,7 @@ func (r *Renderer) renderLink(w util.BufWriter, _ []byte, node ast.Node, enterin
 			r.write(w, n.Title)
 			r.write(w, "\"")
 		}
+
 		r.write(w, ')')
 	}
 
@@ -116,7 +118,17 @@ func (r *Renderer) renderRawHTML(w util.BufWriter, source []byte, node ast.Node,
 		return ast.WalkSkipChildren, nil
 	}
 
-	r.write(w, "<!-- raw HTML omitted -->")
+	if r.Unsafe {
+		n := node.(*ast.RawHTML)
+		l := n.Segments.Len()
+
+		for i := 0; i < l; i++ {
+			segment := n.Segments.At(i)
+			r.secureWrite(w, segment.Value(source))
+		}
+	} else {
+		r.write(w, "<!-- raw HTML omitted -->")
+	}
 
 	return ast.WalkSkipChildren, nil
 }
@@ -144,6 +156,7 @@ func (r *Renderer) renderText(w util.BufWriter, source []byte, node ast.Node, en
 	value := segment.Value(source)
 
 	r.write(w, value)
+
 	if n.HardLineBreak() {
 		r.write(w, "\n\n")
 	} else if n.SoftLineBreak() {

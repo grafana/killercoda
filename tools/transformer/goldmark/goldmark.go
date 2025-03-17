@@ -35,7 +35,8 @@ func NewWebsite() *Extension {
 			extension.Strikethrough,
 			extension.Table,
 			extension.TaskList,
-			extension.Typographer,
+			// Disable typographer because we want to keep the Markdown source as close to the rendered output as possible.
+			// extension.Typographer,
 			meta.New(meta.WithStoresInDocument()),
 		},
 		ParserOptions: []parser.Option{
