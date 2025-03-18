@@ -5,7 +5,6 @@
 Key Characteristics:
 
 - Route alert notifications by matching alerts and policies with labels
-
 - Manage when to send notifications
 
 ![Screenshot illustrating the routing of alerts with notification policies, including the configuration and flow of alerts through different notification channels](https://grafana.com/media/docs/alerting/get-started-notification-policy-tree-combo.png)

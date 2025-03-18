@@ -11,7 +11,6 @@ Head back to where you started from to continue with the [Loki documentation](ht
 For more information on Fluent Bit, refer to the following resources:
 
 - [Fluent Bit documentation](https://docs.fluentbit.io/manual/)
-
 - [Other examples of Fluent Bit configurations](https://grafana.com/docs/loki/latest/send-data/fluentbit/)
 
 # Complete metrics, logs, traces, and profiling example

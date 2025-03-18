@@ -7,7 +7,6 @@ In this step, we will set up our environment by cloning the repository that cont
    ```bash
    git clone -b fluentbit-official  https://github.com/grafana/loki-fundamentals.git
    ```{{exec}}
-
 1. Next we will spin up our observability stack using Docker Compose:
 
    ```bash

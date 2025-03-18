@@ -11,9 +11,6 @@ Notification policies also allow you to define how often notifications are sent 
 In this tutorial, you will:
 
 - Learn how alert rule grouping works.
-
 - Create a notification policy to handle grouping.
-
 - Define alert rules for a real-world scenario.
-
 - Receive and review grouped alert notifications.

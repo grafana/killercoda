@@ -28,7 +28,6 @@ Copy and paste the following component configuration at the top of the file.
 This configuration creates a [local.file_match](https://grafana.com/docs/alloy/latest/reference/components/local/local.file_match/) component named `local_files`{{copy}} which does the following:
 
 - It tells Alloy which files to source.
-
 - It checks for new files every 5 seconds.
 
 ## Second component: Scraping
@@ -46,10 +45,8 @@ Copy and paste the following component configuration below the previous componen
 This configuration creates a [`loki.source.file`{{copy}}](https://grafana.com/docs/alloy/latest/reference/components/loki/loki.source.file/) component named `log_scrape`{{copy}} which does the following:
 
 - It connects to the `local_files`{{copy}} component as its source or target.
-
 - It forwards the logs it scrapes to the receiver of another component called `filter_logs`{{copy}}.
-
-- It provides extra attributes and options to tail the log files from the end so you don’t ingest the entire log file history.
+- It provides extra attributes and options to tail the log files from the end so you don't ingest the entire log file history.
 
 ## Third component: Filter non-essential logs
 
@@ -71,18 +68,14 @@ Copy and paste the following component configuration below the previous componen
 ```{{copy}}
 
 The `loki.process`{{copy}} component allows you to transform, filter, parse, and enrich log data.
-Within this component, you can define one or more processing stages to specify how you would like to process log entries before they’re stored or forwarded.
+Within this component, you can define one or more processing stages to specify how you would like to process log entries before they're stored or forwarded.
 
 This configuration creates a [`loki.process`{{copy}}](https://grafana.com/docs/alloy/latest/reference/components/loki/loki.process/) component named `filter_logs`{{copy}} which does the following:
 
 - It receives scraped log entries from the default `log_scrape`{{copy}} component.
-
 - It uses the `stage.drop`{{copy}} block to define what to drop from the scraped logs.
-
 - It uses the `expression`{{copy}} parameter to identify the specific log entries to drop.
-
 - It uses an optional string label `drop_counter_reason`{{copy}} to show the reason for dropping the log entries.
-
 - It forwards the processed logs to the receiver of another component called `grafana_loki`{{copy}}.
 
 The [`loki.process`{{copy}}](https://grafana.com/docs/alloy/latest/reference/components/loki/loki.process/) documentation provides more comprehensive information on processing logs.
@@ -108,6 +101,6 @@ This final component creates a [`loki.write`{{copy}}](https://grafana.com/docs/a
 
 This completes the simple configuration pipeline.
 
-> The `basic_auth`{{copy}} block is commented out because the local `docker-compose`{{copy}} stack doesn’t require it. It’s included in this example to show how you can configure authorization for other environments. For further authorization options, refer to the [`loki.write`{{copy}}](https://grafana.com/docs/alloy/latest/reference/components/loki/loki.write/) component reference.
+> The `basic_auth`{{copy}} block is commented out because the local `docker-compose`{{copy}} stack doesn't require it. It's included in this example to show how you can configure authorization for other environments. For further authorization options, refer to the [`loki.write`{{copy}}](https://grafana.com/docs/alloy/latest/reference/components/loki/loki.write/) component reference.
 
 With this configuration, Alloy connects directly to the Loki instance running in the Docker container.

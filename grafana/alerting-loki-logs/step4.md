@@ -1,21 +1,17 @@
 # Create an alert rule
 
-Next, we’ll establish an [alert rule](http://grafana.com/docs/grafana/next/alerting/fundamentals/alert-rule-evaluation/) within Grafana Alerting to notify us whenever alert rules are triggered and resolved.
+Next, we'll establish an [alert rule](http://grafana.com/docs/grafana/next/alerting/fundamentals/alert-rule-evaluation/) within Grafana Alerting to notify us whenever alert rules are triggered and resolved.
 
 1. In Grafana, **navigate to Alerting** > **Alert rules**.
-
 1. Click on **New alert rule**.
-
 1. Enter alert rule name for your alert rule. Make it short and descriptive as this appears in your alert notification. For instance, **web-requests-logs**
 
 ## Define query and alert condition
 
-In this section, we use the default options for Grafana-managed alert rule creation. The default options let us define the query, a expression (used to manipulate the data – the `WHEN`{{copy}} field in the UI), and the condition that must be met for the alert to be triggered (in default mode is the threshold).
+In this section, we use the default options for Grafana-managed alert rule creation. The default options let us define the query, a expression (used to manipulate the data -- the `WHEN`{{copy}} field in the UI), and the condition that must be met for the alert to be triggered (in default mode is the threshold).
 
 1. Select the **Loki** datasource from the drop-down.
-
 1. In the Query editor, switch to **Code** mode by clicking the button on the right.
-
 1. Paste the query below.
 
    ```
@@ -30,12 +26,10 @@ In this section, we use the default options for Grafana-managed alert rule creat
    2023-04-22T02:49:32.562825+00:00 level=info method=GET url=test.com status=200 duration=171ms
    ```{{copy}}
 
-   If you’re using your own logs, modify the LogQL query to match your own log message. Refer to the Loki docs to understand the [pattern parser](https://grafana.com/docs/loki/latest/logql/log_queries/#pattern).
-
+   If you're using your own logs, modify the LogQL query to match your own log message. Refer to the Loki docs to understand the [pattern parser](https://grafana.com/docs/loki/latest/logql/log_queries/#pattern).
 1. In the **Alert condition** section:
 
    - Keep `Last`{{copy}} as the value for the reducer function (`WHEN`{{copy}}), and `0`{{copy}} as the threshold value. This is the value above which the alert rule should trigger.
-
 1. Click **Preview alert rule condition** to run the query.
 
    It should return alert instances from log lines with a status code that is not 200 (OK), and that has met the alert condition. The condition for the alert rule to fire is any occurrence that goes over the threshold of `0`{{copy}}. Since the Loki query has returned more than zero alert instances, the alert rule is `Firing`{{copy}}.
@@ -47,18 +41,14 @@ In this section, we use the default options for Grafana-managed alert rule creat
 An [evaluation group](https://grafana.com/docs/grafana/latest/alerting/fundamentals/alert-rules/rule-evaluation/) defines when an alert rule fires, and it’s based on two settings:
 
 - **Evaluation group**: how frequently the alert rule is evaluated.
-
 - **Evaluation interval**: how long the condition must be met to start firing. This allows your data time to stabilize before triggering an alert, helping to reduce the frequency of unnecessary notifications.
 
 To set up the evaluation:
 
 1. In **Folder**, click **+ New folder** and enter a name. For example: _web-server-alerts_. This folder contains our alerts.
-
 1. In the **Evaluation group**, repeat the above step to create a new evaluation group. Name it _1m-evaluation_.
-
 1. Choose an **Evaluation interval** (how often the alert are evaluated).
    For example, every `1m`{{copy}} (1 minute).
-
 1. Set the pending period to, `0s`{{copy}} (zero seconds), so the alert rule fires the moment the condition is met.
 
 ## Configure labels and notifications
@@ -66,5 +56,4 @@ To set up the evaluation:
 Choose the contact point where you want to receive your alert notifications.
 
 1. Under **Contact point**, select **Webhook** from the drop-down menu.
-
 1. Click **Save rule and exit** at the top right corner.

@@ -9,9 +9,7 @@ Grafana Alloy requires a configuration file to define the components and their r
 **Note: Killercoda has an inbuilt Code editor which can be accessed via the `Editor`{{copy}} tab.**
 
 1. Expand the `loki-fundamentals`{{copy}} directory in the file explorer of the `Editor`{{copy}} tab.
-
 1. Locate the `config.alloy`{{copy}} file in the top level directory, `loki-fundamentals'.
-
 1. Click on the `config.alloy`{{copy}} file to open it in the code editor.
 
 You will copy all three of the following configuration snippets into the `config.alloy`{{copy}} file.
@@ -36,9 +34,7 @@ Now add the following configuration to the `config.alloy`{{copy}} file:
 In this configuration:
 
 - `http`{{copy}}: The HTTP configuration for the receiver. This configuration is used to receive logs in the OpenTelemetry format via HTTP.
-
 - `grpc`{{copy}}: The gRPC configuration for the receiver. This configuration is used to receive logs in the OpenTelemetry format via gRPC.
-
 - `output`{{copy}}: The list of processors to forward the logs to. In this case, we are forwarding the logs to the `otelcol.processor.batch.default.input`{{copy}}.
 
 For more information on the `otelcol.receiver.otlp`{{copy}} configuration, see the [OpenTelemetry Receiver OTLP documentation](https://grafana.com/docs/alloy/latest/reference/components/otelcol.receiver.otlp/).

@@ -13,7 +13,6 @@ This Docker Compose file includes Loki and Prometheus configured as data sources
    cd alloy-tutorial
    touch docker-compose.yml
    ```{{exec}}
-
 1. Copy the following Docker Compose file into `docker-compose.yml`{{copy}}.
    > We recommend using the `Editor`{{copy}} tab to copy and paste the Docker Compose file. However, you can also use a terminal editor like `nano`{{copy}} or `vim`{{copy}}.
 
@@ -68,11 +67,9 @@ This Docker Compose file includes Loki and Prometheus configured as data sources
         ports:
           - "3000:3000"
    ```{{copy}}
-
 1. To start the local Grafana instance, run the following command.
 
    ```bash
     docker-compose up -d
    ```{{exec}}
-
 1. Open [http://localhost:3000]({{TRAFFIC_HOST1_3000}}) in your browser to access the Grafana UI.
