@@ -68,7 +68,6 @@ func TestRenderDocument(t *testing.T) {
 		"   ```bash\n" +
 		"   echo 'Hello, world!'\n" +
 		"   ```\n" +
-		"\n" +
 		"1. of two items\n")
 	root := md.Parser().Parse(text.NewReader(src))
 
@@ -121,15 +120,10 @@ func TestRenderList(t *testing.T) {
 	md := goldmark.New(goldmark.WithExtensions(NewRenderer()))
 
 	src := []byte(`- One
-
   - A
-
 - Two
-
   - B
-
 - Three
-
   - C
 `)
 	root := md.Parser().Parse(text.NewReader(src))

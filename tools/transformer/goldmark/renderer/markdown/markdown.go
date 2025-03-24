@@ -90,6 +90,31 @@ func (r *Renderer) write(w util.BufWriter, writee any) {
 	}
 }
 
+// secureWrite writes the source to the buf writer, replacing any null characters with the replacement character.
+// https://github.com/yuin/goldmark/blob/04410ff159c9f5fd61c2988402355e44ec9197f5/renderer/html/html.go#L869-L884
+func (r *Renderer) secureWrite(w util.BufWriter, source []byte) {
+	var (
+		n int
+		l = len(source)
+	)
+
+	for i := 0; i < l; i++ {
+		if source[i] == '\u0000' {
+			r.write(w, source[i-n:i])
+			n = 0
+			r.write(w, []byte("\ufffd"))
+
+			continue
+		}
+
+		n++
+	}
+
+	if n != 0 {
+		r.write(w, source[l-n:])
+	}
+}
+
 func (r *Renderer) writeLines(w util.BufWriter, source []byte, n ast.Node) {
 	for i := 0; i < n.Lines().Len(); i++ {
 		line := n.Lines().At(i)
@@ -99,12 +124,14 @@ func (r *Renderer) writeLines(w util.BufWriter, source []byte, n ast.Node) {
 
 type Config struct {
 	KillercodaActions bool
+	Unsafe            bool
 }
 
 // NewConfig returns a new Config with defaults.
 func NewConfig() Config {
 	return Config{
 		KillercodaActions: false,
+		Unsafe:            false,
 	}
 }
 
@@ -113,6 +140,8 @@ func (c *Config) SetOption(name renderer.OptionName, value interface{}) {
 	switch name {
 	case optKillercodaActions:
 		c.KillercodaActions = value.(bool)
+	case optUnsafe:
+		c.Unsafe = value.(bool)
 	}
 }
 
@@ -123,8 +152,7 @@ type Option interface {
 
 const optKillercodaActions renderer.OptionName = "KillercodaActions"
 
-type withKillercodaActions struct {
-}
+type withKillercodaActions struct{}
 
 func (o *withKillercodaActions) SetConfig(c *renderer.Config) {
 	c.Options[optKillercodaActions] = true
@@ -141,6 +169,26 @@ func WithKillercodaActions() interface {
 	Option
 } {
 	return &withKillercodaActions{}
+}
+
+const optUnsafe renderer.OptionName = "Unsafe"
+
+type withUnsafe struct{}
+
+func (o *withUnsafe) SetConfig(c *renderer.Config) {
+	c.Options[optUnsafe] = true
+}
+
+func (o *withUnsafe) SetMarkdownOption(c *Config) {
+	c.Unsafe = true
+}
+
+// WithUnsafe decides whether to render unsafe HTML.
+func WithUnsafe() interface {
+	renderer.Option
+	Option
+} {
+	return &withUnsafe{}
 }
 
 type Renderer struct {

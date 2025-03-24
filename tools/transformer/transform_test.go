@@ -396,9 +396,7 @@ The Docker Compose configuration instantiates the following components, each in 
 
 - **flog** a sample application which generates log lines.
   [flog](https://github.com/mingrammer/flog) is a log generator for common log formats.
-
 - **Grafana Alloy** which scrapes the log lines from flog, and pushes them to Loki through the gateway.
-
 - **Grafana** which provides visualization of the log lines captured within Loki.
 `
 
