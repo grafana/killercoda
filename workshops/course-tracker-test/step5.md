@@ -16,7 +16,7 @@ To break this down:
 
 - `msg="192.168.65.1 - - [21/Feb/2025 16:09:42] "GET /static/style.css HTTP/1.1" 304 -"`{{copy}} is the log message.
 
-When querying Loki, you can pipe the result of the label selector through a formatter. This extracts attributes from the log line for further processing. For example lets pipe `{container="greenhouse-main_app-1"}`{{copy}} through the `logfmt`{{copy}} formatter to extract the `level`{{copy}} and `line`{{copy}} attributes:
+When querying Loki, you can pipe the result of the label selector through a parser. This extracts attributes from the log line for further processing. For example, lets pipe `{container="greenhouse-main_app-1"}`{{copy}} through the `logfmt`{{copy}} parser to extract the `level`{{copy}} and `line`{{copy}} attributes:
 
 ```logql
 {container="greenhouse-main_app-1"} | logfmt

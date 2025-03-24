@@ -1,7 +1,7 @@
 # A look under the hood
 
 At this point you will have a running Loki Stack and a sample application generating logs. You have also queried Loki using Grafana Logs Drilldown and Grafana Explore.
-In this next section we will take a look under the hood to understand how the Loki Stack has been configured to collect logs, the Loki configuration file, and how the Loki datasource has been configured in Grafana.
+In this next section we will take a look under the hood to understand how the Loki Stack has been configured to collect logs, the Loki configuration file, and how the Loki data source has been configured in Grafana.
 
 ## Grafana Alloy configuration
 

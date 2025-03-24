@@ -1,4 +1,4 @@
-# Grafana Loki Datasource
+# Grafana Loki Data source
 
 The final piece of the puzzle is the Grafana Loki datasource. This is used by Grafana to connect to Loki and query the logs. Grafana has multiple ways to define a datasource;
 
@@ -8,7 +8,7 @@ The final piece of the puzzle is the Grafana Loki datasource. This is used by Gr
 
 - **API**: This is where you use the Grafana API to create the datasource.
 
-In this case we are using the provisioning method. Instead of mounting the Grafana configuration directory, we have defined the datasource in the `docker-compose.yml`{{copy}} file:
+In this case we are using the provisioning method. Instead of mounting the Grafana configuration directory, we have defined the data source in this portion of the `docker-compose.yml`{{copy}} file:
 
 ```yaml
   grafana:
