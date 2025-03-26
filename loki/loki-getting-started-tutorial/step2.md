@@ -2,7 +2,7 @@ Since Grafana Alloy is configured to tail logs from all Docker containers, Loki 
 
 ![Grafana Logs Drilldown](https://grafana.com/media/docs/loki/get-started-drill-down.png)
 
-If you have only the getting started demo deployed in your docker environment, you should see three containers and their logs; `loki-fundamentals-alloy-1`{{copy}}, `loki-fundamentals-grafana-1`{{copy}} and `loki-fundamentals-loki-1`{{copy}}.  In the `loki-fundamentals-loki-1`{{copy}} container, click **Show Logs**  to drill down into the logs for that container.
+If you have only the getting started demo deployed in your Docker environment, you should see three containers and their logs; `loki-fundamentals-alloy-1`{{copy}}, `loki-fundamentals-grafana-1`{{copy}} and `loki-fundamentals-loki-1`{{copy}}.  In the `loki-fundamentals-loki-1`{{copy}} container, click **Show Logs**  to drill down into the logs for that container.
 
 ![Grafana Drilldown Service View](https://grafana.com/media/docs/loki/get-started-drill-down-container.png)
 

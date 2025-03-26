@@ -1,6 +1,6 @@
-# Deploy the Loki Stack
+# Deploy the Loki stack
 
-**To deploy the Loki Stack locally, follow these steps:**
+**To deploy the Loki stack locally, follow these steps:**
 
 1. Clone the Loki fundamentals repository and checkout the getting-started branch:
 
