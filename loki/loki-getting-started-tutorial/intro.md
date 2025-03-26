@@ -1,4 +1,4 @@
-# Quickstart to run Loki locally
+# Loki Tutorial
 
 This quick start guide will walk you through deploying Loki in single binary mode (also known as [monolithic mode](https://grafana.com/docs/loki/latest/get-started/deployment-modes/#monolithic-mode)) using Docker Compose. Grafana Loki is only one component of the Grafana observability stack for logs. In this tutorial we will refer to this stack as the **Loki Stack**.
 
