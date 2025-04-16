@@ -8,25 +8,21 @@ To learn more, read the [local storage example README](https://github.com/grafan
    ```bash
    git clone https://github.com/grafana/tempo.git
    ```{{exec}}
-
 1. Go into the examples directory:
 
    ```bash
    cd tempo/example/docker-compose/local
    ```{{exec}}
-
 1. Create a new directory to store data:
 
    ```bash
    mkdir tempo-data
    ```{{exec}}
-
 1. Start the services defined in the docker-compose file:
 
    ```bash
    docker compose up -d
    ```{{exec}}
-
 1. Verify that the services are running:
 
    ```bash

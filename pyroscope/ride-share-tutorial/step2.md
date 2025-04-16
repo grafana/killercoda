@@ -8,7 +8,7 @@ In this example, the application is instrumented with Pyroscope using the Python
 The SDK allows you to tag functions with metadata that can be used to filter and group the profile data in the Profiles Drilldown.
 This example uses static and dynamic tagging.
 
-To start, let’s take a look at a static tag use case. Within the `server.py`{{copy}} file, find the Pyroscope configuration:
+To start, let's take a look at a static tag use case. Within the `server.py`{{copy}} file, find the Pyroscope configuration:
 
 ```python
  pyroscope.configure(
@@ -22,15 +22,12 @@ To start, let’s take a look at a static tag use case. Within the `server.py`{{
  )
 ```{{copy}}
 
-This tag is considered static is because the tag is set at the start of the application and doesn’t change.
-In this case, it’s useful for grouping profiles on a per region basis, which lets you see the performance of the application per region.
+This tag is considered static is because the tag is set at the start of the application and doesn't change.
+In this case, it's useful for grouping profiles on a per region basis, which lets you see the performance of the application per region.
 
 1. Open Grafana using the following url: [http://localhost:3000/a/grafana-pyroscope-app/profiles-explorer]({{TRAFFIC_HOST1_3000}}/a/grafana-pyroscope-app/profiles-explorer).
-
 1. In the main menu, select **Explore** > **Profiles**.
-
 1. Select  **Labels** in the **Exploration** path.
-
 1. Select the **region** tab in the **Group by labels** section.
 
 You should now see a list of regions that the application is running in. You can see that `eu-north`{{copy}} is experiencing the most load.
@@ -57,9 +54,7 @@ This is useful for grouping profiles on a per vehicle basis. Allowing us to see 
 Use Profiles Drilldown to see how this tag is used:
 
 1. Open Profiles Drilldown using the following url: [http://localhost:3000/a/grafana-pyroscope-app/profiles-explorer]({{TRAFFIC_HOST1_3000}}/a/grafana-pyroscope-app/profiles-explorer).
-
 1. Select on **Labels** in the **Exploration** path.
-
 1. In the **Group by labels** section, select the **vehicle** tab.
 
 You should now see a list of vehicle types that the application is using. You can see that `car`{{copy}} is experiencing the most load.

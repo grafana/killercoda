@@ -9,9 +9,7 @@ Fluent Bit requires a configuration file to define the components and their rela
 > Note: Killercoda has an inbuilt Code editor which can be accessed via the `Editor`{{copy}} tab.
 
 1. Expand the `loki-fundamentals`{{copy}} directory in the file explorer of the `Editor`{{copy}} tab.
-
 1. Locate the `fluent-bit.conf`{{copy}} file in the top level directory, `loki-fundamentals`{{copy}}.
-
 1. Click on the `fluent-bit.conf`{{copy}} file to open it in the code editor.
 
 You will copy all of the configuration snippets into the `fluent-bit.conf`{{copy}} file.
@@ -32,9 +30,7 @@ Now add the following configuration to the `fluent-bit.conf`{{copy}} file:
 In this configuration:
 
 - `Name`{{copy}}: The name of the input plugin. In this case, we are using the `forward`{{copy}} input plugin.
-
 - `Listen`{{copy}}: The IP address to listen on. In this case, we are listening on all IP addresses.
-
 - `Port`{{copy}}: The port to listen on. In this case, we are listening on port `24224`{{copy}}.
 
 For more information on the `forward`{{copy}} input plugin, see the [Fluent Bit Forward documentation](https://docs.fluentbit.io/manual/pipeline/inputs/forward).
@@ -58,15 +54,10 @@ Add the following configuration to the `fluent-bit.conf`{{copy}} file:
 In this configuration:
 
 - `name`{{copy}}: The name of the output plugin. In this case, we are using the `loki`{{copy}} output plugin.
-
 - `match`{{copy}}: The tag to match. In this case, we are matching all logs with the tag `service.**`{{copy}}.
-
 - `host`{{copy}}: The hostname of the Loki service. In this case, we are using the hostname `loki`{{copy}}.
-
 - `port`{{copy}}: The port of the Loki service. In this case, we are using port `3100`{{copy}}.
-
 - `labels`{{copy}}: Additional labels to add to the logs. In this case, we are adding the label `agent=fluent-bit`{{copy}}.
-
 - `label_map_path`{{copy}}: The path to the label map file. In this case, we are using the file `logmap.json`{{copy}}.
 
 For more information on the `loki`{{copy}} output plugin, see the [Fluent Bit Loki documentation](https://docs.fluentbit.io/manual/pipeline/outputs/loki).

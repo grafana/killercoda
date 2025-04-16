@@ -9,9 +9,7 @@ Grafana Alloy requires a configuration file to define the components and their r
 **Note: Killercoda has an inbuilt Code editor which can be accessed via the `Editor`{{copy}} tab.**
 
 1. Expand the `loki-fundamentals`{{copy}} directory in the file explorer of the `Editor`{{copy}} tab.
-
 1. Locate the `config.alloy`{{copy}} file in the `loki-fundamentals`{{copy}} directory (Top level directory).
-
 1. Click on the `config.alloy`{{copy}} file to open it in the code editor.
 
 You will copy all three of the following configuration snippets into the `config.alloy`{{copy}} file.
@@ -38,15 +36,10 @@ loki.source.kafka "raw" {
 In this configuration:
 
 - `brokers`{{copy}}: The Kafka brokers to connect to.
-
 - `topics`{{copy}}: The Kafka topics to consume. In this case, we are consuming the `loki`{{copy}} topic.
-
 - `forward_to`{{copy}}: The list of receivers to forward the logs to. In this case, we are forwarding the logs to the `loki.write.http.receiver`{{copy}}.
-
 - `relabel_rules`{{copy}}: The relabel rules to apply to the incoming logs. This can be used to generate labels from the temporary internal labels that are added by the Kafka source.
-
 - `version`{{copy}}: The Kafka protocol version to use.
-
 - `labels`{{copy}}: The labels to add to the incoming logs. In this case, we are adding a `service_name`{{copy}} label with the value `raw_kafka`{{copy}}. This will be used to identify the logs from the raw Kafka source in the Log Explorer App in Grafana.
 
 For more information on the `loki.source.kafka`{{copy}} configuration, see the [Loki Kafka Source documentation](https://grafana.com/docs/alloy/latest/reference/components/loki.source.kafka/).
@@ -70,7 +63,6 @@ loki.relabel "kafka" {
 In this configuration:
 
 - `forward_to`{{copy}}: The list of receivers to forward the logs to. In this case, we are forwarding the logs to the `loki.write.http.receiver`{{copy}}. Though in this case, we are directly calling the rule from the `loki.source.kafka`{{copy}} component. So `forward_to`{{copy}} is being used as a placeholder as it is required by the `loki.relabel`{{copy}} component.
-
 - `rule`{{copy}}: The relabeling rule to apply to the incoming logs. In this case, we are renaming the `__meta_kafka_topic`{{copy}} label to `topic`{{copy}}.
 
 For more information on the `loki.relabel`{{copy}} configuration, see the [Loki Relabel documentation](https://grafana.com/docs/alloy/latest/reference/components/loki.relabel/).

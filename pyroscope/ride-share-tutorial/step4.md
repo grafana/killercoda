@@ -1,6 +1,6 @@
 # How was Pyroscope integrated with Grafana in this tutorial?
 
-The `docker-compose.yml`{{copy}} file includes a Grafana container that’s pre-configured with the Pyroscope plugin:
+The `docker-compose.yml`{{copy}} file includes a Grafana container that's pre-configured with the Pyroscope plugin:
 
 ```yaml
   grafana:
