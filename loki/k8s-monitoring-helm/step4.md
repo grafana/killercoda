@@ -9,7 +9,6 @@ helm install --values grafana-values.yml grafana grafana/grafana --namespace met
 As before, the command also includes a `values`{{copy}} file that specifies the configuration for Grafana. There are two important configuration attributes to take note of:
 
 1. `adminUser`{{copy}} and `adminPassword`{{copy}}: These are the credentials you will use to log in to Grafana. The values are `admin`{{copy}} and `adminadminadmin`{{copy}} respectively. The recommended practice is to either use a Kubernetes secret or allow Grafana to generate a password for you. For more details on how to configure the Grafana Helm chart, refer to the Grafana Helm [documentation](https://grafana.com/docs/grafana/latest/installation/helm/).
-
 1. `datasources`{{copy}}: This section of the configuration lets you define the data sources that Grafana should use. In this tutorial, you will define a Loki data source. The data source is defined as follows:
 
    ```yaml

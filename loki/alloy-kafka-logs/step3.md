@@ -28,13 +28,9 @@ otelcol.receiver.kafka "default" {
 In this configuration:
 
 - `brokers`{{copy}}: The Kafka brokers to connect to.
-
 - `protocol_version`{{copy}}: The Kafka protocol version to use.
-
 - `topic`{{copy}}: The Kafka topic to consume. In this case, we are consuming the `otlp`{{copy}} topic.
-
 - `encoding`{{copy}}: The encoding of the incoming logs. Which decodes messages as OTLP protobuf.
-
 - `output`{{copy}}: The list of receivers to forward the logs to. In this case, we are forwarding the logs to the `otelcol.processor.batch.default.input`{{copy}}.
 
 For more information on the `otelcol.receiver.kafka`{{copy}} configuration, see the [OpenTelemetry Receiver Kafka documentation](https://grafana.com/docs/alloy/latest/reference/components/otelcol.receiver.kafka/).

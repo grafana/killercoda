@@ -7,19 +7,16 @@ To observe data using the Grafana stack, download and run the following files.
    ```bash
    git clone https://github.com/tonypowa/grafana-prometheus-alerting-demo.git
    ```{{exec}}
-
 1. Change to the directory where you cloned the repository:
 
    ```bash
    cd grafana-prometheus-alerting-demo
    ```{{exec}}
-
 1. Build the Grafana stack:
 
    ```bash
    docker-compose build
    ```{{exec}}
-
 1. Bring up the containers:
 
    ```bash

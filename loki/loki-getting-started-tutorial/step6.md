@@ -1,15 +1,15 @@
 # A look under the hood
 
-At this point you will have a running Loki Stack and a sample application generating logs. You have also queried Loki using Grafana Logs Drilldown and Grafana Explore.
-In this next section we will take a look under the hood to understand how the Loki Stack has been configured to collect logs, the Loki configuration file, and how the Loki data source has been configured in Grafana.
+At this point you will have a running Loki stack and a sample application generating logs. You have also queried Loki using Grafana Logs Drilldown and Grafana Explore.
+In this next section we will take a look under the hood to understand how the Loki stack has been configured to collect logs, the Loki configuration file, and how the Loki data source has been configured in Grafana.
 
 ## Grafana Alloy configuration
 
-Grafana Alloy is collecting logs from all the docker containers and forwarding them to Loki.
+Grafana Alloy is collecting logs from all the Docker containers and forwarding them to Loki.
 It needs a configuration file to know which logs to collect and where to forward them to. Within the `loki-fundamentals`{{copy}} directory, you will find a file called `config.alloy`{{copy}}:
 
 ```alloy
-// This component is responsible for disovering new containers within the docker environment
+// This component is responsible for discovering new containers within the Docker environment
 discovery.docker "getting_started" {
 	host             = "unix:///var/run/docker.sock"
 	refresh_interval = "5s"
@@ -64,7 +64,7 @@ This configuration file can be viewed visually via the Alloy UI at [http://local
 
 In this view you can see the components of the Alloy configuration file and how they are connected:
 
-- **discovery.docker**: This component queries the metadata of the docker environment via the docker socket and discovers new containers, as well as providing metadata about the containers.
+- **discovery.docker**: This component queries the metadata of the Docker environment via the Docker socket and discovers new containers, as well as providing metadata about the containers.
 
 - **discovery.relabel**: This component converts a metadata (`__meta_docker_container_name`{{copy}}) label into a Loki label (`container`{{copy}}).
 

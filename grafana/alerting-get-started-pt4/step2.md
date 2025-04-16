@@ -14,6 +14,6 @@ The real power of templating lies in how it helps you format notifications with 
 
 Notification templates allow you to customize how information is presented in each notification. For example, you can use templates to organize and format details about firing or resolved alerts, making it easier for recipients to understand the status of each alert at a glance—all within a single notification.
 
-This particular notification template pulls in summary and description annotations for each alert instance and organizes them into separate sections, such as “firing” and “resolved.” This way, instead of getting a long list of individual alert notifications, users can receive one well-structured message with all the relevant details grouped together.
+This particular notification template pulls in summary and description annotations for each alert instance and organizes them into separate sections, such as "firing" and "resolved." This way, instead of getting a long list of individual alert notifications, users can receive one well-structured message with all the relevant details grouped together.
 
 This approach is helpful when you want to reduce notification noise, especially in situations where multiple instances of an alert are firing at the same time (e.g., high CPU usage across several instances). You can leverage templates to create a unified, easy-to-read notification that includes all the pertinent details.

@@ -25,9 +25,7 @@ prometheus.scrape "scrape_metrics" {
 This configuration creates a [`prometheus.scrape`{{copy}}](https://grafana.com/docs/alloy/latest/reference/components/prometheus/prometheus.scrape/) component named `scrape_metrics`{{copy}} which does the following:
 
 - It connects to the `local_system`{{copy}} component as its source or target.
-
 - It forwards the metrics it scrapes to the receiver of another component called `filter_metrics`{{copy}}.
-
 - It tells Alloy to scrape metrics every 10 seconds.
 
 ## Second component: Filter metrics
@@ -52,14 +50,12 @@ prometheus.relabel "filter_metrics" {
 
 The [`prometheus.relabel`{{copy}}](https://grafana.com/docs/alloy/latest/reference/components/prometheus/prometheus.relabel/) component is commonly used to filter Prometheus metrics or standardize the label set passed to one or more downstream receivers.
 You can use this component to rewrite the label set of each metric sent to the receiver.
-Within this component, you can define rule blocks to specify how you would like to process metrics before they’re stored or forwarded.
+Within this component, you can define rule blocks to specify how you would like to process metrics before they're stored or forwarded.
 
 This configuration creates a [`prometheus.relabel`{{copy}}](https://grafana.com/docs/alloy/latest/reference/components/prometheus/prometheus.relabel/) component named `filter_metrics`{{copy}} which does the following:
 
 - It receives scraped metrics from the `scrape_metrics`{{copy}} component.
-
 - It tells Alloy to drop metrics that have an `"env"`{{copy}} label equal to `"dev"`{{copy}}.
-
 - It forwards the processed metrics to the receiver of another component called `metrics_service`{{copy}}.
 
 ## Third component: Write metrics to Prometheus
@@ -83,6 +79,6 @@ This final component creates a [`prometheus.remote_write`{{copy}}](https://grafa
 
 This completes the simple configuration pipeline.
 
-> The `basic_auth`{{copy}} is commented out because the local `docker-compose`{{copy}} stack doesn’t require it. It’s included in this example to show how you can configure authorization for other environments. For further authorization options, refer to the [`prometheus.remote_write`{{copy}}](https://grafana.com/docs/alloy/latest/reference/components/prometheus/prometheus.remote_write/) component documentation.
+> The `basic_auth`{{copy}} is commented out because the local `docker-compose`{{copy}} stack doesn't require it. It's included in this example to show how you can configure authorization for other environments. For further authorization options, refer to the [`prometheus.remote_write`{{copy}}](https://grafana.com/docs/alloy/latest/reference/components/prometheus/prometheus.remote_write/) component documentation.
 
 This connects directly to the Prometheus instance running in the Docker container.

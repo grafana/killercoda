@@ -5,7 +5,6 @@
    git clone https://github.com/grafana/mimir.git
    cd mimir
    ```{{exec}}
-
 1. Navigate to the tutorial directory:
    ```bash
    cd docs/sources/mimir/get-started/play-with-grafana-mimir/

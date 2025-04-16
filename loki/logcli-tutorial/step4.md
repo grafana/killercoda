@@ -23,7 +23,6 @@ cat ./inventory/complete.log |  logcli --stdin query '{service_name="Delivery Wo
 Note that since we are querying a static log file, labels are not automatically detected:
 
 - `{service_name="Delivery World"}`{{copy}} is optional in this case but is recommended for clarity.
-
 - `json`{{copy}} is required to parse the log file as JSON. This lets us extract the `package_status`{{copy}} field.
 
 For example, suppose we try to query the log file without the `json`{{copy}} filter:

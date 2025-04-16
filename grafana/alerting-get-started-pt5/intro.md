@@ -5,7 +5,5 @@ In this tutorial, we focus on optimizing your alerting strategy using Grafana fo
 In this tutorial you will learn how to:
 
 - Leverage notification policies for **dynamic routing based on query values**: Use notification policies to route alerts based on dynamically generated labels, in a way that critical alerts reach the on-call team and less urgent ones go to a general monitoring channel.
-
 - Set **mute timings** to suppress certain alerts during maintenance or weekends.
-
 - **Link alerts to dashboards** to provide more context to resolve issues.

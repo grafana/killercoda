@@ -1,12 +1,12 @@
 # Meta queries
 
-As site managers, it’s essential to maintain good data hygiene and ensure Loki operates efficiently. Understanding the labels and log volume in your logs plays a key role in this process. Beyond querying logs, LogCLI also supports meta queries on your Loki instance. Meta queries don’t return log data but provide insights into the structure of your logs and the performance of your queries. The following examples demonstrate some of the core meta queries we run internally to better understand how a Loki instance is performing.
+As site managers, it's essential to maintain good data hygiene and ensure Loki operates efficiently. Understanding the labels and log volume in your logs plays a key role in this process. Beyond querying logs, LogCLI also supports meta queries on your Loki instance. Meta queries don't return log data but provide insights into the structure of your logs and the performance of your queries. The following examples demonstrate some of the core meta queries we run internally to better understand how a Loki instance is performing.
 
 ## Checking series cardinality
 
 One of the most important aspects of keeping Loki healthy is to monitor the series cardinality. This is the number of unique series in your logs. A high series cardinality can lead to performance issues and increased storage costs. We can use LogCLI to check the series cardinality of our logs.
 
-To start let’s print how many unique series we have in our logs:
+To start let's print how many unique series we have in our logs:
 
 ```bash
 logcli series '{}'
@@ -80,7 +80,7 @@ You can now see why we opted to keep `package_id`{{copy}} in structured metadata
 Another important aspect of keeping Loki healthy is to monitor the query performance. We can use LogCLI to check the query performance of our logs.
 
 > **Note:**
-> The LogCLI can only return statistics for queries that touch object storage. In this example we force the Loki ingesters to flush chunks every 5 minutes which isn’t recommended for production use. When running this demo if you don’t see any statistics returned, try running the command again after a few minutes.
+> The LogCLI can only return statistics for queries that touch object storage. In this example we force the Loki ingesters to flush chunks every 5 minutes which isn't recommended for production use. When running this demo if you don't see any statistics returned, try running the command again after a few minutes.
 
 To start lets print the query performance of our logs:
 

@@ -7,7 +7,6 @@ In this step, we will set up our environment by cloning the repository that cont
    ```bash
    git clone -b microservice-kafka  https://github.com/grafana/loki-fundamentals.git
    ```{{exec}}
-
 1. Next we will spin up our observability stack using Docker Compose:
 
    ```bash
@@ -27,5 +26,4 @@ In this step, we will set up our environment by cloning the repository that cont
 We will be access two UI interfaces:
 
 - Alloy at [http://localhost:12345]({{TRAFFIC_HOST1_12345}})
-
 - Grafana at [http://localhost:3000]({{TRAFFIC_HOST1_3000}})
