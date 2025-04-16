@@ -5,7 +5,6 @@
    ```bash
    git clone https://github.com/grafana/pyroscope.git && cd pyroscope
    ```{{exec}}
-
 1. Navigate to the tutorial directory:
 
    ```bash

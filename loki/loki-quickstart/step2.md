@@ -12,26 +12,21 @@ You can view your logs using the command line interface, [LogCLI](https://grafan
    The Grafana instance in this demonstration has a Loki [data source](https://grafana.com/docs/grafana/latest/datasources/loki/) already configured.
 
    ![Grafana Explore](https://grafana.com/media/docs/loki/grafana-query-builder-v2.png)
-
 1. From the Grafana main menu, click the **Explore** icon (1) to open the Explore tab.
 
    To learn more about Explore, refer to the [Explore](https://grafana.com/docs/grafana/latest/explore/) documentation.
-
 1. From the menu in the dashboard header, select the Loki data source (2).
 
    This displays the Loki query editor.
 
    In the query editor you use the Loki query language, [LogQL](https://grafana.com/docs/loki/latest/query/), to query your logs.
    To learn more about the query editor, refer to the [query editor documentation](https://grafana.com/docs/grafana/latest/datasources/loki/query-editor/).
-
 1. The Loki query editor has two modes (3):
 
    - [Builder mode](https://grafana.com/docs/grafana/latest/datasources/loki/query-editor/#builder-mode), which provides a visual query designer.
-
    - [Code mode](https://grafana.com/docs/grafana/latest/datasources/loki/query-editor/#code-mode), which provides a feature-rich editor for writing LogQL queries.
 
    Next we’ll walk through a few simple queries using both the builder and code views.
-
 1. Click **Code** (3) to work in Code mode in the query editor.
 
    Here are some sample queries to get you started using LogQL.
@@ -53,25 +48,21 @@ You can view your logs using the command line interface, [LogCLI](https://grafan
 
       Loki queries always start with a label selector.
       In the previous query, the label selector is `{container="evaluate-loki_flog_1"}`{{copy}}.
-
    1. To view all the log lines which have the container label `evaluate-loki_grafana_1`{{copy}}:
 
       ```bash
       {container="evaluate-loki_grafana_1"}
       ```{{copy}}
-
    1. Find all the log lines in the `{container="evaluate-loki_flog_1"}`{{copy}} stream that contain the string `status`{{copy}}:
 
       ```bash
       {container="evaluate-loki_flog_1"} |= `status`
       ```{{copy}}
-
    1. Find all the log lines in the `{container="evaluate-loki_flog_1"}`{{copy}} stream where the JSON field `status`{{copy}} has the value `404`{{copy}}:
 
       ```bash
       {container="evaluate-loki_flog_1"} | json | status=`404`
       ```{{copy}}
-
    1. Calculate the number of logs per second where the JSON field `status`{{copy}} has the value `404`{{copy}}:
 
       ```bash
@@ -83,15 +74,11 @@ You can view your logs using the command line interface, [LogCLI](https://grafan
 
    You can change the type of graph for a different view of the data.
    Click **Bars** to view a bar graph of the data.
-
 1. Click the **Builder** tab (3) to return to builder mode in the query editor.
 
    1. In builder mode, click **Kick start your query** (5).
-
    1. Expand the **Log query starters** section.
-
    1. Select the first choice, **Parse log lines with logfmt parser**, by clicking **Use this query**.
-
    1. On the Explore tab, click **Label browser**, in the dialog select a container and click **Show logs**.
 
 For a thorough introduction to LogQL, refer to the [LogQL reference](https://grafana.com/docs/loki/latest/query/).
@@ -126,7 +113,7 @@ To see every log line with a 401 status (unauthorized error), enter the LogQL qu
 {container="evaluate-loki_flog_1"} | json | status="401"
 ```{{copy}}
 
-To see every log line that doesn’t contain the text `401`{{copy}}:
+To see every log line that doesn't contain the text `401`{{copy}}:
 
 ```bash
 {container="evaluate-loki_flog_1"} != "401"
@@ -170,15 +157,10 @@ In this example, the Loki data source is already configured in Grafana. This can
 Within the entrypoint section, the Loki data source is configured with the following details:
 
 - `Name: Loki`{{copy}} (name of the data source)
-
 - `Type: loki`{{copy}} (type of data source)
-
 - `Access: proxy`{{copy}} (access type)
-
 - `URL: http://gateway:3100`{{copy}} (URL of the Loki data source. Loki uses an nginx gateway to direct traffic to the appropriate component)
-
 - `jsonData.httpHeaderName1: "X-Scope-OrgID"`{{copy}} (header name for the organization ID)
-
 - `secureJsonData.httpHeaderValue1: "tenant1"`{{copy}} (header value for the organization ID)
 
 It is important to note when Loki is configured in any other mode other than monolithic deployment, you are required to pass a tenant ID in the header. Without this, queries will return an authorization error.

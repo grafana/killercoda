@@ -7,7 +7,6 @@ To demonstrate the observation of data using the Grafana stack, download and run
    ```bash
    wget https://raw.githubusercontent.com/grafana/loki/refs/heads/main/production/docker-compose.yaml -O docker-compose.yaml
    ```{{exec}}
-
 1. Run the Grafana stack.
 
    ```bash

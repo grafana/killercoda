@@ -7,7 +7,6 @@ In this step, we will set up our environment by cloning the repository that cont
    ```bash
    git clone -b microservice-otel-collector  https://github.com/grafana/loki-fundamentals.git
    ```{{exec}}
-
 1. Next we will spin up our observability stack using Docker Compose:
 
    ```bash
@@ -20,4 +19,4 @@ In this step, we will set up our environment by cloning the repository that cont
    docker ps -a
    ```{{exec}}
 
-After we’ve finished configuring the OpenTelemetry Collector and sending logs to Loki, we will be able to view the logs in Grafana. To check if Grafana is up and running, navigate to the following URL: [http://localhost:3000]({{TRAFFIC_HOST1_3000}})
+After we've finished configuring the OpenTelemetry Collector and sending logs to Loki, we will be able to view the logs in Grafana. To check if Grafana is up and running, navigate to the following URL: [http://localhost:3000]({{TRAFFIC_HOST1_3000}})

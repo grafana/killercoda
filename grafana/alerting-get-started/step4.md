@@ -17,13 +17,9 @@ To see how a resolved alert notification looks like, you can modify the current 
 To edit the Alert rule:
 
 1. **Navigate to Alerting** > **Alert rules**.
-
 1. Click on the metric-alerts folder to display the alert that you created earlier
-
 1. Click the **edit** button on the right hand side of the screen
-
 1. Increment the Threshold expression to 1.
-
 1. Click **Save rule and exit**.
 
 By incrementing the threshold, the condition is no longer met, and after the evaluation interval has concluded (1 minute approx.), you should receive an alert notification with status **“Resolved”**.

@@ -14,5 +14,4 @@ Data from `intro-to-mltp`{{copy}} can also be pushed to Grafana Cloud.
 Here are some resources to help you learn more about Tempo:
 
 - [Instrumenting your application](https://grafana.com/docs/tempo/latest/getting-started/instrumentation/)
-
 - [Setup guides for Tempo](https://grafana.com/docs/tempo/latest/setup/)

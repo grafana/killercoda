@@ -5,13 +5,11 @@ To demonstrate the observation of data using the Grafana stack, download and run
    ```
    git clone https://github.com/grafana/tutorial-environment.git
    ```{{exec}}
-
 1. Change to the directory where you cloned the repository:
 
    ```
    cd tutorial-environment
    ```{{exec}}
-
 1. Run the Grafana stack:
 
    ```bash
