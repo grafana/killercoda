@@ -6,4 +6,4 @@ If you have only the getting started demo deployed in your Docker environment, y
 
 ![Grafana Drilldown Service View](https://grafana.com/media/docs/loki/get-started-drill-down-container.png)
 
-We will not cover the rest of the Grafana Logs Drilldown features in this quickstart guide. For more information on how to use the Grafana Logs Drilldown feature, see [Get started with Grafana Logs Drilldown](https://grafana.com/docs/grafana/latest/explore/simplified-exploration/logs/get-started/) page.
+We will not cover the rest of the Grafana Logs Drilldown features in this quickstart guide. For more information on how to use the Grafana Logs Drilldown feature, refer to [Get started with Grafana Logs Drilldown](https://grafana.com/docs/grafana/latest/explore/simplified-exploration/logs/get-started/).
