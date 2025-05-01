@@ -3,6 +3,9 @@
 At this point you will have a running Loki stack and a sample application generating logs. You have also queried Loki using Grafana Logs Drilldown and Grafana Explore.
 In this next section we will take a look under the hood to understand how the Loki stack has been configured to collect logs, the Loki configuration file, and how the Loki data source has been configured in Grafana.
 
+> **Note:**
+> KillerCoda comes with a built-in IDE for viewing and editing files. To open the IDE, click on the **Editor** button next to **Tab 1**. This will open a new tab with the IDE.
+
 ## Grafana Alloy configuration
 
 Grafana Alloy is collecting logs from all the Docker containers and forwarding them to Loki.

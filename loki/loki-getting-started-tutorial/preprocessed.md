@@ -287,6 +287,9 @@ This is made possible by the `service_name` label and the `env` label that we ha
 At this point you will have a running Loki stack and a sample application generating logs. You have also queried Loki using Grafana Logs Drilldown and Grafana Explore. 
 In this next section we will take a look under the hood to understand how the Loki stack has been configured to collect logs, the Loki configuration file, and how the Loki data source has been configured in Grafana.
 
+> **Note:**
+> KillerCoda comes with a built-in IDE for viewing and editing files. To open the IDE, click on the **Editor** button next to **Tab 1**. This will open a new tab with the IDE.
+
 ### Grafana Alloy configuration
 
 Grafana Alloy is collecting logs from all the Docker containers and forwarding them to Loki. 
@@ -425,7 +428,7 @@ compactor:
   retention_enabled: true
 ```
 To summarize the configuration file:
-* **auth_enabled**: This is set to false, meaning Loki does not need a [tenant ID](https://grafana.com/docs/loki/<LOKI_VERSION>/operations/multi-tenancy/) for ingest or query. Note that this is not recommended for production environments. When deploying the Loki Helm chart, this is set to true by default.
+* **auth_enabled**: This is set to `false`, meaning Loki does not need a [tenant ID](https://grafana.com/docs/loki/<LOKI_VERSION>/operations/multi-tenancy/) for ingest or query. Note that this is not recommended for production environments. When deploying the Loki Helm chart, this is set to `true` by default.
 * **server**: Defines the ports Loki listens on, the log level, and the maximum number of concurrent gRPC streams.
 * **common**:  Defines the common configuration for Loki. This includes the instance address, storage configuration, replication factor, and ring configuration.
 * **query_range**: This is configured to tell Loki to use inbuilt caching for query results. In production environments of Loki this is handled by a separate cache service such as memcached.
