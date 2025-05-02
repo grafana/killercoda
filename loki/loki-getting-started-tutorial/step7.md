@@ -66,7 +66,7 @@ compactor:
 
 To summarize the configuration file:
 
-- **auth_enabled**: This is set to false, meaning Loki does not need a [tenant ID](https://grafana.com/docs/loki/latest/operations/multi-tenancy/) for ingest or query. Note that this is not recommended for production environments. When deploying the Loki Helm chart, this is set to true by default.
+- **auth_enabled**: This is set to `false`{{copy}}, meaning Loki does not need a [tenant ID](https://grafana.com/docs/loki/latest/operations/multi-tenancy/) for ingest or query. Note that this is not recommended for production environments. When deploying the Loki Helm chart, this is set to `true`{{copy}} by default.
 
 - **server**: Defines the ports Loki listens on, the log level, and the maximum number of concurrent gRPC streams.
 

@@ -2,7 +2,7 @@
 
 **To deploy the Loki stack locally, follow these steps:**
 
-1. Clone the Loki fundamentals repository and checkout the getting-started branch:
+1. Clone the Loki fundamentals repository and check out the getting-started branch:
 
    ```bash
    git clone https://github.com/grafana/loki-fundamentals.git -b getting-started

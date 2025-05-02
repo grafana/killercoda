@@ -53,7 +53,7 @@ Before you start, you need to have the following installed on your local system:
 
 **To deploy the Loki stack locally, follow these steps:**
 
-1. Clone the Loki fundamentals repository and checkout the getting-started branch:
+1. Clone the Loki fundamentals repository and check out the getting-started branch:
 
      ```bash
      git clone https://github.com/grafana/loki-fundamentals.git -b getting-started
@@ -96,7 +96,7 @@ If you have only the getting started demo deployed in your Docker environment, y
 
 {{< figure max-width="100%" src="/media/docs/loki/get-started-drill-down-container.png" caption="Grafana Drilldown Service View" alt="Grafana Drilldown Service View" >}}
 
-We will not cover the rest of the Grafana Logs Drilldown features in this quickstart guide. For more information on how to use the Grafana Logs Drilldown feature, see [Get started with Grafana Logs Drilldown](https://grafana.com/docs/grafana/latest/explore/simplified-exploration/logs/get-started/) page.
+We will not cover the rest of the Grafana Logs Drilldown features in this quickstart guide. For more information on how to use the Grafana Logs Drilldown feature, refer to [Get started with Grafana Logs Drilldown](https://grafana.com/docs/grafana/latest/explore/simplified-exploration/logs/get-started/).
 
 <!-- INTERACTIVE page step2.md END -->
 
@@ -259,6 +259,7 @@ For example, you can use a metric query to count the number of logs per second t
 sum(rate({container="greenhouse-plant_service-1"} | logfmt | level="ERROR" [$__auto]))
 ```
 <!-- INTERACTIVE copy END -->
+It worth changing the visualization from `lines` to `bars` to visualize the error rate over time since the error count is quite low. 
 
 Another example is to get the top 10 services producing the highest rate of errors:
 <!-- INTERACTIVE copy START -->
@@ -285,6 +286,9 @@ This is made possible by the `service_name` label and the `env` label that we ha
 
 At this point you will have a running Loki stack and a sample application generating logs. You have also queried Loki using Grafana Logs Drilldown and Grafana Explore. 
 In this next section we will take a look under the hood to understand how the Loki stack has been configured to collect logs, the Loki configuration file, and how the Loki data source has been configured in Grafana.
+
+> **Note:**
+> KillerCoda comes with a built-in IDE for viewing and editing files. To open the IDE, click on the **Editor** button next to **Tab 1**. This will open a new tab with the IDE.
 
 ### Grafana Alloy configuration
 
@@ -424,7 +428,7 @@ compactor:
   retention_enabled: true
 ```
 To summarize the configuration file:
-* **auth_enabled**: This is set to false, meaning Loki does not need a [tenant ID](https://grafana.com/docs/loki/<LOKI_VERSION>/operations/multi-tenancy/) for ingest or query. Note that this is not recommended for production environments. When deploying the Loki Helm chart, this is set to true by default.
+* **auth_enabled**: This is set to `false`, meaning Loki does not need a [tenant ID](https://grafana.com/docs/loki/<LOKI_VERSION>/operations/multi-tenancy/) for ingest or query. Note that this is not recommended for production environments. When deploying the Loki Helm chart, this is set to `true` by default.
 * **server**: Defines the ports Loki listens on, the log level, and the maximum number of concurrent gRPC streams.
 * **common**:  Defines the common configuration for Loki. This includes the instance address, storage configuration, replication factor, and ring configuration.
 * **query_range**: This is configured to tell Loki to use inbuilt caching for query results. In production environments of Loki this is handled by a separate cache service such as memcached.
