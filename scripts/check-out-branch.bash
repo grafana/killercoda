@@ -19,6 +19,10 @@ if [[ $# -ne 0 ]]; then
   exit 1
 fi
 
+if [ -n "${RUNNER_DEBUG+x}" ]; then
+  set -x
+fi
+
 readonly BRANCH="${BRANCH:-update-generated-tutorials}"
 
 PR_STATUS=$(gh pr view "${BRANCH}" --json state --jq .state || true)
