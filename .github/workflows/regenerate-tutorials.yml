@@ -60,9 +60,14 @@ jobs:
       # Run the transformer on all documentation sources.
       - run: >
           ./transformer
-          "${GITHUB_WORKSPACE}/loki/docs/sources/get-started/quick-start.md"
+          "${GITHUB_WORKSPACE}/loki/docs/sources/get-started/quick-start/quick-start.md"
           "${GITHUB_WORKSPACE}/killercoda/loki/loki-quickstart"
         working-directory: killercoda/tools/transformer
+      - run: >
+          ./transformer
+          "${GITHUB_WORKSPACE}/loki/docs/sources/get-started/quick-start/tutorial.md"
+          "${GITHUB_WORKSPACE}/killercoda/loki/loki-getting-started-tutorial"
+        working-directory: killercoda/tools/transformer        
       - run: >
           ./transformer
           "${GITHUB_WORKSPACE}/loki/docs/sources/send-data/alloy/examples/alloy-kafka-logs.md"
