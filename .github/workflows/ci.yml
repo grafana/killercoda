@@ -1,6 +1,10 @@
 name: Run Continuous Integration
+
+permissions: {}
+
 on:
   pull_request:
+
 jobs:
   go-test:
     if: github.repository == 'grafana/killercoda'
