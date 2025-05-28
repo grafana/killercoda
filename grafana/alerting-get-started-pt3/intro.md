@@ -1,6 +1,4 @@
-# Get started with Grafana Alerting - Part 3
-
-The Get started with Grafana Alerting tutorial Part 3 is a continuation of [Get started with Grafana Alerting tutorial Part 2](http://www.grafana.com/tutorials/alerting-get-started-pt2/).
+This tutorial is a continuation of the [Get started with Grafana Alerting - Alert routing](http://www.grafana.com/tutorials/alerting-get-started-pt2/) tutorial.
 
 Grouping in Grafana Alerting reduces notification noise by combining related alert instances into a single, concise notification. This is useful for on-call engineers, ensuring they focus on resolving incidents instead of sorting through a flood of notifications.
 

@@ -9,11 +9,8 @@ ts=2025-02-21 16:09:42,176 level=INFO line=97 msg="192.168.65.1 - - [21/Feb/2025
 To break this down:
 
 - `ts=2025-02-21 16:09:42,176`{{copy}} is the timestamp of the log line.
-
 - `level=INFO`{{copy}} is the log level.
-
 - `line=97`{{copy}} is the line number in the code.
-
 - `msg="192.168.65.1 - - [21/Feb/2025 16:09:42] "GET /static/style.css HTTP/1.1" 304 -"`{{copy}} is the log message.
 
 When querying Loki, you can pipe the result of the label selector through a parser. This extracts attributes from the log line for further processing. For example, lets pipe `{container="greenhouse-main_app-1"}`{{copy}} through the `logfmt`{{copy}} parser to extract the `level`{{copy}} and `line`{{copy}} attributes:
@@ -25,7 +22,7 @@ When querying Loki, you can pipe the result of the label selector through a pars
 When you now expand a log line in the query result, you will see the extracted attributes.
 
 > **Tip:**
-> Before we move on to the next section, let’s generate some error logs. To do this, enable the bug service in the sample application. This is done by setting the `Toggle Error Mode`{{copy}} to `On`{{copy}} in the Carnivorous Greenhouse application. This will cause the bug service to randomly cause services to fail.
+> Before we move on to the next section, let's generate some error logs. To do this, enable the bug service in the sample application. This is done by setting the `Toggle Error Mode`{{copy}} to `On`{{copy}} in the Carnivorous Greenhouse application. This will cause the bug service to randomly cause services to fail.
 
 # Advanced and Metrics Queries
 
