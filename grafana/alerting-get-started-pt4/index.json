@@ -1,6 +1,6 @@
 {
-  "title": "Get started with Grafana Alerting - Part 4",
-  "description": "Learn how to use templates to create customized and concise notifications — Part 4.",
+  "title": "Get started with Grafana Alerting - Template your alert notifications",
+  "description": "Learn how to use templates to create customized and concise notifications.",
   "details": {
     "intro": {
       "text": "intro.md"

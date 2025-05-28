@@ -32,7 +32,7 @@ Now that we've introduced how templating works, let’s move on to the next step
      This dataset simulates a data source returning multiple time series, with each time series generating a separate alert instance.
 1. **Alert condition** section:
 
-   - Keep Last as the value for the reducer function (`WHEN`{{copy}}), and `75`{{copy}} as the threshold value, representing CPU usage above 75% .This is the value above which the alert rule should trigger.
+   - Keep Last as the value for the reducer function (`WHEN`{{copy}}), and `IS ABOVE 75`{{copy}} as the threshold value, representing CPU usage above 75% .This is the value above which the alert rule should trigger.
    - Click **Preview alert rule condition** to run the queries.
 
    It should return 3 series in Firing state, and 1 in Normal state.
@@ -45,9 +45,10 @@ Now that we've introduced how templating works, let’s move on to the next step
      Note: while it's possible to template labels here, in this tutorial, we focus on templating the summary and annotations fields instead.
 1. **Set evaluation behaviour** section:
 
-   - In the **Evaluation group and interval**, repeat the above step to create a new evaluation group. Name it `High usage`{{copy}}.
+   - In the **Evaluation group and interval**, enter a name. For example: `High usage`{{copy}}.
    - Choose an **Evaluation interval** (how often the alert will be evaluated). Choose `1m`{{copy}}.
    - Set the **pending period** to 0s (zero seconds), so the alert rule fires the moment the condition is met (this minimizes the waiting time for the demonstration.).
+   - Set **Keep firing for** to, `0s`{{copy}}, so the alert stops firing immediately after the condition is no longer true.
 1. **Configure notifications** section:
 
    Select who should receive a notification when an alert rule fires.

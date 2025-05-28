@@ -1,5 +1,7 @@
 name: Build and Release Transformer
 
+permissions: {}
+
 on:
   push:
     tags:
@@ -8,6 +10,8 @@ on:
 
 jobs:
   build-and-release:
+    permissions:
+      contents: read
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -36,6 +40,8 @@ jobs:
           path: release/transformer-${{ matrix.os }}-${{ matrix.arch }}
 
   release:
+    permissions:
+      contents: write
     needs: build-and-release
     runs-on: ubuntu-latest
     steps:

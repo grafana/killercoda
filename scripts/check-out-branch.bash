@@ -19,6 +19,10 @@ if [[ $# -ne 0 ]]; then
   exit 1
 fi
 
+if [ -n "${RUNNER_DEBUG+x}" ]; then
+  set -x
+fi
+
 readonly BRANCH="${BRANCH:-update-generated-tutorials}"
 
 PR_STATUS=$(gh pr view "${BRANCH}" --json state --jq .state || true)
@@ -37,6 +41,10 @@ fi
 
 # Remove the remote branch if it exists because there is no PR associated with it.
 if git fetch origin "${BRANCH}"; then
+  git config --local user.email bot@grafana.com
+  git config --local user.name grafanabot
+  git remote set-url origin "https://x-access-token:${GH_TOKEN}@github.com/grafana/killercoda"
+
   git push origin --delete "${BRANCH}"
 fi
 

@@ -1,45 +1,29 @@
-# Create a visualization to monitor metrics
+# Step 1: Create Notification Policies
 
-To keep track of these metrics and understand system behavior across different environments, you can set up a visualization for CPU usage and memory consumption. This will make it easier to see how the system is performing and how alerts are distributed based on the environment label, including during scheduled maintenance windows.
+Notification policies route alert instances to contact points via label matchers. Since we know what labels our application returns (e.g., `job`{{copy}}, `instance`{{copy}}, `deployment`{{copy}}), we can use them to match alert rules and define appropriate notification routing.
 
-The time-series visualization supports alert rules to provide more context in the form of annotations and alert rule state. Follow these steps to create a visualization to monitor the application’s metrics.
+Although our application doesn't explicitly include an `environment`{{copy}} label, we can rely on other labels like `instance`{{copy}} or `deployment`{{copy}}, which may contain keywords (like prod or staging) that indicate the environment.
 
-1. Log in to Grafana:
+1. Navigate to **Alerts & IRM > Alerting > Notification Policies**.
+1. Add a child policy:
 
-   - Navigate to [http://localhost:3000]({{TRAFFIC_HOST1_3000}}), where Grafana should be running.
-   - Username and password: `admin`{{copy}}
-1. Create a time series panel:
+   - In the **Default policy**, click **+ New child policy**.
+   - **Label**: `environment`{{copy}}.
+   - **Operator**: `=`{{copy}}.
+   - **Value**: `production`{{copy}}.
+   - This label matches alert rules where the environment label is `prod`{{copy}}.
+1. Choose a **contact point**:
 
-   - Navigate to **Dashboards**.
-   - Click **New**.
-   - Select **New Dashboard**.
-   - Click **+ Add visualization**.
-   - Select **Prometheus** as the data source (provided with the demo).
-   - Enter a title for your panel, e.g., **CPU and Memory Usage**.
-1. Add queries for metrics:
+   - If you don’t have any contact points, add a [Contact point](https://grafana.com/docs/grafana/latest/alerting/configure-notifications/manage-contact-points/#add-a-contact-point).
 
-   - In the query area, copy and paste the following PromQL query:
+   For a quick test, you can use a public webhook from [webhook.site](https://webhook.site/) to capture and inspect alert notifications. If you choose this method, select **Webhook** from the drop-down menu in contact points.
+1. Enable continue matching:
 
-     ** switch to **Code** mode if not already selected **
+   - Turn on **Continue matching subsequent sibling nodes** so the evaluation continues even after one or more labels (i.e., _environment_ labels) match.
+1. Save and repeat
 
-     ```promql
-     flask_app_cpu_usage{environment="prod"}
-     ```{{copy}}
-   - Click **Run queries**.
+   - Create another child policy by following the same steps.
+   - Use `environment = staging`{{copy}} as the label/value pair.
+   - Feel free to use a different contact point.
 
-   This query should display the simulated CPU usage data in the **prod** environment.
-1. Add memory usage query:
-
-   - Click **+ Add query**.
-   - In the query area, paste the following PromQL query:
-
-     ```promql
-     flask_app_memory_usage{environment="prod"}
-     ```{{copy}}
-
-   ![Time-series panel displaying CPU and memory usage metrics in production.](https://grafana.com/media/docs/alerting/time-series_cpu_mem_usage_metrics.png)
-
-   Both metrics return labels that we’ll use later to link alert instances with the appropriate routing. These labels help define how alerts are routed based on their environment or other criteria.
-1. Click **Save dashboard**.
-
-   We have our time-series panel ready. Feel free to combine metrics with labels such as `environment = “staging”`{{copy}}.
+Now that the labels are defined, we can create alert rules for CPU and memory metrics. These alert rules will use the labels from the collected and stored metrics in Prometheus.

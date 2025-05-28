@@ -1,6 +1,6 @@
 {
-  "title": "Get started with Grafana Alerting - Part 3",
-  "description": "Learn how to group alert notifications effectively to reduce noise and streamline communication in Grafana Alerting — Part 3.",
+  "title": "Get started with Grafana Alerting - Group alert notifications",
+  "description": "Learn how to group alert notifications effectively to reduce noise and streamline communication in Grafana Alerting.",
   "details": {
     "intro": {
       "text": "intro.md"

@@ -3,9 +3,6 @@
 At this point you will have a running Loki stack and a sample application generating logs. You have also queried Loki using Grafana Logs Drilldown and Grafana Explore.
 In this next section we will take a look under the hood to understand how the Loki stack has been configured to collect logs, the Loki configuration file, and how the Loki data source has been configured in Grafana.
 
-> **Note:**
-> KillerCoda comes with a built-in IDE for viewing and editing files. To open the IDE, click on the **Editor** button next to **Tab 1**. This will open a new tab with the IDE.
-
 ## Grafana Alloy configuration
 
 Grafana Alloy is collecting logs from all the Docker containers and forwarding them to Loki.
@@ -68,13 +65,9 @@ This configuration file can be viewed visually via the Alloy UI at [http://local
 In this view you can see the components of the Alloy configuration file and how they are connected:
 
 - **discovery.docker**: This component queries the metadata of the Docker environment via the Docker socket and discovers new containers, as well as providing metadata about the containers.
-
 - **discovery.relabel**: This component converts a metadata (`__meta_docker_container_name`{{copy}}) label into a Loki label (`container`{{copy}}).
-
 - **loki.source.docker**: This component collects logs from the discovered containers and forwards them to the next component. It requests the metadata from the `discovery.docker`{{copy}} component and applies the relabeling rules from the `discovery.relabel`{{copy}} component.
-
 - **loki.process**: This component provides stages for log transformation and extraction. In this case it adds a static label `env=production`{{copy}} to all logs.
-
 - **loki.write**: This component writes the logs to Loki. It forwards the logs to the Loki endpoint `http://loki:3100/loki/api/v1/push`{{copy}}.
 
 ## View Logs in realtime
