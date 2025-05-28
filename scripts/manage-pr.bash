@@ -19,6 +19,10 @@ if [[ $# -ne 0 ]]; then
   exit 1
 fi
 
+if [ -n "${RUNNER_DEBUG+x}" ]; then
+  set -x
+fi
+
 readonly BRANCH="${BRANCH:-update-generated-tutorials}"
 readonly SUBJECT="${SUBJECT:-Update generated tutorials}"
 

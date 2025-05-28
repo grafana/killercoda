@@ -9,6 +9,9 @@ on:
 
 jobs:
   main:
+    permissions:
+      contents: write
+      pull-requests: write
     if: github.repository == 'grafana/killercoda'
     runs-on: ubuntu-latest
     steps:
