@@ -1,27 +1,35 @@
-# Create Notification Policies
+# Step 2: Create alert rules to monitor CPU and memory usage
 
-Notification policies route alert instances to contact points via label matchers. Since we know what labels our application returns (i.e., `environment`{{copy}}, `job`{{copy}}, `instance`{{copy}}), we can use these labels to match alert rules.
+Follow these steps to manually create alert rules and link them to a visualization.
 
-1. Navigate to **Alerts & IRM > Alerting > Notification Policies**.
-1. Add a child policy:
+# Create an alert rule for CPU usage
 
-   - In the **Default policy**, click **+ New child policy**.
-   - **Label**: `environment`{{copy}}.
-   - **Operator**: `=`{{copy}}.
-   - **Value**: `production`{{copy}}.
-   - This label matches alert rules where the environment label is `prod`{{copy}}.
-1. Choose a **contact point**:
+1. Navigate to **Alerts & IRM > Alerting > Alert rules** from the Grafana sidebar.
+1. Click **+ New alert rule** rule to create a new alert.
 
-   - If you don’t have any contact points, add a [Contact point](https://grafana.com/docs/grafana/latest/alerting/configure-notifications/manage-contact-points/#add-a-contact-point).
+## Enter alert rule name
 
-   For a quick test, you can use a public webhook from [webhook.site](https://webhook.site/) to capture and inspect alert notifications. If you choose this method, select **Webhook** from the drop-down menu in contact points.
-1. Enable continue matching:
+Make it short and descriptive, as this will appear in your alert notification. For instance, `cpu-usage`{{copy}} .
 
-   - Turn on **Continue matching subsequent sibling nodes** so the evaluation continues even after one or more labels (i.e., _environment_ labels) match.
-1. Save and repeat
+## Define query and alert condition
 
-   - Create another child policy by following the same steps.
-   - Use `environment = staging`{{copy}} as the label/value pair.
-   - Feel free to use a different contact point.
+1. Select **Prometheus** data source from the drop-down menu.
+1. In the query section, enter the following query:
 
-Now that the labels are defined, we can create alert rules for CPU and memory metrics. These alert rules will use the labels from the collected and stored metrics in Prometheus.
+   ** switch to **Code** mode if not already selected **
+
+   ```
+   flask_app_cpu_usage{}
+   ```{{copy}}
+1. **Alert condition** section:
+
+   - Enter `75`{{copy}} as the value for **WHEN QUERY IS ABOVE** to set the threshold for the alert.
+   - Click **Preview alert rule condition** to run the queries.
+
+   ![Preview of a query returning alert instances in Grafana.](https://grafana.com/media/docs/alerting/flask-app-metrics.png)
+
+   Among the labels returned for `flask_app_cpu_usage`{{copy}}, the labels `instance`{{copy}} and `deployment`{{copy}} contain values that include the term _prod_ and _staging_. We will create a template later to detect these keywords, so that any firing alert instances are routed to the relevant contact points (e.g., alerts-prod, alerts-staging).
+
+## Add folders and labels
+
+In this section we add a [templated label based on query value](https://grafana.com/docs/grafana/latest/alerting/alerting-rules/templates/examples/#based-on-query-value) to map to the notification policies.

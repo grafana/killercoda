@@ -3,7 +3,7 @@
 In this section we configure an alert rule based on our application monitoring example.
 
 1. Navigate to **Alerts & IRM > Alerting > Alert rules**.
-1. Click **New alert rule**.
+1. Click **+ New alert rule**.
 
 ## Enter an alert rule name
 
@@ -38,7 +38,7 @@ Grafana includes a [test data source](https://grafana.com/docs/grafana/latest/da
    The returned data simulates a data source returning multiple time series, each leading to the creation of an alert instance for that specific time series.
 1. In the **Alert condition** section:
 
-   - Keep `Last`{{copy}} as the value for the reducer function (`WHEN`{{copy}}), and `75`{{copy}} as the threshold value. This is the value above which the alert rule should trigger.
+   - Keep `Last`{{copy}} as the value for the reducer function (`WHEN`{{copy}}), and `IS ABOVE 75`{{copy}} as the threshold value. This is the value above which the alert rule should trigger.
 1. Click **Preview alert rule condition** to run the queries.
 
    It should return 5 series in Firing state, two firing instances from the us-west region, and three from the us-east region.
@@ -53,9 +53,10 @@ Grafana includes a [test data source](https://grafana.com/docs/grafana/latest/da
 
 Every alert rule is assigned to an evaluation group. You can assign the alert rule to an existing evaluation group or create a new one.
 
-1. In the **Evaluation group and interval**, repeat the above step to create a new evaluation group. Name it `Multi-region group`{{copy}}.
+1. In the **Evaluation group and interval**, enter a name. For example: `Multi-region group`{{copy}}.
 1. Choose an **Evaluation interval** (how often the alert are evaluated). Choose `1m`{{copy}}.
 1. Set the **pending period** to `0s`{{copy}} (zero seconds), so the alert rule fires the moment the condition is met (this minimizes the waiting time for the demonstration).
+1. Set **Keep firing for** to, `0s`{{copy}}, so the alert stops firing immediately after the condition is no longer true.
 
 ## Configure notifications
 

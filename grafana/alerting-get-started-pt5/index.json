@@ -1,6 +1,6 @@
 {
-  "title": "Get started with Grafana Alerting - Part 5",
-  "description": "Learn how to dynamically route alerts and link them to dashboards  — Part 5.",
+  "title": "Get started with Grafana Alerting - Route alerts using dynamic labels",
+  "description": "Learn how to dynamically route alert notifications.",
   "details": {
     "intro": {
       "text": "intro.md"
@@ -23,9 +23,6 @@
       },
       {
         "text": "step6.md"
-      },
-      {
-        "text": "step7.md"
       }
     ],
     "finish": {
