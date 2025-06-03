@@ -1,0 +1,35 @@
+{
+  "title": "Get started with Grafana Alerting - Link alerts to visualizations",
+  "description": "Create alerts using Prometheus data and link them to your visualizations.",
+  "details": {
+    "intro": {
+      "text": "intro.md"
+    },
+    "steps": [
+      {
+        "text": "step1.md"
+      },
+      {
+        "text": "step2.md"
+      },
+      {
+        "text": "step3.md"
+      },
+      {
+        "text": "step4.md"
+      },
+      {
+        "text": "step5.md"
+      },
+      {
+        "text": "step6.md"
+      }
+    ],
+    "finish": {
+      "text": "finish.md"
+    }
+  },
+  "backend": {
+    "imageid": "ubuntu"
+  }
+}
