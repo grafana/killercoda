@@ -2,7 +2,9 @@
 
 By using notification policies, you can route alerts based on query values, directing them to the appropriate teams.
 
-# Learn more
+# Learn more in [Grafana Alerting - Link alerts to visualizations](http://www.grafana.com/tutorials/alerting-get-started-pt6/)
+
+In [Grafana Alerting - Link alerts to visualizations](http://www.grafana.com/tutorials/alerting-get-started-pt6/) you will create alerts using Prometheus data and link them to your graphs.
 
 Explore related topics covered in this tutorial:
 

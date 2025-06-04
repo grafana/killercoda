@@ -33,12 +33,12 @@ In this tutorial you will:
 <!-- INTERACTIVE ignore START -->
 
 > **Tip:**
-> Once you have completed Part 1, don’t forget to explore the advanced but essential alerting topics in [Part 2 Alert instances and notification routing](http://www.grafana.com/tutorials/alerting-get-started-pt2/).
+> After you have completed Part 1, don’t forget to explore the advanced but essential alerting topics in [Multi-dimensional alerts and how to route them](http://www.grafana.com/tutorials/alerting-get-started-pt2/).
 
 <!-- INTERACTIVE ignore END -->
 
 
-> Once you have completed Part 1, don’t forget to explore the advanced but essential alerting topics in [Part 2 Alert instances and notification routing](http://www.grafana.com/tutorials/alerting-get-started-pt2/).
+> After you have completed Part 1, don’t forget to explore the advanced but essential alerting topics in [Multi-dimensional alerts and how to route them](http://www.grafana.com/tutorials/alerting-get-started-pt2/).
 
 
 <!-- INTERACTIVE page intro.md END -->
@@ -254,17 +254,17 @@ By incrementing the threshold, the condition is no longer met, and after the eva
 
 <!-- INTERACTIVE page finish.md START -->
 
-## Learn more in [Grafana Alerting - Alert routing](http://www.grafana.com/tutorials/alerting-get-started-pt2/)
+## Learn more in [Grafana Alerting: Multi-dimensional alerts and how to route them](http://www.grafana.com/tutorials/alerting-get-started-pt2/)
 
 <!-- INTERACTIVE ignore START -->
 
 > **Tip:**
-> In [Get started with Grafana Alerting - Alert routing](http://www.grafana.com/tutorials/alerting-get-started-pt2/) you can advance your skills by exploring alert instances and notification routing.
+> In [Grafana Alerting: Multi-dimensional alerts and how to route them](http://www.grafana.com/tutorials/alerting-get-started-pt2/) you'll learn to use alert instances and route notifications by labels to contacts
 
 <!-- INTERACTIVE ignore END -->
 
 
-In [Get started with Grafana Alerting - Alert routing](http://www.grafana.com/tutorials/alerting-get-started-pt2/) you can advance your skills by exploring alert instances and notification routing.
+In [Grafana Alerting: Multi-dimensional alerts and how to route them](http://www.grafana.com/tutorials/alerting-get-started-pt2/) you'll learn to use alert instances and route notifications by labels to contacts.
 
 
 <!-- INTERACTIVE page finish.md END -->
