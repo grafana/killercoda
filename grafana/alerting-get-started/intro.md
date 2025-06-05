@@ -6,4 +6,4 @@ In this tutorial you will:
 - Set up an alert rule.
 - Receive firing and resolved alert notifications in a public webhook.
 
-> Once you have completed Part 1, don’t forget to explore the advanced but essential alerting topics in [Part 2 Alert instances and notification routing](http://www.grafana.com/tutorials/alerting-get-started-pt2/).
+> After you have completed Part 1, don’t forget to explore the advanced but essential alerting topics in [Multi-dimensional alerts and how to route them](http://www.grafana.com/tutorials/alerting-get-started-pt2/).
