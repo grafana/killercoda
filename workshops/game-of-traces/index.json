@@ -1,0 +1,30 @@
+{
+  "title": "A Game of Traces",
+  "description": "A grand strategy game with distributed tracing",
+  "details": {
+    "intro": {
+      "text": "intro.md",
+      "foreground": "docker-compose-update.sh"
+    },
+    "steps": [
+      {
+        "text": "step1.md"
+      },
+      {
+        "text": "step2.md"
+      },
+      {
+        "text": "step3.md"
+      },
+      {
+        "text": "step4.md"
+      }
+    ],
+    "finish": {
+      "text": "finish.md"
+    }
+  },
+  "backend": {
+    "imageid": "ubuntu"
+  }
+}
