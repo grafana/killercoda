@@ -21,13 +21,13 @@
 
 1. Access the components:
 
-   - Game UI: <http://localhost:8080>
+   - Game UI: [http://localhost:8080]({{TRAFFIC_HOST1_8080}})
 
-   - Grafana: <http://localhost:3000>
+   - Grafana: [http://localhost:3000]({{TRAFFIC_HOST1_3000}})
 
-   - Prometheus: <http://localhost:9090>
+   - Prometheus: [http://localhost:9090]({{TRAFFIC_HOST1_9090}})
 
-   - Alloy Debug: <http://localhost:12345/debug/livedebugging>
+   - Alloy Debug: [http://localhost:12345/debug/livedebugging]({{TRAFFIC_HOST1_12345}}/debug/livedebugging)
 
 1. Multiplayer Access:
 

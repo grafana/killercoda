@@ -102,10 +102,10 @@ The application consists of:
    ```
 
 4. Access the components:
-   - Game UI: http://localhost:8080
-   - Grafana: http://localhost:3000
-   - Prometheus: http://localhost:9090
-   - Alloy Debug: http://localhost:12345/debug/livedebugging
+   - Game UI: [http://localhost:8080](http://localhost:8080)
+   - Grafana: [http://localhost:3000](http://localhost:3000)
+   - Prometheus: [http://localhost:9090](http://localhost:9090)
+   - Alloy Debug: [http://localhost:12345/debug/livedebugging](http://localhost:12345/debug/livedebugging)
 
 5. Multiplayer Access:
    - The game supports multiple players simultaneously
