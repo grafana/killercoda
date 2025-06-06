@@ -1,4 +1,4 @@
-# Step 2: Create alert rules to monitor CPU and memory usage
+# Step 2: Create alert rules
 
 Follow these steps to manually create alert rules and link them to a visualization.
 

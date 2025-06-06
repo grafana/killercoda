@@ -1,8 +1,5 @@
-# (Optional) Step 3: Create a second alert rule for memory usage
+# Step 3: Visualizing metrics and alert annotations
 
-1. Duplicate the existing alert rule (**More > Duplicate**), or create a new alert rule for memory usage, defining a threshold condition (e.g., memory usage exceeding `60%`{{copy}}).
-1. Give it a name. For example: `memory-usage`{{copy}}
-1. Query: `flask_app_memory_usage{instance="flask-prod:5000"}`{{copy}}
-1. Link to the same visualization to obtain memory usage annotations
+After the alert rules are linked to visualization, they should appear as **health indicators** (colored heart icons: a red heart when the alert is in **Alerting** state, and a green heart when in **Normal** state) on the linked panel. In addition, annotations provide helpful context, such as the time the alert was triggered.
 
-Check how your dashboard looks now that both alerts have been linked to your dashboard panel.
+![Time series panel displaying health indicators and annotations.](https://grafana.com/media/docs/alerting/alert-in-panel.png)
