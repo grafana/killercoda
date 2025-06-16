@@ -1,6 +1,6 @@
 # Traces Drilldown plugin
 
-The [Traces Drilldown](https://grafana.com/docs/grafana/latest/explore/simplified-exploration/traces/) plugin offers an opinionated non query-based approach to exploring traces. Lets take a look at some of its key features and panels.
+The [Traces Drilldown](https://grafana.com/docs/grafana/latest/explore/simplified-exploration/traces/) plugin offers an opinionated non query-based approach to exploring traces. Let's take a look at some of its key features and panels.
 
 1. Open a browser and navigate to [http://localhost:3000/a/grafana-exploretraces-app]({{TRAFFIC_HOST1_3000}}/a/grafana-exploretraces-app).
 1. Within the filter bar, there is a dropdown menu set to **Rate** of **Full traces**. Change this to **Duration** and **All spans**.
