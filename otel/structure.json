@@ -1,0 +1,5 @@
+{
+    "items": [
+    { "path": "otel-instrumentation", "title": "OpenTelemetry instrumentation"}
+    ]
+}
