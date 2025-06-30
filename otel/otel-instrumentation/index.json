@@ -1,0 +1,42 @@
+{
+  "title": "OpenTelemetry instrumentation",
+  "description": "Play with OpenTelemetry, Alloy, the LGTM stack (Loki, Grafana, Tempo, Mimir) and a demo app",
+  "details": {
+    "intro": {
+      "title": "Intro",
+      "text": "intro.md",
+      "foreground": "foreground.sh",
+      "background": "background.sh"
+    },
+    "steps": [
+      {
+        "title": "Install an observability stack",
+        "text": "step1.md"
+      },
+      {
+        "title": "Configure OpenTelemetry pipelines",
+        "text": "step2.md"
+      },
+      {
+        "title": "Zero Code instrumentation",
+        "text": "step3.md"
+      },
+      {
+        "title": "Manual Instrumentation",
+        "text": "step4.md"
+      }
+    ],
+    "finish": {
+      "title": "Conclusion",
+      "text": "finished.md"
+    },
+    "assets": {
+      "host01": [
+        {"file": "**/*", "target": "/root/course"}
+      ]
+    }
+  },
+  "backend": {
+    "imageid": "ubuntu"
+  }
+}
