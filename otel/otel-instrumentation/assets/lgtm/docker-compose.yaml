@@ -1,0 +1,132 @@
+version: "3.7"
+
+x-name: &compose-project-name simple-lgtm
+
+services:
+  loki:
+    container_name: loki
+    image: "grafana/loki:3.5.1"
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "wget --no-verbose --tries=1 --spider http://localhost:3100/ready || exit 1",
+        ]
+      start_period: 20s
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    command:
+      - -config.file=/etc/loki/loki-config.yaml
+    volumes:
+      - ./loki-config.yaml:/etc/loki/loki-config.yaml
+      - data-loki:/loki
+    restart: unless-stopped
+
+  permission-init:
+    container_name: permission-init
+    image: &tempoImage grafana/tempo:2.8.0-rc.0
+    user: root
+    entrypoint:
+      - "chown"
+      - "10001:10001"
+      - "/var/tempo"
+    volumes:
+      - data-tempo:/var/tempo
+
+  tempo:
+    container_name: tempo
+    image: *tempoImage
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "wget --no-verbose --tries=1 --spider http://localhost:3200/ready || exit 1",
+        ]
+      start_period: 20s
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    command: ["-config.file=/etc/tempo.yaml"]
+    restart: unless-stopped
+    volumes:
+      - ./tempo-config.yaml:/etc/tempo.yaml
+      - data-tempo:/tmp/tempo
+    depends_on:
+      - permission-init
+
+  grafana:
+    container_name: grafana
+    image: grafana/grafana:12.0.1
+    healthcheck:
+      test: ["CMD", "wget", "-q", "--spider", "http://localhost:3000"]
+      start_period: 20s
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    ports:
+      - "3000:3000"
+    environment:
+      GF_AUTH_ANONYMOUS_ENABLED: "true"
+      GF_AUTH_ANONYMOUS_ORG_ROLE: "Admin"
+      GF_AUTH_ORG_ROLE: "Admin"
+      GF_AUTH_DISABLE_LOGIN_FORM: "true"
+      GF_USERS_VIEWERS_CAN_EDIT: "true"
+      GF_USERS_EDITORS_CAN_ADMIN: "true"
+      GF_INSTALL_PLUGINS: "https://storage.googleapis.com/integration-artifacts/grafana-exploretraces-app/grafana-exploretraces-app-latest.zip;grafana-traces-app"
+      GF_FEATURE_TOGGLES_ENABLE: "tempoSearch tempoBackendSearch tempoServiceGraph tempoApmTable traceToMetrics newTraceViewHeader metricsSummary correlations traceToProfiles tracesEmbeddedFlameGraph"
+    volumes:
+      - ./provisioning/:/etc/grafana/provisioning/
+      - data-grafana:/var/lib/grafana
+    restart: unless-stopped
+    depends_on:
+      - loki
+      - tempo
+      - mimir
+
+  alloy:
+    container_name: alloy
+    image: grafana/alloy:v1.9.0
+    ports:
+      - "12345:12345"
+      - "4317:4317"  # OTLP gRPC
+      - "4318:4318"  # OTLP HTTP
+    volumes:
+      - "/root/course/config.alloy:/etc/alloy/config.alloy"
+    command: [
+      "run",
+      "--server.http.listen-addr=0.0.0.0:12345",
+      "--stability.level=public-preview",
+      "/etc/alloy/config.alloy",
+    ]
+    depends_on:
+      - loki
+      - tempo
+      - mimir
+    restart: unless-stopped
+
+  mimir:
+    container_name: mimir
+    image: grafana/mimir:2.15.3
+    command: ["-config.file=/etc/mimir/mimir-config.yaml", "-target=all"]
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "wget --no-verbose --tries=1 --spider http://localhost:9009/ready || exit 1",
+        ]
+      start_period: 20s
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+    volumes:
+      - ./mimir-config.yaml:/etc/mimir/mimir-config.yaml
+      - data-mimir:/tmp/mimir
+    restart: unless-stopped
+
+volumes:
+  data-loki:
+  data-tempo:
+  data-grafana:
+  data-mimir:

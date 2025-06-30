@@ -26,3 +26,7 @@ To link this alert rule to our visualization click [**Link dashboard and panel**
 You have successfully linked this alert rule to your visualization!
 
 When the CPU usage exceeds the defined threshold, an annotation should appear on the graph to mark the event. Similarly, when the alert is resolved, another annotation is added to indicate the moment it returned to normal.
+
+Try adding a second alert rule using the memory usage metric (`flask_app_memory_usage{instance="flask-prod:5000"`{{copy}}}) to see how combining multiple alerts can enhance your dashboard.
+
+Check how your dashboard looks now that your alert has been linked to your dashboard panel.

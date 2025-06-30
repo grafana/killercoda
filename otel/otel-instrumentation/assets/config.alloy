@@ -1,0 +1,1 @@
+prometheus.exporter.self "integrations_alloy" { }
