@@ -9,7 +9,7 @@ In this example, you learn:
 
 ## Background
 
-In this tutorial, you will profile a simple "Ride Share" application. The application is a Python Flask app that simulates a ride-sharing service. The app has three endpoints which are found in the `server.py`{{copy}} file:
+In this tutorial, you will profile a simple "Ride Share" application. The application is a Python Flask app that simulates a ride-sharing service. The app has three endpoints which are found in the `lib/server.py`{{copy}} file:
 
 - `/bike`{{copy}}    : calls the `order_bike(search_radius)`{{copy}} function to order a bike
 - `/car`{{copy}}     : calls the `order_car(search_radius)`{{copy}} function to order a car
