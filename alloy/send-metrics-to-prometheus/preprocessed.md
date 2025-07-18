@@ -216,7 +216,7 @@ Optional: You can do a system service restart Alloy and load the configuration f
 {{< code >}}
 
 ```macos
-brew services restart alloy
+brew services restart grafana/grafana/alloy
 ```
 
 ```linux

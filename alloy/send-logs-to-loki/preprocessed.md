@@ -348,7 +348,7 @@ With this configuration, Alloy connects directly to the Loki instance running in
    {{< code >}}
 
    ```macos
-   brew services restart alloy
+   brew services restart grafana/grafana/alloy
    ```
 
    ```linux
