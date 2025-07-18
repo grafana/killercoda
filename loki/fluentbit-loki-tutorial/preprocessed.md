@@ -22,7 +22,6 @@ killercoda:
 
 In this tutorial, you will learn how to send logs to Loki using Fluent Bit. Fluent Bit is a lightweight and fast log processor and forwarder that can collect, process, and deliver logs to various destinations. We will use the official Fluent Bit Loki output plugin to send logs to Loki.
 
-
 <!-- INTERACTIVE ignore START -->
 
 ## Dependencies
@@ -66,23 +65,25 @@ Each service has been instrumented with the Fluent Bit logging framework to gene
 In this step, we will set up our environment by cloning the repository that contains our demo application and spinning up our observability stack using Docker Compose.
 
 1. To get started, clone the repository that contains our demo application:
-   
+
     ```bash
     git clone -b fluentbit-official  https://github.com/grafana/loki-fundamentals.git
     ```
 
-1.  Next we will spin up our observability stack using Docker Compose:
+1. Next we will spin up our observability stack using Docker Compose:
 
     ```bash
     docker-compose -f loki-fundamentals/docker-compose.yml up -d
     ```
 
     This will spin up the following services:
+
     ```console
     ✔ Container loki-fundamentals-grafana-1       Started                                                        
     ✔ Container loki-fundamentals-loki-1          Started                        
     ✔ Container loki-fundamentals_fluent-bit_1    Started
     ```
+
 Once we have finished configuring the Fluent Bit agent and sending logs to Loki, we will be able to view the logs in Grafana. To check if Grafana is up and running, navigate to the following URL: [http://localhost:3000](http://localhost:3000)
 <!-- INTERACTIVE page step1.md END -->
 
@@ -97,6 +98,7 @@ To configure Fluent Bit to receive logs from our application, we need to provide
 Fluent Bit requires a configuration file to define the components and their relationships. The configuration file is written using Fluent Bit configuration syntax. We will build the entire observability pipeline within this configuration file. To start, we will open the `fluent-bit.conf` file in the code editor:
 
 > Note: Killercoda has an inbuilt Code editor which can be accessed via the `Editor` tab.
+
 1. Expand the `loki-fundamentals` directory in the file explorer of the `Editor` tab.
 1. Locate the `fluent-bit.conf` file in the top level directory, `loki-fundamentals`.
 1. Click on the `fluent-bit.conf` file to open it in the code editor.
@@ -109,11 +111,12 @@ Fluent Bit requires a configuration file to define the components and their rela
 
 You will copy all of the configuration snippets into the `fluent-bit.conf` file.
 
-### Receiving Fluent Bit protocal logs
+### Receiving Fluent Bit protocol logs
 
 The first step is to configure Fluent Bit to receive logs from the Carnivorous Greenhouse application. Since the application is instrumented with Fluent Bit logging framework, it will send logs using the forward protocol (unique to Fluent Bit). We will use the `forward` input plugin to receive logs from the application.
 
 Now add the following configuration to the `fluent-bit.conf` file:
+
 ```conf
 [INPUT]
     Name              forward
@@ -122,19 +125,19 @@ Now add the following configuration to the `fluent-bit.conf` file:
 ```
 
 In this configuration:
+
 - `Name`: The name of the input plugin. In this case, we are using the `forward` input plugin.
 - `Listen`: The IP address to listen on. In this case, we are listening on all IP addresses.
 - `Port`: The port to listen on. In this case, we are listening on port `24224`.
 
 For more information on the `forward` input plugin, see the [Fluent Bit Forward documentation](https://docs.fluentbit.io/manual/pipeline/inputs/forward).
 
-
-
 ### Export logs to Loki using the official Loki output plugin
 
 Lastly, we will configure Fluent Bit to export logs to Loki using the official Loki output plugin. The Loki output plugin allows you to send logs or events to a Loki service. It supports data enrichment with Kubernetes labels, custom label keys, and structured metadata.
 
 Add the following configuration to the `fluent-bit.conf` file:
+
 ```conf
 [OUTPUT]
     name   loki
@@ -146,6 +149,7 @@ Add the following configuration to the `fluent-bit.conf` file:
 ```
 
 In this configuration:
+
 - `name`: The name of the output plugin. In this case, we are using the `loki` output plugin.
 - `match`: The tag to match. In this case, we are matching all logs with the tag `service.**`.
 - `host`: The hostname of the Loki service. In this case, we are using the hostname `loki`.
@@ -158,14 +162,15 @@ For more information on the `loki` output plugin, see the [Fluent Bit Loki docum
 #### `logmap.json` file
 
 The `logmap.json` file is used to map the log fields to the Loki labels. In this tutorial we have pre-filled the `logmap.json` file with the following configuration:
+
 ```json
 {
 "service": "service_name",
 "instance_id": "instance_id"
  }
 ```
-This configuration maps the `service` field to the Loki label `service_name` and the `instance_id` field to the Loki label `instance_id`.
 
+This configuration maps the `service` field to the Loki label `service_name` and the `instance_id` field to the Loki label `instance_id`.
 
 ### Reload the Fluent Bit configuration
 
@@ -174,6 +179,7 @@ After adding the configuration to the `fluent-bit.conf` file, you will need to r
 ```bash
 docker restart loki-fundamentals_fluent-bit_1
 ```
+
 To verify that the configuration has been loaded successfully, you can check the Fluent Bit logs by running the following command:
 
 ```bash
@@ -210,6 +216,7 @@ docker-compose -f loki-fundamentals/greenhouse/docker-compose-micro.yml up -d --
 ```
 
 This will start the following services:
+
 ```bash
  ✔ Container greenhouse-db-1                 Started                                                         
  ✔ Container greenhouse-websocket_service-1  Started 
@@ -229,7 +236,6 @@ Once started, you can access the Carnivorous Greenhouse application at [http://l
 
 Finally to view the logs in Loki, navigate to the Loki Logs Explore view in Grafana at [http://localhost:3000/a/grafana-lokiexplore-app/explore](http://localhost:3000/a/grafana-lokiexplore-app/explore).
 
-
 <!-- INTERACTIVE page step3.md END -->
 
 <!-- INTERACTIVE page finish.md START -->
@@ -240,13 +246,14 @@ In this tutorial, you learned how to send logs to Loki using Fluent Bit. You con
 
 
 ### Back to Docs
-Head back to where you started from to continue with the [Loki documentation](https://grafana.com/docs/loki/latest/send-data/alloy).
 
+Head back to where you started from to continue with the [Loki documentation](https://grafana.com/docs/loki/latest/send-data/alloy).
 
 
 ## Further reading
 
 For more information on Fluent Bit, refer to the following resources:
+
 - [Fluent Bit documentation](https://docs.fluentbit.io/manual/)
 - [Other examples of Fluent Bit configurations](https://grafana.com/docs/loki/latest/send-data/fluentbit/)
 
@@ -255,6 +262,5 @@ For more information on Fluent Bit, refer to the following resources:
 If you would like to use a demo that includes Mimir, Loki, Tempo, and Grafana, you can use [Introduction to Metrics, Logs, Traces, and Profiling in Grafana](https://github.com/grafana/intro-to-mlt). `Intro-to-mltp` provides a self-contained environment for learning about Mimir, Loki, Tempo, and Grafana.
 
 The project includes detailed explanations of each component and annotated configurations for a single-instance deployment. Data from `intro-to-mltp` can also be pushed to Grafana Cloud.
-
 
 <!-- INTERACTIVE page finish.md END -->
