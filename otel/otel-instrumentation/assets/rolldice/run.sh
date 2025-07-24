@@ -15,5 +15,5 @@ fi
 
 # ADD your OpenTelemetry Java agent environment variables here
 
-java -jar ./target/rolldice-0.0.1-SNAPSHOT.jar  
+java -jar ./target/rolldice-0.0.1-SNAPSHOT.jar
 

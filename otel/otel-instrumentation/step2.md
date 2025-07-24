@@ -56,10 +56,7 @@ This graph is more complex than before. Here's what's happening:
 
 3. **Batch Processor**: 
    - Groups messages to optimize network usage
-   - Routes signals to appropriate backends:
-     - Metrics → Mimir
-     - Logs → Loki
-     - Traces → Tempo
+   - Send signals to the LGTM stack
 
 4. **Backend Communication**:
    - OTLPHTTP: Sends data to OpenTelemetry-compatible APIs
@@ -71,6 +68,10 @@ Alloy is now configured to:
   - Port 4317 (gRPC)
   - Port 4318 (HTTP/protobuf)
 - Enrich the data with host metadata
-- Forward processed data to Mimir, Loki, and Tempo
+- Forward processed data to the LGTM stack
+
+> The app could technically send telemetry directly to the LGTM stack. We use Alloy because:
+> - It's a good way to visualize how a pipeline looks like
+> - In prod, we recommend a central Collector (or cluster of Collectors) from which you can control data without the need to modify all apps and infra in your org
 
 Let's proceed to instrument our application.

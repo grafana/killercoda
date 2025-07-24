@@ -20,11 +20,14 @@ You can verify the stack is running with:
 docker-compose ps
 ```{{exec}}
 
-All services should be in a healthy state (except permission-init, don't worry about it). The stack includes:
-- Loki
-- Grafana, accessible at [http://localhost:3000]({{TRAFFIC_HOST1_3000}})
-- Tempo
-- Mimir
+Two services should be running. The stack includes:
+- LGTM
+   - Loki
+   - Grafana, accessible at [http://localhost:3000]({{TRAFFIC_HOST1_3000}})
+   - Tempo
+   - Mimir
+   - An OTEL gateway to receive OTLP signals and dispatch them to the backends
+- Alloy: an OpenTelemetry Collector distro
 
 ## Verifying the Setup
 
