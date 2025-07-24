@@ -85,3 +85,5 @@ This command:
    - In Drilldown > Metrics: search for `jvm`. You will see some statistics about the runtime.
    - In Drilldown > Logs: view log lines generated when a dice is rolled
    - In Drilldown > Traces: see all requests made to the _Rolldice_ application
+
+> It can take some time for the signals to come in. You can see new metrics with no value yet.

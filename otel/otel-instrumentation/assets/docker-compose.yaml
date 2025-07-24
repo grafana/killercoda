@@ -7,16 +7,8 @@ services:
   lgtm:
     container_name: lgtm
     image: grafana/otel-lgtm
-    healthcheck:
-      test: ["CMD", "wget", "-q", "--spider", "http://localhost:3000"]
-      start_period: 20s
-      interval: 10s
-      timeout: 5s
-      retries: 5
     ports:
       - "3000:3000"
-      - "3017:4317"
-      - "3018:4318"
     restart: unless-stopped
 
   alloy:

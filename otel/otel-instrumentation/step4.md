@@ -126,15 +126,17 @@ The k6 load test will run for 5 minutes, simulating multiple players making dice
 
 ## 5. View the Results in Grafana
 
+> The metric might take some time to appear in Grafana.
+
 1. Open [Grafana]({{TRAFFIC_HOST1_3000}})
-2. Go to Drilldown
-3. Select the Mimir datasource
-4. Enter this PromQL query to see the distribution of dice rolls:
+2. Go to Drilldown > Metrics
+3. Search for `dice_rolls` to find our new custom metric
+4. Go to Explore and enter this PromQL query to see the distribution of dice rolls:
 
 ```
-sum by(value) (dice_rolls)
+sum by(value) (dice_rolls_total)
 ```
 
-This will show you how many times each value (1-6) was rolled. Note that our metric name "dice.rolls" appears as "dice_rolls" in Prometheus/Grafana because dots are converted to underscores
+This will show you how many times each value (1-6) was rolled. You can verify if the game is fair (or rigged)
 
-The metrics might take a minute to appear in Grafana as they are being collected and processed.
+Note that our metric name "dice.rolls" appears as "dice_rolls_total" in Prometheus/Grafana because dots are converted to underscores and *_total* is added to show that it's a counter.

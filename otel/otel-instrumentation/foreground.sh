@@ -1,51 +1,21 @@
-#!/usr/bin/env bash
-
-echo "--------------"
-echo "4 steps setup:"
-echo "--------------"
-
-# LGTM
-echo -e "\n>> Step 1: Setting up LGTM + Alloy stack..."
-if docker compose -f /root/course/docker-compose.yaml up -d; then
-    echo "LGTM ready"
-    echo "You can start the workshop as step 1 is exploring the LGTM + Alloy stack."
-else
-    echo "Error: Failed to start LGTM stack"
-    exit 1
-fi
-
-# Set up Java app
-echo -e "\n>> Step 2: Setting up Java app..."
-apt-get update -qq
-apt-get install -y openjdk-17-jdk openjdk-17-jre > /dev/null 2>&1
-echo "JDK installed"
-
-if [ ! -d "/root/course/rolldice" ]; then
-    echo "Error: /root/course/rolldice directory not found"
-    exit 1
-fi
-
-cd /root/course/rolldice
-chmod +x ./mvnw
-chmod +x ./run.sh
-if ./mvnw clean package -DskipTests > /dev/null 2>&1; then
-    echo "Java app built successfully"
-else
-    echo "Error: Failed to build Java app"
-    exit 1
-fi
-
-# Download OpenTelemetry agent
-echo -e "\n>> Step 3: Downloading OpenTelemetry agent..."
-version=v2.13.0
-jar=opentelemetry-javaagent.jar
-if curl -sL https://github.com/grafana/grafana-opentelemetry-java/releases/download/${version}/grafana-opentelemetry-java.jar -o ${jar}; then
-    echo "OpenTelemetry agent downloaded"
-else
-    echo "Error: Failed to download OpenTelemetry agent"
-fi
-
-# Pull additional Docker images
-echo -e "\n>> Step 4: Pulling k6 image for load testing..."
-docker pull grafana/k6:latest
-echo "Setup complete!"
+echo -e "4 steps setup:\n - Step 1: LGTM + Alloy stack\n - Step 2: Java app\n - Step 3: OpenTelemetry agent\n - Step 4: Pull k6" && \
+echo -e "\n\e[1m>> Step 1: Setting up LGTM + Alloy stack...\e[0m" && \
+docker-compose -f /root/course/docker-compose.yaml up -d && \
+echo -e "\e[92mLGTM ready. You can start the workshop while the terminal finishes up.\e[39m" && \
+echo -e "\n\e[1m>> Step 2: Setting up JDK & Java app...\e[0m" && \
+apt-get update -qq && \
+apt-get install -y openjdk-17-jdk openjdk-17-jre && \
+echo -e "\e[92mJDK installed. Building Java app...\e[0m" && \
+cd /root/course/rolldice && \
+chmod +x ./mvnw && \
+chmod +x ./run.sh && \
+./mvnw clean package -DskipTests && \
+echo -e "\e[92mJava app built successfully\e[0m" && \
+echo -e "\n\e[1m>> Step 3: Downloading OpenTelemetry agent...\e[0m" && \
+version=v2.13.0 && \
+jar=opentelemetry-javaagent.jar && \
+curl -sL https://github.com/grafana/grafana-opentelemetry-java/releases/download/${version}/grafana-opentelemetry-java.jar -o ${jar} && \
+echo -e "\e[92mOpenTelemetry agent downloaded\e[0m" && \
+echo -e "\n\e[1m>> Step 4: Pulling k6 image for load testing...\e[0m" && \
+docker pull grafana/k6:latest && \
+echo -e "\e[92mSetup completed\e[0m"

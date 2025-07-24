@@ -64,6 +64,6 @@ otelcol.processor.batch "default" {
 
 otelcol.exporter.otlphttp "lgtm" {
     client {
-        endpoint = "http://lgtm:3017"
+        endpoint = "http://lgtm:4318"
     }
 }
