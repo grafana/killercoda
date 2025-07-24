@@ -14,7 +14,7 @@ Fluent Bit requires a configuration file to define the components and their rela
 
 You will copy all of the configuration snippets into the `fluent-bit.conf`{{copy}} file.
 
-## Receiving Fluent Bit protocal logs
+## Receiving Fluent Bit protocol logs
 
 The first step is to configure Fluent Bit to receive logs from the Carnivorous Greenhouse application. Since the application is instrumented with Fluent Bit logging framework, it will send logs using the forward protocol (unique to Fluent Bit). We will use the `forward`{{copy}} input plugin to receive logs from the application.
 

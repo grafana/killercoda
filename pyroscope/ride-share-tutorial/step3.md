@@ -33,9 +33,10 @@ This example compares the performance of the `eu-north`{{copy}} region within a 
 
 1. Open Profiles Drilldown in Grafana using the following url: [http://localhost:3000/a/grafana-pyroscope-app/profiles-explorer]({{TRAFFIC_HOST1_3000}}/a/grafana-pyroscope-app/profiles-explorer).
 1. Select **Diff flame graph** in the **Exploration** path.
+1. Verify that  `ride-sharing-app`{{copy}} is selected in the **Service** drop-down menu and `process_cpu/cpu`{{copy}} in the **Profile type** drop-down menu.
 1. In **Baseline**, filter by `region`{{copy}} and select `!= eu-north`{{copy}}.
 1. In **Comparison**, filter by `region`{{copy}} and select `== eu-north`{{copy}}.
-1. In **Baseline**, select the time period you want to compare against.
+1. In **Choose a preset** drop-down, select the time period you want to compare against.
 
 Scroll down to compare the two time periods side by side.
 Note that the `eu-north`{{copy}} region (right side) shows an excessive amount of time spent in the `find_nearest_vehicle`{{copy}} function.

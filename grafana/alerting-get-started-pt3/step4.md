@@ -38,5 +38,6 @@ Following the above example, [notification policies](ref:notification-policies) 
 
    - Repeat for `region = us-east`{{copy}} with a different webhook or a different contact point.
 
-     **Note**: In Grafana, each label within a notification policy must have a unique key. If you attempt to add the same label key (e.g., region) with different values (us-west and us-east), only the last entry is saved, and the previous one is discarded. This is because labels are stored as associative arrays (maps), where each key must be unique.
-     For identical label keys use regex matchers (e.g., _region=~"us-west|us-east"_).
+     **Note**: Label matchers are combined using the `AND`{{copy}} logical operator. This means that all matchers must be satisfied for a rule to be linked to a policy. If you attempt to use the same label key (e.g., region) with different values (e.g., us-west and us-east), the condition will not match, because it is logically impossible for a single key to have multiple values simultaneously.
+
+     However, `region!=us-east && region=!us-west`{{copy}} can match. For example, it would match a label set where `region=eu-central`{{copy}}.Alternatively, for identical label keys use regular expression matchers (e.g., `region=~us-west|us-east`{{copy}}).
