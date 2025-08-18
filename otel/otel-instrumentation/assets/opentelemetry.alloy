@@ -56,26 +56,14 @@ otelcol.processor.transform "add_resource_attributes_as_metric_attributes" {
 
 otelcol.processor.batch "default" {
     output {
-        metrics = [otelcol.exporter.otlphttp.metrics.input]
-        logs    = [otelcol.exporter.otlphttp.logs.input]
-        traces  = [otelcol.exporter.otlphttp.traces.input]
+        metrics = [otelcol.exporter.otlphttp.lgtm.input]
+        logs    = [otelcol.exporter.otlphttp.lgtm.input]
+        traces  = [otelcol.exporter.otlphttp.lgtm.input]
     }
 }
 
-otelcol.exporter.otlphttp "metrics" {
+otelcol.exporter.otlphttp "lgtm" {
     client {
-        endpoint = "http://mimir:9009/otlp"
-    }
-}
-
-otelcol.exporter.otlphttp "logs" {
-    client {
-        endpoint = "http://loki:3100/otlp"
-    }
-}
-
-otelcol.exporter.otlphttp "traces" {
-    client {
-        endpoint = "http://tempo:4318"
+        endpoint = "http://lgtm:4318"
     }
 }

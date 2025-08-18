@@ -1,40 +1,40 @@
 # Explore the LGTM Stack
 
-> Give some time for your stack to start. You should see the images being downloaded in the console on the right. Wait for the task to complete.
-
 The LGTM (Loki, Grafana, Tempo, Mimir) stack provides a complete observability solution:
 - **Loki**: Log aggregation system
 - **Grafana**: Visualization and monitoring platform
 - **Tempo**: Distributed tracing backend
 - **Mimir**: Metrics storage
 
-## Starting the Stack
+We also have an OpenTelemetry Collector acting as a single gateway for our LGTM stack.
 
-The environment initialization script has already:
-1. Installed the Docker Compose plugin
-2. Copied the necessary configuration files
-3. Started the LGTM stack
+![LGTM stack](https://raw.githubusercontent.com/grafana/docker-otel-lgtm/main/img/overview.png)
+
+> In this lab, you will see Prometheus and Mimir mentionned. Those 2 terms are equivalent in our current context. Mimir is a scalable version of Prometheus.
+
+## Starting the Stack
 
 You can verify the stack is running with:
 ```bash
-docker-compose ps
+docker ps --format "table {{.Names}}\t{{.Image}}\t{{.Status}}"
 ```{{exec}}
 
-All services should be in a healthy state (except permission-init, don't worry about it). The stack includes:
-- Loki
-- Grafana, accessible at [http://localhost:3000]({{TRAFFIC_HOST1_3000}})
-- Tempo
-- Mimir
+Two services should be running. The stack includes:
+- LGTM. A single container running:
+   - Loki
+   - Grafana, accessible at [http://localhost:3000]({{TRAFFIC_HOST1_3000}})
+   - Tempo
+   - Mimir
+   - An OTEL gateway to receive OTLP signals and dispatch them to the backends
+- Alloy: an OpenTelemetry Collector distro
 
 ## Verifying the Setup
 
 1. Open Grafana at [http://localhost:3000]({{TRAFFIC_HOST1_3000}})
 2. You'll be automatically logged in as admin
-3. Navigate to Explore > Metrics/Logs/Traces to verify:
-   - Mimir is configured for metrics
+3. Navigate to Drilldown > Metrics/Logs/Traces to verify:
+   - Prometheus is configured for metrics
    - Loki is configured for logs
    - Tempo is configured for traces
 
-> Mimir is 100% compatible with Prometheus. There is no "Mimir" datasource in Grafana, and you will see the Prometheus logo next to it.
-
-For now, it's empty. Don't worry, in the next step, we'll explore how to use these tools to monitor our demo application.
+For now, we only have some metrics about our OpenTelemetry gateway. The rest is empty. Don't worry, in the next step, we'll explore how to use these tools to monitor our demo application.
