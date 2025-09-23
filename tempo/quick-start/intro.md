@@ -1,5 +1,8 @@
 # Quick start for Tempo
 
+Using this quickstart, you can set up a Tempo instance using Docker Compose so you can play and understand how Tempo works.
+If you want to use Tempo in production, refer to the [Set up for tracing](https://grafana.com/docs/tempo/latest/set-up-for-tracing/) documentation.
+
 The Tempo repository provides [multiple examples](https://github.com/grafana/tempo/tree/main/example/docker-compose) to help you quickly get started using Tempo and distributed tracing data.
 
 Every example has a `docker-compose.yaml`{{copy}} manifest that includes all of the options needed to explore trace data in Grafana, including resource configuration and trace data generation.
