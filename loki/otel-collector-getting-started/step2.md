@@ -67,7 +67,7 @@ We will use the `otlphttp/logs`{{copy}} exporter to send the logs to the Loki na
 # Exporters
 exporters:
   otlphttp/logs:
-    endpoint: "http://loki:3100/otlp"
+    endpoint: "http://loki/otlp"
     tls:
       insecure: true
 ```{{copy}}
@@ -76,7 +76,7 @@ In this configuration:
 
 - `exporters`{{copy}}: The list of exporters to export telemetry data. In this case, we are using the `otlphttp/logs`{{copy}} exporter.
 - `otlphttp/logs`{{copy}}: The OpenTelemetry exporter that accepts telemetry data from other `otelcol`{{copy}} components and writes them over the network using the OTLP HTTP protocol.
-- `endpoint`{{copy}}: The URL to send the telemetry data to. In this case, we are sending the logs to the Loki native OTLP endpoint at `http://loki:3100/otlp`{{copy}}.
+- `endpoint`{{copy}}: The URL to send the telemetry data to. In this case, we are sending the logs to the Loki native OTLP endpoint at `http://loki/otlp`{{copy}}.
 - `tls`{{copy}}: The TLS configuration for the exporter. In this case, we are setting `insecure`{{copy}} to `true`{{copy}} to disable TLS verification.
 - `insecure`{{copy}}: Disables TLS verification. This is set to `true`{{copy}} as we are using an insecure connection.
 
@@ -124,7 +124,7 @@ processors:
 # Exporters
 exporters:
   otlphttp/logs:
-    endpoint: "http://loki:3100/otlp"
+    endpoint: "http://loki/otlp"
     tls:
       insecure: true
       
