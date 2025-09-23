@@ -153,7 +153,7 @@ jobs:
         working-directory: killercoda/tools/transformer
       - run: >
           ./transformer
-          "${GITHUB_WORKSPACE}/tempo/docs/sources/tempo/getting-started/docker-example.md"
+          "${GITHUB_WORKSPACE}/tempo/docs/sources/tempo/docker-example.md"
           "${GITHUB_WORKSPACE}/killercoda/tempo/quick-start"
         working-directory: killercoda/tools/transformer
       - run: >
