@@ -19,10 +19,10 @@ touch config.alloy
 Copy and paste the following component configuration at the top of the file.
 
 ```alloy
- local.file_match "local_files" {
-     path_targets = [{"__path__" = "/var/log/*.log"}]
-     sync_period = "5s"
- }
+local.file_match "local_files" {
+  path_targets = [{"__path__" = "/var/log/*.log"}]
+  sync_period = "5s"
+}
 ```{{copy}}
 
 This configuration creates a [local.file_match](https://grafana.com/docs/alloy/latest/reference/components/local/local.file_match/) component named `local_files`{{copy}} which does the following:
@@ -35,11 +35,11 @@ This configuration creates a [local.file_match](https://grafana.com/docs/alloy/l
 Copy and paste the following component configuration below the previous component in your `config.alloy`{{copy}} file:
 
 ```alloy
-  loki.source.file "log_scrape" {
-    targets    = local.file_match.local_files.targets
-    forward_to = [loki.process.filter_logs.receiver]
-    tail_from_end = true
-  }
+loki.source.file "log_scrape" {
+  targets    = local.file_match.local_files.targets
+  forward_to = [loki.process.filter_logs.receiver]
+  tail_from_end = true
+}
 ```{{copy}}
 
 This configuration creates a [`loki.source.file`{{copy}}](https://grafana.com/docs/alloy/latest/reference/components/loki/loki.source.file/) component named `log_scrape`{{copy}} which does the following:
@@ -57,14 +57,14 @@ The following example demonstrates how you can filter out or drop logs before se
 Copy and paste the following component configuration below the previous component in your `config.alloy`{{copy}} file:
 
 ```alloy
-  loki.process "filter_logs" {
-    stage.drop {
-        source = ""
-        expression  = ".*Connection closed by authenticating user root"
-        drop_counter_reason = "noisy"
-      }
-    forward_to = [loki.write.grafana_loki.receiver]
-    }
+loki.process "filter_logs" {
+  stage.drop {
+    source = ""
+    expression  = ".*Connection closed by authenticating user root"
+    drop_counter_reason = "noisy"
+  }
+  forward_to = [loki.write.grafana_loki.receiver]
+}
 ```{{copy}}
 
 The `loki.process`{{copy}} component allows you to transform, filter, parse, and enrich log data.
@@ -85,16 +85,16 @@ The [`loki.process`{{copy}}](https://grafana.com/docs/alloy/latest/reference/com
 Copy and paste this component configuration below the previous component in your `config.alloy`{{copy}} file.
 
 ```alloy
-  loki.write "grafana_loki" {
-    endpoint {
-      url = "http://localhost:3100/loki/api/v1/push"
+loki.write "grafana_loki" {
+  endpoint {
+    url = "http://localhost:3100/loki/api/v1/push"
 
-      // basic_auth {
-      //  username = "admin"
-      //  password = "admin"
-      // }
-    }
+    // basic_auth {
+    //  username = "admin"
+    //  password = "admin"
+    // }
   }
+}
 ```{{copy}}
 
 This final component creates a [`loki.write`{{copy}}](https://grafana.com/docs/alloy/latest/reference/components/loki/loki.write/) component named `grafana_loki`{{copy}} that points to `http://localhost:3100/loki/api/v1/push`{{copy}}.
