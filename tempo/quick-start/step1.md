@@ -1,7 +1,7 @@
 # Clone the Tempo repository and start Docker
 
-This quick start guide uses the `local`{{copy}} example running Tempo as a single binary (monolithic). Any data is stored locally in the `tempo-data`{{copy}} folder.
-To learn more, read the [local storage example README](https://github.com/grafana/tempo/blob/main/example/docker-compose/local).
+This quick start guide uses the `single-binary`{{copy}} docker-compose example. Check out our [collection of examples](https://github.com/grafana/tempo/blob/main/example/docker-compose) to explore various
+operating modes and configurations.
 
 1. Clone the Tempo repository:
 
@@ -11,12 +11,7 @@ To learn more, read the [local storage example README](https://github.com/grafan
 1. Go into the examples directory:
 
    ```bash
-   cd tempo/example/docker-compose/local
-   ```{{exec}}
-1. Create a new directory to store data:
-
-   ```bash
-   mkdir tempo-data
+   cd tempo/example/docker-compose/single-binary
    ```{{exec}}
 1. Start the services defined in the docker-compose file:
 
