@@ -50,6 +50,9 @@ In this tutorial, you'll:
 - Run Grafana to explore Grafana Mimir dashboards
 - Configure a testing recording rule and alert in Grafana Mimir
 
+> **Note:**
+> This tutorial runs Grafana Mimir using classic architecture. For more information about the supported architectures in Grafana Mimir, refer to [Grafana Mimir architecture](https://grafana.com/docs/mimir/<MIMIR_VERSION>/get-started/about-grafana-mimir-architecture/).
+
 <!-- INTERACTIVE ignore START -->
 
 ## Prerequisites
