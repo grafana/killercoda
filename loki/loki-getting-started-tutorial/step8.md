@@ -1,6 +1,6 @@
 # Grafana Loki Data source
 
-The final piece of the puzzle is the Grafana Loki data source. This is used by Grafana to connect to Loki and query the logs. Grafana has multiple ways to define a data source;
+The final piece of the puzzle is the Grafana Loki data source. This is used by Grafana to connect to Loki and query the logs. Grafana has multiple ways to define a data source:
 
 - **Direct**: This is where you define the data source in the Grafana UI.
 - **Provisioning**: This is where you define the data source in a configuration file and have Grafana automatically create the data source.
@@ -19,9 +19,9 @@ In this case we are using the provisioning method. Instead of mounting the Grafa
     ports:
       - 3000:3000/tcp
     entrypoint:
-       - sh
-       - -euc
-       - |
+      - sh
+      - -euc
+      - |
          mkdir -p /etc/grafana/provisioning/datasources
          cat <<EOF > /etc/grafana/provisioning/datasources/ds.yaml
          apiVersion: 1
@@ -41,5 +41,4 @@ In this case we are using the provisioning method. Instead of mounting the Grafa
       - loki
 ```{{copy}}
 
-Within the entrypoint section of the `docker-compose.yml`{{copy}} file, we have defined a file called `run.sh`{{copy}} this runs on startup and creates the data source configuration file `ds.yaml`{{copy}} in the Grafana provisioning directory.
-This file defines the Loki data source and tells Grafana to use it. Since Loki is running in the same Docker network as Grafana, we can use the service name `loki`{{copy}} as the URL.
+The entrypoint overrides the default startup command to first create the datasource provisioning file `ds.yaml`{{copy}}, which configures Loki as the default datasource. It then calls `/run.sh`{{copy}}, the default Grafana startup script included in the `grafana/grafana`{{copy}} Docker image, which starts the Grafana server. Since Loki is running in the same Docker network as Grafana, the datasource URL uses the service name `loki`{{copy}}.
