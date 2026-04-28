@@ -40,7 +40,7 @@ This query will return all the logs from the `greenhouse-plant_service-1`{{copy}
 
 This query will return all the logs from the `greenhouse-plant_service-1`{{copy}} container that have a `level`{{copy}} attribute of `ERROR`{{copy}} and a `line`{{copy}} attribute of `58`{{copy}}.
 
-LogQL also supports metrics queries. Metrics are useful for abstracting the raw log data aggregating attributes into numeric values. This allows you to utilise more visualization options in Grafana as well as generate alerts on your logs.
+LogQL also supports metrics queries. Metrics are useful for abstracting the raw log data aggregating attributes into numeric values. This allows you to utilize more visualization options in Grafana as well as generate alerts on your logs.
 
 For example, you can use a metric query to count the number of logs per second that have a specific attribute:
 
@@ -53,7 +53,7 @@ It worth changing the visualization from `lines`{{copy}} to `bars`{{copy}} to vi
 Another example is to get the top 10 services producing the highest rate of errors:
 
 ```logql
-topk(10,sum(rate({level="error"} | logfmt [5m])) by (service_name))
+topk(10, sum(rate({env="production"} | logfmt | level="ERROR" [5m])) by (service_name))
 ```{{copy}}
 
 > **Note:**
