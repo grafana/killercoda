@@ -6,7 +6,7 @@ require (
 	github.com/stretchr/testify v1.9.0
 	github.com/yuin/goldmark v1.7.2
 	github.com/yuin/goldmark-meta v1.1.0
-	mvdan.cc/xurls/v2 v2.5.0
+	mvdan.cc/xurls/v2 v2.6.0
 )
 
 require (
