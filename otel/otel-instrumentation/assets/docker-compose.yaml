@@ -6,14 +6,14 @@ services:
 
   lgtm:
     container_name: lgtm
-    image: grafana/otel-lgtm
+    image: grafana/otel-lgtm@sha256:10f48eb2f8670134df542177bb19536c55421b089e43f9dfc2a27d4c078204d8
     ports:
       - "3000:3000"
     restart: unless-stopped
 
   alloy:
     container_name: alloy
-    image: grafana/alloy:v1.9.0
+    image: grafana/alloy:v1.9.0@sha256:32bc0ba6bad75ca24bdf4a6d2dd793a564dff06b6446927699c08d9f9c749c6e
     ports:
       - "12345:12345"
       - "4317:4317"  # OTLP gRPC
