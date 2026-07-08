@@ -1,12 +1,12 @@
 module github.com/grafana/killercoda/tools/transformer
 
-go 1.22.0
+go 1.25.0
 
 require (
 	github.com/stretchr/testify v1.9.0
 	github.com/yuin/goldmark v1.7.17
 	github.com/yuin/goldmark-meta v1.1.0
-	golang.org/x/text v0.16.0
+	golang.org/x/text v0.39.0
 	mvdan.cc/xurls/v2 v2.5.0
 )
 
