@@ -1,6 +1,6 @@
 # Accessing Profiles Drilldown in Grafana
 
-Grafana includes the [Profiles Drilldown](https://grafana.com/docs/grafana/latest/explore/simplified-exploration/profiles/) app that you can use to view profile data. To access Profiles Drilldown, open a browser and navigate to [http://localhost:3000/a/grafana-pyroscope-app/profiles-explorer]({{TRAFFIC_HOST1_3000}}/a/grafana-pyroscope-app/profiles-explorer).
+Grafana includes the [Profiles Drilldown](https://grafana.com/docs/grafana/latest/explore/simplified-exploration/profiles/) app that you can use to view profile data. To access Profiles Drilldown, open a browser and navigate to [http://localhost:3000/a/grafana-pyroscope-app/explore]({{TRAFFIC_HOST1_3000}}/a/grafana-pyroscope-app/explore).
 
 ## How tagging works
 
@@ -25,7 +25,7 @@ To start, let's take a look at a static tag use case. Within the `lib/server.py`
 This tag is considered static because the tag is set at the start of the application and doesn't change.
 In this case, it's useful for grouping profiles on a per region basis, which lets you see the performance of the application per region.
 
-1. Open Grafana using the following url: [http://localhost:3000/a/grafana-pyroscope-app/profiles-explorer]({{TRAFFIC_HOST1_3000}}/a/grafana-pyroscope-app/profiles-explorer).
+1. Open Grafana using the following url: [http://localhost:3000/a/grafana-pyroscope-app/explore]({{TRAFFIC_HOST1_3000}}/a/grafana-pyroscope-app/explore).
 1. In the main menu, select **Drilldown** > **Profiles**.
 1. Select  **Labels** in the **Exploration** path.
 1. Select  **ride-sharing-app** in the **Service** drop-down menu.
@@ -54,7 +54,7 @@ This is useful for grouping profiles on a per vehicle basis, allowing us to see 
 
 Use Profiles Drilldown to see how this tag is used:
 
-1. Open Profiles Drilldown using the following url: [http://localhost:3000/a/grafana-pyroscope-app/profiles-explorer]({{TRAFFIC_HOST1_3000}}/a/grafana-pyroscope-app/profiles-explorer).
+1. Open Profiles Drilldown using the following url: [http://localhost:3000/a/grafana-pyroscope-app/explore]({{TRAFFIC_HOST1_3000}}/a/grafana-pyroscope-app/explore).
 1. Select on **Labels** in the **Exploration** path.
 1. In the **Group by labels** section, select the **vehicle** tab.
 
