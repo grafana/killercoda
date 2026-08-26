@@ -8,11 +8,9 @@ import (
 	"regexp"
 	"strings"
 
-	"github.com/yuin/goldmark"
-	"github.com/yuin/goldmark/ast"
-	"github.com/yuin/goldmark/parser"
-	"github.com/yuin/goldmark/text"
-	"github.com/yuin/goldmark/util"
+	"github.com/yuin/goldmark/v2/ast"
+	"github.com/yuin/goldmark/v2/parser"
+	"github.com/yuin/goldmark/v2/text"
 )
 
 var (
@@ -25,11 +23,10 @@ var (
 
 func isMarker(node ast.Node, source []byte, marker string) bool {
 	switch node := node.(type) {
-	case *ast.Text, *ast.String:
-		if strings.TrimSpace(string(node.Text(source))) == marker {
+	case *ast.Text:
+		if strings.TrimSpace(node.Value.Str(source)) == marker {
 			return true
 		}
-
 	case *ast.HTMLBlock, *ast.Paragraph:
 		raw := rawText(node, source)
 		if string(bytes.TrimSpace(raw)) == marker {
@@ -43,11 +40,13 @@ func isMarker(node ast.Node, source []byte, marker string) bool {
 func rawText(node ast.Node, source []byte) []byte {
 	buf := &bytes.Buffer{}
 
-	if node.Type() == ast.TypeBlock {
-		for i := 0; i < node.Lines().Len(); i++ {
-			line := node.Lines().At(i)
-			buf.Write(line.Value(source))
+	switch n := node.(type) {
+	case *ast.Paragraph:
+		for _, line := range n.Source() {
+			buf.Write(line.Bytes(source))
 		}
+	case *ast.HTMLBlock:
+		buf.Write(n.Value.Bytes(source))
 	}
 
 	return buf.Bytes()
@@ -55,12 +54,6 @@ func rawText(node ast.Node, source []byte) []byte {
 
 type ActionTransformer struct {
 	Kind string
-}
-
-func (t *ActionTransformer) Extend(md goldmark.Markdown) {
-	md.Parser().AddOptions(
-		parser.WithASTTransformers(
-			util.Prioritized(t, 0)))
 }
 
 // Transform implements the parser.ASTTransformer interface and adds action metadata to any fenced code blocks within between the start and end markers.
@@ -102,25 +95,30 @@ func (t *ActionTransformer) Transform(node *ast.Document, reader text.Reader, _ 
 				toRemove = append(toRemove, child)
 			}
 
-			if fenced, ok := child.(*ast.FencedCodeBlock); ok {
-				if inMarker {
-					fenced.SetAttributeString("data-killercoda-"+t.Kind, "true")
-				} else {
-					// Only set the language attribute if not within a marker
-					if t.Kind != "exec" {
-						language := string(fenced.Language(source))
-						if language == "bash" {
-							fenced.SetAttributeString("data-killercoda-exec", "true")
-						} else {
-							fenced.SetAttributeString("data-killercoda-copy", "true")
-						}
-					}
-				}
+			codeBlock, ok := child.(*ast.CodeBlock)
+			if !ok || codeBlock.CodeBlockKind != ast.CodeBlockKindFenced {
+				continue
+			}
+
+			if inMarker {
+				codeBlock.SetAttribute("data-killercoda-"+t.Kind, text.NewMultiLineValueFromString("true", text.IdentityDecoder))
+				continue
+			}
+
+			if t.Kind == "exec" {
+				continue
+			}
+
+			language, ok := codeBlock.Language(source)
+			if ok && language == "bash" {
+				codeBlock.SetAttribute("data-killercoda-exec", text.NewMultiLineValueFromString("true", text.IdentityDecoder))
+			} else {
+				codeBlock.SetAttribute("data-killercoda-copy", text.NewMultiLineValueFromString("true", text.IdentityDecoder))
 			}
 		}
 
 		for _, child := range toRemove {
-			node.RemoveChild(node, child)
+			node.RemoveChild(child)
 		}
 
 		return ast.WalkContinue, nil
@@ -160,26 +158,15 @@ func imageFromFigure(args map[string]string) *ast.Paragraph {
 		altText = alt
 	}
 
-	text := ast.NewString([]byte(altText))
-	text.SetRaw(true)
-
-	link := ast.NewLink()
-	link.Destination = []byte(args["src"])
-	link.AppendChild(link, text)
-
 	paragraph := ast.NewParagraph()
-	paragraph.AppendChild(paragraph, ast.NewImage(link))
+	image := ast.NewImage(text.NewSingleLineValueFromString(args["src"], text.IdentityDecoder))
+	image.AppendChild(ast.NewText(text.NewSingleLineValueFromString(altText, text.IdentityDecoder)))
+	paragraph.AppendChild(image)
 
 	return paragraph
 }
 
 type FigureTransformer struct{}
-
-func (t *FigureTransformer) Extend(md goldmark.Markdown) {
-	md.Parser().AddOptions(
-		parser.WithASTTransformers(
-			util.Prioritized(t, 0)))
-}
 
 // Transform implements the parser.ASTTransformer interface and replaces all figure shortcodes with image elements.
 func (t *FigureTransformer) Transform(node *ast.Document, reader text.Reader, _ parser.Context) {
@@ -201,7 +188,7 @@ func (t *FigureTransformer) Transform(node *ast.Document, reader text.Reader, _ 
 		}
 
 		for child, replacement := range replacements {
-			node.ReplaceChild(node, child, replacement)
+			node.ReplaceChild(child, replacement)
 		}
 
 		return ast.WalkContinue, nil
@@ -244,17 +231,11 @@ func (t *HeadingTransformer) Transform(node *ast.Document, _ text.Reader, _ pars
 
 type IgnoreTransformer struct{}
 
-func (t *IgnoreTransformer) Extend(md goldmark.Markdown) {
-	md.Parser().AddOptions(
-		parser.WithASTTransformers(
-			util.Prioritized(t, 0)))
-}
-
 // Transform implements the parser.ASTTransformer interface and removes all nodes between the ignore start and end markers.
 func (t *IgnoreTransformer) Transform(node *ast.Document, reader text.Reader, _ parser.Context) {
 	source := reader.Source()
 
-	err := ast.Walk(node, func(node ast.Node, entering bool) (ast.WalkStatus, error) {
+	err := ast.Walk(node, func(node ast.Node, _ bool) (ast.WalkStatus, error) {
 		var (
 			inMarker bool
 			toRemove []ast.Node
@@ -275,7 +256,7 @@ func (t *IgnoreTransformer) Transform(node *ast.Document, reader text.Reader, _ 
 		}
 
 		for _, child := range toRemove {
-			node.RemoveChild(node, child)
+			node.RemoveChild(child)
 		}
 
 		return ast.WalkContinue, nil
@@ -295,7 +276,7 @@ func (t *InlineActionTransformer) Transform(node *ast.Document, _ text.Reader, _
 		}
 
 		if node, ok := node.(*ast.CodeSpan); ok {
-			node.SetAttributeString("data-killercoda-copy", "true")
+			node.SetAttribute("data-killercoda-copy", text.NewMultiLineValueFromString("true", text.IdentityDecoder))
 		}
 
 		return ast.WalkContinue, nil
@@ -307,14 +288,10 @@ func (t *InlineActionTransformer) Transform(node *ast.Document, _ text.Reader, _
 
 type LinkTransformer struct{}
 
-func (t *LinkTransformer) Extend(md goldmark.Markdown) {
-	md.Parser().AddOptions(
-		parser.WithASTTransformers(
-			util.Prioritized(t, 0)))
-}
-
 // Transform implements the parser.ASTTransformer interface and replaces version substitution syntax (<SOMETHING_VERSION>) with 'latest' in links.
-func (t *LinkTransformer) Transform(root *ast.Document, _ text.Reader, _ parser.Context) {
+func (t *LinkTransformer) Transform(root *ast.Document, reader text.Reader, _ parser.Context) {
+	source := reader.Source()
+
 	err := ast.Walk(root, func(node ast.Node, entering bool) (ast.WalkStatus, error) {
 		if !entering {
 			return ast.WalkContinue, nil
@@ -322,7 +299,7 @@ func (t *LinkTransformer) Transform(root *ast.Document, _ text.Reader, _ parser.
 
 		switch node := node.(type) {
 		case *ast.Image:
-			u, err := url.Parse(string(node.Destination))
+			u, err := url.Parse(node.Destination.Str(source))
 			if err != nil {
 				return ast.WalkStop, fmt.Errorf("failed to parse URL: %w", err)
 			}
@@ -332,11 +309,10 @@ func (t *LinkTransformer) Transform(root *ast.Document, _ text.Reader, _ parser.
 				u.Host = "grafana.com"
 			}
 
-			node.Destination = []byte(u.String())
+			node.Destination = text.NewSingleLineValueFromString(u.String(), text.IdentityDecoder)
 		case *ast.Link:
-			node.Destination = versionSubstitutionRegexp.ReplaceAll(node.Destination, []byte("latest"))
-
-			u, err := url.Parse(string(node.Destination))
+			replaced := versionSubstitutionRegexp.ReplaceAll(node.Destination.Bytes(source), []byte("latest"))
+			u, err := url.Parse(string(replaced))
 			if err != nil {
 				return ast.WalkStop, fmt.Errorf("failed to parse URL: %w", err)
 			}
@@ -351,9 +327,9 @@ func (t *LinkTransformer) Transform(root *ast.Document, _ text.Reader, _ parser.
 				if u.Path != "" {
 					destination += u.Path
 				}
-				node.Destination = []byte(destination)
+				node.Destination = text.NewSingleLineValueFromString(destination, text.IdentityDecoder)
 			} else {
-				node.Destination = []byte(u.String())
+				node.Destination = text.NewSingleLineValueFromString(u.String(), text.IdentityDecoder)
 			}
 		}
 
@@ -367,12 +343,6 @@ func (t *LinkTransformer) Transform(root *ast.Document, _ text.Reader, _ parser.
 type StepTransformer struct {
 	StartMarker string
 	EndMarker   string
-}
-
-func (t *StepTransformer) Extend(md goldmark.Markdown) {
-	md.Parser().AddOptions(
-		parser.WithASTTransformers(
-			util.Prioritized(t, 0)))
 }
 
 // Transform implements the parser.ASTTransformer interface and keeps only the sibling nodes within the step start and end markers.
@@ -400,11 +370,9 @@ func (t *StepTransformer) Transform(root *ast.Document, reader text.Reader, _ pa
 				toKeep = append(toKeep, sibling)
 			}
 
-			root.RemoveChildren(root)
-
-			for _, node := range toKeep {
-				root.AppendChild(root, node)
-				node.SetParent(root)
+			root.RemoveChildren()
+			for _, keep := range toKeep {
+				root.AppendChild(keep)
 			}
 
 			return ast.WalkStop, nil

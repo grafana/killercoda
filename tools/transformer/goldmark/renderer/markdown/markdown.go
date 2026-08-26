@@ -3,38 +3,99 @@ package markdown
 
 import (
 	"fmt"
+	"io"
 	"strings"
 
-	"github.com/yuin/goldmark"
-	"github.com/yuin/goldmark/ast"
-	"github.com/yuin/goldmark/renderer"
-	"github.com/yuin/goldmark/util"
+	tableext "github.com/grafana/killercoda/tools/transformer/goldmark/extension"
+	"github.com/yuin/goldmark/v2/ast"
+	"github.com/yuin/goldmark/v2/renderer"
+	"github.com/yuin/goldmark/v2/util"
 )
 
-// RegisterFuncs implements NodeRenderer.RegisterFuncs.
-func (r *Renderer) RegisterFuncs(reg renderer.NodeRendererFuncRegisterer) {
-	// Block elements.
-	reg.Register(ast.KindDocument, r.renderDocument)
-	reg.Register(ast.KindHeading, r.renderHeading)
-	reg.Register(ast.KindBlockquote, r.renderBlockquote)
-	reg.Register(ast.KindCodeBlock, r.renderCodeBlock)
-	reg.Register(ast.KindFencedCodeBlock, r.renderFencedCodeBlock)
-	reg.Register(ast.KindHTMLBlock, r.renderHTMLBlock)
-	reg.Register(ast.KindList, r.renderList)
-	reg.Register(ast.KindListItem, r.renderListItem)
-	reg.Register(ast.KindParagraph, r.renderParagraph)
-	reg.Register(ast.KindTextBlock, r.renderTextBlock)
-	reg.Register(ast.KindThematicBreak, r.renderThematicBreak)
+// Type aliases.
+type Option = renderer.Option[Config]
 
-	// Inline elements.
-	reg.Register(ast.KindAutoLink, r.renderAutoLink)
-	reg.Register(ast.KindCodeSpan, r.renderCodeSpan)
-	reg.Register(ast.KindEmphasis, r.renderEmphasis)
-	reg.Register(ast.KindImage, r.renderImage)
-	reg.Register(ast.KindLink, r.renderLink)
-	reg.Register(ast.KindRawHTML, r.renderRawHTML)
-	reg.Register(ast.KindText, r.renderText)
-	reg.Register(ast.KindString, r.renderString)
+type Config struct {
+	renderer.Config[util.BufWriter, Config]
+	KillercodaActions bool
+	Unsafe            bool
+}
+
+// Default returns a Config with default values.
+func (c Config) Default() Config {
+	return Config{
+		KillercodaActions: false,
+		Unsafe:            false,
+	}
+}
+
+// WithKillercodaActions decides whether to render Killercoda actions for fenced code blocks.
+// Actions include {{exec}} and {{copy}}.
+func WithKillercodaActions() Option {
+	return renderer.NewOptionFunc(func(c *Config) {
+		c.KillercodaActions = true
+	})
+}
+
+// WithUnsafe decides whether to render unsafe HTML.
+func WithUnsafe() Option {
+	return renderer.NewOptionFunc(func(c *Config) {
+		c.Unsafe = true
+	})
+}
+
+type Renderer struct {
+	*renderer.Helper[util.BufWriter, Config]
+
+	prefix          string
+	lastWrittenByte byte
+}
+
+// NewRenderer configures a new Goldmark renderer for Markdown.
+func NewRenderer(opts ...Option) *Renderer {
+	r := &Renderer{}
+
+	nodes := map[ast.NodeKind]renderer.NodeRenderer[util.BufWriter]{
+		ast.KindDocument:      renderer.NodeRendererFunc(r.renderDocument),
+		ast.KindHeading:       renderer.NodeRendererFunc(r.renderHeading),
+		ast.KindBlockquote:    renderer.NodeRendererFunc(r.renderBlockquote),
+		ast.KindCodeBlock:     renderer.NodeRendererFunc(r.renderCodeBlock),
+		ast.KindHTMLBlock:     renderer.NodeRendererFunc(r.renderHTMLBlock),
+		ast.KindList:          renderer.NodeRendererFunc(r.renderList),
+		ast.KindListItem:      renderer.NodeRendererFunc(r.renderListItem),
+		ast.KindParagraph:     renderer.NodeRendererFunc(r.renderParagraph),
+		ast.KindThematicBreak: renderer.NodeRendererFunc(r.renderThematicBreak),
+
+		ast.KindAutoLink: renderer.NodeRendererFunc(r.renderAutoLink),
+		ast.KindCodeSpan: renderer.NodeRendererFunc(r.renderCodeSpan),
+		ast.KindEmphasis: renderer.NodeRendererFunc(r.renderEmphasis),
+		ast.KindStrong:   renderer.NodeRendererFunc(r.renderStrong),
+		ast.KindImage:    renderer.NodeRendererFunc(r.renderImage),
+		ast.KindLink:     renderer.NodeRendererFunc(r.renderLink),
+		ast.KindRawHTML:  renderer.NodeRendererFunc(r.renderRawHTML),
+		ast.KindText:     renderer.NodeRendererFunc(r.renderText),
+	}
+
+	for kind, nodeRenderer := range tableext.TableNodeRenderers() {
+		nodes[kind] = nodeRenderer
+	}
+
+	opts = append([]Option{renderer.WithNodeRenderers[util.BufWriter, Config](nodes)}, opts...)
+	r.Helper = renderer.NewHelper[util.BufWriter](opts...)
+
+	return r
+}
+
+// Render renders the given AST node to the given writer.
+func (r *Renderer) Render(w io.Writer, source []byte, n ast.Node, opts ...renderer.RenderOption) error {
+	r.prefix = ""
+	r.lastWrittenByte = 0
+
+	if ew, ok := w.(util.ErrorBufWriter); ok {
+		return r.Helper.Render(ew, source, n, opts...)
+	}
+
+	return r.Helper.Render(util.NewErrorBufWriterSize(w, len(source)*3), source, n, opts...)
 }
 
 // isNewline checks whether the writee is a single newline character.
@@ -57,8 +118,6 @@ func isNewline(writee any) bool {
 func (r *Renderer) write(w util.BufWriter, writee any) {
 	if r.lastWrittenByte == '\n' {
 		if isNewline(writee) {
-			// If we are writing newlines to separate paragraphs, we don't want trailing spaces.
-			// For example, if we are writing a blockquote paragraph newline, we want '>\n' instead of '> \n'.
 			w.WriteString(strings.TrimSpace(r.prefix))
 		} else {
 			w.WriteString(r.prefix)
@@ -91,7 +150,6 @@ func (r *Renderer) write(w util.BufWriter, writee any) {
 }
 
 // secureWrite writes the source to the buf writer, replacing any null characters with the replacement character.
-// https://github.com/yuin/goldmark/blob/04410ff159c9f5fd61c2988402355e44ec9197f5/renderer/html/html.go#L869-L884
 func (r *Renderer) secureWrite(w util.BufWriter, source []byte) {
 	var (
 		n int
@@ -115,87 +173,10 @@ func (r *Renderer) secureWrite(w util.BufWriter, source []byte) {
 	}
 }
 
-func (r *Renderer) writeLines(w util.BufWriter, source []byte, n ast.Node) {
-	for i := 0; i < n.Lines().Len(); i++ {
-		line := n.Lines().At(i)
-		r.write(w, line.Value(source))
+func (r *Renderer) writeLines(w util.BufWriter, source []byte, lines [][]byte) {
+	for _, line := range lines {
+		r.write(w, line)
 	}
-}
-
-type Config struct {
-	KillercodaActions bool
-	Unsafe            bool
-}
-
-// NewConfig returns a new Config with defaults.
-func NewConfig() Config {
-	return Config{
-		KillercodaActions: false,
-		Unsafe:            false,
-	}
-}
-
-// SetOption implements renderer.NodeRenderer.SetOption.
-func (c *Config) SetOption(name renderer.OptionName, value interface{}) {
-	switch name {
-	case optKillercodaActions:
-		c.KillercodaActions = value.(bool)
-	case optUnsafe:
-		c.Unsafe = value.(bool)
-	}
-}
-
-// An Option interface sets options for Markdown based renderers.
-type Option interface {
-	SetMarkdownOption(c *Config)
-}
-
-const optKillercodaActions renderer.OptionName = "KillercodaActions"
-
-type withKillercodaActions struct{}
-
-func (o *withKillercodaActions) SetConfig(c *renderer.Config) {
-	c.Options[optKillercodaActions] = true
-}
-
-func (o *withKillercodaActions) SetMarkdownOption(c *Config) {
-	c.KillercodaActions = true
-}
-
-// WithKillercodaActions decides whether to render Killercoda actions for fenced code blocks.
-// Actions include {{exec}} and {{copy}}.
-func WithKillercodaActions() interface {
-	renderer.Option
-	Option
-} {
-	return &withKillercodaActions{}
-}
-
-const optUnsafe renderer.OptionName = "Unsafe"
-
-type withUnsafe struct{}
-
-func (o *withUnsafe) SetConfig(c *renderer.Config) {
-	c.Options[optUnsafe] = true
-}
-
-func (o *withUnsafe) SetMarkdownOption(c *Config) {
-	c.Unsafe = true
-}
-
-// WithUnsafe decides whether to render unsafe HTML.
-func WithUnsafe() interface {
-	renderer.Option
-	Option
-} {
-	return &withUnsafe{}
-}
-
-type Renderer struct {
-	Config
-
-	prefix          string
-	lastWrittenByte byte
 }
 
 func (r *Renderer) pushPrefix(str string) {
@@ -204,24 +185,4 @@ func (r *Renderer) pushPrefix(str string) {
 
 func (r *Renderer) popPrefix(str string) {
 	r.prefix = strings.TrimSuffix(r.prefix, str)
-}
-
-// NewRenderer configures a new Goldmark renderer for Markdown.
-func NewRenderer(opts ...Option) *Renderer {
-	renderer := &Renderer{
-		Config: NewConfig(),
-
-		prefix:          "",
-		lastWrittenByte: 0,
-	}
-
-	for _, opt := range opts {
-		opt.SetMarkdownOption(&renderer.Config)
-	}
-
-	return renderer
-}
-
-func (r *Renderer) Extend(md goldmark.Markdown) {
-	md.SetRenderer(renderer.NewRenderer(renderer.WithNodeRenderers(util.Prioritized(r, 1000))))
 }
