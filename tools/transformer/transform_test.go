@@ -8,9 +8,6 @@ import (
 
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
-	"github.com/yuin/goldmark"
-	"github.com/yuin/goldmark/text"
-	"github.com/yuin/goldmark/util"
 )
 
 //nolint:goconst // Strings are repeated for readability.
@@ -22,13 +19,10 @@ func TestActionTransformer_Transform(t *testing.T) {
 
 		b := &bytes.Buffer{}
 		w := bufio.NewWriter(b)
-		md := goldmark.New(goldmark.WithExtensions(&KillercodaExtension{
-			Transformers: []util.PrioritizedValue{},
-			AdditionalExtenders: []goldmark.Extender{
-				&ActionTransformer{Kind: "copy"},
-				&ActionTransformer{Kind: "exec"},
-			},
-		}))
+		md := NewTransformerMarkdown(nil,
+			&ActionTransformer{Kind: "copy"},
+			&ActionTransformer{Kind: "exec"},
+		)
 
 		src := []byte("1. Create a directory called `evaluate-loki` for the demo environment.\n" +
 			"   Make `evaluate-loki` your current working directory:\n" +
@@ -42,8 +36,8 @@ func TestActionTransformer_Transform(t *testing.T) {
 			"\n" +
 			"   <!-- INTERACTIVE copy END -->\n")
 
-		root := md.Parser().Parse(text.NewReader(src))
-		require.NoError(t, md.Renderer().Render(w, src, root))
+		root := md.Parse(src)
+		require.NoError(t, md.Render(w, src, root))
 
 		w.Flush()
 
@@ -63,13 +57,10 @@ func TestActionTransformer_Transform(t *testing.T) {
 
 		b := &bytes.Buffer{}
 		w := bufio.NewWriter(b)
-		md := goldmark.New(goldmark.WithExtensions(&KillercodaExtension{
-			Transformers: []util.PrioritizedValue{},
-			AdditionalExtenders: []goldmark.Extender{
-				&ActionTransformer{Kind: "copy"},
-				&ActionTransformer{Kind: "exec"},
-			},
-		}))
+		md := NewTransformerMarkdown(nil,
+			&ActionTransformer{Kind: "copy"},
+			&ActionTransformer{Kind: "exec"},
+		)
 
 		src := []byte("1. Create a directory called `evaluate-loki` for the demo environment.\n" +
 			"   Make `evaluate-loki` your current working directory:\n" +
@@ -79,8 +70,8 @@ func TestActionTransformer_Transform(t *testing.T) {
 			"   cd evaluate-loki\n" +
 			"   ```\n")
 
-		root := md.Parser().Parse(text.NewReader(src))
-		require.NoError(t, md.Renderer().Render(w, src, root))
+		root := md.Parse(src)
+		require.NoError(t, md.Render(w, src, root))
 
 		w.Flush()
 
@@ -100,13 +91,10 @@ func TestActionTransformer_Transform(t *testing.T) {
 
 		b := &bytes.Buffer{}
 		w := bufio.NewWriter(b)
-		md := goldmark.New(goldmark.WithExtensions(&KillercodaExtension{
-			Transformers: []util.PrioritizedValue{},
-			AdditionalExtenders: []goldmark.Extender{
-				&ActionTransformer{Kind: "copy"},
-				&ActionTransformer{Kind: "exec"},
-			},
-		}))
+		md := NewTransformerMarkdown(nil,
+			&ActionTransformer{Kind: "copy"},
+			&ActionTransformer{Kind: "exec"},
+		)
 
 		src := []byte("1. Create a directory called `evaluate-loki` for the demo environment.\n" +
 			"   Make `evaluate-loki` your current working directory:\n" +
@@ -120,8 +108,8 @@ func TestActionTransformer_Transform(t *testing.T) {
 			"\n" +
 			"   <!-- INTERACTIVE exec END -->\n")
 
-		root := md.Parser().Parse(text.NewReader(src))
-		require.NoError(t, md.Renderer().Render(w, src, root))
+		root := md.Parse(src)
+		require.NoError(t, md.Render(w, src, root))
 
 		w.Flush()
 
@@ -141,13 +129,10 @@ func TestActionTransformer_Transform(t *testing.T) {
 
 		b := &bytes.Buffer{}
 		w := bufio.NewWriter(b)
-		md := goldmark.New(goldmark.WithExtensions(&KillercodaExtension{
-			Transformers: []util.PrioritizedValue{},
-			AdditionalExtenders: []goldmark.Extender{
-				&ActionTransformer{Kind: "copy"},
-				&ActionTransformer{Kind: "exec"},
-			},
-		}))
+		md := NewTransformerMarkdown(nil,
+			&ActionTransformer{Kind: "copy"},
+			&ActionTransformer{Kind: "exec"},
+		)
 
 		src := []byte("1. Create a directory called `evaluate-loki` for the demo environment.\n" +
 			"   Make `evaluate-loki` your current working directory:\n" +
@@ -157,8 +142,8 @@ func TestActionTransformer_Transform(t *testing.T) {
 			"   cd evaluate-loki\n" +
 			"   ```\n")
 
-		root := md.Parser().Parse(text.NewReader(src))
-		require.NoError(t, md.Renderer().Render(w, src, root))
+		root := md.Parse(src)
+		require.NoError(t, md.Render(w, src, root))
 
 		w.Flush()
 
@@ -182,17 +167,14 @@ func TestFigureTransformer_Transform(t *testing.T) {
 
 		b := &bytes.Buffer{}
 		w := bufio.NewWriter(b)
-		md := goldmark.New(goldmark.WithExtensions(&KillercodaExtension{
-			Transformers: []util.PrioritizedValue{},
-			AdditionalExtenders: []goldmark.Extender{
-				&FigureTransformer{},
-			},
-		}))
+		md := NewTransformerMarkdown(nil,
+			&FigureTransformer{},
+		)
 
 		src := []byte("{{< figure src=\"/media/docs/loki/grafana-query-builder-v2.png\" caption=\"Grafana Explore\" alt=\"Grafana Explore\" >}}\n")
 
-		root := md.Parser().Parse(text.NewReader(src))
-		require.NoError(t, md.Renderer().Render(w, src, root))
+		root := md.Parse(src)
+		require.NoError(t, md.Render(w, src, root))
 
 		w.Flush()
 
@@ -206,17 +188,14 @@ func TestFigureTransformer_Transform(t *testing.T) {
 
 		b := &bytes.Buffer{}
 		w := bufio.NewWriter(b)
-		md := goldmark.New(goldmark.WithExtensions(&KillercodaExtension{
-			Transformers: []util.PrioritizedValue{},
-			AdditionalExtenders: []goldmark.Extender{
-				&FigureTransformer{},
-			},
-		}))
+		md := NewTransformerMarkdown(nil,
+			&FigureTransformer{},
+		)
 
 		src := []byte("{{< figure src=\"/media/docs/loki/grafana-query-builder-v2.png\" caption=\"Grafana Explore\" >}}\n")
 
-		root := md.Parser().Parse(text.NewReader(src))
-		require.NoError(t, md.Renderer().Render(w, src, root))
+		root := md.Parse(src)
+		require.NoError(t, md.Render(w, src, root))
 
 		w.Flush()
 
@@ -230,17 +209,14 @@ func TestFigureTransformer_Transform(t *testing.T) {
 
 		b := &bytes.Buffer{}
 		w := bufio.NewWriter(b)
-		md := goldmark.New(goldmark.WithExtensions(&KillercodaExtension{
-			Transformers: []util.PrioritizedValue{},
-			AdditionalExtenders: []goldmark.Extender{
-				&FigureTransformer{},
-			},
-		}))
+		md := NewTransformerMarkdown(nil,
+			&FigureTransformer{},
+		)
 
 		src := []byte("{{< figure src=\"/media/docs/loki/grafana-query-builder-v2.png\" >}}\n")
 
-		root := md.Parser().Parse(text.NewReader(src))
-		require.NoError(t, md.Renderer().Render(w, src, root))
+		root := md.Parse(src)
+		require.NoError(t, md.Render(w, src, root))
 
 		w.Flush()
 
@@ -254,20 +230,17 @@ func TestFigureTransformer_Transform(t *testing.T) {
 
 		b := &bytes.Buffer{}
 		w := bufio.NewWriter(b)
-		md := goldmark.New(goldmark.WithExtensions(&KillercodaExtension{
-			Transformers: []util.PrioritizedValue{},
-			AdditionalExtenders: []goldmark.Extender{
-				&FigureTransformer{},
-			},
-		}))
+		md := NewTransformerMarkdown(nil,
+			&FigureTransformer{},
+		)
 
 		src := []byte(`{{< figure src="/media/docs/loki/grafana-query-builder-v2.png" >}}
 
 {{< figure src="/media/docs/loki/grafana-query-builder-v2.png" caption="Grafana Explore" >}}
 `)
 
-		root := md.Parser().Parse(text.NewReader(src))
-		require.NoError(t, md.Renderer().Render(w, src, root))
+		root := md.Parse(src)
+		require.NoError(t, md.Render(w, src, root))
 
 		w.Flush()
 
@@ -286,12 +259,9 @@ func TestIgnoreTransformer_Transform(t *testing.T) {
 
 	b := &bytes.Buffer{}
 	w := bufio.NewWriter(b)
-	md := goldmark.New(goldmark.WithExtensions(&KillercodaExtension{
-		Transformers: []util.PrioritizedValue{},
-		AdditionalExtenders: []goldmark.Extender{
-			&IgnoreTransformer{},
-		},
-	}))
+	md := NewTransformerMarkdown(nil,
+		&IgnoreTransformer{},
+	)
 
 	src := []byte(`## Install Loki and collecting sample logs
 
@@ -306,8 +276,8 @@ This quickstart assumes you are running Linux.
 **To install Loki locally, follow these steps:**
 `)
 
-	root := md.Parser().Parse(text.NewReader(src))
-	require.NoError(t, md.Renderer().Render(w, src, root))
+	root := md.Parse(src)
+	require.NoError(t, md.Render(w, src, root))
 
 	w.Flush()
 
@@ -324,12 +294,9 @@ func TestLinkTransformer_Transform(t *testing.T) {
 
 	b := &bytes.Buffer{}
 	w := bufio.NewWriter(b)
-	md := goldmark.New(goldmark.WithExtensions(&KillercodaExtension{
-		Transformers: []util.PrioritizedValue{},
-		AdditionalExtenders: []goldmark.Extender{
-			&LinkTransformer{},
-		},
-	}))
+	md := NewTransformerMarkdown(nil,
+		&LinkTransformer{},
+	)
 
 	src := []byte(`You can view your logs using the command line interface, [LogCLI](/docs/loki/latest/query/logcli/), but the easiest way to view your logs is with Grafana.
 
@@ -339,8 +306,8 @@ It runs Loki in a [monolithic deployment](https://grafana.com/docs/loki/<LOKI_VE
 - You can access the Grafana Alloy UI at [http://localhost:12345/ready](http://localhost:12345/ready).
 `)
 
-	root := md.Parser().Parse(text.NewReader(src))
-	require.NoError(t, md.Renderer().Render(w, src, root))
+	root := md.Parse(src)
+	require.NoError(t, md.Render(w, src, root))
 
 	w.Flush()
 
@@ -364,12 +331,9 @@ func TestStepTransformer_Transform(t *testing.T) {
 		b := &bytes.Buffer{}
 		w := bufio.NewWriter(b)
 
-		md := goldmark.New(goldmark.WithExtensions(&KillercodaExtension{
-			Transformers: []util.PrioritizedValue{},
-			AdditionalExtenders: []goldmark.Extender{
-				&StepTransformer{StartMarker: pageIntroStartMarker, EndMarker: pageIntroEndMarker},
-			},
-		}))
+		md := NewTransformerMarkdown(nil,
+			&StepTransformer{StartMarker: pageIntroStartMarker, EndMarker: pageIntroEndMarker},
+		)
 
 		src := []byte(`<!-- INTERACTIVE page intro.md START -->
 
@@ -385,8 +349,8 @@ The Docker Compose configuration instantiates the following components, each in 
 <!-- INTERACTIVE page intro.md END -->
 `)
 
-		root := md.Parser().Parse(text.NewReader(src))
-		require.NoError(t, md.Renderer().Render(w, src, root))
+		root := md.Parse(src)
+		require.NoError(t, md.Render(w, src, root))
 
 		w.Flush()
 

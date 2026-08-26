@@ -51,24 +51,33 @@ func NewSubstitutionPreprocessor(substitutions map[*regexp.Regexp][]byte) *Subst
 	return &SubstitutionPreprocessor{substitutions: substitutions}
 }
 
-func NewSubstitutionPreprocessorFromMeta(meta map[any]any) (*SubstitutionPreprocessor, error) {
+func NewSubstitutionPreprocessorFromMeta(meta map[string]any) (*SubstitutionPreprocessor, error) {
 	subs := make(map[*regexp.Regexp][]byte)
 
-	if preprocessing, ok := meta["preprocessing"].(map[any]any); ok {
+	if preprocessing, ok := meta["preprocessing"].(map[string]any); ok {
 		if substitutions, ok := preprocessing["substitutions"].([]any); ok {
 			for _, substitution := range substitutions {
-				if s, ok := substitution.(map[any]any); ok {
-					if expr, ok := s["regexp"].(string); ok {
-						if replacement, ok := s["replacement"].(string); ok {
-							re, err := regexp.Compile(expr)
-							if err != nil {
-								return nil, fmt.Errorf("couldn't compile regular expression %q: %w", expr, err)
-							}
-
-							subs[re] = []byte(replacement)
-						}
-					}
+				s, ok := substitution.(map[string]any)
+				if !ok {
+					continue
 				}
+
+				expr, ok := s["regexp"].(string)
+				if !ok {
+					continue
+				}
+
+				replacement, ok := s["replacement"].(string)
+				if !ok {
+					continue
+				}
+
+				re, err := regexp.Compile(expr)
+				if err != nil {
+					return nil, fmt.Errorf("couldn't compile regular expression %q: %w", expr, err)
+				}
+
+				subs[re] = []byte(replacement)
 			}
 		}
 	}

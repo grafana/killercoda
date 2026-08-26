@@ -1,54 +1,38 @@
-// Package goldmark provides extensions to the Goldmark Markdown interface.
+// Package goldmark provides parser configuration helpers.
 package goldmark
 
 import (
-	"github.com/yuin/goldmark"
 	meta "github.com/yuin/goldmark-meta/v2"
-	"github.com/yuin/goldmark/extension"
-	"github.com/yuin/goldmark/parser"
+	"github.com/yuin/goldmark/v2/extension"
+	"github.com/yuin/goldmark/v2/parser"
 	"mvdan.cc/xurls/v2"
 )
 
-// Extension contains Goldmark extensions.
-type Extension struct {
-	Extenders     []goldmark.Extender
-	ParserOptions []parser.Option
-}
-
-// NewWebsite returns an extension to the Goldmark Markdown interface configured to approximate the Grafana website configuration.
+// NewWebsiteParser returns a parser configured to approximate the Grafana website configuration.
 // For list of default extensions: https://gohugo.io/getting-started/configuration-markup/.
 // For the website configuration:
 // https://github.com/grafana/website/blob/master/config/_default/config.yaml#L103-L121
-func NewWebsite() *Extension {
-	return &Extension{
-		Extenders: []goldmark.Extender{
-			extension.DefinitionList,
-			extension.Footnote,
-			extension.NewLinkify(
-				extension.WithLinkifyAllowedProtocols([][]byte{
+func NewWebsiteParser(opts ...parser.Option) parser.Parser {
+	base := []parser.Option{
+		parser.WithExtensions(
+			meta.Parser,
+			extension.NewDefinitionListParser(),
+			extension.NewFootnoteParser(),
+			extension.NewLinkifyParser(
+				extension.WithAllowedProtocols([][]byte{
 					[]byte("http:"),
 					[]byte("https:"),
 				}),
-				extension.WithLinkifyURLRegexp(
-					xurls.Strict(),
-				)),
-			extension.Strikethrough,
-			extension.Table,
-			extension.TaskList,
-			// Disable typographer because we want to keep the Markdown source as close to the rendered output as possible.
-			// extension.Typographer,
-			meta.New(meta.WithStoresInDocument()),
-		},
-		ParserOptions: []parser.Option{
-			parser.WithAutoHeadingID(),
-		},
+				extension.WithURLRegexp(xurls.Strict()),
+			),
+			extension.NewStrikethroughParser(),
+			extension.NewTableParser(),
+			extension.NewTaskListItemParser(),
+		),
+		parser.WithAutoHeadingID(),
 	}
-}
 
-func (e *Extension) Extend(md goldmark.Markdown) {
-	md.Parser().AddOptions(e.ParserOptions...)
+	base = append(base, opts...)
 
-	for _, extender := range e.Extenders {
-		extender.Extend(md)
-	}
+	return parser.New(base...)
 }

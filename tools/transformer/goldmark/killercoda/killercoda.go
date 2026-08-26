@@ -1,7 +1,7 @@
 // Package killercoda implements parsers for Killercoda Markdown where it differs from CommonMark.
 //
 // The fenced code block parser is based on the Goldmark parser.
-// https://github.com/yuin/goldmark/blob/15ade8aace9a9f269846fb83d36fc7bcec875cd5/parser/fcode_block.go
+// https://github.com/yuin/goldmark/blob/master/parser/fcode_block.go
 // MIT License
 
 // Copyright (c) 2019 Yusuke Inuzuka
@@ -29,29 +29,11 @@ import (
 	"bytes"
 	"regexp"
 
-	"github.com/yuin/goldmark"
-	"github.com/yuin/goldmark/ast"
-	"github.com/yuin/goldmark/parser"
-	"github.com/yuin/goldmark/text"
-	"github.com/yuin/goldmark/util"
+	"github.com/yuin/goldmark/v2/ast"
+	"github.com/yuin/goldmark/v2/parser"
+	"github.com/yuin/goldmark/v2/text"
+	"github.com/yuin/goldmark/v2/util"
 )
-
-type fencedCodeBlock struct{}
-
-// FencedCodeBlock is an extension that allow you to use Killercoda fenced code blocks.
-// The code blocks are similar to ordinary fenced code blocks, but the closing fence may contain an action in paired curly braces.
-// For example:
-// ```bash
-// echo "Hello, World!"
-// ```{{exec}}
-// In the previous example, the action is `exec`.
-var FencedCodeBlock = &fencedCodeBlock{}
-
-func (e *fencedCodeBlock) Extend(m goldmark.Markdown) {
-	m.Parser().AddOptions(parser.WithBlockParsers(
-		util.Prioritized(NewFencedCodeBlockParser(), 101),
-	))
-}
 
 type fencedCodeBlockParser struct{}
 
@@ -78,7 +60,6 @@ func (b *fencedCodeBlockParser) Trigger() []byte {
 func (b *fencedCodeBlockParser) Open(_ ast.Node, reader text.Reader, pc parser.Context) (ast.Node, parser.State) {
 	line, segment := reader.PeekLine()
 	pos := pc.BlockOffset()
-
 	if pos < 0 || (line[pos] != '`' && line[pos] != '~') {
 		return nil, parser.NoChildren
 	}
@@ -86,36 +67,32 @@ func (b *fencedCodeBlockParser) Open(_ ast.Node, reader text.Reader, pc parser.C
 	findent := pos
 	fenceChar := line[pos]
 	i := pos
-	for ; i < len(line) && line[i] == fenceChar; i++ {
+	for i < len(line) && line[i] == fenceChar {
+		i++
 	}
-
 	oFenceLength := i - pos
-	if minFenceLength := 3; oFenceLength < minFenceLength {
+	if oFenceLength < 3 {
 		return nil, parser.NoChildren
 	}
 
-	var info *ast.Text
+	var info text.SingleLineValue
 	if i < len(line)-1 {
 		rest := line[i:]
 		left := util.TrimLeftSpaceLength(rest)
 		right := util.TrimRightSpaceLength(rest)
-
 		if left < len(rest)-right {
 			infoStart, infoStop := segment.Start-segment.Padding+i+left, segment.Stop-right
 			value := rest[left : len(rest)-right]
-
 			if fenceChar == '`' && bytes.IndexByte(value, '`') > -1 {
 				return nil, parser.NoChildren
 			}
-
 			if infoStart != infoStop {
-				info = ast.NewTextSegment(text.NewSegment(infoStart, infoStop))
+				info = text.NewSingleLineValueFromIndex(text.NewIndex(infoStart, infoStop), reader.Decoder())
 			}
 		}
 	}
 
-	node := ast.NewFencedCodeBlock(info)
-
+	node := ast.NewCodeBlock(ast.CodeBlockKindFenced, text.Lines{}, ast.WithCodeBlockInfo(info))
 	pc.Set(fencedCodeBlockInfoKey, &fenceData{fenceChar, findent, oFenceLength, node})
 
 	return node, parser.NoChildren
@@ -130,7 +107,8 @@ func (b *fencedCodeBlockParser) Continue(node ast.Node, reader text.Reader, pc p
 	w, pos := util.IndentWidth(line, reader.LineOffset())
 	if w < 4 {
 		i := pos
-		for ; i < len(line) && line[i] == fdata.char; i++ {
+		for i < len(line) && line[i] == fdata.char {
+			i++
 		}
 
 		length := i - pos
@@ -139,31 +117,20 @@ func (b *fencedCodeBlockParser) Continue(node ast.Node, reader text.Reader, pc p
 			if matches != nil {
 				switch matches[1] {
 				case "copy":
-					node.SetAttributeString("data-killercoda-copy", "true")
+					node.SetAttribute("data-killercoda-copy", text.NewMultiLineValueFromString("true", text.IdentityDecoder))
 				case "exec":
-					node.SetAttributeString("data-killercoda-exec", "true")
+					node.SetAttribute("data-killercoda-exec", text.NewMultiLineValueFromString("true", text.IdentityDecoder))
 				}
 			}
 
-			newline := 1
-
-			if line[len(line)-1] != '\n' {
-				newline = 0
-			}
-
-			reader.Advance(segment.Stop - segment.Start - newline + segment.Padding)
-
+			reader.AdvanceToEOL()
 			return parser.Close
 		}
 	}
 
 	pos, padding := util.IndentPositionPadding(line, reader.LineOffset(), segment.Padding, fdata.indent)
 	if pos < 0 {
-		pos = util.FirstNonSpacePosition(line)
-		if pos < 0 {
-			pos = 0
-		}
-
+		pos = max(0, util.FirstNonSpacePosition(line)) - segment.Padding
 		padding = 0
 	}
 
@@ -174,8 +141,9 @@ func (b *fencedCodeBlockParser) Continue(node ast.Node, reader text.Reader, pc p
 		preserveLeadingTabInCodeBlock(&seg, reader, fdata.indent)
 	}
 
-	node.Lines().Append(seg)
-	reader.AdvanceAndSetPadding(segment.Stop-segment.Start-pos-1, padding)
+	seg.ForceNewline = true
+	node.(*ast.CodeBlock).Value.AppendSegment(seg)
+	reader.AdvanceToEOL()
 
 	return parser.Continue | parser.NoChildren
 }
