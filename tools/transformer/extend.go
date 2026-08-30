@@ -3,9 +3,9 @@ package main
 import (
 	tgoldmark "github.com/grafana/killercoda/tools/transformer/goldmark"
 	"github.com/grafana/killercoda/tools/transformer/goldmark/renderer/markdown"
-	"github.com/yuin/goldmark"
-	"github.com/yuin/goldmark/parser"
-	"github.com/yuin/goldmark/util"
+	"github.com/yuin/goldmark/v2"
+	"github.com/yuin/goldmark/v2/parser"
+	"github.com/yuin/goldmark/v2/util"
 )
 
 var DefaultKillercodaTransformers = []util.PrioritizedValue{
