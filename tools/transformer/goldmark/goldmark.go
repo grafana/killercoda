@@ -2,10 +2,10 @@
 package goldmark
 
 import (
-	"github.com/yuin/goldmark"
 	meta "github.com/yuin/goldmark-meta"
-	"github.com/yuin/goldmark/extension"
-	"github.com/yuin/goldmark/parser"
+	"github.com/yuin/goldmark/v2"
+	"github.com/yuin/goldmark/v2/extension"
+	"github.com/yuin/goldmark/v2/parser"
 	"mvdan.cc/xurls/v2"
 )
 

@@ -14,8 +14,8 @@ import (
 
 	"github.com/grafana/killercoda/tools/transformer/goldmark/extension"
 	"github.com/grafana/killercoda/tools/transformer/killercoda"
-	"github.com/yuin/goldmark"
-	"github.com/yuin/goldmark/text"
+	"github.com/yuin/goldmark/v2"
+	"github.com/yuin/goldmark/v2/text"
 )
 
 const command = "transformer"
