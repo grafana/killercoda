@@ -1,7 +1,7 @@
 package killercoda
 
 // Populate the Index struct with the parsed data from the Markdown file.
-func FromMeta(meta map[any]any) (Index, error) {
+func FromMeta(meta map[string]any) (Index, error) {
 	var index Index
 
 	if title, ok := meta["title"].(string); ok {
@@ -12,8 +12,8 @@ func FromMeta(meta map[any]any) (Index, error) {
 		index.Description = description
 	}
 
-	if details, ok := meta["details"].(map[any]any); ok {
-		if intro, ok := details["intro"].(map[any]any); ok {
+	if details, ok := meta["details"].(map[string]any); ok {
+		if intro, ok := details["intro"].(map[string]any); ok {
 			if text, ok := intro["text"].(string); ok {
 				index.Details.Intro.Text = text
 			}
@@ -28,7 +28,7 @@ func FromMeta(meta map[any]any) (Index, error) {
 
 		if steps, ok := details["steps"].([]any); ok {
 			for _, step := range steps {
-				if step, ok := step.(map[any]any); ok {
+				if step, ok := step.(map[string]any); ok {
 					if text, ok := step["text"].(string); ok {
 						index.Details.Steps = append(index.Details.Steps, Text{Text: text})
 					}
@@ -36,7 +36,7 @@ func FromMeta(meta map[any]any) (Index, error) {
 			}
 		}
 
-		if finished, ok := details["finish"].(map[any]any); ok {
+		if finished, ok := details["finish"].(map[string]any); ok {
 			if text, ok := finished["text"].(string); ok {
 				index.Details.Finish.Text = text
 			}
@@ -50,7 +50,7 @@ func FromMeta(meta map[any]any) (Index, error) {
 		}
 	}
 
-	if backend, ok := meta["backend"].(map[any]any); ok {
+	if backend, ok := meta["backend"].(map[string]any); ok {
 		if imageID, ok := backend["imageid"].(string); ok {
 			index.Backend.Imageid = imageID
 		}
