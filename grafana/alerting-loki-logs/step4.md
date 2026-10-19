@@ -1,6 +1,6 @@
 # Create an alert rule
 
-Next, we'll establish an [alert rule](http://grafana.com/docs/grafana/next/alerting/fundamentals/alert-rule-evaluation/) within Grafana Alerting to notify us whenever alert rules are triggered and resolved.
+Next, we'll establish an [alert rule](https://grafana.com/docs/grafana/latest/alerting/fundamentals/alert-rule-evaluation/) within Grafana Alerting to notify us whenever alert rules are triggered and resolved.
 
 1. In Grafana, **navigate to Alerting** > **Alert rules**.
 1. Click on **New alert rule**.
@@ -8,10 +8,10 @@ Next, we'll establish an [alert rule](http://grafana.com/docs/grafana/next/alert
 
 ## Define query and alert condition
 
-In this section, we use the default options for Grafana-managed alert rule creation. The default options let us define the query, a expression (used to manipulate the data -- the `WHEN`{{copy}} field in the UI), and the condition that must be met for the alert to be triggered (in default mode is the threshold).
+In this section, we use the default options for Grafana-managed alert rule creation. The default options let us define the query, an expression (used to manipulate the data -- the `WHEN`{{copy}} field in the UI), and the condition that must be met for the alert to be triggered (in default mode is the threshold).
 
-1. Select the **Loki** datasource from the drop-down.
-1. In the Query editor, switch to **Code** mode by clicking the button on the right.
+1. Select the **Loki** data source from the drop-down.
+1. The query editor opens in **Code** mode by default. If it's showing **Builder** mode instead, click **Code** on the right.
 1. Paste the query below.
 
    ```
@@ -27,9 +27,7 @@ In this section, we use the default options for Grafana-managed alert rule creat
    ```{{copy}}
 
    If you're using your own logs, modify the LogQL query to match your own log message. Refer to the Loki docs to understand the [pattern parser](https://grafana.com/docs/loki/latest/logql/log_queries/#pattern).
-1. In the **Alert condition** section:
-
-   - Keep `Last`{{copy}} as the value for the reducer function (`WHEN`{{copy}}), and `0`{{copy}} as the threshold value. This is the value above which the alert rule should trigger.
+1. In the **Alert condition** section, confirm the condition reads **WHEN QUERY IS ABOVE** `0`{{copy}}. This is the default, and `0`{{copy}} is the threshold above which the alert rule should trigger.
 1. Click **Preview alert rule condition** to run the query.
 
    It should return alert instances from log lines with a status code that is not 200 (OK), and that has met the alert condition. The condition for the alert rule to fire is any occurrence that goes over the threshold of `0`{{copy}}. Since the Loki query has returned more than zero alert instances, the alert rule is `Firing`{{copy}}.
@@ -38,22 +36,25 @@ In this section, we use the default options for Grafana-managed alert rule creat
 
 ## Set evaluation behavior
 
-An [evaluation group](https://grafana.com/docs/grafana/latest/alerting/fundamentals/alert-rules/rule-evaluation/) defines when an alert rule fires, and it’s based on two settings:
+The [alert rule evaluation](https://grafana.com/docs/grafana/latest/alerting/fundamentals/alert-rules/rule-evaluation/) defines the conditions under which an alert rule triggers, based on the following settings:
 
-- **Evaluation group**: how frequently the alert rule is evaluated.
-- **Evaluation interval**: how long the condition must be met to start firing. This allows your data time to stabilize before triggering an alert, helping to reduce the frequency of unnecessary notifications.
+- **Evaluation group**: every alert rule is assigned to an evaluation group. You can assign the alert rule to an existing evaluation group or create a new one.
+- **Evaluation interval**: determines how frequently the alert rule is checked. For instance, the evaluation may occur every 10s, 30s, 1m, 10m, etc.
+- **Pending period**: how long the condition must be met to trigger the alert rule.
+- **Keep firing for**: defines how long an alert should remain in the Firing state after the alert condition stops being true. During this time, the alert enters a _Recovering_ state, suppressing additional notifications but keeping the alert active. It helps prevent alert flapping, where alerts rapidly switch between firing and resolved due to noisy or unstable metrics.
 
 To set up the evaluation:
 
 1. In **Folder**, click **+ New folder** and enter a name. For example: _web-server-alerts_. This folder contains our alerts.
-1. In the **Evaluation group**, repeat the above step to create a new evaluation group. Name it _1m-evaluation_.
-1. Choose an **Evaluation interval** (how often the alert are evaluated).
-   For example, every `1m`{{copy}} (1 minute).
+1. In **Evaluation group and interval**, click **+ New evaluation group**.
+1. In **Evaluation group name**, enter _1m-evaluation_.
+1. Keep **Evaluation interval** set to `1m`{{copy}} (1 minute), so the alert rule is evaluated every minute, and then click **Create**.
 1. Set the pending period to, `0s`{{copy}} (zero seconds), so the alert rule fires the moment the condition is met.
+1. Set **Keep firing for** to, `0s`{{copy}}, so the alert stops firing immediately after the condition is no longer true. Use this when you want alerts to be resolved as soon as the system is healthy again.
 
 ## Configure labels and notifications
 
 Choose the contact point where you want to receive your alert notifications.
 
 1. Under **Contact point**, select **Webhook** from the drop-down menu.
-1. Click **Save rule and exit** at the top right corner.
+1. Click **Save** at the bottom of the page.

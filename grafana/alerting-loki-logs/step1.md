@@ -2,10 +2,14 @@
 
 To demonstrate the observation of data using the Grafana stack, download and run the following files.
 
-1. Download and save a Docker compose file to run Grafana, Loki and Promtail.
+1. Create a folder for this tutorial, then download and save the Docker Compose file, the Alloy configuration, and the Grafana data source provisioning file for this tutorial. Also create a `logs`{{copy}} folder, which Alloy reads the sample logs from.
 
    ```bash
-   wget https://raw.githubusercontent.com/grafana/loki/refs/heads/main/production/docker-compose.yaml -O docker-compose.yaml
+   mkdir alerts-with-logs && cd alerts-with-logs
+   wget https://raw.githubusercontent.com/grafana/tutorial-environment/master/loki-logs/docker-compose.yaml
+   wget https://raw.githubusercontent.com/grafana/tutorial-environment/master/loki-logs/config.alloy
+   mkdir -p provisioning/datasources logs
+   wget -P provisioning/datasources https://raw.githubusercontent.com/grafana/tutorial-environment/master/loki-logs/provisioning/datasources/datasources.yaml
    ```{{exec}}
 1. Run the Grafana stack.
 

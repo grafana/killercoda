@@ -1,6 +1,6 @@
 # Quickstart to run Loki locally
 
-If you want to experiment with Loki, you can run Loki locally using the Docker Compose file that ships with Loki. It runs Loki in the [simple scalable deployment](https://grafana.com/docs/loki/latest/get-started/deployment-modes/#simple-scalable) mode and includes a sample application to generate logs.
+If you want to experiment with Loki, you can run Loki locally using the Docker Compose file that ships with Loki. It runs Loki in the [simple scalable deployment](https://grafana.com/docs/loki/latest/get-started/deployment-modes/#simple-scalable) mode and includes a sample application to generate logs. Simple Scalable Deployment (SSD) mode is deprecated and scheduled for removal in Loki 4.0; for production deployments, see [deployment modes](https://grafana.com/docs/loki/latest/get-started/deployment-modes/) for currently recommended options.
 
 The Docker Compose configuration runs the following components, each in its own container:
 

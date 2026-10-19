@@ -4,8 +4,8 @@ Loki stores your logs and only indexes labels for each log stream. Using Loki wi
 
 In this tutorial, you'll:
 
-- Generate sample logs and pull them with Promtail to Grafana.
+- Generate sample logs and collect them with Grafana Alloy.
 - Create an alert rule based on a Loki query (LogQL).
 - Create a Webhook contact point to send alert notifications to.
 
-> In [Get started with Grafana Alerting - Part 2](http://www.grafana.com/tutorials/alerting-get-started-pt2/) you can advance your skills by exploring alert instances and notification routing.
+> In [Get started with Grafana Alerting - Part 2](https://grafana.com/tutorials/alerting-get-started-pt2/) you can advance your skills by exploring alert instances and notification routing.
