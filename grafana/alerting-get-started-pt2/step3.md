@@ -9,4 +9,4 @@ Key Characteristics:
 
 ![Screenshot illustrating the routing of alerts with notification policies, including the configuration and flow of alerts through different notification channels](https://grafana.com/media/docs/alerting/get-started-notification-policy-tree-combo.png)
 
-In the above diagram, alert instances and notification policies are matched by labels. For instance, the label `team=operations`{{copy}} matches the alert instance “**Pod stuck in CrashLoop**” and “**Disk Usage -80%**” to child policies that send alert notifications to a particular contact point (<operations@grafana.com>).
+In the above diagram, alert instances and notification policies are matched by labels. For instance, the label `team=operations`{{copy}} matches the alert instance “**Pod stuck in CrashLoop**” and “**Disk Usage -80%**” to child policies that send alert notifications to a particular contact point (operations@grafana.com).
