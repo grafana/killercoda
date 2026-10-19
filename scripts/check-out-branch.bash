@@ -31,11 +31,6 @@ readonly PR_STATUS
 if [[ "${PR_STATUS}" == OPEN ]]; then
   gh pr checkout "${BRANCH}"
 
-  if ! git diff --exit-code; then
-    commit
-    git push
-  fi
-
   exit 0
 fi
 

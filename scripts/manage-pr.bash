@@ -26,17 +26,23 @@ fi
 readonly BRANCH="${BRANCH:-update-generated-tutorials}"
 readonly SUBJECT="${SUBJECT:-Update generated tutorials}"
 
-# commit adds and commits the updated files as the Grafanabot GitHub user.
-function commit {
-  git add .
-  git config --local user.email bot@grafana.com
-  git config --local user.name grafanabot
-  git remote set-url origin "https://x-access-token:${GH_TOKEN}@github.com/grafana/killercoda"
-  git commit --message "${SUBJECT}"
-}
+# GitHub signs commits created through this API with the workflow token.
+# Stage first so new files and deletions are included in the no-change check.
+git add .
+if git diff --cached --quiet; then
+  exit 0
+fi
 
-if ! git diff --exit-code; then
-  commit
-  git push origin "refs/heads/${BRANCH}"
+readonly HEAD_OID="$(git rev-parse HEAD)"
+if [[ -z "$(git ls-remote --heads origin "refs/heads/${BRANCH}")" ]]; then
+  gh api repos/grafana/killercoda/git/refs \
+    -f "ref=refs/heads/${BRANCH}" -f "sha=${HEAD_OID}" >/dev/null
+fi
+
+python3 "$(dirname "${BASH_SOURCE[0]}")/commit-payload.py" "${BRANCH}" "${SUBJECT}" |
+  gh api graphql --input -
+
+# Updating an existing PR only needs the commit; do not try to create it again.
+if [[ -z "$(gh pr list --head "${BRANCH}" --base staging --state open --json number --jq '.[].number')" ]]; then
   gh pr create --title "${SUBJECT}" --body '' --base staging --head "${BRANCH}"
 fi
