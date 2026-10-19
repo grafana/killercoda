@@ -166,7 +166,35 @@ jobs:
           "${GITHUB_WORKSPACE}/pyroscope/docs/sources/get-started/ride-share-tutorial.md"
           "${GITHUB_WORKSPACE}/killercoda/pyroscope/ride-share-tutorial"
         working-directory: killercoda/tools/transformer
+      - name: Prepare tutorial updates
+        id: changes
+        run: |
+          git add .
+          if git diff --cached --quiet; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          echo "changed=true" >> "$GITHUB_OUTPUT"
+          if [[ -z "$(git ls-remote --heads origin refs/heads/update-generated-tutorials)" ]]; then
+            gh api repos/grafana/killercoda/git/refs \
+              -f ref=refs/heads/update-generated-tutorials -f "sha=$(git rev-parse HEAD)"
+          fi
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        working-directory: killercoda
+      - name: Commit tutorial updates
+        if: steps.changes.outputs.changed == 'true'
+        uses: planetscale/ghcommit-action@a6b150b81dca5dd027baa898604418eec9e11465 # v0.2.22
+        with:
+          commit_message: Update generated tutorials
+          repo: ${{ github.repository }}
+          branch: update-generated-tutorials
+          repository: killercoda
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
       - run: ./scripts/manage-pr.bash
+        if: steps.changes.outputs.changed == 'true'
         env:
           GH_TOKEN: ${{ github.token }}
         shell: bash

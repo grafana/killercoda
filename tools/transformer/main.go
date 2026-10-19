@@ -62,6 +62,9 @@ func main() {
 
 func writeFile(md *TransformerMarkdown, dstDirPath, filename string, data []byte) error {
 	root := md.Parse(data)
+	if md.err != nil {
+		return fmt.Errorf("couldn't transform document: %w", md.err)
+	}
 
 	out, err := os.Create(filepath.Join(dstDirPath, filename))
 	if err != nil {
@@ -88,6 +91,9 @@ func transform(srcFilePath, dstDirPath string) error {
 
 	md := NewTransformerMarkdown(DefaultKillercodaTransformers)
 	root := md.Parse(data)
+	if md.err != nil {
+		return fmt.Errorf("couldn't transform document: %w", md.err)
+	}
 	doc, ok := root.(*ast.Document)
 	if !ok {
 		return fmt.Errorf("couldn't parse source document")

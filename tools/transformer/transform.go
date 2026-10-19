@@ -2,9 +2,9 @@ package main
 
 import (
 	"bytes"
+	"errors"
 	"fmt"
 	"net/url"
-	"os"
 	"regexp"
 	"strings"
 
@@ -57,7 +57,7 @@ type ActionTransformer struct {
 }
 
 // Transform implements the parser.ASTTransformer interface and adds action metadata to any fenced code blocks within between the start and end markers.
-func (t *ActionTransformer) Transform(node *ast.Document, reader text.Reader, _ parser.Context) {
+func (t *ActionTransformer) Transform(node *ast.Document, reader text.Reader, pc parser.Context) {
 	source := reader.Source()
 
 	var (
@@ -124,7 +124,8 @@ func (t *ActionTransformer) Transform(node *ast.Document, reader text.Reader, _ 
 		return ast.WalkContinue, nil
 	})
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "Error transforming AST: %v\n", err)
+		previous, _ := pc.Get(transformErrorKey).(error)
+		pc.Set(transformErrorKey, errors.Join(previous, err))
 	}
 }
 
@@ -169,7 +170,7 @@ func imageFromFigure(args map[string]string) *ast.Paragraph {
 type FigureTransformer struct{}
 
 // Transform implements the parser.ASTTransformer interface and replaces all figure shortcodes with image elements.
-func (t *FigureTransformer) Transform(node *ast.Document, reader text.Reader, _ parser.Context) {
+func (t *FigureTransformer) Transform(node *ast.Document, reader text.Reader, pc parser.Context) {
 	source := reader.Source()
 
 	err := ast.Walk(node, func(node ast.Node, entering bool) (ast.WalkStatus, error) {
@@ -194,14 +195,15 @@ func (t *FigureTransformer) Transform(node *ast.Document, reader text.Reader, _ 
 		return ast.WalkContinue, nil
 	})
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "Error transforming AST: %v\n", err)
+		previous, _ := pc.Get(transformErrorKey).(error)
+		pc.Set(transformErrorKey, errors.Join(previous, err))
 	}
 }
 
 type HeadingTransformer struct{}
 
 // Transform implements the parser.ASTTransformer interface and ensures the heading hierarchy begins at H1.
-func (t *HeadingTransformer) Transform(node *ast.Document, _ text.Reader, _ parser.Context) {
+func (t *HeadingTransformer) Transform(node *ast.Document, _ text.Reader, pc parser.Context) {
 	var (
 		headingDecrement  int
 		foundFirstHeading bool
@@ -225,14 +227,15 @@ func (t *HeadingTransformer) Transform(node *ast.Document, _ text.Reader, _ pars
 		return ast.WalkContinue, nil
 	})
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "Error transforming AST: %v\n", err)
+		previous, _ := pc.Get(transformErrorKey).(error)
+		pc.Set(transformErrorKey, errors.Join(previous, err))
 	}
 }
 
 type IgnoreTransformer struct{}
 
 // Transform implements the parser.ASTTransformer interface and removes all nodes between the ignore start and end markers.
-func (t *IgnoreTransformer) Transform(node *ast.Document, reader text.Reader, _ parser.Context) {
+func (t *IgnoreTransformer) Transform(node *ast.Document, reader text.Reader, pc parser.Context) {
 	source := reader.Source()
 
 	err := ast.Walk(node, func(node ast.Node, _ bool) (ast.WalkStatus, error) {
@@ -262,14 +265,15 @@ func (t *IgnoreTransformer) Transform(node *ast.Document, reader text.Reader, _ 
 		return ast.WalkContinue, nil
 	})
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "Error transforming AST: %v\n", err)
+		previous, _ := pc.Get(transformErrorKey).(error)
+		pc.Set(transformErrorKey, errors.Join(previous, err))
 	}
 }
 
 type InlineActionTransformer struct{}
 
 // Transform implements the parser.ASTTransformer interface and adds inlineAction metadata to any fenced code blocks within between the start and end markers.
-func (t *InlineActionTransformer) Transform(node *ast.Document, _ text.Reader, _ parser.Context) {
+func (t *InlineActionTransformer) Transform(node *ast.Document, _ text.Reader, pc parser.Context) {
 	err := ast.Walk(node, func(node ast.Node, entering bool) (ast.WalkStatus, error) {
 		if entering {
 			return ast.WalkContinue, nil
@@ -282,14 +286,15 @@ func (t *InlineActionTransformer) Transform(node *ast.Document, _ text.Reader, _
 		return ast.WalkContinue, nil
 	})
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "Error transforming AST: %v\n", err)
+		previous, _ := pc.Get(transformErrorKey).(error)
+		pc.Set(transformErrorKey, errors.Join(previous, err))
 	}
 }
 
 type LinkTransformer struct{}
 
 // Transform implements the parser.ASTTransformer interface and replaces version substitution syntax (<SOMETHING_VERSION>) with 'latest' in links.
-func (t *LinkTransformer) Transform(root *ast.Document, reader text.Reader, _ parser.Context) {
+func (t *LinkTransformer) Transform(root *ast.Document, reader text.Reader, pc parser.Context) {
 	source := reader.Source()
 
 	err := ast.Walk(root, func(node ast.Node, entering bool) (ast.WalkStatus, error) {
@@ -336,7 +341,8 @@ func (t *LinkTransformer) Transform(root *ast.Document, reader text.Reader, _ pa
 		return ast.WalkContinue, nil
 	})
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "Error transforming AST: %v\n", err)
+		previous, _ := pc.Get(transformErrorKey).(error)
+		pc.Set(transformErrorKey, errors.Join(previous, err))
 	}
 }
 
@@ -348,7 +354,7 @@ type StepTransformer struct {
 // Transform implements the parser.ASTTransformer interface and keeps only the sibling nodes within the step start and end markers.
 // It removes all other nodes resulting in a document that only contains the content between the markers.
 // It removes the markers themselves.
-func (t *StepTransformer) Transform(root *ast.Document, reader text.Reader, _ parser.Context) {
+func (t *StepTransformer) Transform(root *ast.Document, reader text.Reader, pc parser.Context) {
 	source := reader.Source()
 
 	err := ast.Walk(root, func(node ast.Node, entering bool) (ast.WalkStatus, error) {
@@ -381,6 +387,7 @@ func (t *StepTransformer) Transform(root *ast.Document, reader text.Reader, _ pa
 		return ast.WalkContinue, nil
 	})
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "Error transforming AST: %v\n", err)
+		previous, _ := pc.Get(transformErrorKey).(error)
+		pc.Set(transformErrorKey, errors.Join(previous, err))
 	}
 }

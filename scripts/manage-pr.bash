@@ -26,17 +26,7 @@ fi
 readonly BRANCH="${BRANCH:-update-generated-tutorials}"
 readonly SUBJECT="${SUBJECT:-Update generated tutorials}"
 
-# commit adds and commits the updated files as the Grafanabot GitHub user.
-function commit {
-  git add .
-  git config --local user.email bot@grafana.com
-  git config --local user.name grafanabot
-  git remote set-url origin "https://x-access-token:${GH_TOKEN}@github.com/grafana/killercoda"
-  git commit --message "${SUBJECT}"
-}
-
-if ! git diff --exit-code; then
-  commit
-  git push origin "refs/heads/${BRANCH}"
+# Updating an existing PR only needs the commit; do not try to create it again.
+if [[ -z "$(gh pr list --head "${BRANCH}" --base staging --state open --json number --jq '.[].number')" ]]; then
   gh pr create --title "${SUBJECT}" --body '' --base staging --head "${BRANCH}"
 fi

@@ -21,7 +21,10 @@ var DefaultKillercodaTransformers = []util.PrioritizedValue[parser.ASTTransforme
 	util.Prioritized[parser.ASTTransformer](&HeadingTransformer{}, 5),
 }
 
+var transformErrorKey = parser.NewContextKey()
+
 type TransformerMarkdown struct {
+	err      error
 	parser   parser.Parser
 	renderer *markdown.Renderer
 }
@@ -46,9 +49,15 @@ func NewTransformerMarkdown(base []util.PrioritizedValue[parser.ASTTransformer],
 }
 
 func (m *TransformerMarkdown) Parse(source []byte) ast.Node {
-	return m.parser.Parse(source)
+	pc := parser.NewContext()
+	root := m.parser.Parse(source, parser.WithContext(pc))
+	m.err, _ = pc.Get(transformErrorKey).(error)
+	return root
 }
 
 func (m *TransformerMarkdown) Render(w io.Writer, source []byte, n ast.Node) error {
+	if m.err != nil {
+		return m.err
+	}
 	return m.renderer.Render(w, source, n)
 }
