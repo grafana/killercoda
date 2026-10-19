@@ -3,7 +3,7 @@
 The first step when analyzing a profile outputted from your application, is to take note of the largest node which is where your application is spending the most resources.
 To discover this, you can use the **Flame graph** view:
 
-1. Open Profiles Drilldown using the following url: [http://localhost:3000/a/grafana-pyroscope-app/profiles-explorer]({{TRAFFIC_HOST1_3000}}/a/grafana-pyroscope-app/profiles-explorer).
+1. Open Profiles Drilldown using the following url: [http://localhost:3000/a/grafana-pyroscope-app/explore]({{TRAFFIC_HOST1_3000}}/a/grafana-pyroscope-app/explore).
 1. Select **Flame graph** from the **Exploration** path.
 1. Verify that  `ride-sharing-app`{{copy}} is selected in the **Service** drop-down menu and `process_cpu/cpu`{{copy}} in the **Profile type** drop-down menu.
 
@@ -31,7 +31,7 @@ The **Diff flame graph** view lets you compare two time periods side by side.
 This is useful for identifying changes in performance over time.
 This example compares the performance of the `eu-north`{{copy}} region within a given time period against the other regions.
 
-1. Open Profiles Drilldown in Grafana using the following url: [http://localhost:3000/a/grafana-pyroscope-app/profiles-explorer]({{TRAFFIC_HOST1_3000}}/a/grafana-pyroscope-app/profiles-explorer).
+1. Open Profiles Drilldown in Grafana using the following url: [http://localhost:3000/a/grafana-pyroscope-app/explore]({{TRAFFIC_HOST1_3000}}/a/grafana-pyroscope-app/explore).
 1. Select **Diff flame graph** in the **Exploration** path.
 1. Verify that  `ride-sharing-app`{{copy}} is selected in the **Service** drop-down menu and `process_cpu/cpu`{{copy}} in the **Profile type** drop-down menu.
 1. In **Baseline**, filter by `region`{{copy}} and select `!= eu-north`{{copy}}.

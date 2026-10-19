@@ -7,7 +7,7 @@ Grafana Loki will be used to store our collected logs. In this tutorial we will 
 To deploy Loki run the following command:
 
 ```bash
-helm install --values killercoda/loki-values.yml loki grafana/loki -n meta
+helm install --values killercoda/loki-values.yml loki grafana-community/loki -n meta
 ```{{exec}}
 
 This command will deploy Loki in the `meta`{{copy}} namespace. The command also includes a `values`{{copy}} file that specifies the configuration for Loki. For more details on how to configure the Loki Helm chart refer to the Loki Helm [documentation](https://grafana.com/docs/loki/latest/setup/install/helm).

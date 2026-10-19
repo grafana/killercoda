@@ -48,7 +48,7 @@ The sample application, Grafana News, lets you post links and vote for the ones 
 To add a link:
 
 1. In **Title**, enter **Example**.
-1. In **URL**, enter **<https://example.com>**.
+1. In **URL**, enter **https://example.com**.
 1. Click **Submit** to add the link.
 
    The link appears in the list under the Grafana News heading.
