@@ -7,8 +7,7 @@ import (
 
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
-	"github.com/yuin/goldmark"
-	"github.com/yuin/goldmark/text"
+	"github.com/yuin/goldmark/v2/parser"
 )
 
 func TestRenderAutolink(t *testing.T) {
@@ -16,12 +15,13 @@ func TestRenderAutolink(t *testing.T) {
 
 	b := &bytes.Buffer{}
 	w := bufio.NewWriter(b)
-	md := goldmark.New(goldmark.WithExtensions(NewRenderer()))
+	p := parser.New()
+	r := NewRenderer()
 
 	src := []byte("<https://grafana.com>\n<mailto:docs@grafana.com>\n<docs@grafana.com>\n")
-	root := md.Parser().Parse(text.NewReader(src))
+	root := p.Parse(src)
 
-	require.NoError(t, md.Renderer().Render(w, src, root))
+	require.NoError(t, r.Render(w, src, root))
 
 	w.Flush()
 
@@ -33,12 +33,13 @@ func TestRenderCodespan(t *testing.T) {
 
 	b := &bytes.Buffer{}
 	w := bufio.NewWriter(b)
-	md := goldmark.New(goldmark.WithExtensions(NewRenderer()))
+	p := parser.New()
+	r := NewRenderer()
 
 	src := []byte("`code`\n")
-	root := md.Parser().Parse(text.NewReader(src))
+	root := p.Parse(src)
 
-	require.NoError(t, md.Renderer().Render(w, src, root))
+	require.NoError(t, r.Render(w, src, root))
 
 	w.Flush()
 
@@ -50,12 +51,13 @@ func TestRenderEmphasis(t *testing.T) {
 
 	b := &bytes.Buffer{}
 	w := bufio.NewWriter(b)
-	md := goldmark.New(goldmark.WithExtensions(NewRenderer()))
+	p := parser.New()
+	r := NewRenderer()
 
 	src := []byte("**Strong** and _italic_\n")
-	root := md.Parser().Parse(text.NewReader(src))
+	root := p.Parse(src)
 
-	require.NoError(t, md.Renderer().Render(w, src, root))
+	require.NoError(t, r.Render(w, src, root))
 
 	w.Flush()
 
@@ -67,12 +69,13 @@ func TestRenderLink(t *testing.T) {
 
 	b := &bytes.Buffer{}
 	w := bufio.NewWriter(b)
-	md := goldmark.New(goldmark.WithExtensions(NewRenderer()))
+	p := parser.New()
+	r := NewRenderer()
 
 	src := []byte("[TEXT](DESTINATION)\n")
-	root := md.Parser().Parse(text.NewReader(src))
+	root := p.Parse(src)
 
-	require.NoError(t, md.Renderer().Render(w, src, root))
+	require.NoError(t, r.Render(w, src, root))
 
 	w.Flush()
 
@@ -84,12 +87,13 @@ func TestRenderText(t *testing.T) {
 
 	b := &bytes.Buffer{}
 	w := bufio.NewWriter(b)
-	md := goldmark.New(goldmark.WithExtensions(NewRenderer()))
+	p := parser.New()
+	r := NewRenderer()
 
 	src := []byte("'<GRAFANA_VERSION>'\n")
-	root := md.Parser().Parse(text.NewReader(src))
+	root := p.Parse(src)
 
-	require.NoError(t, md.Renderer().Render(w, src, root))
+	require.NoError(t, r.Render(w, src, root))
 
 	w.Flush()
 

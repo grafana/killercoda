@@ -2,52 +2,49 @@ package markdown
 
 import (
 	"bytes"
-	"html"
 
-	"github.com/yuin/goldmark/ast"
-	"github.com/yuin/goldmark/util"
+	"github.com/yuin/goldmark/v2/ast"
+	"github.com/yuin/goldmark/v2/renderer"
+	"github.com/yuin/goldmark/v2/util"
 )
 
-func (r *Renderer) renderAutoLink(w util.BufWriter, source []byte, node ast.Node, entering bool) (ast.WalkStatus, error) {
-	n := node.(*ast.AutoLink)
-
+func (r *Renderer) renderAutoLink(w util.BufWriter, source []byte, node ast.Node, entering bool, _ renderer.Context) (ast.WalkStatus, error) {
 	if !entering {
 		return ast.WalkContinue, nil
 	}
 
+	n := node.(*ast.AutoLink)
+	if !n.Text.IsEmpty() {
+		r.write(w, n.Text.Bytes(source))
+		return ast.WalkContinue, nil
+	}
+
 	r.write(w, '<')
-
-	url := n.URL(source)
-	r.write(w, util.EscapeHTML(util.URLEscape(url, false)))
-
+	r.write(w, util.EscapeHTML(util.URLEscape(n.Destination.Bytes(source))))
 	r.write(w, '>')
 
 	return ast.WalkContinue, nil
 }
 
-func (r *Renderer) renderCodeSpan(w util.BufWriter, source []byte, node ast.Node, entering bool) (ast.WalkStatus, error) {
+func (r *Renderer) renderCodeSpan(w util.BufWriter, source []byte, node ast.Node, entering bool, _ renderer.Context) (ast.WalkStatus, error) {
+	n := node.(*ast.CodeSpan)
+
 	if entering {
 		r.write(w, '`')
-
-		for c := node.FirstChild(); c != nil; c = c.NextSibling() {
-			segment := c.(*ast.Text).Segment
-			value := segment.Value(source)
-
-			if bytes.HasSuffix(value, []byte("\n")) {
-				r.write(w, value[:len(value)-1])
-				r.write(w, []byte(" "))
-			} else {
-				r.write(w, value)
-			}
+		value := n.Value.Bytes(source)
+		if bytes.HasSuffix(value, []byte("\n")) {
+			r.write(w, value[:len(value)-1])
+			r.write(w, []byte(" "))
+		} else {
+			r.write(w, value)
 		}
-
 		return ast.WalkSkipChildren, nil
 	}
 
 	r.write(w, '`')
 
-	if r.Config.KillercodaActions {
-		if _, ok := node.AttributeString("data-killercoda-copy"); ok {
+	if r.Config().KillercodaActions {
+		if _, ok := node.Attribute("data-killercoda-copy"); ok {
 			r.write(w, "{{copy}}")
 		}
 	}
@@ -58,31 +55,30 @@ func (r *Renderer) renderCodeSpan(w util.BufWriter, source []byte, node ast.Node
 // renderEmphasis renders emphasis.
 // Correctly rendering emphasis is a lot more complicated that this function.
 // https://spec.commonmark.org/0.31.2/#emphasis-and-strong-emphasis
-func (r *Renderer) renderEmphasis(w util.BufWriter, source []byte, node ast.Node, entering bool) (ast.WalkStatus, error) {
-	n := node.(*ast.Emphasis)
-	delim := "_"
-
-	if n.Level == 2 {
-		delim = "**"
-	}
-
-	r.write(w, delim)
+func (r *Renderer) renderEmphasis(w util.BufWriter, _ []byte, _ ast.Node, _ bool, _ renderer.Context) (ast.WalkStatus, error) {
+	r.write(w, "_")
 
 	return ast.WalkContinue, nil
 }
 
-func (r *Renderer) renderImage(w util.BufWriter, source []byte, node ast.Node, entering bool) (ast.WalkStatus, error) {
+func (r *Renderer) renderStrong(w util.BufWriter, _ []byte, _ ast.Node, _ bool, _ renderer.Context) (ast.WalkStatus, error) {
+	r.write(w, "**")
+
+	return ast.WalkContinue, nil
+}
+
+func (r *Renderer) renderImage(w util.BufWriter, source []byte, node ast.Node, entering bool, _ renderer.Context) (ast.WalkStatus, error) {
 	if entering {
 		r.write(w, "![")
 	} else {
 		n := node.(*ast.Image)
 
 		r.write(w, "](")
-		r.write(w, n.Destination)
+		r.write(w, n.Destination.Bytes(source))
 
-		if n.Title != nil {
+		if !n.Title.IsEmpty() {
 			r.write(w, " \"")
-			r.write(w, n.Title)
+			r.write(w, n.Title.Bytes(source))
 			r.write(w, "\"")
 		}
 
@@ -92,18 +88,18 @@ func (r *Renderer) renderImage(w util.BufWriter, source []byte, node ast.Node, e
 	return ast.WalkContinue, nil
 }
 
-func (r *Renderer) renderLink(w util.BufWriter, _ []byte, node ast.Node, entering bool) (ast.WalkStatus, error) {
+func (r *Renderer) renderLink(w util.BufWriter, source []byte, node ast.Node, entering bool, _ renderer.Context) (ast.WalkStatus, error) {
 	n := node.(*ast.Link)
 
 	if entering {
 		r.write(w, '[')
 	} else {
 		r.write(w, "](")
-		r.write(w, n.Destination)
+		r.write(w, n.Destination.Bytes(source))
 
-		if n.Title != nil {
+		if !n.Title.IsEmpty() {
 			r.write(w, " \"")
-			r.write(w, n.Title)
+			r.write(w, n.Title.Bytes(source))
 			r.write(w, "\"")
 		}
 
@@ -113,19 +109,14 @@ func (r *Renderer) renderLink(w util.BufWriter, _ []byte, node ast.Node, enterin
 	return ast.WalkContinue, nil
 }
 
-func (r *Renderer) renderRawHTML(w util.BufWriter, source []byte, node ast.Node, entering bool) (ast.WalkStatus, error) {
+func (r *Renderer) renderRawHTML(w util.BufWriter, source []byte, node ast.Node, entering bool, _ renderer.Context) (ast.WalkStatus, error) {
 	if !entering {
 		return ast.WalkSkipChildren, nil
 	}
 
-	if r.Unsafe {
+	if r.Config().Unsafe {
 		n := node.(*ast.RawHTML)
-		l := n.Segments.Len()
-
-		for i := 0; i < l; i++ {
-			segment := n.Segments.At(i)
-			r.secureWrite(w, segment.Value(source))
-		}
+		r.secureWrite(w, n.Value.Bytes(source))
 	} else {
 		r.write(w, "<!-- raw HTML omitted -->")
 	}
@@ -133,29 +124,13 @@ func (r *Renderer) renderRawHTML(w util.BufWriter, source []byte, node ast.Node,
 	return ast.WalkSkipChildren, nil
 }
 
-func (r *Renderer) renderString(w util.BufWriter, _ []byte, node ast.Node, entering bool) (ast.WalkStatus, error) {
-	if !entering {
-		return ast.WalkContinue, nil
-	}
-
-	n := node.(*ast.String)
-
-	// TODO: understand if there is any risk associated with this.
-	r.write(w, html.UnescapeString(string(n.Value)))
-
-	return ast.WalkContinue, nil
-}
-
-func (r *Renderer) renderText(w util.BufWriter, source []byte, node ast.Node, entering bool) (ast.WalkStatus, error) {
+func (r *Renderer) renderText(w util.BufWriter, source []byte, node ast.Node, entering bool, _ renderer.Context) (ast.WalkStatus, error) {
 	if !entering {
 		return ast.WalkContinue, nil
 	}
 
 	n := node.(*ast.Text)
-	segment := n.Segment
-	value := segment.Value(source)
-
-	r.write(w, value)
+	r.write(w, n.Value.Bytes(source))
 
 	if n.HardLineBreak() {
 		r.write(w, "\n\n")
