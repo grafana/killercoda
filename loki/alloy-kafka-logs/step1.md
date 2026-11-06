@@ -23,7 +23,7 @@ In this step, we will set up our environment by cloning the repository that cont
    ✔ Container loki-fundamentals-kafka-1        Started
    ```{{copy}}
 
-We will be access two UI interfaces:
+We will access two UI interfaces:
 
 - Alloy at [http://localhost:12345]({{TRAFFIC_HOST1_12345}})
 - Grafana at [http://localhost:3000]({{TRAFFIC_HOST1_3000}})
