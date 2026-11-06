@@ -1,4 +1,4 @@
-# Step 3: Start the Carnivorous Greenhouse
+# Step 4: Start the Carnivorous Greenhouse
 
 In this step, we will start the Carnivorous Greenhouse application. To start the application, run the following command:
 
