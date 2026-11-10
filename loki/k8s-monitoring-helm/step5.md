@@ -3,7 +3,7 @@
 The Kubernetes Monitoring Helm chart is used for gathering, scraping, and forwarding Kubernetes telemetry data to a Grafana stack. This includes the ability to collect metrics, logs, traces, and continuous profiling data. The scope of this tutorial is to deploy the Kubernetes Monitoring Helm chart to collect Pod logs and Kubernetes events.
 
 > **Note:**
-> This tutorial uses chart version 4.x, the current major version of the Kubernetes Monitoring Helm chart. If you have an existing `values.yml`{{copy}} file written for chart version 3.x or earlier, its configuration keys do not carry over directly. Refer to the [migration guide](https://grafana.com/docs/grafana-cloud/monitor-infrastructure/kubernetes-monitoring/configuration/helm-chart-config/helm-chart/migrate-helm-chart/) before reusing an older values file with this tutorial.
+> This tutorial uses chart version 4.x, the current major version of the Kubernetes Monitoring Helm chart. If you have an existing `values.yml`{{copy}} file written for chart version 3.x or earlier, its configuration keys do not carry over directly. Refer to the [migration guide](https://grafana.com/docs/grafana-cloud/observe-and-act/monitor-infrastructure/kubernetes-monitoring/configuration/helm-chart-config/helm-chart/migrate-helm-chart/) before reusing an older values file with this tutorial.
 
 To deploy the Kubernetes Monitoring Helm chart run the following command:
 
