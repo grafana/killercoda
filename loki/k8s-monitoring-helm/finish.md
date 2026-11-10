@@ -4,4 +4,4 @@ In this tutorial, you learned how to deploy Loki, Grafana, and the Kubernetes Mo
 
 - [Loki Helm chart](https://grafana.com/docs/loki/latest/setup/install/helm/)
 - [Grafana Helm chart](https://grafana.com/docs/grafana/latest/installation/helm/)
-- [Kubernetes Monitoring Helm chart](https://grafana.com/docs/grafana-cloud/monitor-infrastructure/kubernetes-monitoring/)
+- [Kubernetes Monitoring Helm chart](https://grafana.com/docs/grafana-cloud/observe-and-act/monitor-infrastructure/kubernetes-monitoring/)
