@@ -28,21 +28,17 @@
 
    ```console
    ✔ Network evaluate-loki_loki          Created      0.1s
-   ✔ Container evaluate-loki_minio_1     Started      0.6s
+   ✔ Container evaluate-loki_silo_1      Started      0.6s
    ✔ Container evaluate-loki_flog_1      Started      0.6s
-   ✔ Container evaluate-loki_backend_1   Started      0.8s
-   ✔ Container evaluate-loki_write_1     Started      0.8s
-   ✔ Container evaluate-loki_read_1      Started      0.8s
+   ✔ Container evaluate-loki_loki_1      Started      0.8s
    ✔ Container evaluate-loki_gateway_1   Started      1.1s
    ✔ Container evaluate-loki_grafana_1   Started      1.4s
    ✔ Container evaluate-loki_alloy_1     Started      1.4s
    ```{{copy}}
 1. (Optional) Verify that the Loki cluster is up and running.
 
-   - The read component returns `ready`{{copy}} when you browse to [http://localhost:3101/ready]({{TRAFFIC_HOST1_3101}}/ready).
-     The message `Query Frontend not ready: not ready: number of schedulers this worker is connected to is 0`{{copy}} shows until the read component is ready.
-   - The write component returns `ready`{{copy}} when you browse to [http://localhost:3102/ready]({{TRAFFIC_HOST1_3102}}/ready).
-     The message `Ingester not ready: waiting for 15s after being ready`{{copy}} shows until the write component is ready.
+   - The Loki component returns `ready`{{copy}} when you browse to [http://localhost:3101/ready]({{TRAFFIC_HOST1_3101}}/ready).
+     It can take a few seconds after the container starts for all internal components to report ready.
 1. (Optional) Verify that Grafana Alloy is running.
 
    - You can access the Grafana Alloy UI at [http://localhost:12345]({{TRAFFIC_HOST1_12345}}).
